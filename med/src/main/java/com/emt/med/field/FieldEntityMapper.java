@@ -1,19 +1,16 @@
 package com.emt.med.field;
 
-import com.emt.med.batch.BatchEntity;
-import com.emt.med.batch.BatchEntityDTO;
-import com.emt.med.batch.BatchEntityMapper;
-import org.mapstruct.BeanMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+import com.emt.med.value.ValueEntityMapper;
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
-@Mapper( componentModel = "spring")
+@Mapper( uses = ValueEntityMapper.class)
 public interface FieldEntityMapper {
 
     FieldEntityMapper INSTANCE = Mappers.getMapper( FieldEntityMapper.class );
+
     FieldEntityDTO toDTO(FieldEntity fieldEntity);
+
     FieldEntity toEntity(FieldEntityDTO fieldEntityDTO);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

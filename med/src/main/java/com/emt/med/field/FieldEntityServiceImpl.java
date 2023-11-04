@@ -2,6 +2,9 @@ package com.emt.med.field;
 
 import com.emt.med.batch.BatchEntity;
 import com.emt.med.batch.BatchEntityMapper;
+import com.emt.med.value.ValueEntityDTO;
+import com.emt.med.value.ValueEntityMapper;
+import com.emt.med.value.ValueEntityService;
 import jakarta.transaction.Transactional;
 import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Sort;
@@ -15,10 +18,13 @@ import java.util.stream.Collectors;
 public class FieldEntityServiceImpl implements FieldEntityService{
 
     private FieldEntityRepository fieldEntityRepository;
+
+    private ValueEntityService valueEntityService;
     static FieldEntityMapper fieldEntityMapper = Mappers.getMapper(FieldEntityMapper.class);
 
-    public FieldEntityServiceImpl(FieldEntityRepository fieldEntityRepository) {
+    public FieldEntityServiceImpl(FieldEntityRepository fieldEntityRepository, ValueEntityService valueEntityService) {
         this.fieldEntityRepository = fieldEntityRepository;
+        this.valueEntityService = valueEntityService;
     }
 
     @Override
@@ -55,5 +61,24 @@ public class FieldEntityServiceImpl implements FieldEntityService{
     @Transactional
     public void deleteField(Long id) {
         fieldEntityRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public FieldEntityDTO addValueToFieldById(Long id, ValueEntityDTO valueEntityDTO){
+        FieldEntity existingFieldEntity = fieldEntityRepository.findById(id).orElseThrow(() -> new RuntimeException("No field found with id "+id));
+        valueEntityDTO = valueEntityService.addValue(valueEntityDTO);
+
+        FieldEntityDTO  existingFieldEntityDTO = fieldEntityMapper.toDTO(existingFieldEntity);
+
+        existingFieldEntityDTO.getValues().add(valueEntityDTO);
+
+        valueEntityDTO.setFieldEntityDTO(existingFieldEntityDTO);
+
+
+
+        valueEntityService.updateValue(valueEntityDTO);
+
+        return updateField(existingFieldEntityDTO);
     }
 }

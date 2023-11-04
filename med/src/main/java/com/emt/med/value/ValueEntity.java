@@ -7,6 +7,10 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
+
 
 @Entity
 @Data
@@ -19,6 +23,7 @@ public class ValueEntity {
     private Long id;
     private String value;
     @ManyToOne
+    @Cascade(CascadeType.PERSIST)
     @JsonBackReference(value="field-value")
     private FieldEntity field;
 }

@@ -20,7 +20,7 @@ public class FieldEntity {
     private Long id;
     private String name;
     private FieldType type;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JsonManagedReference(value="field-value")
     private List<ValueEntity> values;
 }

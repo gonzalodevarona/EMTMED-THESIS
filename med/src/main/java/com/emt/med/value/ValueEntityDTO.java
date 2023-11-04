@@ -1,8 +1,9 @@
 package com.emt.med.value;
 
 
-import com.emt.med.field.FieldType;
+import com.emt.med.field.FieldEntityDTO;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,4 +19,6 @@ public class ValueEntityDTO {
 
     @NotBlank(message = "value shouldn't be blank")
     private String value;
+
+    private FieldEntityDTO fieldEntityDTO;
 }

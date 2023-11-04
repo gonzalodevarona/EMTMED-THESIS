@@ -1,5 +1,6 @@
 package com.emt.med.field;
 
+import com.emt.med.value.ValueEntityDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,12 @@ public class FieldEntityController {
     public ResponseEntity<FieldEntityDTO> addField(@Valid @RequestBody FieldEntityDTO fieldEntityDTO) throws RuntimeException{
 
         return new ResponseEntity<FieldEntityDTO>(fieldEntityService.addField(fieldEntityDTO), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/{id}/values")
+    public ResponseEntity<FieldEntityDTO> addValueToFieldById(@PathVariable("id") Long id, @Valid @RequestBody ValueEntityDTO valueEntityDTO) throws RuntimeException{
+
+        return new ResponseEntity<FieldEntityDTO>(fieldEntityService.addValueToFieldById(id, valueEntityDTO), HttpStatus.CREATED);
     }
 
     @PutMapping()
