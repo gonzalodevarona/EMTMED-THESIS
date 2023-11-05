@@ -6,10 +6,12 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
+import java.util.Objects;
 
 
 @Entity
@@ -22,8 +24,17 @@ public class ValueEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String value;
-    @ManyToOne
-    @Cascade(CascadeType.PERSIST)
-    @JsonBackReference(value="field-value")
-    private FieldEntity field;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ValueEntity that = (ValueEntity) o;
+        return Objects.equals(getId(), that.getId()) && Objects.equals(getValue(), that.getValue());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getValue());
+    }
 }

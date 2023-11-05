@@ -2,6 +2,7 @@ package com.emt.med.field;
 
 import com.emt.med.batch.BatchEntity;
 import com.emt.med.batch.BatchEntityMapper;
+import com.emt.med.value.ValueEntity;
 import com.emt.med.value.ValueEntityDTO;
 import com.emt.med.value.ValueEntityMapper;
 import com.emt.med.value.ValueEntityService;
@@ -28,7 +29,12 @@ public class FieldEntityServiceImpl implements FieldEntityService{
     }
 
     @Override
-    public FieldEntityDTO getFieldEntityById(Long fieldEntityId) {
+    public FieldEntity getFieldEntityById(Long fieldEntityId) {
+        return fieldEntityRepository.findById(fieldEntityId).orElseThrow(() -> new RuntimeException("No field found with id "+fieldEntityId));
+    }
+
+    @Override
+    public FieldEntityDTO getFieldEntityDTOById(Long fieldEntityId) {
         FieldEntity fieldEntity = fieldEntityRepository.findById(fieldEntityId).orElseThrow(() -> new RuntimeException("No field found with id "+fieldEntityId));
         return fieldEntityMapper.toDTO(fieldEntity);
     }
@@ -73,12 +79,29 @@ public class FieldEntityServiceImpl implements FieldEntityService{
 
         existingFieldEntityDTO.getValues().add(valueEntityDTO);
 
-        valueEntityDTO.setFieldEntityDTO(existingFieldEntityDTO);
+        return updateField(existingFieldEntityDTO);
+    }
 
-
+    @Override
+    @Transactional
+    public FieldEntityDTO updateValueFromFieldById(Long id, ValueEntityDTO valueEntityDTO) {
+        FieldEntity existingFieldEntity = fieldEntityRepository.findById(id).orElseThrow(() -> new RuntimeException("No field found with id "+id));
 
         valueEntityService.updateValue(valueEntityDTO);
 
-        return updateField(existingFieldEntityDTO);
+        return updateField(fieldEntityMapper.toDTO(existingFieldEntity));
+    }
+
+    @Override
+    @Transactional
+    public void deleteValueFromFieldById(Long idField, Long idValue){
+        FieldEntity existingFieldEntity = fieldEntityRepository.findById(idField).orElseThrow(() -> new RuntimeException("No field found with id "+idField));
+        ValueEntity existingValueEntity = valueEntityService.getValueEntityById(idValue);
+        existingFieldEntity.getValues().remove(existingValueEntity);
+
+        updateField(fieldEntityMapper.toDTO(existingFieldEntity));
+        valueEntityService.deleteValue(idValue);
+
+
     }
 }

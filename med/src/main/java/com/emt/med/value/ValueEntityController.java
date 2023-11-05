@@ -24,23 +24,7 @@ public class ValueEntityController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ValueEntityDTO> getValueById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(valueEntityService.getValueEntityById(id));
+        return ResponseEntity.ok(valueEntityService.getValueEntityDTOById(id));
     }
 
-    @PostMapping()
-    public ResponseEntity<ValueEntityDTO> addValue(@Valid @RequestBody ValueEntityDTO valueEntityDTO) throws RuntimeException{
-
-        return new ResponseEntity<ValueEntityDTO>(valueEntityService.addValue(valueEntityDTO), HttpStatus.CREATED);
-    }
-
-    @PutMapping()
-    public ResponseEntity<ValueEntityDTO> updateValue(@Valid @RequestBody ValueEntityDTO valueEntityDTO) {
-        return ResponseEntity.ok(valueEntityService.updateValue(valueEntityDTO));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity deleteValue(@PathVariable("id") Long id) {
-        valueEntityService.deleteValue(id);
-        return ResponseEntity.ok("Erased value with id "+ id);
-    }
 }

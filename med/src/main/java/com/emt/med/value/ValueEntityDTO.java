@@ -20,5 +20,5 @@ public class ValueEntityDTO {
     @NotBlank(message = "value shouldn't be blank")
     private String value;
 
-    private FieldEntityDTO fieldEntityDTO;
+
 }

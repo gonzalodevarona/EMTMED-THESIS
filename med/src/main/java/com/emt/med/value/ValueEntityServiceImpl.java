@@ -21,7 +21,12 @@ public class ValueEntityServiceImpl implements ValueEntityService{
 
 
     @Override
-    public ValueEntityDTO getValueEntityById(Long valueEntityId) {
+    public ValueEntity getValueEntityById(Long valueEntityId) {
+        return valueEntityRepository.findById(valueEntityId).orElseThrow(() -> new RuntimeException("No value found with id "+valueEntityId));
+    }
+
+    @Override
+    public ValueEntityDTO getValueEntityDTOById(Long valueEntityId) {
         ValueEntity valueEntity = valueEntityRepository.findById(valueEntityId).orElseThrow(() -> new RuntimeException("No value found with id "+valueEntityId));
         return valueEntityMapper.toDTO(valueEntity);
     }
@@ -45,7 +50,7 @@ public class ValueEntityServiceImpl implements ValueEntityService{
     @Override
     @Transactional
     public ValueEntityDTO updateValue(ValueEntityDTO valueDTO) {
-        ValueEntity existingBatchEntity = valueEntityRepository.findById(valueDTO.getId()).orElseThrow(() -> new RuntimeException("No batch found with id "+valueDTO.getId()));
+        ValueEntity existingBatchEntity = valueEntityRepository.findById(valueDTO.getId()).orElseThrow(() -> new RuntimeException("No value found with id "+valueDTO.getId()));
         valueEntityMapper.updateValueFromDTO(valueDTO, existingBatchEntity);
         return valueEntityMapper.toDTO(valueEntityRepository.save(existingBatchEntity));
     }

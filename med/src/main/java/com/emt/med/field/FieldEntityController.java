@@ -25,7 +25,7 @@ public class FieldEntityController {
 
     @GetMapping("/{id}")
     public ResponseEntity<FieldEntityDTO> getFieldById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(fieldEntityService.getFieldEntityById(id));
+        return ResponseEntity.ok(fieldEntityService.getFieldEntityDTOById(id));
     }
 
     @PostMapping()
@@ -38,6 +38,18 @@ public class FieldEntityController {
     public ResponseEntity<FieldEntityDTO> addValueToFieldById(@PathVariable("id") Long id, @Valid @RequestBody ValueEntityDTO valueEntityDTO) throws RuntimeException{
 
         return new ResponseEntity<FieldEntityDTO>(fieldEntityService.addValueToFieldById(id, valueEntityDTO), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}/values")
+    public ResponseEntity<FieldEntityDTO> updateValueFromFieldById(@PathVariable("id") Long id, @Valid @RequestBody ValueEntityDTO valueEntityDTO) throws RuntimeException{
+
+        return new ResponseEntity<FieldEntityDTO>(fieldEntityService.updateValueFromFieldById(id, valueEntityDTO), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{idField}/values/{idValue}")
+    public ResponseEntity deleteValueFromFieldById(@PathVariable("idField") Long idField, @PathVariable("idValue") Long idValue) throws RuntimeException{
+        fieldEntityService.deleteValueFromFieldById(idField, idValue);
+        return  ResponseEntity.ok( "Erased value with id "+ idValue +" from field with id " + idField);
     }
 
     @PutMapping()

@@ -7,7 +7,9 @@ import java.util.List;
 @Service
 public interface ValueEntityService {
 
-    ValueEntityDTO getValueEntityById(Long valueEntityId);
+    ValueEntityDTO getValueEntityDTOById(Long valueEntityId);
+
+    ValueEntity getValueEntityById(Long valueEntityId);
     List<ValueEntityDTO> getAllValues();
     ValueEntityDTO addValue(ValueEntityDTO valueDTO);
 

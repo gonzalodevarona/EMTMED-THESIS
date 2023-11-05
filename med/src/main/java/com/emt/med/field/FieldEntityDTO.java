@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -25,5 +26,5 @@ public class FieldEntityDTO {
     private FieldType type;
 
 
-    private List<ValueEntityDTO> values;
+    private Set<ValueEntityDTO> values;
 }

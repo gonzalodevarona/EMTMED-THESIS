@@ -6,8 +6,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import jakarta.persistence.CascadeType;
 
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -20,7 +21,7 @@ public class FieldEntity {
     private Long id;
     private String name;
     private FieldType type;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval=true)
     @JsonManagedReference(value="field-value")
-    private List<ValueEntity> values;
+    private Set<ValueEntity> values;
 }
