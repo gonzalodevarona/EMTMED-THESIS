@@ -57,6 +57,6 @@ public class MedicineEntityServiceImpl implements MedicineEntityService{
     @Override
     @Transactional
     public void deleteMedicine(Long id) {
-        medicineEntityRepository.deleteById(id);
+            medicineEntityRepository.deleteById(id);
     }
 }
