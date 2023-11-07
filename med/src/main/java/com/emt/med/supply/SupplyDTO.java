@@ -1,0 +1,27 @@
+package com.emt.med.supply;
+
+import com.emt.med.order.OrderEntityDTO;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class SupplyDTO {
+
+    @Positive(message = "id number should be greater than zero")
+    private Long id;
+    @NotBlank(message = "name shouldn't be blank")
+    private String name;
+    @Positive(message = "weight should be greater than zero")
+    private Long weight;
+    @Min(0)
+    private Long quantity;
+    private List<OrderEntityDTO> orders;
+}

@@ -3,10 +3,14 @@ package com.emt.med.supply;
 import com.emt.med.order.OrderEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.List;
 
+
 @Entity
+@Data
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Supply {
 
     @Id
@@ -14,10 +18,10 @@ public abstract class Supply {
     private Long id;
     private String name;
     private Long weight;
-    private Integer quantity;
+    private Long quantity;
 
-    @JsonBackReference(value="order-supply")
-    @ManyToOne
-    private OrderEntity order;
+
+    @ManyToMany
+    private List<OrderEntity> orders;
 
 }

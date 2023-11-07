@@ -1,8 +1,8 @@
-package com.emt.med.medicine;
+package com.emt.med.pharmacy;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MedicineEntityRepository extends JpaRepository<MedicineEntity, Long> {
+public interface PharmacyEntityRepository extends JpaRepository<PharmacyEntity, Long> {
 }

@@ -1,8 +1,8 @@
-package com.emt.med.medicine;
+package com.emt.med.location;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MedicineEntityRepository extends JpaRepository<MedicineEntity, Long> {
+public interface LocationRepository extends JpaRepository<Location, Long> {
 }

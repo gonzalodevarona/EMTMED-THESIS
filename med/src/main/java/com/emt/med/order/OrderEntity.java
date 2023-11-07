@@ -16,6 +16,7 @@ import java.util.List;
 
 
 @Entity
+@Data
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class OrderEntity {
 
@@ -28,8 +29,8 @@ public abstract class OrderEntity {
 
     private OrderStatus status;
 
-    @JsonManagedReference(value="order-supply")
-    @OneToMany
+
+    @ManyToMany
     private List<Supply> supplies;
 
 }

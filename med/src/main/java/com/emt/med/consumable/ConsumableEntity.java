@@ -1,4 +1,13 @@
 package com.emt.med.consumable;
 
-public class ConsumableEntity {
+import com.emt.med.supply.Supply;
+import jakarta.persistence.Entity;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Data
+@AllArgsConstructor
+public class ConsumableEntity extends Supply {
 }

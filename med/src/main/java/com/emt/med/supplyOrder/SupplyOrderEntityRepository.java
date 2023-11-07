@@ -1,8 +1,8 @@
 package com.emt.med.supplyOrder;
 
-import com.emt.med.order.OrderEntityRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SupplyOrderEntityRepository extends OrderEntityRepository {
+public interface SupplyOrderEntityRepository extends JpaRepository<SupplyOrderEntity, Long> {
 }
