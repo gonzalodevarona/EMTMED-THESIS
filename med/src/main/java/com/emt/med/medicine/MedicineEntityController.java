@@ -11,9 +11,9 @@ import java.util.List;
 @RequestMapping("/medicines")
 public class MedicineEntityController {
     
-    private MedicineEntityService medicineEntityService;
+    private MedicineEntityServiceImpl medicineEntityService;
 
-    public MedicineEntityController(MedicineEntityService medicineEntityService) {
+    public MedicineEntityController(MedicineEntityServiceImpl medicineEntityService) {
         this.medicineEntityService = medicineEntityService;
     }
 

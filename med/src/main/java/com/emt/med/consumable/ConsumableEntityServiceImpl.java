@@ -39,7 +39,7 @@ public class ConsumableEntityServiceImpl implements ConsumableEntityService{
     @Transactional
     public ConsumableEntityDTO addConsumable(ConsumableEntityDTO consumableEntityDTO) {
         if (consumableEntityDTO.getId() != null) {
-            throw new RuntimeException("A new field cannot already have an ID");
+            throw new RuntimeException("A new consumable cannot already have an ID");
         }
         ConsumableEntity consumableEntity = consumableEntityMapper.toEntity(consumableEntityDTO);
         consumableEntity = consumableEntityRepository.save(consumableEntity);

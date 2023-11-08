@@ -13,5 +13,6 @@ import lombok.NoArgsConstructor;
 public class InventoryOrderEntity extends OrderEntity {
 
     private InventoryOrderType type;
+    private String note;
 
 }

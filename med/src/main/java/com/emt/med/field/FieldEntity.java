@@ -22,6 +22,5 @@ public class FieldEntity {
     private String name;
     private FieldType type;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval=true)
-    @JsonManagedReference(value="field-value")
     private Set<ValueEntity> values;
 }

@@ -22,7 +22,7 @@ public class PharmacyEntityServiceImpl implements PharmacyEntityService{
 
     @Override
     public PharmacyEntity getPharmacyEntityById(Long pharmacyEntityId) {
-        return pharmacyEntityRepository.findById(pharmacyEntityId).orElseThrow(() -> new RuntimeException("No consumable found with id "+pharmacyEntityId));
+        return pharmacyEntityRepository.findById(pharmacyEntityId).orElseThrow(() -> new RuntimeException("No pharmacy found with id "+pharmacyEntityId));
     }
 
     @Override

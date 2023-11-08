@@ -22,7 +22,7 @@ public class DisposalStationEntityServiceImpl implements DisposalStationEntitySe
 
     @Override
     public DisposalStationEntity getDisposalStationEntityById(Long disposalStationEntityId) {
-        return disposalStationEntityRepository.findById(disposalStationEntityId).orElseThrow(() -> new RuntimeException("No isposal station found with id "+disposalStationEntityId));
+        return disposalStationEntityRepository.findById(disposalStationEntityId).orElseThrow(() -> new RuntimeException("No disposal station found with id "+disposalStationEntityId));
     }
 
     @Override

@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class MedicineEntityServiceImpl implements MedicineEntityService{
+public class MedicineEntityServiceImpl implements MedicineEntityService {
     
     private MedicineEntityRepository medicineEntityRepository;
 
@@ -27,7 +27,7 @@ public class MedicineEntityServiceImpl implements MedicineEntityService{
 
     @Override
     public MedicineEntity getMedicineEntityById(Long medicineEntityId) {
-        return medicineEntityRepository.findById(medicineEntityId).orElseThrow(() -> new RuntimeException("No consumable found with id "+medicineEntityId));
+        return medicineEntityRepository.findById(medicineEntityId).orElseThrow(() -> new RuntimeException("No medicine found with id "+medicineEntityId));
     }
 
     @Override
@@ -41,16 +41,17 @@ public class MedicineEntityServiceImpl implements MedicineEntityService{
         if (medicineEntityDTO.getId() != null) {
             throw new RuntimeException("A new medicine cannot already have an ID");
         }
-        MedicineEntity consumableEntity = medicineEntityMapper.toEntity(medicineEntityDTO);
-        consumableEntity = medicineEntityRepository.save(consumableEntity);
-        return medicineEntityMapper.toDTO(consumableEntity);
+        MedicineEntity medicineEntity = medicineEntityMapper.toEntity((MedicineEntityDTO) medicineEntityDTO);
+        medicineEntity = medicineEntityRepository.save(medicineEntity);
+        return medicineEntityMapper.toDTO(medicineEntity);
     }
+
 
     @Override
     @Transactional
     public MedicineEntityDTO updateMedicine(MedicineEntityDTO medicineEntityDTO) {
         MedicineEntity existingFieldEntity = medicineEntityRepository.findById(medicineEntityDTO.getId()).orElseThrow(() -> new RuntimeException("No medicine found with id "+medicineEntityDTO.getId()));
-        medicineEntityMapper.updateMedicineFromDTO(medicineEntityDTO, existingFieldEntity);
+        medicineEntityMapper.updateMedicineFromDTO((MedicineEntityDTO) medicineEntityDTO, existingFieldEntity);
         return medicineEntityMapper.toDTO(medicineEntityRepository.save(existingFieldEntity));
     }
 
@@ -59,4 +60,7 @@ public class MedicineEntityServiceImpl implements MedicineEntityService{
     public void deleteMedicine(Long id) {
             medicineEntityRepository.deleteById(id);
     }
+
+    
+
 }

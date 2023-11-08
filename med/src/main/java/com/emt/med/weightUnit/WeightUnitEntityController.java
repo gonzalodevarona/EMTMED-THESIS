@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/weightUnit")
+@RequestMapping("/weightUnits")
 public class WeightUnitEntityController {
 
     private WeightUnitEntityService weightUnitEntityService;

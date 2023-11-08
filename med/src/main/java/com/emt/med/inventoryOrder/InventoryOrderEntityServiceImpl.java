@@ -44,7 +44,7 @@ public class InventoryOrderEntityServiceImpl implements InventoryOrderEntityServ
 
     @Override
     public InventoryOrderEntityDTO updateInventoryOrder(InventoryOrderEntityDTO inventoryOrderEntityDTO) {
-        InventoryOrderEntity existingBatchEntity = inventoryOrderEntityRepository.findById(inventoryOrderEntityDTO.getId()).orElseThrow(() -> new RuntimeException("No batch found with id "+inventoryOrderEntityDTO.getId()));
+        InventoryOrderEntity existingBatchEntity = inventoryOrderEntityRepository.findById(inventoryOrderEntityDTO.getId()).orElseThrow(() -> new RuntimeException("No inventory order found with id "+inventoryOrderEntityDTO.getId()));
         inventoryOrderEntityMapper.updateInventoryOrderFromDTO(inventoryOrderEntityDTO, existingBatchEntity);
         return inventoryOrderEntityMapper.toDTO(inventoryOrderEntityRepository.save(existingBatchEntity));
 

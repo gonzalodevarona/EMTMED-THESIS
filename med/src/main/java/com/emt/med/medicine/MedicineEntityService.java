@@ -13,6 +13,7 @@ public interface MedicineEntityService {
     MedicineEntityDTO getMedicineEntityDTOById(Long medicineEntityId);
 
     List<MedicineEntityDTO> getAllMedicines();
+
     MedicineEntityDTO addMedicine(MedicineEntityDTO medicineEntityDTO);
 
     MedicineEntityDTO updateMedicine(MedicineEntityDTO medicineEntityDTO);

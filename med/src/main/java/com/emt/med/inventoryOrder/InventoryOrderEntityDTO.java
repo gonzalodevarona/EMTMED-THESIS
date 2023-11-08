@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class InventoryOrderEntityDTO extends OrderEntityDTO {
     @NotNull(message = "inventory order type shouldn't be null")
     private InventoryOrderType type;
+    private String note;
 }

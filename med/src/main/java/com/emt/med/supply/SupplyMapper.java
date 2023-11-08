@@ -5,12 +5,13 @@ import com.emt.med.consumable.ConsumableEntityDTO;
 import com.emt.med.medicine.MedicineEntity;
 import com.emt.med.medicine.MedicineEntityDTO;
 import com.emt.med.order.OrderEntityMapper;
+import com.emt.med.weightUnit.WeightUnitEntityMapper;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper( uses = OrderEntityMapper.class)
+@Mapper( uses = {OrderEntityMapper.class, WeightUnitEntityMapper.class})
 public interface SupplyMapper {
 
     SupplyMapper INSTANCE = Mappers.getMapper( SupplyMapper.class );
