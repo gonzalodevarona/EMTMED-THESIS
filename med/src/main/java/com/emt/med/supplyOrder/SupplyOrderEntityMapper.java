@@ -7,7 +7,7 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.factory.Mappers;
 
-@Mapper( uses = SupplyMapper.class)
+@Mapper(uses = SupplyMapper.class)
 public interface SupplyOrderEntityMapper {
 
     SupplyOrderEntityMapper INSTANCE = Mappers.getMapper( SupplyOrderEntityMapper.class );

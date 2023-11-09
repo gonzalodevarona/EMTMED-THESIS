@@ -41,22 +41,23 @@ public class WeightUnitEntityServiceImpl implements WeightUnitEntityService {
         }
         WeightUnitEntity weightUnitEntity = weightUnitEntityMapper.toEntity(weightUnitEntityDTO);
 
-        return saveWeightUnitEntity(weightUnitEntityRepository.save(weightUnitEntity));
+        return weightUnitEntityMapper.toDTO(saveWeightUnitEntity(weightUnitEntity));
     }
 
     public WeightUnitEntityDTO addSupply(WeightUnitEntity weightUnit, Supply supply) {
         weightUnit.getSupplyList().add(supply);
-        return saveWeightUnitEntity(weightUnit);
+        return weightUnitEntityMapper.toDTO(saveWeightUnitEntity(weightUnit));
     }
 
     public WeightUnitEntityDTO removeSupply(WeightUnitEntity weightUnit, Supply supply) {
         weightUnit.getSupplyList().remove(supply);
-        return saveWeightUnitEntity(weightUnit);
+        return weightUnitEntityMapper.toDTO(saveWeightUnitEntity(weightUnit));
     }
 
-    public WeightUnitEntityDTO saveWeightUnitEntity(WeightUnitEntity weightUnit) {
-        weightUnit =  weightUnitEntityRepository.save(weightUnit);
-        return weightUnitEntityMapper.toDTO(weightUnit);
+    @Override
+    @Transactional
+    public WeightUnitEntity saveWeightUnitEntity(WeightUnitEntity weightUnit) {
+        return weightUnitEntityRepository.save(weightUnit);
     }
 
     @Override

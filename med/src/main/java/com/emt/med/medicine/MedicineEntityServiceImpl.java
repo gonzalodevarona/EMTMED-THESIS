@@ -1,5 +1,9 @@
 package com.emt.med.medicine;
 
+import com.emt.med.supply.Supply;
+import com.emt.med.weightUnit.WeightUnitEntity;
+import com.emt.med.weightUnit.WeightUnitEntityDTO;
+import com.emt.med.weightUnit.WeightUnitEntityService;
 import jakarta.transaction.Transactional;
 import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Sort;
@@ -13,10 +17,13 @@ import java.util.stream.Collectors;
 public class MedicineEntityServiceImpl implements MedicineEntityService {
     
     private MedicineEntityRepository medicineEntityRepository;
+    private WeightUnitEntityService weightUnitEntityService;
 
     static MedicineEntityMapper medicineEntityMapper = Mappers.getMapper(MedicineEntityMapper.class);
-    public MedicineEntityServiceImpl(MedicineEntityRepository medicineEntityRepository) {
+
+    public MedicineEntityServiceImpl(MedicineEntityRepository medicineEntityRepository, WeightUnitEntityService weightUnitEntityService) {
         this.medicineEntityRepository = medicineEntityRepository;
+        this.weightUnitEntityService = weightUnitEntityService;
     }
 
     @Override
@@ -43,7 +50,39 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
         }
         MedicineEntity medicineEntity = medicineEntityMapper.toEntity((MedicineEntityDTO) medicineEntityDTO);
         medicineEntity = medicineEntityRepository.save(medicineEntity);
+        addWeightUnitToMedicine(medicineEntity.getWeightUnit(), medicineEntity);
+
         return medicineEntityMapper.toDTO(medicineEntity);
+    }
+
+    @Override
+    @Transactional
+    public MedicineEntity addWeightUnitToMedicine(WeightUnitEntity weightUnit, MedicineEntity medicine) {
+        if (weightUnit == null){
+            throw new RuntimeException("Error: In order to add a medicine, a weight unit must be added or assigned to it");
+        } else if (weightUnit.getSupplyList() == null){
+            weightUnit.setSupplyList(new ArrayList<Supply>());
+        } else if (weightUnit.getId() == null){
+            weightUnit = weightUnitEntityService.saveWeightUnitEntity(weightUnit);
+        }
+
+        medicine.setWeightUnit(weightUnit);
+        weightUnit.getSupplyList().add(medicine);
+        weightUnitEntityService.saveWeightUnitEntity(weightUnit);
+
+        return saveMedicineEntity(medicine);
+    }
+
+    public MedicineEntity removeWeightUnitFromMedicine(MedicineEntity medicine) {
+        medicine.getWeightUnit().getSupplyList().remove(medicine);
+        medicine.setWeightUnit(null);
+        weightUnitEntityService.saveWeightUnitEntity(medicine.getWeightUnit());
+        return saveMedicineEntity(medicine);
+    }
+
+
+    public MedicineEntity saveMedicineEntity(MedicineEntity medicineEntity) {
+        return medicineEntityRepository.save(medicineEntity);
     }
 
 

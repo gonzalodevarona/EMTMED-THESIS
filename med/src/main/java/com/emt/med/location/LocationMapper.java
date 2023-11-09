@@ -1,16 +1,9 @@
 package com.emt.med.location;
 
-import com.emt.med.consumable.ConsumableEntity;
-import com.emt.med.consumable.ConsumableEntityDTO;
 import com.emt.med.disposalStation.DisposalStationEntity;
 import com.emt.med.disposalStation.DisposalStationEntityDTO;
-import com.emt.med.medicine.MedicineEntity;
-import com.emt.med.medicine.MedicineEntityDTO;
 import com.emt.med.pharmacy.PharmacyEntity;
 import com.emt.med.pharmacy.PharmacyEntityDTO;
-import com.emt.med.supply.Supply;
-import com.emt.med.supply.SupplyDTO;
-import com.emt.med.supply.SupplyMapper;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 

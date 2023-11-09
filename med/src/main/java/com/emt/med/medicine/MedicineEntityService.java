@@ -3,6 +3,7 @@ package com.emt.med.medicine;
 import com.emt.med.batch.BatchEntityDTO;
 import com.emt.med.consumable.ConsumableEntity;
 import com.emt.med.consumable.ConsumableEntityDTO;
+import com.emt.med.weightUnit.WeightUnitEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +16,8 @@ public interface MedicineEntityService {
     List<MedicineEntityDTO> getAllMedicines();
 
     MedicineEntityDTO addMedicine(MedicineEntityDTO medicineEntityDTO);
+
+    MedicineEntity addWeightUnitToMedicine(WeightUnitEntity weightUnit, MedicineEntity medicine);
 
     MedicineEntityDTO updateMedicine(MedicineEntityDTO medicineEntityDTO);
 

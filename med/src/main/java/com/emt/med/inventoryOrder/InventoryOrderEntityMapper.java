@@ -7,7 +7,7 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.factory.Mappers;
 
-@Mapper( uses = SupplyMapper.class)
+@Mapper(uses = SupplyMapper.class)
 public interface InventoryOrderEntityMapper {
     InventoryOrderEntityMapper INSTANCE = Mappers.getMapper( InventoryOrderEntityMapper.class );
     InventoryOrderEntityDTO toDTO(InventoryOrderEntity inventoryOrderEntity);

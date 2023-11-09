@@ -11,6 +11,8 @@ public interface WeightUnitEntityService {
     List<WeightUnitEntityDTO> getAllWeightUnits();
     WeightUnitEntityDTO addWeightUnit(WeightUnitEntityDTO weightUnitEntityDTO);
 
+    WeightUnitEntity saveWeightUnitEntity(WeightUnitEntity weightUnit);
+
     WeightUnitEntityDTO updateWeightUnit(WeightUnitEntityDTO weightUnitEntityDTO);
 
     void deleteWeightUnit(Long id);

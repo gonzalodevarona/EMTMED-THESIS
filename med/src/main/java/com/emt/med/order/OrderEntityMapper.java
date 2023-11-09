@@ -1,7 +1,10 @@
 package com.emt.med.order;
 
+import com.emt.med.consumable.ConsumableEntityMapper;
 import com.emt.med.inventoryOrder.InventoryOrderEntity;
 import com.emt.med.inventoryOrder.InventoryOrderEntityDTO;
+import com.emt.med.medicine.MedicineEntityMapper;
+
 import com.emt.med.supply.SupplyMapper;
 import com.emt.med.supplyOrder.SupplyOrderEntity;
 import com.emt.med.supplyOrder.SupplyOrderEntityDTO;
@@ -14,7 +17,10 @@ import java.util.List;
 public interface OrderEntityMapper {
 
     OrderEntityMapper INSTANCE = Mappers.getMapper( OrderEntityMapper.class );
+    @SubclassMapping(source = SupplyOrderEntity.class, target = SupplyOrderEntityDTO.class)
+    @SubclassMapping(source = InventoryOrderEntity.class, target = InventoryOrderEntityDTO.class)
     OrderEntityDTO toDTO(OrderEntity order);
+    @InheritInverseConfiguration
     OrderEntity toEntity(OrderEntityDTO orderDTO);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

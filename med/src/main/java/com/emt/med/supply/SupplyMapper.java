@@ -13,10 +13,13 @@ import java.util.List;
 
 @Mapper( uses = {OrderEntityMapper.class, WeightUnitEntityMapper.class})
 public interface SupplyMapper {
-
     SupplyMapper INSTANCE = Mappers.getMapper( SupplyMapper.class );
+    @SubclassMapping( source = MedicineEntity.class, target = MedicineEntityDTO.class )
+    @SubclassMapping( source = ConsumableEntity.class, target = ConsumableEntityDTO.class )
+    @Mapping(target = "orders", ignore = true)
     SupplyDTO toDTO(Supply supply);
 
+    @InheritInverseConfiguration
     Supply toEntity(SupplyDTO supplyDTO);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
@@ -32,7 +35,8 @@ public interface SupplyMapper {
         return null;
     }
 
-    List<SupplyDTO> toSupplyDTOList(List<Supply> supplies);
 
-    List<Supply> toSupplyList(List<SupplyDTO> supplies);
+    List<SupplyDTO> map(List<Supply> supplies);
+
+
 }
