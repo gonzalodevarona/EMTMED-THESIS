@@ -73,11 +73,17 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
         return saveMedicineEntity(medicine);
     }
 
-    public MedicineEntity removeWeightUnitFromMedicine(MedicineEntity medicine) {
-        medicine.getWeightUnit().getSupplyList().remove(medicine);
-        medicine.setWeightUnit(null);
-        weightUnitEntityService.saveWeightUnitEntity(medicine.getWeightUnit());
-        return saveMedicineEntity(medicine);
+    @Override
+    @Transactional
+    public MedicineEntityDTO removeWeightUnitFromMedicine(Long medicineEntityId) {
+        MedicineEntity medicineEntity = getMedicineEntityById(medicineEntityId);
+        WeightUnitEntity weightUnitEntity = medicineEntity.getWeightUnit();
+
+        weightUnitEntity.getSupplyList().remove(medicineEntity);
+
+        medicineEntity.setWeightUnit(null);
+        weightUnitEntityService.saveWeightUnitEntity(weightUnitEntity);
+        return medicineEntityMapper.toDTO(saveMedicineEntity(medicineEntity));
     }
 
 

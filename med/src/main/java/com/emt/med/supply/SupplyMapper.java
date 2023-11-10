@@ -25,6 +25,9 @@ public interface SupplyMapper {
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateSupplyFromDTO(SupplyDTO dto, @MappingTarget Supply entity);
 
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateMedicineFromDTO(MedicineEntityDTO dto, @MappingTarget MedicineEntity entity);
+
     @ObjectFactory
     default Supply createSupply(SupplyDTO supplyDTO) {
         if (supplyDTO instanceof MedicineEntityDTO) {

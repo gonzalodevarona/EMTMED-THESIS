@@ -21,6 +21,7 @@ public abstract class Supply {
     private Long weight;
     private Long quantity;
     @ManyToOne
+    @JsonBackReference
     private WeightUnitEntity weightUnit;
     @ManyToMany
     private List<OrderEntity> orders;

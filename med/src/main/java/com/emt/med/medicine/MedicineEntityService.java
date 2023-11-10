@@ -19,6 +19,8 @@ public interface MedicineEntityService {
 
     MedicineEntity addWeightUnitToMedicine(WeightUnitEntity weightUnit, MedicineEntity medicine);
 
+    MedicineEntityDTO removeWeightUnitFromMedicine(Long medicineEntityId);
+
     MedicineEntityDTO updateMedicine(MedicineEntityDTO medicineEntityDTO);
 
     void deleteMedicine(Long id);

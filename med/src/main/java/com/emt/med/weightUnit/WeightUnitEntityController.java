@@ -24,7 +24,7 @@ public class WeightUnitEntityController {
 
     @GetMapping("/{id}")
     public ResponseEntity<WeightUnitEntityDTO> getWeightUnitById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(weightUnitEntityService.getWeightUnitById(id));
+        return ResponseEntity.ok(weightUnitEntityService.getWeightUniDTOtById(id));
     }
 
     @PostMapping()

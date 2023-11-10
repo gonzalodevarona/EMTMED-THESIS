@@ -2,6 +2,7 @@ package com.emt.med.weightUnit;
 
 import com.emt.med.supply.Supply;
 import com.emt.med.supply.SupplyDTO;
+import com.emt.med.supply.SupplyRepository;
 import jakarta.transaction.Transactional;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
@@ -15,18 +16,24 @@ public class WeightUnitEntityServiceImpl implements WeightUnitEntityService {
 
     private WeightUnitEntityRepository weightUnitEntityRepository;
 
+
     static WeightUnitEntityMapper weightUnitEntityMapper = Mappers.getMapper(WeightUnitEntityMapper.class);
 
     public WeightUnitEntityServiceImpl(WeightUnitEntityRepository weightUnitEntityRepository) {
         this.weightUnitEntityRepository = weightUnitEntityRepository;
     }
 
+    @Override
+    public WeightUnitEntity getWeightUnitById(Long weightUnitEntityId) {
+        return weightUnitEntityRepository.findById(weightUnitEntityId).orElseThrow(() -> new RuntimeException("No weight unit found with id "+weightUnitEntityId));
+    }
 
     @Override
-    public WeightUnitEntityDTO getWeightUnitById(Long weightUnitEntityId) {
+    public WeightUnitEntityDTO getWeightUniDTOtById(Long weightUnitEntityId) {
         WeightUnitEntity weightUnitEntity = weightUnitEntityRepository.findById(weightUnitEntityId).orElseThrow(() -> new RuntimeException("No weight unit found with id "+weightUnitEntityId));
         return weightUnitEntityMapper.toDTO(weightUnitEntity);
     }
+
 
     @Override
     public List<WeightUnitEntityDTO> getAllWeightUnits() {
@@ -71,6 +78,29 @@ public class WeightUnitEntityServiceImpl implements WeightUnitEntityService {
     @Override
     @Transactional
     public void deleteWeightUnit(Long id) {
-        weightUnitEntityRepository.deleteById(id);
+
+        WeightUnitEntity weightUnitEntity = getWeightUnitById(id);
+
+        List<Supply> supplies = weightUnitEntity.getSupplyList();
+        for(Supply supply :supplies) {
+            supply.setWeightUnit(null);
+        }
+
+        weightUnitEntityRepository.delete(weightUnitEntity);
+
     }
+//
+//    @Override
+//    @Transactional
+//    public void deleteAllSuppliesReferences(Long id) {
+//        WeightUnitEntity weightUnitEntity = getWeightUnitById(id);
+//
+//        List<Supply> supplies = weightUnitEntity.getSupplyList();
+//        for(Supply supply :supplies) {
+//            supply.setWeightUnit(null);
+//        }
+//
+//        weightUnitEntityRepository.delete(weightUnitEntity);
+//
+//    }
 }

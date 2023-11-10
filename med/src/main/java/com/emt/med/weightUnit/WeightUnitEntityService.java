@@ -7,7 +7,9 @@ import java.util.List;
 @Service
 public interface WeightUnitEntityService {
 
-    WeightUnitEntityDTO getWeightUnitById(Long weightUnitEntityId);
+    WeightUnitEntity getWeightUnitById(Long weightUnitEntityId);
+
+    WeightUnitEntityDTO getWeightUniDTOtById(Long weightUnitEntityId);
     List<WeightUnitEntityDTO> getAllWeightUnits();
     WeightUnitEntityDTO addWeightUnit(WeightUnitEntityDTO weightUnitEntityDTO);
 
@@ -16,4 +18,5 @@ public interface WeightUnitEntityService {
     WeightUnitEntityDTO updateWeightUnit(WeightUnitEntityDTO weightUnitEntityDTO);
 
     void deleteWeightUnit(Long id);
+//    void deleteAllSuppliesReferences(Long id);
 }
