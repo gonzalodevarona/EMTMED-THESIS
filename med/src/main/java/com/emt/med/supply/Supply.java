@@ -1,5 +1,6 @@
 package com.emt.med.supply;
 
+import com.emt.med.countingUnit.CountingUnitEntity;
 import com.emt.med.order.OrderEntity;
 import com.emt.med.weightUnit.WeightUnitEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -23,6 +24,9 @@ public abstract class Supply {
     @ManyToOne
     @JsonBackReference
     private WeightUnitEntity weightUnit;
+    @ManyToOne
+    @JsonBackReference
+    private CountingUnitEntity countingUnit;
     @ManyToMany
     private List<OrderEntity> orders;
 

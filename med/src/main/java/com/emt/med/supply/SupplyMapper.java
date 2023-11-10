@@ -2,6 +2,7 @@ package com.emt.med.supply;
 
 import com.emt.med.consumable.ConsumableEntity;
 import com.emt.med.consumable.ConsumableEntityDTO;
+import com.emt.med.countingUnit.CountingUnitEntityMapper;
 import com.emt.med.medicine.MedicineEntity;
 import com.emt.med.medicine.MedicineEntityDTO;
 import com.emt.med.order.OrderEntityMapper;
@@ -11,7 +12,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper( uses = {OrderEntityMapper.class, WeightUnitEntityMapper.class})
+@Mapper( uses = {OrderEntityMapper.class, WeightUnitEntityMapper.class, CountingUnitEntityMapper.class})
 public interface SupplyMapper {
     SupplyMapper INSTANCE = Mappers.getMapper( SupplyMapper.class );
     @SubclassMapping( source = MedicineEntity.class, target = MedicineEntityDTO.class )

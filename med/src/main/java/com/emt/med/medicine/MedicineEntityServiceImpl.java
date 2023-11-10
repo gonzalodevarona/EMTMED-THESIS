@@ -1,6 +1,9 @@
 package com.emt.med.medicine;
 
+import com.emt.med.countingUnit.CountingUnitEntity;
 import com.emt.med.supply.Supply;
+import com.emt.med.supply.SupplyMapper;
+import com.emt.med.supply.SupplyService;
 import com.emt.med.weightUnit.WeightUnitEntity;
 import com.emt.med.weightUnit.WeightUnitEntityDTO;
 import com.emt.med.weightUnit.WeightUnitEntityService;
@@ -17,13 +20,14 @@ import java.util.stream.Collectors;
 public class MedicineEntityServiceImpl implements MedicineEntityService {
     
     private MedicineEntityRepository medicineEntityRepository;
-    private WeightUnitEntityService weightUnitEntityService;
+
+    private SupplyService supplyService;
 
     static MedicineEntityMapper medicineEntityMapper = Mappers.getMapper(MedicineEntityMapper.class);
 
-    public MedicineEntityServiceImpl(MedicineEntityRepository medicineEntityRepository, WeightUnitEntityService weightUnitEntityService) {
+    public MedicineEntityServiceImpl(MedicineEntityRepository medicineEntityRepository, WeightUnitEntityService weightUnitEntityService, SupplyService supplyService) {
         this.medicineEntityRepository = medicineEntityRepository;
-        this.weightUnitEntityService = weightUnitEntityService;
+        this.supplyService = supplyService;
     }
 
     @Override
@@ -51,39 +55,33 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
         MedicineEntity medicineEntity = medicineEntityMapper.toEntity((MedicineEntityDTO) medicineEntityDTO);
         medicineEntity = medicineEntityRepository.save(medicineEntity);
         addWeightUnitToMedicine(medicineEntity.getWeightUnit(), medicineEntity);
+        addCountingUnitToMedicine(medicineEntity.getCountingUnit(), medicineEntity);
 
         return medicineEntityMapper.toDTO(medicineEntity);
     }
 
     @Override
     @Transactional
-    public MedicineEntity addWeightUnitToMedicine(WeightUnitEntity weightUnit, MedicineEntity medicine) {
-        if (weightUnit == null){
-            throw new RuntimeException("Error: In order to add a medicine, a weight unit must be added or assigned to it");
-        } else if (weightUnit.getSupplyList() == null){
-            weightUnit.setSupplyList(new ArrayList<Supply>());
-        } else if (weightUnit.getId() == null){
-            weightUnit = weightUnitEntityService.saveWeightUnitEntity(weightUnit);
-        }
-
-        medicine.setWeightUnit(weightUnit);
-        weightUnit.getSupplyList().add(medicine);
-        weightUnitEntityService.saveWeightUnitEntity(weightUnit);
-
-        return saveMedicineEntity(medicine);
+    public Supply addWeightUnitToMedicine(WeightUnitEntity weightUnit, MedicineEntity medicine) {
+        return saveMedicineEntity((MedicineEntity) supplyService.addWeightUnitToSupply(weightUnit, medicine));
     }
 
     @Override
     @Transactional
     public MedicineEntityDTO removeWeightUnitFromMedicine(Long medicineEntityId) {
-        MedicineEntity medicineEntity = getMedicineEntityById(medicineEntityId);
-        WeightUnitEntity weightUnitEntity = medicineEntity.getWeightUnit();
+        return medicineEntityMapper.toDTO(saveMedicineEntity((MedicineEntity) supplyService.removeWeightUnitFromSupply(getMedicineEntityById(medicineEntityId))));
+    }
 
-        weightUnitEntity.getSupplyList().remove(medicineEntity);
+    @Override
+    @Transactional
+    public Supply addCountingUnitToMedicine(CountingUnitEntity countingUnit, MedicineEntity medicine) {
+        return saveMedicineEntity((MedicineEntity) supplyService.addCountingUnitToSupply(countingUnit, medicine));
+    }
 
-        medicineEntity.setWeightUnit(null);
-        weightUnitEntityService.saveWeightUnitEntity(weightUnitEntity);
-        return medicineEntityMapper.toDTO(saveMedicineEntity(medicineEntity));
+    @Override
+    @Transactional
+    public MedicineEntityDTO removeCountingUnitFromMedicine(Long medicineEntityId) {
+        return medicineEntityMapper.toDTO(saveMedicineEntity((MedicineEntity) supplyService.removeCountingUnitFromSupply(getMedicineEntityById(medicineEntityId))));
     }
 
 

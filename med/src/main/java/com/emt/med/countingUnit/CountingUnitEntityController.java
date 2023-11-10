@@ -26,7 +26,7 @@ public class CountingUnitEntityController {
 
     @GetMapping("/{id}")
     public ResponseEntity<CountingUnitEntityDTO> getCountingUnitById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(countingUnitEntityService.getCountingUnitById(id));
+        return ResponseEntity.ok(countingUnitEntityService.getCountingUnitDTOById(id));
     }
 
     @PostMapping()

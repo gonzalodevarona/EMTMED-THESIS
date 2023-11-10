@@ -1,7 +1,7 @@
 package com.emt.med.supply;
 
+import com.emt.med.countingUnit.CountingUnitEntityDTO;
 import com.emt.med.order.OrderEntityDTO;
-import com.emt.med.weightUnit.WeightUnitEntity;
 import com.emt.med.weightUnit.WeightUnitEntityDTO;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -28,4 +28,5 @@ public class SupplyDTO {
     private List<OrderEntityDTO> orders;
 
     private WeightUnitEntityDTO weightUnit;
+    private CountingUnitEntityDTO countingUnit;
 }

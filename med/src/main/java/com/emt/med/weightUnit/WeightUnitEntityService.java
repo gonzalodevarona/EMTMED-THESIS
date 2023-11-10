@@ -18,5 +18,5 @@ public interface WeightUnitEntityService {
     WeightUnitEntityDTO updateWeightUnit(WeightUnitEntityDTO weightUnitEntityDTO);
 
     void deleteWeightUnit(Long id);
-//    void deleteAllSuppliesReferences(Long id);
+
 }

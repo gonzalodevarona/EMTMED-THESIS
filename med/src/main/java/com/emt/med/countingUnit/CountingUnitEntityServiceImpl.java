@@ -20,7 +20,12 @@ public class CountingUnitEntityServiceImpl implements CountingUnitEntityService{
     }
 
     @Override
-    public CountingUnitEntityDTO getCountingUnitById(Long countingUnitEntityId) {
+    public CountingUnitEntity getCountingUnitById(Long countingUnitEntityId) {
+        return countingUnitEntityRepository.findById(countingUnitEntityId).orElseThrow(() -> new RuntimeException("No counting unit found with id "+countingUnitEntityId));
+    }
+
+    @Override
+    public CountingUnitEntityDTO getCountingUnitDTOById(Long countingUnitEntityId) {
         CountingUnitEntity countingUnitEntity = countingUnitEntityRepository.findById(countingUnitEntityId).orElseThrow(() -> new RuntimeException("No counting unit found with id "+countingUnitEntityId));
         return countingUnitEntityMapper.toDTO(countingUnitEntity);
     }
@@ -39,6 +44,11 @@ public class CountingUnitEntityServiceImpl implements CountingUnitEntityService{
         CountingUnitEntity countingUnitEntity = countingUnitEntityMapper.toEntity(countingUnitEntityDTO);
         countingUnitEntity = countingUnitEntityRepository.save(countingUnitEntity);
         return countingUnitEntityMapper.toDTO(countingUnitEntity);
+    }
+
+    @Override
+    public CountingUnitEntity saveCountingUnit(CountingUnitEntity countingUnit) {
+        return countingUnitEntityRepository.save(countingUnit);
     }
 
     @Override

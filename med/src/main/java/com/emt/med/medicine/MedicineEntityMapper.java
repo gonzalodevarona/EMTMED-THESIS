@@ -1,5 +1,6 @@
 package com.emt.med.medicine;
 
+import com.emt.med.countingUnit.CountingUnitEntityMapper;
 import com.emt.med.order.OrderEntityMapper;
 import com.emt.med.weightUnit.WeightUnitEntityMapper;
 import org.mapstruct.*;
@@ -7,7 +8,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper( uses = {OrderEntityMapper.class, WeightUnitEntityMapper.class})
+@Mapper( uses = {OrderEntityMapper.class, WeightUnitEntityMapper.class, CountingUnitEntityMapper.class})
 public interface MedicineEntityMapper {
     MedicineEntityMapper INSTANCE = Mappers.getMapper( MedicineEntityMapper.class );
 

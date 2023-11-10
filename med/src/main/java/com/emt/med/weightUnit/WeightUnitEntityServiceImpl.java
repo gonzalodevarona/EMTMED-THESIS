@@ -89,18 +89,5 @@ public class WeightUnitEntityServiceImpl implements WeightUnitEntityService {
         weightUnitEntityRepository.delete(weightUnitEntity);
 
     }
-//
-//    @Override
-//    @Transactional
-//    public void deleteAllSuppliesReferences(Long id) {
-//        WeightUnitEntity weightUnitEntity = getWeightUnitById(id);
-//
-//        List<Supply> supplies = weightUnitEntity.getSupplyList();
-//        for(Supply supply :supplies) {
-//            supply.setWeightUnit(null);
-//        }
-//
-//        weightUnitEntityRepository.delete(weightUnitEntity);
-//
-//    }
+
 }
