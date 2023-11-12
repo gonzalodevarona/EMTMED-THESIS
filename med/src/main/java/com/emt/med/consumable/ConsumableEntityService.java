@@ -2,6 +2,7 @@ package com.emt.med.consumable;
 
 import com.emt.med.batch.BatchEntity;
 import com.emt.med.countingUnit.CountingUnitEntity;
+import com.emt.med.medicationBatch.MedicationBatchEntity;
 import com.emt.med.medicine.MedicineEntity;
 import com.emt.med.medicine.MedicineEntityDTO;
 import com.emt.med.supply.Supply;
@@ -28,7 +29,11 @@ public interface ConsumableEntityService {
 
     ConsumableEntityDTO removeCountingUnitFromConsumable(Long consumableEntityId);
 
-    Supply addBatchToConsumable(BatchEntity batchEntity, ConsumableEntity consumable);
+    // Batches
+    ConsumableEntity addBatchesToConsumable(List<BatchEntity> batchEntities, ConsumableEntity consumable);
+
+    ConsumableEntity removeBatchFromMedicine(ConsumableEntity consumable, BatchEntity batchEntity);
+
 
     ConsumableEntityDTO updateConsumable(ConsumableEntityDTO consumableEntityDTO);
 

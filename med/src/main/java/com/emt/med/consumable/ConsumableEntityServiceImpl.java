@@ -1,7 +1,9 @@
 package com.emt.med.consumable;
 
 import com.emt.med.batch.BatchEntity;
+import com.emt.med.batch.BatchEntityRepository;
 import com.emt.med.countingUnit.CountingUnitEntity;
+import com.emt.med.medicationBatch.MedicationBatchEntity;
 import com.emt.med.medicine.MedicineEntity;
 import com.emt.med.medicine.MedicineEntityDTO;
 import com.emt.med.supply.Supply;
@@ -20,12 +22,14 @@ import java.util.stream.Collectors;
 public class ConsumableEntityServiceImpl implements ConsumableEntityService{
 
     private ConsumableEntityRepository consumableEntityRepository;
+    private BatchEntityRepository batchEntityRepository;
 
     private SupplyService supplyService;
     static ConsumableEntityMapper consumableEntityMapper = Mappers.getMapper(ConsumableEntityMapper.class);
 
-    public ConsumableEntityServiceImpl(ConsumableEntityRepository consumableEntityRepository, SupplyService supplyService) {
+    public ConsumableEntityServiceImpl(ConsumableEntityRepository consumableEntityRepository, BatchEntityRepository batchEntityRepository, SupplyService supplyService) {
         this.consumableEntityRepository = consumableEntityRepository;
+        this.batchEntityRepository = batchEntityRepository;
         this.supplyService = supplyService;
     }
 
@@ -60,6 +64,7 @@ public class ConsumableEntityServiceImpl implements ConsumableEntityService{
         consumableEntity = consumableEntityRepository.save(consumableEntity);
         addWeightUnitToConsumable(consumableEntity.getWeightUnit(), consumableEntity);
         addCountingUnitToConsumable(consumableEntity.getCountingUnit(), consumableEntity);
+        addBatchesToConsumable(consumableEntity.getBatches(), consumableEntity);
 
         return consumableEntityMapper.toDTO(consumableEntity);
     }
@@ -91,17 +96,38 @@ public class ConsumableEntityServiceImpl implements ConsumableEntityService{
 
     @Override
     @Transactional
-    public Supply addBatchToConsumable(BatchEntity batchEntity, ConsumableEntity consumable) {
-//        return saveConsumableEntity((ConsumableEntity) supplyService.addBatchToSupply(batchEntity, consumable));
+    public ConsumableEntity addBatchesToConsumable(List<BatchEntity> batchEntities, ConsumableEntity consumable) {
+        if (batchEntities != null && batchEntities.size()>0) {
+
+            if (consumable.getBatches() == null) {
+                consumable.setBatches(new ArrayList<BatchEntity>());
+            }
+
+            List<BatchEntity> addedBatches = new ArrayList<BatchEntity>();
+
+            for (BatchEntity batchEntity : batchEntities) {
+                batchEntity.setConsumable(consumable);
+                if (batchEntity.getId() == null) {
+
+                    batchEntity =  batchEntityRepository.save(batchEntity);
+                }
+
+                addedBatches.add(batchEntity);
+            }
+
+            consumable.getBatches().clear();
+            consumable.getBatches().addAll(addedBatches);
+        }
+
+        return consumableEntityRepository.save(consumable);
+    }
+
+    @Override
+    @Transactional
+    public ConsumableEntity removeBatchFromMedicine(ConsumableEntity consumable, BatchEntity batchEntity) {
         return null;
     }
 
-//    @Override
-//    @Transactional
-//    public ConsumableEntityDTO removeBatchFromConsumable(Long consumableEntityId, Long batchEntityId) {
-//
-//        return consumableEntityMapper.toDTO(saveConsumableEntity((ConsumableEntity) supplyService.removeBatchFromSupply(getConsumableEntityById(consumableEntityId),)));
-//    }
 
 
     @Override
