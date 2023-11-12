@@ -3,9 +3,7 @@ package com.emt.med.weightUnit;
 import com.emt.med.supply.Supply;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -20,6 +18,6 @@ public class WeightUnitEntity {
     private Long id;
     private String name;
     @OneToMany(mappedBy = "weightUnit", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JsonManagedReference
+    @JsonManagedReference("weightUnit-supply")
     private List<Supply> supplyList;
 }

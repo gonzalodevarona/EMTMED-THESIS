@@ -1,6 +1,7 @@
 package com.emt.med.batch;
 
 
+import com.emt.med.medicationBatch.MedicationBatchEntity;
 import jakarta.transaction.Transactional;
 import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Sort;
@@ -23,7 +24,12 @@ public class BatchEntityServiceImpl implements BatchEntityService {
     }
 
     @Override
-    public BatchEntityDTO getBatchEntityById(Long batchEntityId) {
+    public BatchEntity getBatchEntityById(Long batchEntityId) {
+        return batchEntityRepository.findById(batchEntityId).orElseThrow(() -> new RuntimeException("No batch found with id "+batchEntityId));
+    }
+
+    @Override
+    public BatchEntityDTO getBatchEntityDTOById(Long batchEntityId) {
         BatchEntity batchEntity = batchEntityRepository.findById(batchEntityId).orElseThrow(() -> new RuntimeException("No batch found with id "+batchEntityId));
         return batchEntityMapper.toDTO(batchEntity);
     }
@@ -42,6 +48,11 @@ public class BatchEntityServiceImpl implements BatchEntityService {
         BatchEntity batchEntity = batchEntityMapper.toEntity(batchDTO);
         batchEntity = batchEntityRepository.save(batchEntity);
         return batchEntityMapper.toDTO(batchEntity);
+    }
+
+    @Override
+    public BatchEntity saveBatch(BatchEntity batchEntity) {
+        return batchEntityRepository.save(batchEntity);
     }
 
     @Override

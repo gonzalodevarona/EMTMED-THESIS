@@ -1,4 +1,4 @@
-package com.emt.med.batch;
+package com.emt.med.baseBatch;
 
 public enum BatchStatus {
     RED, YELLOW, GREEN

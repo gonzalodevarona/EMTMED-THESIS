@@ -23,6 +23,8 @@ public class OrderEntityDTO {
     private Long id;
     @Positive(message = "practitioner id should be greater than zero")
     private Long practitionerId;
+    @Positive(message = "quantity should be greater than zero")
+    private Long quantity;
     @PastOrPresent(message = "authored on date should be today or before")
     private LocalDateTime authoredOn;
     @NotNull

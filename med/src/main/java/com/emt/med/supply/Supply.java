@@ -1,9 +1,12 @@
 package com.emt.med.supply;
 
+import com.emt.med.batch.BatchEntity;
 import com.emt.med.countingUnit.CountingUnitEntity;
+import com.emt.med.medicationBatch.MedicationBatchEntity;
 import com.emt.med.order.OrderEntity;
 import com.emt.med.weightUnit.WeightUnitEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -22,12 +25,13 @@ public abstract class Supply {
     private Long weight;
     private Long quantity;
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference("weightUnit-supply")
     private WeightUnitEntity weightUnit;
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference("countingUnit-supply")
     private CountingUnitEntity countingUnit;
     @ManyToMany
     private List<OrderEntity> orders;
+
 
 }

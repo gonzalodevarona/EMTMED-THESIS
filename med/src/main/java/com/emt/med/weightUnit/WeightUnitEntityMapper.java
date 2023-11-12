@@ -9,13 +9,11 @@ public interface WeightUnitEntityMapper {
 
     WeightUnitEntityMapper INSTANCE = Mappers.getMapper( WeightUnitEntityMapper.class );
 
-//    @Mapping(target = "supplyDTOList", ignore = true)
-//    WeightUnitEntityDTO toDTOExcludeSupplyDTOList(WeightUnitEntity weightUnitEntity);
-
     @Mapping(target = "supplyDTOList", ignore = true)
     WeightUnitEntityDTO toDTO(WeightUnitEntity weightUnitEntity);
 
-    @InheritInverseConfiguration
+
+    @Mapping(target = "supplyList", ignore = true)
     WeightUnitEntity toEntity(WeightUnitEntityDTO weightUnitEntityDTO);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

@@ -1,27 +1,27 @@
 package com.emt.med.batch;
 
+import com.emt.med.baseBatch.BaseBatch;
+import com.emt.med.consumable.ConsumableEntity;
+import com.emt.med.countingUnit.CountingUnitEntity;
+import com.emt.med.medicationBatch.MedicationBatchEntity;
+import com.emt.med.supply.Supply;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class BatchEntity{
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
-    private Long id;
-    private String manufacturer;
-    private LocalDate expirationDate;
-    private String administrationRoute;
-    private BatchStatus status;
-
-
+public class BatchEntity extends BaseBatch {
+    @ManyToOne
+    @JsonBackReference("consumable-batch")
+    private ConsumableEntity consumable;
 }

@@ -1,5 +1,6 @@
 package com.emt.med.medicationBatch;
 
+import com.emt.med.batch.BatchEntity;
 import jakarta.transaction.Transactional;
 import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Sort;
@@ -22,7 +23,13 @@ public class MedicationBatchEntityServiceImpl implements MedicationBatchEntitySe
     }
 
     @Override
-    public MedicationBatchEntityDTO getMedicationBatchEntityById(Long medicationBatchEntityId) {
+    public MedicationBatchEntity getMedicationBatchEntityById(Long medicationBatchEntityId) {
+        return medicationBatchEntityRepository.findById(medicationBatchEntityId).orElseThrow(() -> new RuntimeException("No medication batch found with id "+medicationBatchEntityId));
+
+    }
+
+    @Override
+    public MedicationBatchEntityDTO getMedicationBatchEntityDTOById(Long medicationBatchEntityId) {
         MedicationBatchEntity medicationBatchEntity = medicationBatchEntityRepository.findById(medicationBatchEntityId).orElseThrow(() -> new RuntimeException("No medication batch found with id "+medicationBatchEntityId));
         return medicationBatchEntityMapper.toDTO(medicationBatchEntity);
     }
@@ -30,6 +37,11 @@ public class MedicationBatchEntityServiceImpl implements MedicationBatchEntitySe
     @Override
     public List<MedicationBatchEntityDTO> getAllMedicationBatches() {
         return medicationBatchEntityRepository.findAll(Sort.by(Sort.Direction.ASC, "expirationDate")).stream().map(medicationBatchEntityMapper::toDTO).collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    @Override
+    public MedicationBatchEntity saveMedicationBatch(MedicationBatchEntity medicationBatchEntity) {
+        return medicationBatchEntityRepository.save(medicationBatchEntity);
     }
 
     @Override

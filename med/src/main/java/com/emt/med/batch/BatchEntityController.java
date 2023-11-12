@@ -25,7 +25,7 @@ public class BatchEntityController {
 
     @GetMapping("/{id}")
     public ResponseEntity<BatchEntityDTO> getBatchById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(batchEntityService.getBatchEntityById(id));
+        return ResponseEntity.ok(batchEntityService.getBatchEntityDTOById(id));
     }
 
     @PostMapping()

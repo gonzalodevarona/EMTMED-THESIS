@@ -28,7 +28,7 @@ public class MedicationBatchEntityController {
 
     @GetMapping("/{id}")
     public ResponseEntity<MedicationBatchEntityDTO> getMedicationBatchById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(medicationBatchEntityService.getMedicationBatchEntityById(id));
+        return ResponseEntity.ok(medicationBatchEntityService.getMedicationBatchEntityDTOById(id));
     }
 
     @PostMapping()

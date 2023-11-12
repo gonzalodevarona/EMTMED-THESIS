@@ -1,36 +1,22 @@
 package com.emt.med.medicationBatch;
 
-import com.emt.med.batch.BatchStatus;
+import com.emt.med.baseBatch.BaseBatchDTO;
+import com.emt.med.batch.BatchEntityDTO;
+import com.emt.med.medicine.MedicineEntityDTO;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MedicationBatchEntityDTO {
-
-    @Positive(message = "id number should be greater than zero")
-    private Long id;
-
-    @NotBlank(message = "manufacturer shouldn't be blank")
-    private String manufacturer;
-
-    @Future(message = "expiration date should be in the future")
-    private LocalDate expirationDate;
-
-    @NotBlank(message = "administration route shouldn't be blank")
-    private String administrationRoute;
-
-    @NotNull(message = "status shouldn't be null")
-    private BatchStatus status;
+public class MedicationBatchEntityDTO extends BaseBatchDTO {
 
     @Min(0)
     private Integer quantity;
 
-    @NotNull(message = "cum shouldn't be null")
     private String cum;
+
+    private MedicineEntityDTO medicine;
 }

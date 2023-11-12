@@ -24,6 +24,7 @@ public abstract class OrderEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long practitionerId;
+    private Long quantity;
 
     private LocalDateTime authoredOn;
 

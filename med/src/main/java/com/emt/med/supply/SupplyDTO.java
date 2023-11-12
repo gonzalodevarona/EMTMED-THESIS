@@ -1,5 +1,6 @@
 package com.emt.med.supply;
 
+import com.emt.med.batch.BatchEntityDTO;
 import com.emt.med.countingUnit.CountingUnitEntityDTO;
 import com.emt.med.order.OrderEntityDTO;
 import com.emt.med.weightUnit.WeightUnitEntityDTO;
@@ -29,4 +30,5 @@ public class SupplyDTO {
 
     private WeightUnitEntityDTO weightUnit;
     private CountingUnitEntityDTO countingUnit;
+
 }

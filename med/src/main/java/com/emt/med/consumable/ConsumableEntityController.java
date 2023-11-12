@@ -1,5 +1,6 @@
 package com.emt.med.consumable;
 
+import com.emt.med.medicine.MedicineEntityDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,5 +43,15 @@ public class ConsumableEntityController {
     public ResponseEntity deleteConsumable(@PathVariable("id") Long id) {
         consumableEntityService.deleteConsumable(id);
         return ResponseEntity.ok("Erased consumable with id "+ id);
+    }
+
+    @DeleteMapping("/{id}/weightUnit")
+    public ResponseEntity removeWeightUnitFromConsumable(@PathVariable("id") Long id) {
+        return new ResponseEntity<ConsumableEntityDTO>(consumableEntityService.removeWeightUnitFromConsumable(id), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}/countingUnit")
+    public ResponseEntity removeCountingUnitFromConsumable(@PathVariable("id") Long id) {
+        return new ResponseEntity<ConsumableEntityDTO>(consumableEntityService.removeCountingUnitFromConsumable(id), HttpStatus.OK);
     }
 }

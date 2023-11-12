@@ -1,18 +1,26 @@
 package com.emt.med.batch;
 
-import org.mapstruct.BeanMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+import com.emt.med.countingUnit.CountingUnitEntityMapper;
+import com.emt.med.order.OrderEntityMapper;
+import com.emt.med.weightUnit.WeightUnitEntityMapper;
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
-@Mapper( componentModel = "spring")
+import java.util.List;
+
+@Mapper(uses = {OrderEntityMapper.class, WeightUnitEntityMapper.class, CountingUnitEntityMapper.class})
 public interface BatchEntityMapper {
 
     BatchEntityMapper INSTANCE = Mappers.getMapper( BatchEntityMapper.class );
+
+    @Mapping(target = "consumable", ignore = true)
     BatchEntityDTO toDTO(BatchEntity batchEntity);
+
+    @Mapping(target = "consumable", ignore = true)
     BatchEntity toEntity(BatchEntityDTO batchEntityDTO);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateBatchFromDto(BatchEntityDTO dto, @MappingTarget BatchEntity entity);
+
+    List<BatchEntityDTO> map(List<BatchEntity> batches);
 }

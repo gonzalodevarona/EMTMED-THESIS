@@ -1,18 +1,21 @@
 package com.emt.med.medicine;
 
+
+import com.emt.med.batch.BatchEntity;
 import com.emt.med.countingUnit.CountingUnitEntity;
+import com.emt.med.medicationBatch.MedicationBatchEntity;
+import com.emt.med.medicationBatch.MedicationBatchEntityRepository;
+import com.emt.med.medicationBatch.MedicationBatchEntityService;
 import com.emt.med.supply.Supply;
-import com.emt.med.supply.SupplyMapper;
 import com.emt.med.supply.SupplyService;
 import com.emt.med.weightUnit.WeightUnitEntity;
-import com.emt.med.weightUnit.WeightUnitEntityDTO;
-import com.emt.med.weightUnit.WeightUnitEntityService;
 import jakarta.transaction.Transactional;
 import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,17 +26,22 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
 
     private SupplyService supplyService;
 
+    private MedicationBatchEntityService medicationBatchEntityService;
+    private MedicationBatchEntityRepository medicationBatchEntityRepository;
+
     static MedicineEntityMapper medicineEntityMapper = Mappers.getMapper(MedicineEntityMapper.class);
 
-    public MedicineEntityServiceImpl(MedicineEntityRepository medicineEntityRepository, WeightUnitEntityService weightUnitEntityService, SupplyService supplyService) {
+    public MedicineEntityServiceImpl(MedicineEntityRepository medicineEntityRepository, SupplyService supplyService, MedicationBatchEntityService medicationBatchEntityService, MedicationBatchEntityRepository medicationBatchEntityRepository) {
         this.medicineEntityRepository = medicineEntityRepository;
         this.supplyService = supplyService;
+        this.medicationBatchEntityService = medicationBatchEntityService;
+        this.medicationBatchEntityRepository = medicationBatchEntityRepository;
     }
 
     @Override
     public MedicineEntityDTO getMedicineEntityDTOById(Long medicineEntityId) {
-        MedicineEntity consumableEntity = medicineEntityRepository.findById(medicineEntityId).orElseThrow(() -> new RuntimeException("No medicine found with id "+medicineEntityId));
-        return medicineEntityMapper.toDTO(consumableEntity);
+        MedicineEntity medicineEntity = medicineEntityRepository.findById(medicineEntityId).orElseThrow(() -> new RuntimeException("No medicine found with id "+medicineEntityId));
+        return medicineEntityMapper.toDTO(medicineEntity);
     }
 
     @Override
@@ -56,6 +64,7 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
         medicineEntity = medicineEntityRepository.save(medicineEntity);
         addWeightUnitToMedicine(medicineEntity.getWeightUnit(), medicineEntity);
         addCountingUnitToMedicine(medicineEntity.getCountingUnit(), medicineEntity);
+        addMedicationBatchesToMedicine(medicineEntity.getBatches(), medicineEntity);
 
         return medicineEntityMapper.toDTO(medicineEntity);
     }
@@ -85,6 +94,48 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
     }
 
 
+    @Override
+    @Transactional
+    public MedicineEntity addMedicationBatchesToMedicine(List<MedicationBatchEntity> medicationBatchEntities, MedicineEntity medicine){
+
+        if (medicationBatchEntities != null && medicationBatchEntities.size()>0) {
+
+            if (medicine.getBatches() == null) {
+                medicine.setBatches(new ArrayList<MedicationBatchEntity>());
+            }
+
+            List<MedicationBatchEntity> addedBatches = new ArrayList<MedicationBatchEntity>();
+
+            for (MedicationBatchEntity medicationBatchEntity : medicationBatchEntities) {
+                medicationBatchEntity.setMedicine(medicine);
+                if (medicationBatchEntity.getId() == null) {
+
+                    medicationBatchEntity =  medicationBatchEntityRepository.save(medicationBatchEntity);
+                }
+
+                addedBatches.add(medicationBatchEntity);
+            }
+
+            medicine.getBatches().clear();
+            medicine.getBatches().addAll(addedBatches);
+        }
+
+        return medicineEntityRepository.save(medicine);
+    }
+
+
+
+
+
+    @Override
+    public MedicineEntity removeMedicationBatchFromMedicine(MedicineEntity medicine, MedicationBatchEntity medicationBatchEntity) {
+        return null;
+    }
+
+
+
+    @Override
+    @Transactional
     public MedicineEntity saveMedicineEntity(MedicineEntity medicineEntity) {
         return medicineEntityRepository.save(medicineEntity);
     }

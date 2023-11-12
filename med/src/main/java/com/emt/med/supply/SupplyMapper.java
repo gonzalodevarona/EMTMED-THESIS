@@ -1,8 +1,10 @@
 package com.emt.med.supply;
 
+import com.emt.med.batch.BatchEntityMapper;
 import com.emt.med.consumable.ConsumableEntity;
 import com.emt.med.consumable.ConsumableEntityDTO;
 import com.emt.med.countingUnit.CountingUnitEntityMapper;
+import com.emt.med.medicationBatch.MedicationBatchEntityMapper;
 import com.emt.med.medicine.MedicineEntity;
 import com.emt.med.medicine.MedicineEntityDTO;
 import com.emt.med.order.OrderEntityMapper;
@@ -21,13 +23,8 @@ public interface SupplyMapper {
     SupplyDTO toDTO(Supply supply);
 
     @InheritInverseConfiguration
+    @Mapping(target = "orders", ignore = true)
     Supply toEntity(SupplyDTO supplyDTO);
-
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateSupplyFromDTO(SupplyDTO dto, @MappingTarget Supply entity);
-
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateMedicineFromDTO(MedicineEntityDTO dto, @MappingTarget MedicineEntity entity);
 
     @ObjectFactory
     default Supply createSupply(SupplyDTO supplyDTO) {
@@ -40,7 +37,9 @@ public interface SupplyMapper {
     }
 
 
-    List<SupplyDTO> map(List<Supply> supplies);
+    List<SupplyDTO> mapToDTO(List<Supply> supplies);
+
+    List<Supply> map(List<SupplyDTO> supplies);
 
 
 }

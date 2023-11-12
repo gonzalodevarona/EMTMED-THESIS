@@ -8,12 +8,13 @@ import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 @Mapper( uses = SupplyMapper.class)
-public interface CountingUnitEntityMapper {
+public interface    CountingUnitEntityMapper {
 
     CountingUnitEntityMapper INSTANCE = Mappers.getMapper( CountingUnitEntityMapper.class );
     @Mapping(target = "supplyDTOList", ignore = true)
     CountingUnitEntityDTO toDTO(CountingUnitEntity countingUnitEntity);
-    @InheritInverseConfiguration
+
+    @Mapping(target = "supplyList", ignore = true)
     CountingUnitEntity toEntity(CountingUnitEntityDTO countingUnitEntityDTO);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

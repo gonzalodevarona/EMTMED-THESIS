@@ -1,9 +1,7 @@
 package com.emt.med.medicine;
 
-import com.emt.med.batch.BatchEntityDTO;
-import com.emt.med.consumable.ConsumableEntity;
-import com.emt.med.consumable.ConsumableEntityDTO;
 import com.emt.med.countingUnit.CountingUnitEntity;
+import com.emt.med.medicationBatch.MedicationBatchEntity;
 import com.emt.med.supply.Supply;
 import com.emt.med.weightUnit.WeightUnitEntity;
 import org.springframework.stereotype.Service;
@@ -19,6 +17,8 @@ public interface MedicineEntityService {
 
     MedicineEntityDTO addMedicine(MedicineEntityDTO medicineEntityDTO);
 
+    MedicineEntity saveMedicineEntity(MedicineEntity medicineEntity);
+
     Supply addWeightUnitToMedicine(WeightUnitEntity weightUnit, MedicineEntity medicine);
 
     MedicineEntityDTO removeWeightUnitFromMedicine(Long medicineEntityId);
@@ -26,6 +26,12 @@ public interface MedicineEntityService {
     Supply addCountingUnitToMedicine(CountingUnitEntity countingUnit, MedicineEntity medicine);
 
     MedicineEntityDTO removeCountingUnitFromMedicine(Long medicineEntityId);
+
+    // Medication Batches
+    MedicineEntity addMedicationBatchesToMedicine(List<MedicationBatchEntity> medicationBatchEntities, MedicineEntity medicine);
+
+    MedicineEntity removeMedicationBatchFromMedicine(MedicineEntity medicine, MedicationBatchEntity medicationBatchEntity);
+
 
     MedicineEntityDTO updateMedicine(MedicineEntityDTO medicineEntityDTO);
 

@@ -1,5 +1,12 @@
 package com.emt.med.consumable;
 
+import com.emt.med.batch.BatchEntity;
+import com.emt.med.countingUnit.CountingUnitEntity;
+import com.emt.med.medicine.MedicineEntity;
+import com.emt.med.medicine.MedicineEntityDTO;
+import com.emt.med.supply.Supply;
+import com.emt.med.supply.SupplyService;
+import com.emt.med.weightUnit.WeightUnitEntity;
 import jakarta.transaction.Transactional;
 import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Sort;
@@ -13,10 +20,13 @@ import java.util.stream.Collectors;
 public class ConsumableEntityServiceImpl implements ConsumableEntityService{
 
     private ConsumableEntityRepository consumableEntityRepository;
+
+    private SupplyService supplyService;
     static ConsumableEntityMapper consumableEntityMapper = Mappers.getMapper(ConsumableEntityMapper.class);
 
-    public ConsumableEntityServiceImpl(ConsumableEntityRepository consumableEntityRepository) {
+    public ConsumableEntityServiceImpl(ConsumableEntityRepository consumableEntityRepository, SupplyService supplyService) {
         this.consumableEntityRepository = consumableEntityRepository;
+        this.supplyService = supplyService;
     }
 
     @Override
@@ -36,6 +46,11 @@ public class ConsumableEntityServiceImpl implements ConsumableEntityService{
     }
 
     @Override
+    public ConsumableEntity saveConsumableEntity(ConsumableEntity consumableEntity) {
+        return consumableEntityRepository.save(consumableEntity);
+    }
+
+    @Override
     @Transactional
     public ConsumableEntityDTO addConsumable(ConsumableEntityDTO consumableEntityDTO) {
         if (consumableEntityDTO.getId() != null) {
@@ -43,8 +58,51 @@ public class ConsumableEntityServiceImpl implements ConsumableEntityService{
         }
         ConsumableEntity consumableEntity = consumableEntityMapper.toEntity(consumableEntityDTO);
         consumableEntity = consumableEntityRepository.save(consumableEntity);
+        addWeightUnitToConsumable(consumableEntity.getWeightUnit(), consumableEntity);
+        addCountingUnitToConsumable(consumableEntity.getCountingUnit(), consumableEntity);
+
         return consumableEntityMapper.toDTO(consumableEntity);
     }
+
+
+    @Override
+    @Transactional
+    public Supply addWeightUnitToConsumable(WeightUnitEntity weightUnit, ConsumableEntity consumable) {
+        return saveConsumableEntity((ConsumableEntity) supplyService.addWeightUnitToSupply(weightUnit, consumable));
+    }
+
+    @Override
+    @Transactional
+    public ConsumableEntityDTO removeWeightUnitFromConsumable(Long consumableEntityId) {
+        return consumableEntityMapper.toDTO(saveConsumableEntity((ConsumableEntity) supplyService.removeWeightUnitFromSupply(getConsumableEntityById(consumableEntityId))));
+    }
+
+    @Override
+    @Transactional
+    public Supply addCountingUnitToConsumable(CountingUnitEntity countingUnit, ConsumableEntity consumable) {
+        return saveConsumableEntity((ConsumableEntity) supplyService.addCountingUnitToSupply(countingUnit, consumable));
+    }
+
+    @Override
+    @Transactional
+    public ConsumableEntityDTO removeCountingUnitFromConsumable(Long consumableEntityId) {
+        return consumableEntityMapper.toDTO(saveConsumableEntity((ConsumableEntity) supplyService.removeCountingUnitFromSupply(getConsumableEntityById(consumableEntityId))));
+    }
+
+    @Override
+    @Transactional
+    public Supply addBatchToConsumable(BatchEntity batchEntity, ConsumableEntity consumable) {
+//        return saveConsumableEntity((ConsumableEntity) supplyService.addBatchToSupply(batchEntity, consumable));
+        return null;
+    }
+
+//    @Override
+//    @Transactional
+//    public ConsumableEntityDTO removeBatchFromConsumable(Long consumableEntityId, Long batchEntityId) {
+//
+//        return consumableEntityMapper.toDTO(saveConsumableEntity((ConsumableEntity) supplyService.removeBatchFromSupply(getConsumableEntityById(consumableEntityId),)));
+//    }
+
 
     @Override
     @Transactional
