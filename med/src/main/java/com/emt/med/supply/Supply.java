@@ -2,6 +2,7 @@ package com.emt.med.supply;
 
 import com.emt.med.batch.BatchEntity;
 import com.emt.med.countingUnit.CountingUnitEntity;
+import com.emt.med.location.Location;
 import com.emt.med.medicationBatch.MedicationBatchEntity;
 import com.emt.med.order.OrderEntity;
 import com.emt.med.weightUnit.WeightUnitEntity;
@@ -32,6 +33,9 @@ public abstract class Supply {
     private CountingUnitEntity countingUnit;
     @ManyToMany
     private List<OrderEntity> orders;
+    @ManyToOne
+    @JsonBackReference("location-supply")
+    private Location location;
 
 
 }

@@ -6,6 +6,7 @@ import com.emt.med.batch.BatchEntityService;
 import com.emt.med.countingUnit.CountingUnitEntity;
 import com.emt.med.countingUnit.CountingUnitEntityService;
 
+import com.emt.med.location.Location;
 import com.emt.med.medicationBatch.MedicationBatchEntityService;
 
 import com.emt.med.weightUnit.WeightUnitEntity;
@@ -104,52 +105,17 @@ public class SupplyServiceImpl implements SupplyService{
         return supply;
     }
 
-//    @Override
-//    @Transactional
-//    public Supply addBatchesToSupply(List<BatchEntity> batchEntities, Supply supply) {
-//        if (batchEntities != null && batchEntities.size()>0) {
-//
-//            if (supply.getBatches() == null) {
-//                supply.setBatches(new ArrayList<BatchEntity>());
-//            }
-//
-//            for (BatchEntity batchEntity : batchEntities) {
-//                boolean instanceofMedicationBatch = batchEntityService.isMedicationBatch(batchEntity);
-//
-//                if (batchEntity.getId() == null) {
-//                    batchEntity = (instanceofMedicationBatch) ? batchEntityService.saveBatch(batchEntity) : medicationBatchEntityService.saveMedicationBatch((MedicationBatchEntity) batchEntity);
-//                }
-//
-//
-//                if (isMedicine(supply) && instanceofMedicationBatch )  {
-//
-//                    supply.getBatches().add((MedicationBatchEntity)batchEntity);
-//
-//                } else if ((!isMedicine(supply)) && (!instanceofMedicationBatch)){
-//                    supply.getBatches().add(batchEntity);
-//                }else {
-//                    throw new RuntimeException("Error: a batch must be assigned to a consumable and a medication batch with a medicine only ");
-//                }
-//
-//                batchEntity.setSupply(supply);
-//            }
-//        }
-//        return supply;
-//    }
+    @Override
+    @Transactional
+    public Supply addLocationToSupply(Location location, Supply supply) {
+        if (location.getSupplyList() == null){
+            location.setSupplyList(new ArrayList<Supply>());
+        }
 
-//    @Override
-//    @Transactional
-//    public Supply removeBatchFromSupply(Supply supply, BatchEntity batchEntity) {
-//
-//        supply.getBatches().remove(batchEntity);
-//        batchEntity.setSupply(null);
-//
-//        if (batchEntityService.isMedicationBatch(batchEntity)){
-//            medicationBatchEntityService.saveMedicationBatch((MedicationBatchEntity) batchEntity);
-//        } else{
-//            batchEntityService.saveBatch(batchEntity);
-//        }
-//
-//        return supply;
-//    }
+        supply.setLocation(location);
+        location.getSupplyList().add(supply);
+
+        return supply;
+    }
+
 }

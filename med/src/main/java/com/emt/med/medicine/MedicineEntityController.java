@@ -59,4 +59,9 @@ public class MedicineEntityController {
     public ResponseEntity removeMedicationBatchFromMedicine(@PathVariable("idMedicine") Long idMedicine, @PathVariable("idMedicationBatch") Long idMedicationBatch) {
         return new ResponseEntity<MedicineEntityDTO>(medicineEntityService.removeMedicationBatchFromMedicine(idMedicine, idMedicationBatch), HttpStatus.OK);
     }
+
+    @DeleteMapping("/{idMedicine}/location/{idLocation}")
+    public ResponseEntity removeLocationFromMedicine(@PathVariable("idMedicine") Long idMedicine, @PathVariable("idLocation") Long idLocation) {
+        return new ResponseEntity<MedicineEntityDTO>(medicineEntityService.removeLocationFromMedicine(idMedicine, idLocation), HttpStatus.OK);
+    }
 }

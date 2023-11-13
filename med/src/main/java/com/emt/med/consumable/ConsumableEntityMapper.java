@@ -2,6 +2,7 @@ package com.emt.med.consumable;
 
 import com.emt.med.batch.BatchEntityMapper;
 import com.emt.med.countingUnit.CountingUnitEntityMapper;
+import com.emt.med.location.LocationMapper;
 import com.emt.med.medicine.MedicineEntity;
 import com.emt.med.medicine.MedicineEntityDTO;
 import com.emt.med.order.OrderEntityMapper;
@@ -11,7 +12,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper( uses = {OrderEntityMapper.class, WeightUnitEntityMapper.class, CountingUnitEntityMapper.class, BatchEntityMapper.class,})
+@Mapper( uses = {OrderEntityMapper.class, WeightUnitEntityMapper.class, CountingUnitEntityMapper.class, BatchEntityMapper.class, LocationMapper.class})
 public interface ConsumableEntityMapper {
     ConsumableEntityMapper INSTANCE = Mappers.getMapper( ConsumableEntityMapper.class );
 

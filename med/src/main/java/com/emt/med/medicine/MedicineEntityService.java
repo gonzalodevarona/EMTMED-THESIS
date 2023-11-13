@@ -32,6 +32,8 @@ public interface MedicineEntityService {
 
     MedicineEntityDTO removeMedicationBatchFromMedicine(Long medicineId, Long medicationBatchId);
 
+    MedicineEntityDTO removeLocationFromMedicine(Long medicineId, Long locationId);
+
 
     MedicineEntityDTO updateMedicine(MedicineEntityDTO medicineEntityDTO);
 

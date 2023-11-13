@@ -4,6 +4,8 @@ package com.emt.med.medicine;
 import com.emt.med.batch.BatchEntity;
 import com.emt.med.consumable.ConsumableEntity;
 import com.emt.med.countingUnit.CountingUnitEntity;
+import com.emt.med.location.Location;
+import com.emt.med.location.LocationRepository;
 import com.emt.med.medicationBatch.MedicationBatchEntity;
 import com.emt.med.medicationBatch.MedicationBatchEntityRepository;
 import com.emt.med.medicationBatch.MedicationBatchEntityService;
@@ -27,16 +29,17 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
 
     private SupplyService supplyService;
 
-    private MedicationBatchEntityService medicationBatchEntityService;
     private MedicationBatchEntityRepository medicationBatchEntityRepository;
+
+    private LocationRepository locationRepository;
 
     static MedicineEntityMapper medicineEntityMapper = Mappers.getMapper(MedicineEntityMapper.class);
 
-    public MedicineEntityServiceImpl(MedicineEntityRepository medicineEntityRepository, SupplyService supplyService, MedicationBatchEntityService medicationBatchEntityService, MedicationBatchEntityRepository medicationBatchEntityRepository) {
+    public MedicineEntityServiceImpl(MedicineEntityRepository medicineEntityRepository, SupplyService supplyService, MedicationBatchEntityRepository medicationBatchEntityRepository, LocationRepository locationRepository) {
         this.medicineEntityRepository = medicineEntityRepository;
         this.supplyService = supplyService;
-        this.medicationBatchEntityService = medicationBatchEntityService;
         this.medicationBatchEntityRepository = medicationBatchEntityRepository;
+        this.locationRepository = locationRepository;
     }
 
     @Override
@@ -66,7 +69,7 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
         addWeightUnitToMedicine(medicineEntity.getWeightUnit(), medicineEntity);
         addCountingUnitToMedicine(medicineEntity.getCountingUnit(), medicineEntity);
         addMedicationBatchesToMedicine(medicineEntity.getBatches(), medicineEntity);
-
+        addLocationToMedicine(medicineEntity.getLocation(), medicineEntity);
         return medicineEntityMapper.toDTO(medicineEntity);
     }
 
@@ -92,6 +95,11 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
     @Transactional
     public MedicineEntityDTO removeCountingUnitFromMedicine(Long medicineEntityId) {
         return medicineEntityMapper.toDTO(saveMedicineEntity((MedicineEntity) supplyService.removeCountingUnitFromSupply(getMedicineEntityById(medicineEntityId))));
+    }
+
+    @Transactional
+    public Supply addLocationToMedicine(Location location, MedicineEntity medicine) {
+        return saveMedicineEntity((MedicineEntity) supplyService.addLocationToSupply(location, medicine));
     }
 
 
@@ -129,6 +137,7 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
 
 
     @Override
+    @Transactional
     public MedicineEntityDTO removeMedicationBatchFromMedicine(Long medicineId, Long medicationBatchId) {
         MedicineEntity medicine = medicineEntityRepository.findById(medicineId).orElseThrow(() -> new RuntimeException("No medicine entity found with id "+medicineId));
         MedicationBatchEntity medicationBatchEntity = medicationBatchEntityRepository.findById(medicationBatchId).orElseThrow(() -> new RuntimeException("No medication batch entity found with id "+medicationBatchId));
@@ -140,6 +149,17 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
         return medicineEntityMapper.toDTO(saveMedicineEntity(medicine));
     }
 
+    @Override
+    @Transactional
+    public MedicineEntityDTO removeLocationFromMedicine(Long medicineId, Long locationId) {
+        MedicineEntity medicine = medicineEntityRepository.findById(medicineId).orElseThrow(() -> new RuntimeException("No medicine entity found with id "+medicineId));
+        Location location = locationRepository.findById(locationId).orElseThrow(() -> new RuntimeException("No location found with id "+locationId));
+
+        medicine.setLocation(null);
+        location.getSupplyList().remove(medicine);
+
+        return medicineEntityMapper.toDTO(saveMedicineEntity(medicine));
+    }
 
 
     @Override

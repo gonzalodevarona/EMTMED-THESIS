@@ -51,16 +51,6 @@ public class WeightUnitEntityServiceImpl implements WeightUnitEntityService {
         return weightUnitEntityMapper.toDTO(saveWeightUnitEntity(weightUnitEntity));
     }
 
-    public WeightUnitEntityDTO addSupply(WeightUnitEntity weightUnit, Supply supply) {
-        weightUnit.getSupplyList().add(supply);
-        return weightUnitEntityMapper.toDTO(saveWeightUnitEntity(weightUnit));
-    }
-
-    public WeightUnitEntityDTO removeSupply(WeightUnitEntity weightUnit, Supply supply) {
-        weightUnit.getSupplyList().remove(supply);
-        return weightUnitEntityMapper.toDTO(saveWeightUnitEntity(weightUnit));
-    }
-
     @Override
     @Transactional
     public WeightUnitEntity saveWeightUnitEntity(WeightUnitEntity weightUnit) {

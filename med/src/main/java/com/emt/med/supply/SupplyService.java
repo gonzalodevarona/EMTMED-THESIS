@@ -3,6 +3,7 @@ package com.emt.med.supply;
 
 import com.emt.med.batch.BatchEntity;
 import com.emt.med.countingUnit.CountingUnitEntity;
+import com.emt.med.location.Location;
 import com.emt.med.medicine.MedicineEntity;
 import com.emt.med.medicine.MedicineEntityDTO;
 import com.emt.med.weightUnit.WeightUnitEntity;
@@ -24,6 +25,9 @@ public interface SupplyService {
     Supply addCountingUnitToSupply(CountingUnitEntity countingUnit, Supply supply);
 
     Supply removeCountingUnitFromSupply(Supply supply);
+
+    // Location
+    Supply addLocationToSupply(Location location, Supply supply);
    
 
     
