@@ -54,4 +54,9 @@ public class ConsumableEntityController {
     public ResponseEntity removeCountingUnitFromConsumable(@PathVariable("id") Long id) {
         return new ResponseEntity<ConsumableEntityDTO>(consumableEntityService.removeCountingUnitFromConsumable(id), HttpStatus.OK);
     }
+
+    @DeleteMapping("/{idConsumable}/batch/{idBatch}")
+    public ResponseEntity removeBatchFromConsumable(@PathVariable("idConsumable") Long idConsumable, @PathVariable("idBatch") Long idBatch) {
+        return new ResponseEntity<ConsumableEntityDTO>(consumableEntityService.removeBatchFromConsumable(idConsumable, idBatch), HttpStatus.OK);
+    }
 }

@@ -124,8 +124,15 @@ public class ConsumableEntityServiceImpl implements ConsumableEntityService{
 
     @Override
     @Transactional
-    public ConsumableEntity removeBatchFromMedicine(ConsumableEntity consumable, BatchEntity batchEntity) {
-        return null;
+    public ConsumableEntityDTO removeBatchFromConsumable(Long consumableEntityId, Long batchEntityId) {
+        ConsumableEntity consumable = consumableEntityRepository.findById(consumableEntityId).orElseThrow(() -> new RuntimeException("No consumable entity found with id "+consumableEntityId));
+        BatchEntity batchEntity = batchEntityRepository.findById(batchEntityId).orElseThrow(() -> new RuntimeException("No batch entity found with id "+batchEntityId));
+
+        consumable.getBatches().remove(batchEntity);
+
+        batchEntity.setConsumable(null);
+
+        return consumableEntityMapper.toDTO(saveConsumableEntity(consumable));
     }
 
 

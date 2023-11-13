@@ -32,7 +32,7 @@ public interface ConsumableEntityService {
     // Batches
     ConsumableEntity addBatchesToConsumable(List<BatchEntity> batchEntities, ConsumableEntity consumable);
 
-    ConsumableEntity removeBatchFromMedicine(ConsumableEntity consumable, BatchEntity batchEntity);
+    ConsumableEntityDTO removeBatchFromConsumable(Long consumableEntityId, Long batchEntityId);
 
 
     ConsumableEntityDTO updateConsumable(ConsumableEntityDTO consumableEntityDTO);

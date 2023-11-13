@@ -30,7 +30,7 @@ public interface MedicineEntityService {
     // Medication Batches
     MedicineEntity addMedicationBatchesToMedicine(List<MedicationBatchEntity> medicationBatchEntities, MedicineEntity medicine);
 
-    MedicineEntity removeMedicationBatchFromMedicine(MedicineEntity medicine, MedicationBatchEntity medicationBatchEntity);
+    MedicineEntityDTO removeMedicationBatchFromMedicine(Long medicineId, Long medicationBatchId);
 
 
     MedicineEntityDTO updateMedicine(MedicineEntityDTO medicineEntityDTO);

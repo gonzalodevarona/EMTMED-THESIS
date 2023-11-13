@@ -1,5 +1,6 @@
 package com.emt.med.medicine;
 
+import com.emt.med.consumable.ConsumableEntityDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,7 @@ import java.util.List;
 @RequestMapping("/medicines")
 public class MedicineEntityController {
     
-    private MedicineEntityServiceImpl medicineEntityService;
+    private MedicineEntityService medicineEntityService;
 
     public MedicineEntityController(MedicineEntityServiceImpl medicineEntityService) {
         this.medicineEntityService = medicineEntityService;
@@ -52,5 +53,10 @@ public class MedicineEntityController {
     @DeleteMapping("/{id}/countingUnit")
     public ResponseEntity removeCountingUnitFromMedicine(@PathVariable("id") Long id) {
         return new ResponseEntity<MedicineEntityDTO>(medicineEntityService.removeCountingUnitFromMedicine(id), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{idMedicine}/medicationBatch/{idMedicationBatch}")
+    public ResponseEntity removeMedicationBatchFromMedicine(@PathVariable("idMedicine") Long idMedicine, @PathVariable("idMedicationBatch") Long idMedicationBatch) {
+        return new ResponseEntity<MedicineEntityDTO>(medicineEntityService.removeMedicationBatchFromMedicine(idMedicine, idMedicationBatch), HttpStatus.OK);
     }
 }

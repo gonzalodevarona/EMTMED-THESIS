@@ -2,6 +2,7 @@ package com.emt.med.medicine;
 
 
 import com.emt.med.batch.BatchEntity;
+import com.emt.med.consumable.ConsumableEntity;
 import com.emt.med.countingUnit.CountingUnitEntity;
 import com.emt.med.medicationBatch.MedicationBatchEntity;
 import com.emt.med.medicationBatch.MedicationBatchEntityRepository;
@@ -128,8 +129,15 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
 
 
     @Override
-    public MedicineEntity removeMedicationBatchFromMedicine(MedicineEntity medicine, MedicationBatchEntity medicationBatchEntity) {
-        return null;
+    public MedicineEntityDTO removeMedicationBatchFromMedicine(Long medicineId, Long medicationBatchId) {
+        MedicineEntity medicine = medicineEntityRepository.findById(medicineId).orElseThrow(() -> new RuntimeException("No medicine entity found with id "+medicineId));
+        MedicationBatchEntity medicationBatchEntity = medicationBatchEntityRepository.findById(medicationBatchId).orElseThrow(() -> new RuntimeException("No medication batch entity found with id "+medicationBatchId));
+
+        medicine.getBatches().remove(medicationBatchEntity);
+
+        medicationBatchEntity.setMedicine(null);
+
+        return medicineEntityMapper.toDTO(saveMedicineEntity(medicine));
     }
 
 
