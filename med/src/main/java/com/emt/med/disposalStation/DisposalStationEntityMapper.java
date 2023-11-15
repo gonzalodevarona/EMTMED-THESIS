@@ -1,9 +1,11 @@
 package com.emt.med.disposalStation;
 
+import com.emt.med.location.LocationMapper;
+import com.emt.med.supply.SupplyMapper;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(uses = {SupplyMapper.class, LocationMapper.class})
 public interface DisposalStationEntityMapper {
 
     DisposalStationEntityMapper INSTANCE = Mappers.getMapper( DisposalStationEntityMapper.class );

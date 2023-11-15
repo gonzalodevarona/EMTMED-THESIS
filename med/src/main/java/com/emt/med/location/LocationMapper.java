@@ -4,6 +4,7 @@ import com.emt.med.consumable.ConsumableEntity;
 import com.emt.med.consumable.ConsumableEntityDTO;
 import com.emt.med.disposalStation.DisposalStationEntity;
 import com.emt.med.disposalStation.DisposalStationEntityDTO;
+import com.emt.med.inventoryOrder.InventoryOrderEntityMapper;
 import com.emt.med.medicine.MedicineEntity;
 import com.emt.med.medicine.MedicineEntityDTO;
 import com.emt.med.pharmacy.PharmacyEntity;
@@ -14,7 +15,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(uses = {SupplyMapper.class})
+@Mapper(uses = {SupplyMapper.class, InventoryOrderEntityMapper.class})
 public interface LocationMapper {
 
     LocationMapper INSTANCE = Mappers.getMapper( LocationMapper.class );
@@ -22,6 +23,8 @@ public interface LocationMapper {
     @SubclassMapping( source = DisposalStationEntity.class, target = DisposalStationEntityDTO.class )
     @SubclassMapping( source = PharmacyEntity.class, target = PharmacyEntityDTO.class )
     @Mapping(target = "supplyDTOList", ignore = true)
+    @Mapping(target = "destinationList", ignore = true)
+    @Mapping(target = "sourceList", ignore = true)
     LocationDTO toDTO(Location location);
 
     @InheritInverseConfiguration

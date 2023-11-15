@@ -1,5 +1,6 @@
 package com.emt.med.inventoryOrder;
 
+import com.emt.med.location.LocationDTO;
 import com.emt.med.order.OrderEntityDTO;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -13,4 +14,8 @@ public class InventoryOrderEntityDTO extends OrderEntityDTO {
     @NotNull(message = "inventory order type shouldn't be null")
     private InventoryOrderType type;
     private String note;
+    @NotNull(message = "destination shouldn't be null")
+    private LocationDTO destination;
+    @NotNull(message = "source shouldn't be null")
+    private LocationDTO source;
 }

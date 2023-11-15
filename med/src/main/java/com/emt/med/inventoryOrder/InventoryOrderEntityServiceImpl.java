@@ -1,5 +1,6 @@
 package com.emt.med.inventoryOrder;
 
+import jakarta.transaction.Transactional;
 import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -32,17 +33,24 @@ public class InventoryOrderEntityServiceImpl implements InventoryOrderEntityServ
     }
 
     @Override
+    @Transactional
     public InventoryOrderEntityDTO addInventoryOrder(InventoryOrderEntityDTO inventoryOrderEntityDTO) {
 
         if (inventoryOrderEntityDTO.getId() != null) {
             throw new RuntimeException("A new inventory order cannot already have an ID");
         }
         InventoryOrderEntity inventoryOrderEntity = inventoryOrderEntityMapper.toEntity(inventoryOrderEntityDTO);
+        if (inventoryOrderEntity.getSource() == null || inventoryOrderEntity.getDestination() == null){
+            throw new RuntimeException("A new inventory order must have a source and a destination");
+        } else if (inventoryOrderEntity.getSource().getId() == inventoryOrderEntity.getDestination().getId()){
+            throw new RuntimeException("A new inventory order cannot have the same source and destination");
+        }
         inventoryOrderEntity = inventoryOrderEntityRepository.save(inventoryOrderEntity);
         return inventoryOrderEntityMapper.toDTO(inventoryOrderEntity);
     }
 
     @Override
+    @Transactional
     public InventoryOrderEntityDTO updateInventoryOrder(InventoryOrderEntityDTO inventoryOrderEntityDTO) {
         InventoryOrderEntity existingBatchEntity = inventoryOrderEntityRepository.findById(inventoryOrderEntityDTO.getId()).orElseThrow(() -> new RuntimeException("No inventory order found with id "+inventoryOrderEntityDTO.getId()));
         inventoryOrderEntityMapper.updateInventoryOrderFromDTO(inventoryOrderEntityDTO, existingBatchEntity);
@@ -50,6 +58,7 @@ public class InventoryOrderEntityServiceImpl implements InventoryOrderEntityServ
     }
 
     @Override
+    @Transactional
     public void deleteInventoryOrder(Long id) {
         inventoryOrderEntityRepository.deleteById(id);
     }

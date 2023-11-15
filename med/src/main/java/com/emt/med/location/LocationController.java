@@ -23,10 +23,6 @@ public class LocationController {
         this.locationService = locationService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<LocationDTO>> getAllInventoryOrders() {
-        return ResponseEntity.ok(locationService.getAllLocations());
-    }
     @GetMapping("/{id}")
     public ResponseEntity<LocationDTO> getLocationById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(locationService.getLocationDTOById(id));
@@ -37,10 +33,6 @@ public class LocationController {
         return new ResponseEntity<LocationDTO>(locationMapper.toDTO(locationRepository.save(locationMapper.toEntity(locationDTO))), HttpStatus.CREATED);
     }
 
-    @PutMapping()
-    public ResponseEntity<LocationDTO> updateLocation(@Valid @RequestBody LocationDTO locationDTO) {
-        return ResponseEntity.ok(locationService.updateLocation(locationDTO));
-    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteInventoryOrder(@PathVariable("id") Long id) {
