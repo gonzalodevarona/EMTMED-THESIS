@@ -1,17 +1,14 @@
 package com.emt.med.supply;
 
-import com.emt.med.batch.BatchEntity;
 import com.emt.med.countingUnit.CountingUnitEntity;
 import com.emt.med.location.Location;
-import com.emt.med.medicationBatch.MedicationBatchEntity;
 import com.emt.med.order.OrderEntity;
 import com.emt.med.weightUnit.WeightUnitEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -32,8 +29,8 @@ public abstract class Supply {
     @JsonBackReference("countingUnit-supply")
     private CountingUnitEntity countingUnit;
     @ManyToMany
-    private List<OrderEntity> orders;
-    @ManyToOne
+    private Set<OrderEntity> orders;
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JsonBackReference("location-supply")
     private Location location;
 

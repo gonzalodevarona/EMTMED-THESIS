@@ -22,7 +22,7 @@ public interface LocationMapper {
 
     @SubclassMapping( source = DisposalStationEntity.class, target = DisposalStationEntityDTO.class )
     @SubclassMapping( source = PharmacyEntity.class, target = PharmacyEntityDTO.class )
-    @Mapping(target = "supplyDTOList", ignore = true)
+    @Mapping(target = "supplyList", ignore = true)
     @Mapping(target = "destinationList", ignore = true)
     @Mapping(target = "sourceList", ignore = true)
     LocationDTO toDTO(Location location);

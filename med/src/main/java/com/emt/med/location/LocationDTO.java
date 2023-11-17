@@ -31,7 +31,7 @@ public class LocationDTO {
     private Long id;
     @NotBlank(message = "name shouldn't be blank")
     private String name;
-    private List<SupplyDTO> supplyDTOList;
+    private List<SupplyDTO> supplyList;
     private List<InventoryOrderEntityDTO> destinationList;
     private List<InventoryOrderEntityDTO> sourceList;
 }

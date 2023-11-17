@@ -10,7 +10,7 @@ public interface PharmacyEntityMapper {
 
     PharmacyEntityMapper INSTANCE = Mappers.getMapper( PharmacyEntityMapper.class );
 
-    @Mapping(target = "supplyDTOList", ignore = true)
+    @Mapping(target = "supplyList", ignore = true)
     PharmacyEntityDTO toDTO(PharmacyEntity pharmacyEntity);
 
     @Mapping(target = "supplyList", ignore = true)

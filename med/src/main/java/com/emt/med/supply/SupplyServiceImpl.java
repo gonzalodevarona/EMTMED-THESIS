@@ -7,6 +7,7 @@ import com.emt.med.countingUnit.CountingUnitEntity;
 import com.emt.med.countingUnit.CountingUnitEntityService;
 
 import com.emt.med.location.Location;
+import com.emt.med.location.LocationService;
 import com.emt.med.medicationBatch.MedicationBatchEntityService;
 
 import com.emt.med.weightUnit.WeightUnitEntity;
@@ -29,19 +30,14 @@ public class SupplyServiceImpl implements SupplyService{
     // *** Counting Unit ***
     private CountingUnitEntityService countingUnitEntityService;
 
-    // *** Batch ***
-    private BatchEntityService batchEntityService;
+    // *** Location ***
+    private LocationService locationService;
 
-    // *** Medication Batch ***
-    private MedicationBatchEntityService medicationBatchEntityService;
-
-    public SupplyServiceImpl(WeightUnitEntityService weightUnitEntityService, CountingUnitEntityService countingUnitEntityService, BatchEntityService batchEntityService, MedicationBatchEntityService medicationBatchEntityService) {
+    public SupplyServiceImpl(WeightUnitEntityService weightUnitEntityService, CountingUnitEntityService countingUnitEntityService, LocationService locationService) {
         this.weightUnitEntityService = weightUnitEntityService;
         this.countingUnitEntityService = countingUnitEntityService;
-        this.batchEntityService = batchEntityService;
-        this.medicationBatchEntityService = medicationBatchEntityService;
+        this.locationService = locationService;
     }
-
 
     @Override
     @Transactional
@@ -105,16 +101,12 @@ public class SupplyServiceImpl implements SupplyService{
         return supply;
     }
 
+
     @Override
-    @Transactional
-    public Supply addLocationToSupply(Location location, Supply supply) {
-        if (location.getSupplyList() == null){
-            location.setSupplyList(new ArrayList<Supply>());
-        }
-
-        supply.setLocation(location);
-        location.getSupplyList().add(supply);
-
+    public Supply addRelationships(Supply supply) {
+        supply.setCountingUnit(countingUnitEntityService.getCountingUnitById(supply.getCountingUnit().getId()));
+        supply.setWeightUnit(weightUnitEntityService.getWeightUnitById(supply.getWeightUnit().getId()));
+        supply.setLocation(locationService.getLocationById(supply.getLocation().getId()));
         return supply;
     }
 

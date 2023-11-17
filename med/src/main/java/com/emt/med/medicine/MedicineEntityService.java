@@ -19,11 +19,9 @@ public interface MedicineEntityService {
 
     MedicineEntity saveMedicineEntity(MedicineEntity medicineEntity);
 
-    Supply addWeightUnitToMedicine(WeightUnitEntity weightUnit, MedicineEntity medicine);
 
     MedicineEntityDTO removeWeightUnitFromMedicine(Long medicineEntityId);
 
-    Supply addCountingUnitToMedicine(CountingUnitEntity countingUnit, MedicineEntity medicine);
 
     MedicineEntityDTO removeCountingUnitFromMedicine(Long medicineEntityId);
 

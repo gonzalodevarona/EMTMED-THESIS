@@ -10,7 +10,7 @@ public interface DisposalStationEntityMapper {
 
     DisposalStationEntityMapper INSTANCE = Mappers.getMapper( DisposalStationEntityMapper.class );
 
-    @Mapping(target = "supplyDTOList", ignore = true)
+    @Mapping(target = "supplyList", ignore = true)
     DisposalStationEntityDTO toDTO(DisposalStationEntity disposalStationEntity);
 
     @Mapping(target = "supplyList", ignore = true)

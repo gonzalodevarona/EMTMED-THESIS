@@ -1,5 +1,5 @@
 package com.emt.med.inventoryOrder;
 
-public enum InventoryOrderType {
+public enum InventoryOrderOperation {
     ENTRY, EXIT, TRANSFER
 }

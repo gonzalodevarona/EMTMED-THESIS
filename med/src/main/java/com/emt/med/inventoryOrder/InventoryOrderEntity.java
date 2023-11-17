@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 public class InventoryOrderEntity extends OrderEntity {
 
-    private InventoryOrderType type;
+    private InventoryOrderOperation operation;
     private String note;
     @ManyToOne
     @JsonManagedReference("inventoryOrder-destination")

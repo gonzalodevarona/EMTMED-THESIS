@@ -1,11 +1,15 @@
 package com.emt.med.order;
 
+import com.emt.med.disposalStation.DisposalStationEntityDTO;
+import com.emt.med.pharmacy.PharmacyEntityDTO;
 import com.emt.med.supply.Supply;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -22,9 +26,7 @@ public abstract class OrderEntity {
     private LocalDateTime authoredOn;
 
     private OrderStatus status;
-
-
     @ManyToMany
-    private List<Supply> supplies;
+    private Set<Supply> supplies;
 
 }
