@@ -7,85 +7,73 @@ function Orders() {
   const test = [
     {
       id:1,
-      nombre:'gr',
-      x:'gr',
-      y:'gr',
+      name:'gr',
+     
     },
     {
       id:2,
-      nombre:'kg',
-      x:'gr',
-      y:'gr',
+      name:'kg',
+     
 
     },
     {
       id:2,
-      nombre:'kg',
-      x:'gr',
-      y:'gr',
+      name:'kg',
+      
       
     },
     {
         id:2,
-        nombre:'kg',
-        x:'gr',
-        y:'gr',
+        name:'kg',
+        
         
       },
       {
         id:2,
-        nombre:'kg',
-        x:'gr',
-        y:'gr',
+        name:'kg',
+        
         
       },
       {
         id:2,
-        nombre:'kg',
-        x:'gr',
-        y:'gr',
+        name:'kg',
+        
         
       },
       {
         id:2,
-        nombre:'kg',
-        x:'gr',
-        y:'gr',
+        name:'kg',
+        
         
       },
       {
         id:2,
-        nombre:'kg',
-        x:'gr',
-        y:'gr',
+        name:'kg',
+        
         
       },
       {
         id:2,
-        nombre:'kg',
-        x:'gr',
-        y:'gr',
+        name:'kg',
+        
         
       },
       {
         id:2,
-        nombre:'kg',
-        x:'gr',
-        y:'gr',
+        name:'kg',
+        
         
       },
       {
         id:2,
-        nombre:'kg',
-        x:'gr',
-        y:'gr',
+        name:'kg',
+        
         
       },
       {
         id:2,
-        nombre:'kg',
-        x:'gr',
-        y:'gr',
+        name:'kg',
+        
         
       },
       
@@ -95,7 +83,12 @@ function Orders() {
     <>
       <Header title={"Ordenes"} />
       <Button variant="contained" sx={{px:10, py:1, mb:2}} color={'info'}>Agregar orden</Button>
-      <CustomTable rows={test}></CustomTable>
+      <CustomTable
+        columns={[
+          { title: 'ID', field: 'id', type: 'numeric' },
+          { title: 'Nombre', field: 'name' }
+        ]}
+        data={test} />
       
     </>
   )

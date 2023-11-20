@@ -1,122 +1,28 @@
 import React from 'react'
-// import CustomTable from '../../components/CustomTable'
-import CustomTable from '../../components/CustomTable2'
+import CustomTable from '../../components/CustomTable'
 import Header from '../../components/Header'
-import { Box, Divider } from '@mui/material'
+import { Box, Button } from '@mui/material'
 
 function Units() {
-  const test = [
-    {
-      id: 1,
-      nombre: 'gr',
-      x: 'gr',
-      y: 'gr',
-    },
-    {
-      id: 2,
-      nombre: 'kg',
-      x: 'gr',
-      y: 'gr',
-
-    },
-    {
-      id: 2,
-      nombre: 'kg',
-      x: 'gr',
-      y: 'gr',
-
-    },
-    {
-      id: 2,
-      nombre: 'kg',
-      x: 'gr',
-      y: 'gr',
-
-    },
-    {
-      id: 2,
-      nombre: 'kg',
-      x: 'gr',
-      y: 'gr',
-
-    }, {
-      id: 2,
-      nombre: 'kg',
-      x: 'gr',
-      y: 'gr',
-
-    },
-    {
-      id: 2,
-      nombre: 'kg',
-      x: 'gr',
-      y: 'gr',
-
-    },
-    {
-      id: 2,
-      nombre: 'kg',
-      x: 'gr',
-      y: 'gr',
-
-    },
-    {
-      id: 2,
-      nombre: 'kg',
-      x: 'gr',
-      y: 'gr',
-
-    },
-    {
-      id: 2,
-      nombre: 'kg',
-      x: 'gr',
-      y: 'gr',
-
-    },
-    {
-      id: 2,
-      nombre: 'kg',
-      x: 'gr',
-      y: 'gr',
-
-    },
-    {
-      id: 2,
-      nombre: 'kg',
-      x: 'gr',
-      y: 'gr',
-
-    },
-    {
-      id: 2,
-      nombre: 'kg',
-      x: 'gr',
-      y: 'gr',
-
-    },
-
-  ]
+  const test = [{ id: 1, name: 'ola' }, { id: 2, name: 'soy yo' }]
   return (
     <>
-      {/* <Header title={"Unidad de conteo"} />
-      <CustomTable rows={test}></CustomTable>
-      
-      <Box my={3}></Box>
-      
-      
-      <Header title={"Unidad de peso"} />
-      <CustomTable rows={test}></CustomTable> */}
-
       <Header title={"Unidad de conteo"} />
+      <Button variant="contained" sx={{px:10, py:1, mb:2}} color={'info'}>Agregar unidad de conteo</Button>
       <CustomTable
         columns={[
-          { title: 'Tipo de documento', field: 'id', type: 'numeric' },
-          { title: 'Número de documento', field: 'nombre' },
-          { title: 'Nombre', field: 'x' },
-          { title: 'Apellido', field: 'y' }
+          { title: 'ID', field: 'id', type: 'numeric' },
+          { title: 'Nombre', field: 'name' }
         ]}
-        page="dashboard"
+        data={test} />
+      <Box my={5}></Box>
+      <Header title={"Unidad de peso"} />
+      <Button variant="contained" sx={{px:10, py:1, mb:2}} color={'info'}>Agregar unidad de peso</Button>
+      <CustomTable
+        columns={[
+          { title: 'ID', field: 'id', type: 'numeric' },
+          { title: 'Nombre', field: 'name' }
+        ]}
         data={test} />
     </>
   )
