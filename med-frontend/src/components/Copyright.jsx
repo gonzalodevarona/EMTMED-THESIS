@@ -5,8 +5,8 @@ export default function Copyright(props) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             {'Copyright © '}
-            <Link color="inherit" href="https://www.icesi.edu.co">
-                Universidad ICESI
+            <Link color="inherit" href="https://www.instagram.com/barcohospital">
+                EMT - Fundación Italocolombiana del Monte Tabor
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}

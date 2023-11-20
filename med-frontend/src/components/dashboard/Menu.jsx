@@ -14,6 +14,24 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 import TextFieldsIcon from '@mui/icons-material/TextFields';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 
+export default function Menu({ mobile, toggleDrawer }) {
+
+  let closeMenu = () => {
+    if (mobile) {
+      toggleDrawer();
+    }
+  };
+
+  return (
+    <>
+        {mainListItems}
+        {secondaryListItems}
+    </>
+  )
+
+}
+
+
 export const mainListItems = (
   <React.Fragment>
     <ListItemButton>

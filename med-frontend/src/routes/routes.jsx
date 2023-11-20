@@ -1,6 +1,9 @@
 import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom'
 import Dashboard from '../components/dashboard/Dashboard'
-import WeightUnit from '../pages/weightUnit/WeightUnit'
+import Units from '../pages/units/Units'
+import Orders from '../pages/orders/Orders'
+import MainLayout from '../components/MainLayout'
+import DetailLayout from '../components/DetailLayout'
 
 export default function Routes() {
 
@@ -17,8 +20,16 @@ export default function Routes() {
                     element: <Navigate to="/" />
                 },
                 {
-                    path: "/",
-                    element: <WeightUnit />
+                    path: "/unidades",
+                    element: <Units />
+                },
+                {
+                    path: "/ordenes",
+                    element: <Orders />
+                },
+                {
+                    path: "/t",
+                    element: <DetailLayout singleData={{id:2, name:'melo'}}  title='test'/>
                 },
 
             ]
