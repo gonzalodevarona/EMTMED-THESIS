@@ -88,6 +88,7 @@ function Orders() {
           { title: 'ID', field: 'id', type: 'numeric' },
           { title: 'Nombre', field: 'name' }
         ]}
+        entity='ordenes'
         data={test} />
       
     </>

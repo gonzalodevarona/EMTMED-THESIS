@@ -1,27 +1,33 @@
 import { Box, Button, Grid, Stack, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import Header from './Header';
+import { useParams } from "react-router-dom";
 import { capitalizeFirstLetter } from '../utils/CommonMethods';
+import { Link } from 'react-router-dom';
 
-function DetailLayout({ singleData, title }) {
+function DetailLayout({ title }) {
 
 
+    const [data, setData] = useState({})
     const [firstHalf, setFirstHalf] = useState([])
     const [secondHalf, setSecondHalf] = useState([])
+
+    let { id } = useParams();
 
 
 
 
     useEffect(() => {
+
         function splitArray() {
-            if (Object.keys(singleData).length > 3) {
-                const half = Object.keys(singleData).length / 2;
+            if (Object.keys(data).length > 3) {
+                const half = Object.keys(data).length / 2;
 
 
                 const tempFirstHalf = [];
                 const tempSecondHalf = [];
 
-                Object.entries(singleData).forEach(([key, value], index) => {
+                Object.entries(data).forEach(([key, value], index) => {
                     if (index < half) {
                         tempFirstHalf.push({ [key]: value });
                     } else {
@@ -35,15 +41,17 @@ function DetailLayout({ singleData, title }) {
             }
         }
 
+        setData({ id: 1, name: 'benji' })
+
         splitArray();
     }, []);
 
 
     return (
         <>
-            <Header title={`${title} #${singleData.id}`} />
+            <Header title={`${title} #${id}`} />
 
-            {Object.keys(singleData).length > 3 ? (
+            {Object.keys(data).length > 3 ? (
                 <Grid container>
                     <Grid item xs={6}>
                         {firstHalf.map((item, index) => (
@@ -71,7 +79,7 @@ function DetailLayout({ singleData, title }) {
                 </Grid>
             ) : (
                 <Stack>
-                    {Object.entries(singleData).map(([key, value]) => (
+                    {Object.entries(data).map(([key, value]) => (
                         <Stack m={3} key={key}>
                             <Typography fontWeight='bold' variant='subtitle1'>{capitalizeFirstLetter(key)}</Typography>
                             <Typography>{value}</Typography>
@@ -80,7 +88,13 @@ function DetailLayout({ singleData, title }) {
                 </Stack>
             )}
 
-            <Button sx={{ px: 9, py: 1, mr: 2 }} color='info' variant='contained'>
+        
+            <Button
+                component={Link}
+                to={`/unidadesconteo/editar/${id}`}
+                variant="contained"
+                sx={{ px: 9, py: 1, mr: 2 }}
+                color={'info'}>
                 Editar
             </Button>
             <Button sx={{ px: 8, py: 1, ml: 2 }} color='error' variant='contained'>

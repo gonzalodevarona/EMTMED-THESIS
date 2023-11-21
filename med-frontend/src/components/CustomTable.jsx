@@ -1,6 +1,5 @@
 import MaterialTable from 'material-table';
 import { forwardRef } from "react";
-import { ThemeProvider } from '@mui/material/styles';
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import Check from '@material-ui/icons/Check';
@@ -8,12 +7,6 @@ import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import ChevronRight from '@material-ui/icons/ChevronRight';
 import Clear from '@material-ui/icons/Clear';
 import DeleteOutline from '@material-ui/icons/DeleteOutline';
-import DeleteIcon from '@mui/icons-material/Delete';
-import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
-import EditRoundedIcon from '@mui/icons-material/EditRounded';
-import GetAppIcon from '@mui/icons-material/GetApp';
-import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
-import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import Edit from '@material-ui/icons/Edit';
 import FilterList from '@material-ui/icons/FilterList';
 import FirstPage from '@material-ui/icons/FirstPage';
@@ -23,23 +16,21 @@ import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import { Box } from "@mui/material";
-import { useNavigate } from 'react-router-dom';
-
+import RedirectFunction from '../utils/RedirectFunction';
 import { Typography } from '@mui/material';
 import { Delete } from '@mui/icons-material';
+import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2'
 
 
 
 
 
-function CustomTable({ title, sx, columns, data, handleEdit, handleDelete, deleteable, editable }) {
 
-
+function CustomTable({ entity, sx, columns, data, singleEntity, handleDelete, deleteable, editable }) {
     const navigate = useNavigate();
 
-    const handleRedirectClick = (route) => {
-        navigate('/isc/'+route)
-    };
+
 
     const tableIcons = {
 
@@ -63,18 +54,35 @@ function CustomTable({ title, sx, columns, data, handleEdit, handleDelete, delet
     };
 
 
-    
+
 
     const editAction = {
         icon: () => <Edit color="primary" fontSize='medium' />,
         tooltip: 'Editar',
-        onClick: (event, rowData) => handleRedirectClick('ticket/edit')
+        onClick: (event, rowData) => navigate(`/${entity}/editar/${rowData.id}`)
     }
 
     const deleteAction = {
         icon: () => <Delete color="error" fontSize='medium' />,
         tooltip: 'Eliminar',
-        onClick: (event, rowData) => TicketService.getTicketsByRaffleIdAndStatus(rowData.id, 'available')
+        onClick: (event, rowData) => Swal.fire({
+            title: `Eliminar ${singleEntity} con ID ${rowData.id}`,
+            text: "¿Estas seguro que quieres eliminarlo?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#f44336",
+            confirmButtonText: "Borrar",
+            cancelButtonText: "Cancelar",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+            function (isConfirm) {
+                if (isConfirm) {
+                    form.submit();          // submitting the form when user press yes
+                } else {
+                    Swal.fire("Cancelled", "Your imaginary file is safe :)", "error");
+                }
+            })
     }
 
 
@@ -86,70 +94,68 @@ function CustomTable({ title, sx, columns, data, handleEdit, handleDelete, delet
 
         editable == false ? null : actions.push(editAction);
         deleteable == false ? null : actions.push(deleteAction);
-        
 
         return actions;
     }
 
     return (
-        
-            <Box sx={sx}>
-                <MaterialTable
-                    icons={tableIcons}
-                    title={<Typography sx={{ m: 0 }} variant='h1'>{title}</Typography>}
-                    columns={columns}
-                    data={data}
-                    options={{
-                        headerStyle: {
-                            
-                            fontSize: 16,
-                            fontWeight: 'bold',
-                            position: 'sticky', 
-                            top: 0
-                        },
-                        maxBodyHeight: '450px', 
-                        rowStyle: {
-                            fontSize: 16,
-                        },
-                        actionsColumnIndex: -1
-                    }}
-                    localization={{
-                        toolbar: {
-                            searchPlaceholder: "Buscar"
-                        },
-                        header: {
-                            actions: 'Acciones'
-                        },
-                        pagination: {
-                            labelDisplayedRows: '{from}-{to} de {count}',
-                            labelRowsSelect: 'filas',
-                            labelRowsPerPage: 'Filas por página:',
-                            firstAriaLabel: 'Primera página',
-                            firstTooltip: 'Primera página',
-                            previousAriaLabel: 'Página anterior',
-                            previousTooltip: 'Página anterior',
-                            nextAriaLabel: 'Página siguiente',
-                            nextTooltip: 'Página siguiente',
-                            lastAriaLabel: 'Última página',
-                            lastTooltip: 'Última página'
-                        },
-                        body:{
-                            emptyDataSourceMessage: (<Typography variant='p'>No hay datos para mostrar</Typography>)
-                        },
-                        
 
-                    }}
-                    onRowClick={(event, rowData) => {
-                        
-                        window.open(`mysite.com/product/${rowData.id}`, "_blank")
-                        event.stopPropagation();
-                      }}
-                    
-                     actions={setActions()}
-                />
-            </Box>
-            
-        
+        <Box sx={sx}>
+            <MaterialTable
+                icons={tableIcons}
+                title=''
+                columns={columns}
+                data={data}
+                options={{
+                    headerStyle: {
+
+                        fontSize: 16,
+                        fontWeight: 'bold',
+                        position: 'sticky',
+                        top: 0
+                    },
+                    maxBodyHeight: '450px',
+                    rowStyle: {
+                        fontSize: 16,
+                    },
+                    actionsColumnIndex: -1
+                }}
+                localization={{
+                    toolbar: {
+                        searchPlaceholder: "Buscar"
+                    },
+                    header: {
+                        actions: 'Acciones'
+                    },
+                    pagination: {
+                        labelDisplayedRows: '{from}-{to} de {count}',
+                        labelRowsSelect: 'filas',
+                        labelRowsPerPage: 'Filas por página:',
+                        firstAriaLabel: 'Primera página',
+                        firstTooltip: 'Primera página',
+                        previousAriaLabel: 'Página anterior',
+                        previousTooltip: 'Página anterior',
+                        nextAriaLabel: 'Página siguiente',
+                        nextTooltip: 'Página siguiente',
+                        lastAriaLabel: 'Última página',
+                        lastTooltip: 'Última página'
+                    },
+                    body: {
+                        emptyDataSourceMessage: (<Typography variant='p'>No hay datos para mostrar</Typography>)
+                    },
+
+
+                }}
+
+                onRowClick={(event, rowData) => {
+                    window.open(`/${entity}/${rowData.id}`, "_blank")
+                    event.stopPropagation();
+                }}
+                actions={setActions()}
+            />
+        </Box>
+
+
 
     )
 }
