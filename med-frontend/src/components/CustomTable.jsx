@@ -148,7 +148,7 @@ function CustomTable({ entity, sx, columns, data, singleEntity, handleDelete, de
                 }}
 
                 onRowClick={(event, rowData) => {
-                    window.open(`/${entity}/${rowData.id}`, "_blank")
+                    window.open(`/${entity}/${rowData.id}`, "_self")
                     event.stopPropagation();
                 }}
                 actions={setActions()}

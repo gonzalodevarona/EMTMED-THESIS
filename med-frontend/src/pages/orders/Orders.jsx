@@ -82,12 +82,22 @@ function Orders() {
   return (
     <>
       <Header title={"Ordenes"} />
-      <Button variant="contained" sx={{px:10, py:1, mb:2}} color={'info'}>Agregar orden</Button>
+      
+      <Button
+        component={Link}
+        to="/ordenes/agregar"
+        variant="contained"
+        sx={{ px: 10, py: 1, mb: 2 }}
+        color={'info'}>
+        Agregar orden
+      </Button>
+
       <CustomTable
         columns={[
           { title: 'ID', field: 'id', type: 'numeric' },
           { title: 'Nombre', field: 'name' }
         ]}
+        singleEntity='orden'
         entity='ordenes'
         data={test} />
       

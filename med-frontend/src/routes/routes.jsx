@@ -9,8 +9,6 @@ import UnitForm from '../pages/units/UnitForm'
 
 export default function Routes() {
 
-
-
     const router = createBrowserRouter(
         [
             {
@@ -21,10 +19,16 @@ export default function Routes() {
                     path: "*",
                     element: <Typography>Error 404: Página no encontrada</Typography>
                 },
+
+                // *** UNIDADES ***
+
                 {
                     path: "/unidades",
                     element: <Units />
                 },
+
+                // *** UNIDAD DE PESO ***
+
                 {
                     path: "/unidadespeso/:id",
                     element: <DetailLayout title='unidad de peso'/>
@@ -37,6 +41,9 @@ export default function Routes() {
                     path: "/unidadespeso/editar/:id",
                     element: <UnitForm type='peso' action='edit'/>
                 },
+
+                // *** UNIDAD DE CONTEO ***
+
                 {
                     path: "/unidadesconteo/:id",
                     element: <DetailLayout title='unidad de conteo'/>
@@ -49,14 +56,29 @@ export default function Routes() {
                     path: "/unidadesconteo/editar/:id",
                     element: <UnitForm type='conteo' action='edit'/>
                 },
+
+                // *** ORDENES ***
+
+
                 {
                     path: "/ordenes",
                     element: <Orders />
                 },
                 {
                     path: "/ordenes/:id",
-                    element: <DetailLayout  title='orden'/>
+                    element: <DetailLayout title='orden'/>
                 },
+                {
+                    path: "/ordenes/agregar",
+                    element: <UnitForm type='conteo' action='add'/>
+                },
+                {
+                    path: "/ordenes/editar/:id",
+                    element: <UnitForm type='conteo' action='edit'/>
+                },
+
+                // *** UNIDAD DE PESO ***
+
                 {
                     path: "/test",
                     element: <Test/>
