@@ -26,6 +26,11 @@ public class PharmacyEntityServiceImpl implements PharmacyEntityService{
     }
 
     @Override
+    public PharmacyEntity getPharmacyByCategory(PharmacyCategory pharmacyCategory){
+        return pharmacyEntityRepository.findByCategory(pharmacyCategory);
+    }
+
+    @Override
     public PharmacyEntityDTO getPharmacyEntityDTOById(Long pharmacyEntityId) {
         PharmacyEntity consumableEntity = pharmacyEntityRepository.findById(pharmacyEntityId).orElseThrow(() -> new RuntimeException("No pharmacy found with id "+pharmacyEntityId));
         return pharmacyEntityMapper.toDTO(consumableEntity);
@@ -42,22 +47,41 @@ public class PharmacyEntityServiceImpl implements PharmacyEntityService{
         if (pharmacyEntityDTO.getId() != null) {
             throw new RuntimeException("A new pharmacy cannot already have an ID");
         }
-        PharmacyEntity consumableEntity = pharmacyEntityMapper.toEntity(pharmacyEntityDTO);
-        consumableEntity = pharmacyEntityRepository.save(consumableEntity);
-        return pharmacyEntityMapper.toDTO(consumableEntity);
+        if(getPharmacyByCategory(PharmacyCategory.PRINCIPAL) == null){
+            PharmacyEntity consumableEntity = pharmacyEntityMapper.toEntity(pharmacyEntityDTO);
+            consumableEntity = pharmacyEntityRepository.save(consumableEntity);
+            return pharmacyEntityMapper.toDTO(consumableEntity);
+        } else{
+            throw new RuntimeException("Error: there is already a pharmacy with PRINCIPAL category");
+        }
+
     }
 
     @Override
     @Transactional
     public PharmacyEntityDTO updatePharmacy(PharmacyEntityDTO pharmacyEntityDTO) {
         PharmacyEntity existingFieldEntity = pharmacyEntityRepository.findById(pharmacyEntityDTO.getId()).orElseThrow(() -> new RuntimeException("No pharmacy found with id "+pharmacyEntityDTO.getId()));
-        pharmacyEntityMapper.updatePharmacyFromDTO(pharmacyEntityDTO, existingFieldEntity);
-        return pharmacyEntityMapper.toDTO(pharmacyEntityRepository.save(existingFieldEntity));
+        PharmacyEntity principalPharmacy = getPharmacyByCategory(PharmacyCategory.PRINCIPAL);
+
+        if((pharmacyEntityDTO.getCategory() == PharmacyCategory.PRINCIPAL) &&
+                ((principalPharmacy == null) || principalPharmacy.getId() == pharmacyEntityDTO.getId())
+        ){
+            pharmacyEntityMapper.updatePharmacyFromDTO(pharmacyEntityDTO, existingFieldEntity);
+            return pharmacyEntityMapper.toDTO(pharmacyEntityRepository.save(existingFieldEntity));
+        } else{
+            throw new RuntimeException("Error: there is already a pharmacy with PRINCIPAL category");
+        }
     }
 
     @Override
     @Transactional
     public void deletePharmacy(Long id) {
-        pharmacyEntityRepository.deleteById(id);
+        PharmacyEntity existingPharmacy = getPharmacyEntityById(id);
+
+        if (existingPharmacy.getCategory() == PharmacyCategory.PRINCIPAL) {
+            throw new RuntimeException("Error: a pharmacy with PRINCIPAL category cannot be deleted");
+        } else {
+            pharmacyEntityRepository.delete(existingPharmacy);
+        }
     }
 }

@@ -2,9 +2,10 @@ import DetailedView from "../../../components/DetailedView"
 import Header from "../../../components/Header"
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { removeNullProperties } from '../../../utils/CommonMethods';
+import { removeNullProperties, previousPage } from '../../../utils/CommonMethods';
 import CountingUnitService from "../../../services/countingUnitService";
 import { useNavigate } from "react-router-dom";
+import triggerConfrirmationAlert from "../../../components/alerts/ConfirmationAlert";
 
 function CountingUnitDetailed() {
 
@@ -17,8 +18,24 @@ function CountingUnitDetailed() {
         navigate(path);
     };
 
+    async function handleDelete(){
+        triggerConfrirmationAlert(
+            `Eliminar unidad de conteo con ID ${id}`,
+            "¿Estas seguro que quieres eliminarla?",
+            "warning",
+            "Borrar",
+            async() => await CountingUnitService.deleteCountingUnit(id),
+            `Unidad de conteo con ID ${id} eliminada con éxito.`,
+            "success",
+            previousPage,
+            `Unidad de conteo con ID ${id} NO fue eliminada.`,
+            "error"
+        )
+
+    }
+
     useEffect(() => {
-        async function fetchCountingUnit() {
+        async function fetchData() {
             const entityData = await CountingUnitService.getCountingUnitById(id);
 
             if (entityData.status == 500 && entityData.error) {
@@ -29,13 +46,13 @@ function CountingUnitDetailed() {
 
         }
 
-        fetchCountingUnit()
+        fetchData()
     }, [])
 
     return (
         <>
             <Header title={`unidad de conteo #${id}`} />
-            <DetailedView entity='unidadesconteo' data={countingUnit} />
+            <DetailedView entity='unidadesconteo' data={countingUnit} handleDelete={handleDelete}/>
         </>
     )
 }

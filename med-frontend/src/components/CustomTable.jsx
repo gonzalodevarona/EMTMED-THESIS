@@ -20,11 +20,8 @@ import { Typography } from '@mui/material';
 import { Delete } from '@mui/icons-material';
 import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
-import {capitalizeFirstLetter} from '../utils/CommonMethods';
-
-
-
-
+import triggerConfrirmationAlert from './alerts/ConfirmationAlert';
+import { capitalizeFirstLetter, refreshPage } from '../utils/CommonMethods';
 
 
 function CustomTable({ entity, sx, columns, data, singleEntity, handleDelete, deleteable, editable }) {
@@ -65,32 +62,20 @@ function CustomTable({ entity, sx, columns, data, singleEntity, handleDelete, de
     const deleteAction = {
         icon: () => <Delete color="error" fontSize='medium' />,
         tooltip: 'Eliminar',
-        onClick: (event, rowData) => Swal.fire({
-            title: `Eliminar ${singleEntity} con ID ${rowData.id}`,
-            text: "¿Estas seguro que quieres eliminarlo?",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#f44336",
-            confirmButtonText: "Borrar",
-            cancelButtonText: "Cancelar",
-            closeOnConfirm: false,
-            closeOnCancel: false
-        }).then((result) => {
-            if (result.isConfirmed) {
-                handleDelete(rowData.id)
-                Swal.fire({ 
-                    title:`${capitalizeFirstLetter(singleEntity)} con ID ${rowData.id} eliminada con éxito.`, 
-                    type:"success"
-                }).then((result) => {
-                    location.reload();
-                });
-            } else {
-                Swal.fire({
-                    title:`${capitalizeFirstLetter(singleEntity)} con ID ${rowData.id} NO fue eliminada.`, 
-                    type:"error"
-                });
-            }
-        })
+        onClick: (event, rowData) =>
+            triggerConfrirmationAlert(
+                `Eliminar ${singleEntity} con ID ${rowData.id}`,
+                "¿Estas seguro que quieres eliminarlo?",
+                "warning",
+                "Borrar",
+                () => handleDelete(rowData.id),
+                `${capitalizeFirstLetter(singleEntity)} con ID ${rowData.id} eliminada con éxito.`,
+                "success",
+                refreshPage,
+                `${capitalizeFirstLetter(singleEntity)} con ID ${rowData.id} NO fue eliminada.`,
+                "error"
+            )
+
     }
 
 

@@ -13,6 +13,8 @@ public interface PharmacyEntityService {
     PharmacyEntityDTO getPharmacyEntityDTOById(Long pharmacyEntityId);
 
     List<PharmacyEntityDTO> getAllPharmacies();
+
+    PharmacyEntity getPharmacyByCategory(PharmacyCategory pharmacyCategory);
     PharmacyEntityDTO addPharmacy(PharmacyEntityDTO pharmacyEntityDTO);
 
     PharmacyEntityDTO updatePharmacy(PharmacyEntityDTO pharmacyEntityDTO);

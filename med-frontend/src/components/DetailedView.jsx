@@ -4,7 +4,7 @@ import { capitalizeFirstLetter } from '../utils/CommonMethods';
 import { Link } from 'react-router-dom';
 
 
-function DetailedView({ data, entity }) {
+function DetailedView({ data, entity, handleDelete }) {
     const [firstHalf, setFirstHalf] = useState([]);
     const [secondHalf, setSecondHalf] = useState([]);
   
@@ -76,7 +76,7 @@ function DetailedView({ data, entity }) {
           color={'info'}>
           Editar
         </Button>
-        <Button sx={{ px: 8, py: 1, ml: 2 }} color='error' variant='contained'>
+        <Button onClick={handleDelete} sx={{ px: 8, py: 1, ml: 2 }} color='error' variant='contained'>
           Eliminar
         </Button>
       </>

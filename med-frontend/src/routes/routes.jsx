@@ -7,6 +7,8 @@ import { Typography } from '@mui/material'
 import Test from '../components/form/Test'
 import UnitFormPage from '../pages/units/unitForm/UnitFormPage'
 import CountingUnitDetailed from '../pages/units/countingUnits/CountingUnitDetailed'
+import WeightUnitDetailed from '../pages/units/weightUnits/WeightUnitDetailed'
+import Locations from '../pages/locations/Locations'
 
 export default function Routes() {
 
@@ -36,7 +38,7 @@ export default function Routes() {
 
                 {
                     path: "/unidadespeso/:id",
-                    element: <DetailedView title='unidad de peso'/>
+                    element: <WeightUnitDetailed/>
                 },
                 {
                     path: "/unidadespeso/agregar",
@@ -61,6 +63,46 @@ export default function Routes() {
                     path: "/unidadesconteo/editar/:id",
                     element: <UnitFormPage type='conteo' action='edit'/>
                 },
+
+
+
+                // *** UBICACIONES ***
+
+                {
+                    path: "/ubicaciones",
+                    element: <Locations />
+                },
+
+                // *** FARMACIA ***
+
+                {
+                    path: "/farmacia/:id",
+                    element: <DetailedView title='farmacia'/>
+                },
+                {
+                    path: "/farmacia/agregar",
+                    element: <UnitFormPage type='peso' action='add'/>
+                },
+                {
+                    path: "/farmacia/editar/:id",
+                    element: <UnitFormPage type='peso' action='edit'/>
+                },
+
+                // *** ESTACIÓN DE DESECHOS ***
+
+                {
+                    path: "/estaciondesechos/:id",
+                    element: <CountingUnitDetailed/>
+                },
+                {
+                    path: "/estaciondesechos/agregar",
+                    element: <UnitFormPage type='conteo' action='add'/>
+                },
+                {
+                    path: "/estaciondesechos/editar/:id",
+                    element: <UnitFormPage type='conteo' action='edit'/>
+                },
+
 
                 // *** ORDENES ***
 

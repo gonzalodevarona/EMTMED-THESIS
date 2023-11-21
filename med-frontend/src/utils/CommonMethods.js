@@ -2,6 +2,14 @@ export function capitalizeFirstLetter(text) {
   return text.charAt(0).toUpperCase() + text.slice(1);
 }
 
+export function refreshPage() {
+  location.reload();
+}
+
+export function previousPage() {
+  history.back();
+}
+
 export function removeNullProperties(obj) {
   const newObj = {};
 

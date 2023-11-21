@@ -1,10 +1,11 @@
 import { useForm } from "react-hook-form";
 import { Button, Stack } from "@mui/material";
 import { DevTool } from "@hookform/devtools";
-import Swal from 'sweetalert2'
 import FormTextfield from '../../../components/form/FormTextfield';
 import CountingUnitService from "../../../services/countingUnitService";
 import WeightUnitService from "../../../services/weightUnitService";
+import triggerInfoAlert from "../../../components/alerts/InfoAlert";
+import { refreshPage } from "../../../utils/CommonMethods";
 
 
 function UnitForm({ type, action, preloadedData, id }) {
@@ -37,36 +38,17 @@ function UnitForm({ type, action, preloadedData, id }) {
     });
 
     function addedSuccessfully() {
-        Swal.fire({
-            icon: 'success',
-            title: `La nueva unidad de ${type} ha sido agregada`,
-            showConfirmButton: true,
-        }).then((result) => {
-            location.reload();
-        });
+        triggerInfoAlert('success', `La nueva unidad de ${type} ha sido agregada`, refreshPage)
     }
     function errorAdding() {
-        Swal.fire({
-            icon: 'error',
-            title: `Ha habido un error agregando la nueva unidad de ${type}`,
-            showConfirmButton: true,
-        })
+        triggerInfoAlert('error', `Ha habido un error agregando la nueva unidad de ${type}`)
     }
-    function editedSuccessfully() {
-        Swal.fire({
-            icon: 'success',
-            title: `La unidad de ${type} ha sido editada`,
-            showConfirmButton: true,
-        }).then((result) => {
-            location.reload();
-        });
+
+    function editedSuccessfully() { 
+        triggerInfoAlert('success', `La unidad de ${type} ha sido editada`, refreshPage)
     }
     function errorEditing() {
-        Swal.fire({
-            icon: 'error',
-            title: `Ha habido un error editando la unidad de ${type}`,
-            showConfirmButton: true,
-        })
+        triggerInfoAlert('error', `Ha habido un error editando la unidad de ${type}`)
     }
 
     function onSubmit(data) {
