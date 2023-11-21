@@ -33,7 +33,7 @@ public class DisposalStationEntityServiceImpl implements DisposalStationEntitySe
 
     @Override
     public List<DisposalStationEntityDTO> getAllDisposalStations() {
-        return disposalStationEntityRepository.findAll().stream().map(disposalStationEntityMapper::toDTO).collect(Collectors.toCollection(ArrayList::new));
+        return disposalStationEntityRepository.findAll(Sort.by(Sort.Direction.ASC, "id")).stream().map(disposalStationEntityMapper::toDTO).collect(Collectors.toCollection(ArrayList::new));
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.emt.med.countingUnit;
 
 import jakarta.transaction.Transactional;
 import org.mapstruct.factory.Mappers;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class CountingUnitEntityServiceImpl implements CountingUnitEntityService{
 
     @Override
     public List<CountingUnitEntityDTO> getAllCountingUnits() {
-        return countingUnitEntityRepository.findAll().stream().map(countingUnitEntityMapper::toDTO).collect(Collectors.toCollection(ArrayList::new));
+        return countingUnitEntityRepository.findAll(Sort.by(Sort.Direction.ASC, "id")).stream().map(countingUnitEntityMapper::toDTO).collect(Collectors.toCollection(ArrayList::new));
     }
 
     @Override

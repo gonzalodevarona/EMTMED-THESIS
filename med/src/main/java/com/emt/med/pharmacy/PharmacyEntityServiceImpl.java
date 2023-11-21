@@ -33,7 +33,7 @@ public class PharmacyEntityServiceImpl implements PharmacyEntityService{
 
     @Override
     public List<PharmacyEntityDTO> getAllPharmacies() {
-        return pharmacyEntityRepository.findAll().stream().map(pharmacyEntityMapper::toDTO).collect(Collectors.toCollection(ArrayList::new));
+        return pharmacyEntityRepository.findAll(Sort.by(Sort.Direction.ASC, "id")).stream().map(pharmacyEntityMapper::toDTO).collect(Collectors.toCollection(ArrayList::new));
     }
 
     @Override

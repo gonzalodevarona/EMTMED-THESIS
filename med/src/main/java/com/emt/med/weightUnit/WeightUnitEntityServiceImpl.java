@@ -5,6 +5,7 @@ import com.emt.med.supply.SupplyDTO;
 import com.emt.med.supply.SupplyRepository;
 import jakarta.transaction.Transactional;
 import org.mapstruct.factory.Mappers;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class WeightUnitEntityServiceImpl implements WeightUnitEntityService {
 
     @Override
     public List<WeightUnitEntityDTO> getAllWeightUnits() {
-        return weightUnitEntityRepository.findAll().stream().map(weightUnitEntityMapper::toDTO).collect(Collectors.toCollection(ArrayList::new));
+        return weightUnitEntityRepository.findAll(Sort.by(Sort.Direction.ASC, "id")).stream().map(weightUnitEntityMapper::toDTO).collect(Collectors.toCollection(ArrayList::new));
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.emt.med.value;
 
 import jakarta.transaction.Transactional;
 import org.mapstruct.factory.Mappers;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class ValueEntityServiceImpl implements ValueEntityService{
 
     @Override
     public List<ValueEntityDTO> getAllValues() {
-        return valueEntityRepository.findAll().stream().map(valueEntityMapper::toDTO).collect(Collectors.toCollection(ArrayList::new));
+        return valueEntityRepository.findAll(Sort.by(Sort.Direction.DESC, "id")).stream().map(valueEntityMapper::toDTO).collect(Collectors.toCollection(ArrayList::new));
     }
 
     @Override
