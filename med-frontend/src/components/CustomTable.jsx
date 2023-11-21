@@ -16,11 +16,11 @@ import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import { Box } from "@mui/material";
-import RedirectFunction from '../utils/RedirectFunction';
 import { Typography } from '@mui/material';
 import { Delete } from '@mui/icons-material';
 import { useNavigate } from "react-router-dom";
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import {capitalizeFirstLetter} from '../utils/CommonMethods';
 
 
 
@@ -75,14 +75,22 @@ function CustomTable({ entity, sx, columns, data, singleEntity, handleDelete, de
             cancelButtonText: "Cancelar",
             closeOnConfirm: false,
             closeOnCancel: false
-        },
-            function (isConfirm) {
-                if (isConfirm) {
-                    form.submit();          // submitting the form when user press yes
-                } else {
-                    Swal.fire("Cancelled", "Your imaginary file is safe :)", "error");
-                }
-            })
+        }).then((result) => {
+            if (result.isConfirmed) {
+                handleDelete(rowData.id)
+                Swal.fire({ 
+                    title:`${capitalizeFirstLetter(singleEntity)} con ID ${rowData.id} eliminada con éxito.`, 
+                    type:"success"
+                }).then((result) => {
+                    location.reload();
+                });
+            } else {
+                Swal.fire({
+                    title:`${capitalizeFirstLetter(singleEntity)} con ID ${rowData.id} NO fue eliminada.`, 
+                    type:"error"
+                });
+            }
+        })
     }
 
 

@@ -1,7 +1,9 @@
 import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 import { TextField, Button, Stack } from "@mui/material";
 import { DevTool } from "@hookform/devtools";
 import FormTextfield from "./FormTextfield";
+import CountingUnitService from "../../services/countingUnitService";
 
 
 let renderCount = 0;
@@ -19,6 +21,14 @@ export default function LoginForm (){
       name: "",
     },
   });
+
+  useEffect(() => {
+    async function get(){
+      console.log(await CountingUnitService.getCountingUnits());
+    }
+    get();
+  }, [])
+  
 
   const onSubmit = (data) => {
     console.log(data);

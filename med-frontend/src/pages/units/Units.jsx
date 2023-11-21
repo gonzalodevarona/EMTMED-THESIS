@@ -1,11 +1,39 @@
-import React from 'react'
+import {useEffect, useState} from 'react'
 import CustomTable from '../../components/CustomTable'
 import Header from '../../components/Header'
 import { Box, Button } from '@mui/material'
 import { Link } from 'react-router-dom';
+import CountingUnitService from '../../services/countingUnitService';
+import WeightUnitService from '../../services/weightUnitService';
 
 function Units() {
-  const test = [{ id: 1, name: 'ola' }, { id: 2, name: 'soy yo' }]
+  
+  const [countingUnits, setCountingUnits] = useState([])
+  const [weightUnits, setWeightUnits] = useState([])
+
+  useEffect(() => {
+
+    async function fetchData(){
+      const allCountingUnits = await CountingUnitService.getCountingUnits();
+      const allWeightUnits = await WeightUnitService.getWeightUnits();
+
+      setCountingUnits(allCountingUnits)
+      setWeightUnits(allWeightUnits)
+
+    }
+
+    fetchData()
+    
+  }, [])
+
+  async function handleDeleteCountingUnit(id){
+    await CountingUnitService.deleteCountingUnit(id)
+  }
+
+  async function handleDeleteWeightUnit(id){
+    await WeightUnitService.deleteWeightUnit(id)
+  }
+  
   return (
     <>
       <Header title={"Unidad de conteo"} />
@@ -26,9 +54,12 @@ function Units() {
         ]}
         singleEntity='unidad de conteo'
         entity='unidadesconteo'
-        data={test} />
+        handleDelete={handleDeleteCountingUnit}
+        data={countingUnits} />
 
       <Box my={5}></Box>
+
+      
 
       <Header title={"Unidad de peso"} />
 
@@ -48,7 +79,8 @@ function Units() {
         ]}
         singleEntity='unidad de peso'
         entity='unidadespeso'
-        data={test} />
+        handleDelete={handleDeleteWeightUnit}
+        data={weightUnits} />
     </>
   )
 }

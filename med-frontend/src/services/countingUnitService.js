@@ -1,8 +1,8 @@
 import axios from '../config/axios';
 
-const entity = 'weightUnits'
+const entity = 'countingUnits'
 
-const getWeightUnits = async () => {
+const getCountingUnits = async () => {
     const res = await axios.get(`/${entity}`)
         .catch((error) => {
             console.log(error)
@@ -12,7 +12,7 @@ const getWeightUnits = async () => {
     return res.data
 }
 
-const getWeightUnitById = async (id) => {
+const getCountingUnitById = async (id) => {
     const res = await axios.get(`/${entity}/${id}`)
         .catch((error) => {
             console.log(error)
@@ -22,8 +22,8 @@ const getWeightUnitById = async (id) => {
     return res.data
 }
 
-const addWeightUnit = async (weightUnit) => {
-    const res = await axios.post(`/${entity}`, weightUnit)
+const addCountingUnit = async (countingUnit) => {
+    const res = await axios.post(`/${entity}`, countingUnit)
         .catch((error) => {
             console.log(error)
             return error.response;
@@ -32,8 +32,8 @@ const addWeightUnit = async (weightUnit) => {
     return res.data
 }
 
-const editWeightUnit = async (weightUnit) => {
-    const res = await axios.put(`/${entity}`, weightUnit)
+const editCountingUnit = async (countingUnit) => {
+    const res = await axios.put(`/${entity}`, countingUnit)
         .catch((error) => {
             console.log(error)
             return error.response;
@@ -42,7 +42,7 @@ const editWeightUnit = async (weightUnit) => {
     return res.data
 }
 
-const deleteWeightUnit = async (id) => {
+const deleteCountingUnit = async (id) => {
     const res = await axios.delete(`/${entity}/${id}`)
         .catch((error) => {
             console.log(error)
@@ -53,12 +53,12 @@ const deleteWeightUnit = async (id) => {
 }
 
 
-const WeightUnitService = {
-    getWeightUnits,
-    getWeightUnitById,
-    addWeightUnit,
-    editWeightUnit,
-    deleteWeightUnit
+const CountingUnitService = {
+    getCountingUnits,
+    getCountingUnitById,
+    addCountingUnit,
+    editCountingUnit,
+    deleteCountingUnit
 }
 
-export default WeightUnitService;
+export default CountingUnitService;
