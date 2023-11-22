@@ -63,22 +63,19 @@ function CustomTable({ entity, sx, columns, data, singleEntity, handleDelete, de
         icon: () => <Delete color="error" fontSize='medium' />,
         tooltip: 'Eliminar',
         onClick: (event, rowData) =>
-            triggerConfrirmationAlert(
-                `Eliminar ${singleEntity} con ID ${rowData.id}`,
-                "¿Estas seguro que quieres eliminarlo?",
-                "warning",
-                "Borrar",
-                () => handleDelete(rowData.id),
-                `${capitalizeFirstLetter(singleEntity)} con ID ${rowData.id} eliminada con éxito.`,
-                "success",
-                refreshPage,
-                `${capitalizeFirstLetter(singleEntity)} con ID ${rowData.id} NO fue eliminada.`,
-                "error"
-            )
-
+            triggerConfrirmationAlert({
+                title:`Eliminar ${singleEntity} con ID ${rowData.id}`,
+                text:"¿Estas seguro que quieres eliminarlo?",
+                type:"warning",
+                confirmText:"Borrar",
+                action: () => handleDelete(rowData.id),
+                successTitle:`${capitalizeFirstLetter(singleEntity)} con ID ${rowData.id} eliminada con éxito.`,
+                successType:"success",
+                successAction:refreshPage,
+                errorTitle:`${capitalizeFirstLetter(singleEntity)} con ID ${rowData.id} NO fue eliminada.`,
+                errorType:"error"
+            })
     }
-
-
 
 
 

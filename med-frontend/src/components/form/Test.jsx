@@ -55,7 +55,7 @@ export default function LoginForm (){
             error={!!errors.password}
             helperText={errors.password?.message}
           />
-          <FormTextfield label='name' type='name' register={register} errors={errors}/>
+          <FormTextfield label='name' name='name' register={register} errors={errors}/>
 
           <Button type="submit" variant="contained" color="primary">
             Login

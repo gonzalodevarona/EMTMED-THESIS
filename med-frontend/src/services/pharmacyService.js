@@ -12,6 +12,16 @@ const getPharmacies = async () => {
     return res.data
 }
 
+const getPharmacyCategories = async () => {
+    const res = await axios.get('/pharmacyCategories')
+        .catch((error) => {
+            console.log(error)
+            return error.response;
+        });
+
+    return res.data
+}
+
 const getPharmacyById = async (id) => {
     const res = await axios.get(`/${entity}/${id}`)
         .catch((error) => {
@@ -56,6 +66,7 @@ const deletePharmacy = async (id) => {
 const PharmacyService = {
     getPharmacies,
     getPharmacyById,
+    getPharmacyCategories,
     addPharmacy,
     editPharmacy,
     deletePharmacy

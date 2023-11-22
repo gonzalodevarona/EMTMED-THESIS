@@ -3,7 +3,7 @@ import { capitalizeFirstLetter } from '../../utils/CommonMethods';
 
 const triggerInfoAlert = (icon, title, followingAction) => {
     Swal.fire({
-        icon: {icon},
+        icon: icon,
         title: capitalizeFirstLetter(title),
         showConfirmButton: true,
     }).then((result) => {

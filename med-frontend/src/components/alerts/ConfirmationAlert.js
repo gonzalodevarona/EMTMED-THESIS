@@ -1,7 +1,6 @@
 import Swal from 'sweetalert2';
-import { capitalizeFirstLetter } from '../../utils/CommonMethods';
 
-const triggerConfrirmationAlert = (title, text, type, confirmText, action, successTitle, successType, successAction, errorTitle, errorType) => {
+const triggerConfrirmationAlert = ({title, text, type, confirmText, action, successTitle, successType, successAction, errorTitle, errorType}) => {
 
     Swal.fire({
         title: title,

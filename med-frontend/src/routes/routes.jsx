@@ -9,6 +9,10 @@ import UnitFormPage from '../pages/units/unitForm/UnitFormPage'
 import CountingUnitDetailed from '../pages/units/countingUnits/CountingUnitDetailed'
 import WeightUnitDetailed from '../pages/units/weightUnits/WeightUnitDetailed'
 import Locations from '../pages/locations/Locations'
+import PharmacyDetailed from '../pages/locations/pharmacies/PharmacyDetailed'
+import DisposalStationDetailed from '../pages/locations/disposalStations/DisaposalStationDetailed'
+import PharmacyFormPage from '../pages/locations/pharmacies/pharmacyForm/PharmacyFormPage'
+import DisposalStationFormPage from '../pages/locations/disposalStations/disposaStationForm/DisposalStationFormPage'
 
 export default function Routes() {
 
@@ -77,30 +81,30 @@ export default function Routes() {
 
                 {
                     path: "/farmacia/:id",
-                    element: <DetailedView title='farmacia'/>
+                    element: <PharmacyDetailed/>
                 },
                 {
                     path: "/farmacia/agregar",
-                    element: <UnitFormPage type='peso' action='add'/>
+                    element: <PharmacyFormPage action='add'/>
                 },
                 {
                     path: "/farmacia/editar/:id",
-                    element: <UnitFormPage type='peso' action='edit'/>
+                    element: <PharmacyFormPage action='edit'/>
                 },
 
                 // *** ESTACIÓN DE DESECHOS ***
 
                 {
                     path: "/estaciondesechos/:id",
-                    element: <CountingUnitDetailed/>
+                    element: <DisposalStationDetailed/>
                 },
                 {
                     path: "/estaciondesechos/agregar",
-                    element: <UnitFormPage type='conteo' action='add'/>
+                    element: <DisposalStationFormPage action='add'/>
                 },
                 {
                     path: "/estaciondesechos/editar/:id",
-                    element: <UnitFormPage type='conteo' action='edit'/>
+                    element: <DisposalStationFormPage action='edit'/>
                 },
 
 

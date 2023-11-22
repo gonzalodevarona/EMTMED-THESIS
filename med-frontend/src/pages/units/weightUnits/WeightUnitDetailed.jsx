@@ -2,9 +2,10 @@ import DetailedView from "../../../components/DetailedView"
 import Header from "../../../components/Header"
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { removeNullProperties } from '../../../utils/CommonMethods';
+import { removeNullProperties, previousPage } from '../../../utils/CommonMethods';
 import WeightUnitService from "../../../services/weightUnitService";
 import { useNavigate } from "react-router-dom";
+import triggerConfrirmationAlert from "../../../components/alerts/ConfirmationAlert";
 
 function WeightUnitDetailed() {
 
@@ -17,8 +18,20 @@ function WeightUnitDetailed() {
         navigate(path);
     };
 
-    async function handleDelete(){
-        const error = await WeightUnitService.deleteWeightUnit(id);
+    async function handleDelete() {
+        triggerConfrirmationAlert({
+            title: `Eliminar unidad de peso con ID ${id}`,
+            text: "¿Estas seguro que quieres eliminarla?",
+            type: "warning",
+            confirmText: "Borrar",
+            action: async () => await WeightUnitService.deleteWeightUnit(id),
+            successTitle: `Unidad de peso con ID ${id} eliminada con éxito.`,
+            successType: "success",
+            successAction: previousPage,
+            errorTitle: `Unidad de peso con ID ${id} NO fue eliminada.`,
+            errorType: "error"
+        })
+
     }
 
     useEffect(() => {

@@ -2,15 +2,15 @@ import DetailedView from "../../../components/DetailedView"
 import Header from "../../../components/Header"
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { removeNullProperties, previousPage } from '../../../utils/CommonMethods';
-import CountingUnitService from "../../../services/countingUnitService";
+import { removeNullProperties, previousPage, capitalizeFirstLetter } from '../../../utils/CommonMethods';
+import PharmacyService from "../../../services/pharmacyService";
 import { useNavigate } from "react-router-dom";
 import triggerConfrirmationAlert from "../../../components/alerts/ConfirmationAlert";
 
-function CountingUnitDetailed() {
+function PharmacyDetailed() {
 
     let { id } = useParams();
-    const [countingUnit, setCountingUnit] = useState({})
+    const [pharmacy, setPharmacy] = useState({})
 
     const navigate = useNavigate();
 
@@ -18,31 +18,33 @@ function CountingUnitDetailed() {
         navigate(path);
     };
 
+    const entity = 'farmacia';
+
     async function handleDelete() {
         triggerConfrirmationAlert({
-            title: `Eliminar unidad de conteo con ID ${id}`,
+            title: `Eliminar ${entity} con ID ${id}`,
             text: "¿Estas seguro que quieres eliminarla?",
             type: "warning",
             confirmText: "Borrar",
-            action: async () => await CountingUnitService.deleteCountingUnit(id),
-            successTitle: `Unidad de conteo con ID ${id} eliminada con éxito.`,
+            action: async () => await PharmacyService.deletePharmacy(id),
+            successTitle: `${capitalizeFirstLetter(entity)} con ID ${id} eliminada con éxito.`,
             successType: "success",
             successAction: previousPage,
-            errorTitle: `Unidad de conteo con ID ${id} NO fue eliminada.`,
+            errorTitle: `${capitalizeFirstLetter(entity)} con ID ${id} NO fue eliminada.`,
             errorType: "error"
         })
-
     }
+
 
 
     useEffect(() => {
         async function fetchData() {
-            const entityData = await CountingUnitService.getCountingUnitById(id);
+            const entityData = await PharmacyService.getPharmacyById(id);
 
             if (entityData.status == 500 && entityData.error) {
                 redirect('/404')
             } else {
-                setCountingUnit(removeNullProperties(entityData))
+                setPharmacy(removeNullProperties(entityData))
             }
 
         }
@@ -52,10 +54,10 @@ function CountingUnitDetailed() {
 
     return (
         <>
-            <Header title={`unidad de conteo #${id}`} />
-            <DetailedView entity='unidadesconteo' data={countingUnit} handleDelete={handleDelete} />
+            <Header title={`${entity} #${id}`} />
+            <DetailedView entity={entity} data={pharmacy} handleDelete={handleDelete} />
         </>
     )
 }
 
-export default CountingUnitDetailed
+export default PharmacyDetailed
