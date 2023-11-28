@@ -4,6 +4,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import ListAltIcon from '@mui/icons-material/ListAlt';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import VaccinesIcon from '@mui/icons-material/Vaccines';
 import MedicationIcon from '@mui/icons-material/Medication';
@@ -32,7 +33,14 @@ export default function Menu({ mobile, toggleDrawer }) {
           <ListItemIcon>
             <ReceiptIcon />
           </ListItemIcon>
-          <ListItemText primary="Ordenes" />
+          <ListItemText primary="Ordenes de medicamentos" />
+        </ListItemButton>
+
+        <ListItemButton component={Link} to="/ordenes-inventario" onClick={closeMenu}>
+          <ListItemIcon>
+            <ListAltIcon />
+          </ListItemIcon>
+          <ListItemText primary="Ordenes de inventario" />
         </ListItemButton>
 
         <ListItemButton component={Link} to="/medicamentos" onClick={closeMenu}>

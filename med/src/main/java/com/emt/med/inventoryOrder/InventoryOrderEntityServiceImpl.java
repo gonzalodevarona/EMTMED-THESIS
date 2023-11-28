@@ -1,5 +1,6 @@
 package com.emt.med.inventoryOrder;
 
+import com.emt.med.order.OrderStatus;
 import jakarta.transaction.Transactional;
 import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Sort;
@@ -53,8 +54,20 @@ public class InventoryOrderEntityServiceImpl implements InventoryOrderEntityServ
     @Transactional
     public InventoryOrderEntityDTO updateInventoryOrder(InventoryOrderEntityDTO inventoryOrderEntityDTO) {
         InventoryOrderEntity existingBatchEntity = inventoryOrderEntityRepository.findById(inventoryOrderEntityDTO.getId()).orElseThrow(() -> new RuntimeException("No inventory order found with id "+inventoryOrderEntityDTO.getId()));
-        inventoryOrderEntityMapper.updateInventoryOrderFromDTO(inventoryOrderEntityDTO, existingBatchEntity);
-        return inventoryOrderEntityMapper.toDTO(inventoryOrderEntityRepository.save(existingBatchEntity));
+
+        if(existingBatchEntity.getStatus() != inventoryOrderEntityDTO.getStatus() &&
+                ( existingBatchEntity.getAuthoredOn() == null ||
+                existingBatchEntity.getOperation() == null ||
+                existingBatchEntity.getPractitionerId() == null ||
+                existingBatchEntity.getSupplies() != null ||
+                (existingBatchEntity.getSupplies() != null && existingBatchEntity.getSupplies().size() <1) )){
+
+            throw new RuntimeException(" Error:Cannot change order status if there are no related entities");
+        } else{
+            inventoryOrderEntityMapper.updateInventoryOrderFromDTO(inventoryOrderEntityDTO, existingBatchEntity);
+            return inventoryOrderEntityMapper.toDTO(inventoryOrderEntityRepository.save(existingBatchEntity));
+
+        }
     }
 
     @Override

@@ -1,8 +1,7 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import Dashboard from '../components/dashboard/Dashboard'
 import Units from '../pages/units/Units'
-import Orders from '../pages/orders/Orders'
-import DetailedView from '../components/DetailedView'
+import InventoryOrders from '../pages/inventoryOrders/InventoryOrders'
 import { Typography } from '@mui/material'
 import Test from '../components/form/Test'
 import UnitFormPage from '../pages/units/unitForm/UnitFormPage'
@@ -13,6 +12,7 @@ import PharmacyDetailed from '../pages/locations/pharmacies/PharmacyDetailed'
 import DisposalStationDetailed from '../pages/locations/disposalStations/DisaposalStationDetailed'
 import PharmacyFormPage from '../pages/locations/pharmacies/pharmacyForm/PharmacyFormPage'
 import DisposalStationFormPage from '../pages/locations/disposalStations/disposaStationForm/DisposalStationFormPage'
+import InventoryOrderDetailed from '../pages/inventoryOrders/InventoryOrderDetailed'
 
 export default function Routes() {
 
@@ -108,23 +108,23 @@ export default function Routes() {
                 },
 
 
-                // *** ORDENES ***
+                // *** ORDENES DE INVENTARIO ***
 
 
                 {
-                    path: "/ordenes",
-                    element: <Orders />
+                    path: "/ordenes-inventario",
+                    element: <InventoryOrders />
                 },
                 {
-                    path: "/ordenes/:id",
-                    element: <DetailedView title='orden'/>
+                    path: "/ordenes-inventario/:id",
+                    element: <InventoryOrderDetailed title='orden'/>
                 },
                 {
-                    path: "/ordenes/agregar",
+                    path: "/ordenes-inventario/agregar",
                     element: <UnitFormPage type='conteo' action='add'/>
                 },
                 {
-                    path: "/ordenes/editar/:id",
+                    path: "/ordenes-inventario/editar/:id",
                     element: <UnitFormPage type='conteo' action='edit'/>
                 },
 

@@ -7,7 +7,7 @@ export function refreshPage() {
 }
 
 export function previousPage() {
-  history.back();
+  window.location.replace(document.referrer);
 }
 
 export function removeNullProperties(obj) {

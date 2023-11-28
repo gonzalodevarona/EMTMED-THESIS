@@ -44,6 +44,7 @@ function PharmacyDetailed() {
             if (entityData.status == 500 && entityData.error) {
                 redirect('/404')
             } else {
+                delete entityData.sourceList;
                 setPharmacy(removeNullProperties(entityData))
             }
 

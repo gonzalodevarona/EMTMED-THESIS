@@ -19,7 +19,6 @@ import { Box } from "@mui/material";
 import { Typography } from '@mui/material';
 import { Delete } from '@mui/icons-material';
 import { useNavigate } from "react-router-dom";
-import Swal from 'sweetalert2';
 import triggerConfrirmationAlert from './alerts/ConfirmationAlert';
 import { capitalizeFirstLetter, refreshPage } from '../utils/CommonMethods';
 
