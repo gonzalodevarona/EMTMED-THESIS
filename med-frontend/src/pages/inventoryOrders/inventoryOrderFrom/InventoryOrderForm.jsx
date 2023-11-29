@@ -12,9 +12,8 @@ import InventoryOrderOperationService from "../../../services/inventoryOrderOper
 import OrderService from "../../../services/orderService";
 import triggerInfoAlert from "../../../components/alerts/InfoAlert";
 import { refreshPage } from "../../../utils/CommonMethods";
+import { convertToLocalTimeZone } from "../../../utils/EntityProcessingMethods";
 import dayjs from 'dayjs';
-
-
 
 function InventoryOrderForm({ action, preloadedData, id }) {
 
@@ -41,7 +40,7 @@ function InventoryOrderForm({ action, preloadedData, id }) {
                 const concatenatedArray = [...pharmacies, ...disposalStations];
 
 
-                setLocations(concatenatedArray.map(location => ({ id: location.id, name: location.name })));
+                setLocations(concatenatedArray.map(location => ({ id: location.id, name: location.name, type: location.type })));
 
 
             } catch (error) {
@@ -90,8 +89,9 @@ function InventoryOrderForm({ action, preloadedData, id }) {
         triggerInfoAlert('error', 'Ha habido un error editando la orden de inventario')
     }
 
-    function onSubmit(data) {
-        data.type = 'inventoryOrder';
+    async function onSubmit(data) {
+        data = await processInventoryOrder(data)
+        
         switch (action) {
             case 'add':
                 addInventoryOrder(data)
@@ -119,26 +119,55 @@ function InventoryOrderForm({ action, preloadedData, id }) {
         }
     };
 
+    async function processInventoryOrder(data) {
+        
+        data.type = 'inventoryOrder';
+        data.authoredOn = convertToLocalTimeZone(data.authoredOn.toISOString());
+        data.source = await fetchLocation(data.source)
+        data.destination = await fetchLocation(data.destination)
+
+        return data;
+    }
+    async function fetchLocation(locationString) {
+        
+        let parts = locationString.split(' ');
+        let secondPosition = parts[1];
+
+        let locationEntity;
+        switch (secondPosition) {
+            case 'pharmacy':
+                locationEntity = await PharmacyService.getPharmacyById(Number(parts[0]))
+                break;
+            case 'disposalStation':
+                locationEntity = await DisposalStationService.getDisposalStationById(Number(parts[0]))
+                break;
+            default:
+                break;
+        }
+        
+        return locationEntity;
+    }
+
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
                 <Stack spacing={2} width={400}>
 
-                    <FormTextfield 
-                    isRequired 
-                    type='number' 
-                    label='CC del Autorizador' 
-                    name='practitionerId' 
-                    register={register} 
-                    errors={errors} />
+                    <FormTextfield
+                        isRequired
+                        type='number'
+                        label='CC del Autorizador'
+                        name='practitionerId'
+                        register={register}
+                        errors={errors} />
 
-                    <FormDateTimePicker 
-                    disableFuture 
-                    label='Fecha de Autorización' 
-                    name='authoredOn' 
-                    control={control} 
-                    errors={errors} 
-                    value={action === 'edit' ? preloadedData?.authoredOn : dayjs()}/>
+                    <FormDateTimePicker
+                        disableFuture
+                        label='Fecha de Autorización'
+                        name='authoredOn'
+                        control={control}
+                        errors={errors}
+                        value={action === 'edit' ? preloadedData?.authoredOn : dayjs()} />
 
                     {statuses.length > 0 &&
                         <FormSelect
@@ -180,7 +209,7 @@ function InventoryOrderForm({ action, preloadedData, id }) {
                             errors={errors}
                         >
 
-                            {locations.map(location => <MenuItem key={location.id} value={location.name}>
+                            {locations.map(location => <MenuItem key={location.id} value={`${location.id} ${location.type}`}>
                                 {`${location.id} - ${location.name}`}
                             </MenuItem>)}
                         </FormSelect>
@@ -195,13 +224,13 @@ function InventoryOrderForm({ action, preloadedData, id }) {
                             errors={errors}
                         >
 
-                            {locations.map(location => <MenuItem key={location.id} value={location.name}>
+                            {locations.map(location => <MenuItem key={location.id} value={`${location.id} ${location.type}`}>
                                 {`${location.id} - ${location.name}`}
                             </MenuItem>)}
                         </FormSelect>
                     }
 
-                    <FormTextfield multiline maxRows={4} label='Nota' name='note' register={register} errors={errors} />
+                    <FormTextfield inputProps={{ maxLength: 255 }} multiline maxRows={4} label='Nota (máximo 255 caractéres)' name='note' register={register} errors={errors} />
 
                     <Button type="submit" variant="contained" color="info">
                         {action === 'add' ? 'Agregar' : 'Editar'}
