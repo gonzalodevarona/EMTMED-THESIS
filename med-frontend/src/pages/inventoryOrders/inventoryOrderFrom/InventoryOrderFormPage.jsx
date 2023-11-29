@@ -35,7 +35,7 @@ function InventoryOrderFormPage({ action }) {
                 <Header title={`Agregar una ${entity}`} /> :
                 <Header title={`Editar la ${entity} #${id}`} />
             }
-            {action === 'edit' && pharmacyData.id &&
+            {action === 'edit' && inventoryOrderData.id &&
                 <InventoryOrderForm id={id} action={action} preloadedData={removeNullProperties(inventoryOrderData)}/>
             }
             {action === 'add' && 

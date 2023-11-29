@@ -126,7 +126,7 @@ export default function Routes() {
                 },
                 {
                     path: "/ordenes-inventario/editar/:id",
-                    element: <UnitFormPage type='conteo' action='edit'/>
+                    element: <InventoryOrderFormPage action='edit'/>
                 },
 
                 // *** UNIDAD DE PESO ***

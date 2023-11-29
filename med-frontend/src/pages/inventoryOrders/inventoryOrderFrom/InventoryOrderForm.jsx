@@ -91,7 +91,7 @@ function InventoryOrderForm({ action, preloadedData, id }) {
 
     async function onSubmit(data) {
         data = await processInventoryOrder(data)
-        
+
         switch (action) {
             case 'add':
                 addInventoryOrder(data)
@@ -120,7 +120,7 @@ function InventoryOrderForm({ action, preloadedData, id }) {
     };
 
     async function processInventoryOrder(data) {
-        
+
         data.type = 'inventoryOrder';
         data.authoredOn = convertToLocalTimeZone(data.authoredOn.toISOString());
         data.source = await fetchLocation(data.source)
@@ -129,7 +129,7 @@ function InventoryOrderForm({ action, preloadedData, id }) {
         return data;
     }
     async function fetchLocation(locationString) {
-        
+
         let parts = locationString.split(' ');
         let secondPosition = parts[1];
 
@@ -144,9 +144,20 @@ function InventoryOrderForm({ action, preloadedData, id }) {
             default:
                 break;
         }
-        
+
         return locationEntity;
     }
+
+    function findPreloadedLocation(preloadedLocationId) {
+        let foundLocation = locations.find(location => location.id === preloadedLocationId) || null;
+        if(foundLocation !== null){
+            return `${foundLocation.id} ${foundLocation.type}`
+        }else{
+            return null;
+        }
+        
+    }
+    
 
     return (
         <>
@@ -171,7 +182,7 @@ function InventoryOrderForm({ action, preloadedData, id }) {
 
                     {statuses.length > 0 &&
                         <FormSelect
-                            disabled
+                            disabled={action === 'add' ? true : false}
                             name="status"
                             label="Estado"
                             defaultValue={action === 'edit' ? preloadedData?.status : statuses[0]}
@@ -204,7 +215,7 @@ function InventoryOrderForm({ action, preloadedData, id }) {
                         <FormSelect
                             name="source"
                             label="Origen"
-                            defaultValue={action === 'edit' ? preloadedData?.source : ''}
+                            defaultValue={action === 'edit' ? findPreloadedLocation(preloadedData?.source.id) : ''}
                             register={register}
                             errors={errors}
                         >
@@ -219,7 +230,7 @@ function InventoryOrderForm({ action, preloadedData, id }) {
                         <FormSelect
                             name="destination"
                             label="Destino"
-                            defaultValue={action === 'edit' ? preloadedData?.destination : ''}
+                            defaultValue={action === 'edit' ? findPreloadedLocation(preloadedData?.destination.id) : ''}
                             register={register}
                             errors={errors}
                         >
