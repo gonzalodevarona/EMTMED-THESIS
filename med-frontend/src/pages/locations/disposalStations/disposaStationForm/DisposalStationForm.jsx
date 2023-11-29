@@ -77,7 +77,7 @@ function DisposalStationForm({ action, preloadedData, id }) {
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
                 <Stack spacing={2} width={400}>
 
-                    <FormTextfield label='Nombre' name='name' register={register} errors={errors} />
+                    <FormTextfield isRequired label='Nombre' name='name' register={register} errors={errors} />
 
                     <Button type="submit" variant="contained" color="info">
                         {action === 'add' ? 'Agregar' : 'Editar'}

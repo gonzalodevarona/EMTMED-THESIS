@@ -11,6 +11,7 @@ import Locations from '../pages/locations/Locations'
 import PharmacyDetailed from '../pages/locations/pharmacies/PharmacyDetailed'
 import DisposalStationDetailed from '../pages/locations/disposalStations/DisaposalStationDetailed'
 import PharmacyFormPage from '../pages/locations/pharmacies/pharmacyForm/PharmacyFormPage'
+import InventoryOrderFormPage from '../pages/inventoryOrders/inventoryOrderFrom/InventoryOrderFormPage'
 import DisposalStationFormPage from '../pages/locations/disposalStations/disposaStationForm/DisposalStationFormPage'
 import InventoryOrderDetailed from '../pages/inventoryOrders/InventoryOrderDetailed'
 
@@ -121,7 +122,7 @@ export default function Routes() {
                 },
                 {
                     path: "/ordenes-inventario/agregar",
-                    element: <UnitFormPage type='conteo' action='add'/>
+                    element: <InventoryOrderFormPage action='add'/>
                 },
                 {
                     path: "/ordenes-inventario/editar/:id",

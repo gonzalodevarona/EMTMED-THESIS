@@ -7,6 +7,7 @@ const FormSelect = ({
     defaultValue,
     register,
     errors,
+    disabled,
     children,
     ...props
 }) => {
@@ -15,6 +16,7 @@ const FormSelect = ({
     return (
         <TextField
             select
+            disabled={disabled}
             fullWidth
             label={label}
             defaultValue={defaultValue}
@@ -22,6 +24,7 @@ const FormSelect = ({
             
             error={!!errors[name]}
             helperText={errors[name]?.message}
+            {...props}
         >
             {children}
         </TextField>
