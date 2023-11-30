@@ -16,8 +16,6 @@ function InventoryOrders() {
 
   useEffect(() => {
 
-    
-
     async function fetchData() {
       const allInventoryOrders = await InventoryOrderService.getInventoryOrders();
 

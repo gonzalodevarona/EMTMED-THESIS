@@ -52,7 +52,7 @@ function WeightUnitDetailed() {
     return (
         <>
             <Header title={`unidad de peso #${id}`} />
-            <DetailedView entity='unidadespeso' data={weightUnit} handleDelete={handleDelete}/>
+            <DetailedView deleteable editable entity='unidadespeso' data={weightUnit} handleDelete={handleDelete}/>
         </>
     )
 }

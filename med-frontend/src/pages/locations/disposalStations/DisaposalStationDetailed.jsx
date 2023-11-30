@@ -53,7 +53,7 @@ function DisaposalStationDetailed() {
     return (
         <>
             <Header title={`${entity} #${id}`} />
-            <DetailedView entity='estaciondesechos' data={disposalStation} handleDelete={handleDelete} />
+            <DetailedView deleteable editable entity='estaciondesechos' data={disposalStation} handleDelete={handleDelete} />
         </>
     )
 }

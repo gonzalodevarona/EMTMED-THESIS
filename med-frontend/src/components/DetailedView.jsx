@@ -4,7 +4,7 @@ import { capitalizeFirstLetter } from '../utils/CommonMethods';
 import { Link } from 'react-router-dom';
 
 
-function DetailedView({ data, entity, handleDelete }) {
+function DetailedView({ data, entity, handleDelete, deleteable, editable }) {
   const [firstHalf, setFirstHalf] = useState([]);
   const [secondHalf, setSecondHalf] = useState([]);
 
@@ -31,13 +31,6 @@ function DetailedView({ data, entity, handleDelete }) {
 
     splitArray();
   }, [data]);
-
-  useEffect(() => {
-    console.log(firstHalf)
-  }, [firstHalf])
-  useEffect(() => {
-    console.log(secondHalf)
-  }, [secondHalf])
 
 
   return (
@@ -77,17 +70,17 @@ function DetailedView({ data, entity, handleDelete }) {
         </Stack>
       )}
 
-      <Button
+      {editable && <Button
         component={Link}
         to={`/${entity}/editar/${data.id}`}
         variant="contained"
         sx={{ px: 9, py: 1, mr: 2 }}
         color={'info'}>
         Editar
-      </Button>
-      <Button onClick={handleDelete} sx={{ px: 8, py: 1, ml: 2 }} color='error' variant='contained'>
+      </Button>}
+      {deleteable && <Button onClick={handleDelete} sx={{ px: 8, py: 1, ml: 2 }} color='error' variant='contained'>
         Eliminar
-      </Button>
+      </Button>}
     </>
   );
 }

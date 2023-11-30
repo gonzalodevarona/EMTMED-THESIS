@@ -56,7 +56,7 @@ function PharmacyDetailed() {
     return (
         <>
             <Header title={`${entity} #${id}`} />
-            <DetailedView entity={entity} data={pharmacy} handleDelete={handleDelete} />
+            <DetailedView deleteable editable entity={entity} data={pharmacy} handleDelete={handleDelete} />
         </>
     )
 }

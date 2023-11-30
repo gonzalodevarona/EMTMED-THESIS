@@ -12,7 +12,7 @@ import InventoryOrderOperationService from "../../../services/inventoryOrderOper
 import OrderService from "../../../services/orderService";
 import triggerInfoAlert from "../../../components/alerts/InfoAlert";
 import { refreshPage } from "../../../utils/CommonMethods";
-import { convertToLocalTimeZone } from "../../../utils/EntityProcessingMethods";
+import { convertToLocalTimeZone, convertDateObjectToDayjs } from "../../../utils/EntityProcessingMethods";
 import dayjs from 'dayjs';
 
 function InventoryOrderForm({ action, preloadedData, id }) {
@@ -105,14 +105,17 @@ function InventoryOrderForm({ action, preloadedData, id }) {
                     });
                 break;
             case 'edit':
+                
                 editInventoryOrder(data)
                     .then((result) => {
-                        editedSuccessfully()
+                        if(result.status === 500){
+                            errorEditing()
+                            console.error('Error en la operación:', result);
+                        } else{
+                            editedSuccessfully()
+                        }
+                        
                     })
-                    .catch((error) => {
-                        errorEditing()
-                        console.error('Error en la operación:', error);
-                    });
                 break;
             default:
                 break;
@@ -120,15 +123,30 @@ function InventoryOrderForm({ action, preloadedData, id }) {
     };
 
     async function processInventoryOrder(data) {
-
         data.type = 'inventoryOrder';
-        data.authoredOn = convertToLocalTimeZone(data.authoredOn.toISOString());
-        data.source = await fetchLocation(data.source)
-        data.destination = await fetchLocation(data.destination)
+
+        switch (action) {
+            case 'add':
+                data.authoredOn = convertToLocalTimeZone(data.authoredOn.toISOString());
+                data.source = await fetchLocationAdd(data.source)
+                data.destination = await fetchLocationAdd(data.destination)
+                break;
+            case 'edit':
+                data.authoredOn = convertDateObjectToDayjs(data.authoredOn).toISOString();
+                data.source = await fetchLocationEdit(data.source)
+                data.source = {id: data.source.id, type: data.source.type}
+
+                data.destination = await fetchLocationEdit(data.destination)
+                data.destination = {id: data.destination.id, type: data.destination.type}
+                break;
+
+            default:
+                break;
+        }
 
         return data;
     }
-    async function fetchLocation(locationString) {
+    async function fetchLocationAdd(locationString) {
 
         let parts = locationString.split(' ');
         let secondPosition = parts[1];
@@ -148,16 +166,35 @@ function InventoryOrderForm({ action, preloadedData, id }) {
         return locationEntity;
     }
 
+    async function fetchLocationEdit(locationObject) {
+        let foundLocation = locations.find(item => item.id === locationObject.id);
+        let locationEntity;
+        switch (foundLocation.type) {
+            case 'pharmacy':
+                locationEntity = await PharmacyService.getPharmacyById(foundLocation.id)
+                break;
+            case 'disposalStation':
+                locationEntity = await DisposalStationService.getDisposalStationById(foundLocation.id)
+                break;
+            default:
+                break;
+        }
+
+        return locationEntity;
+    }
+
     function findPreloadedLocation(preloadedLocationId) {
         let foundLocation = locations.find(location => location.id === preloadedLocationId) || null;
-        if(foundLocation !== null){
+        if (foundLocation !== null) {
             return `${foundLocation.id} ${foundLocation.type}`
-        }else{
+        } else {
             return null;
         }
-        
+
     }
-    
+
+
+
 
     return (
         <>
@@ -167,6 +204,7 @@ function InventoryOrderForm({ action, preloadedData, id }) {
                     <FormTextfield
                         isRequired
                         type='number'
+                        disabled={action === 'edit' ? true : false}
                         label='CC del Autorizador'
                         name='practitionerId'
                         register={register}
@@ -175,6 +213,7 @@ function InventoryOrderForm({ action, preloadedData, id }) {
                     <FormDateTimePicker
                         disableFuture
                         label='Fecha de Autorización'
+                        disabled={action === 'edit' ? true : false}
                         name='authoredOn'
                         control={control}
                         errors={errors}
@@ -200,6 +239,7 @@ function InventoryOrderForm({ action, preloadedData, id }) {
                         <FormSelect
                             name="operation"
                             label="Operación"
+                            disabled={action === 'edit' ? true : false}
                             defaultValue={action === 'edit' ? preloadedData?.operation : operations[0]}
                             register={register}
                             errors={errors}
@@ -215,6 +255,7 @@ function InventoryOrderForm({ action, preloadedData, id }) {
                         <FormSelect
                             name="source"
                             label="Origen"
+                            disabled={action === 'edit' ? true : false}
                             defaultValue={action === 'edit' ? findPreloadedLocation(preloadedData?.source.id) : ''}
                             register={register}
                             errors={errors}
@@ -230,6 +271,7 @@ function InventoryOrderForm({ action, preloadedData, id }) {
                         <FormSelect
                             name="destination"
                             label="Destino"
+                            disabled={action === 'edit' ? true : false}
                             defaultValue={action === 'edit' ? findPreloadedLocation(preloadedData?.destination.id) : ''}
                             register={register}
                             errors={errors}

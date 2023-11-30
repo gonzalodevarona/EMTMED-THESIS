@@ -24,7 +24,8 @@ public class InventoryOrderEntityController {
 
     @GetMapping("/{id}")
     public ResponseEntity<InventoryOrderEntityDTO> getInventoryOrderById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(inventoryOrderEntityService.getInventoryOrderEntityById(id));
+        InventoryOrderEntityDTO x = inventoryOrderEntityService.getInventoryOrderEntityById(id);
+        return ResponseEntity.ok(x);
     }
 
     @PostMapping()

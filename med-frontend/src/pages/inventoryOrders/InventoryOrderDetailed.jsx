@@ -53,16 +53,16 @@ function InventoryOrderDetailed() {
 
         fetchData()
     }, [])
-
-    useEffect(() => {
-      console.log(inventoryOrder)
-    }, [inventoryOrder])
     
 
     return (
         <>
             <Header title={`${entity} #${id}`} />
-            <DetailedView entity='orden-inventario' data={inventoryOrder} handleDelete={handleDelete} />
+            <DetailedView 
+            deleteable={inventoryOrder.status === 'CLOSED'? false : true} 
+            editable={inventoryOrder.status === 'CLOSED'? false : true} 
+            entity='ordenes-inventario' data={inventoryOrder} 
+            handleDelete={handleDelete} />
         </>
     )
 }

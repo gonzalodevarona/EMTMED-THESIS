@@ -28,3 +28,22 @@ export function convertToLocalTimeZone(dateString) {
 
     return localDate;
 }
+
+import dayjs from 'dayjs';
+
+export function convertDateObjectToDayjs(dateObject) {
+
+    if (dayjs.isDayjs(dateObject)) {
+        return dateObject;
+    } else {
+        // Asume que el objeto tiene la forma {0: año, 1: mes, 2: día, 3: hora, 4: minuto, 5: segundo}
+        const date = dayjs().set('year', dateObject[0])
+            .set('month', dateObject[1] - 1) // Los meses en JavaScript empiezan en 0
+            .set('date', dateObject[2])
+            .set('hour', dateObject[3])
+            .set('minute', dateObject[4])
+            .set('second', dateObject[5]);
+        return date;
+    }
+
+}

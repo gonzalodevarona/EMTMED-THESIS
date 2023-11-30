@@ -2,7 +2,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { Controller } from "react-hook-form"
-
+import { convertDateObjectToDayjs } from '../../utils/EntityProcessingMethods';
 
 const FormDateTimePicker = ({
     name,
@@ -17,7 +17,6 @@ const FormDateTimePicker = ({
     value,
     ...props
 }) => {
-
 
     return (
 
@@ -39,13 +38,13 @@ const FormDateTimePicker = ({
                             disableFuture={disableFuture}
                             label={label}
                             error={!!errors[name]}
-                            value={field.value ? field.value : value}
+                            value={field.value ? convertDateObjectToDayjs(field.value) : value}
                             inputRef={field.ref}
                             onChange={(date) => {
                                 field.onChange(date);
                             }}
-                            helperText={errors[name]?.message} 
-                            />
+                            helperText={errors[name]?.message}
+                        />
                     </LocalizationProvider>
                 );
             }}
