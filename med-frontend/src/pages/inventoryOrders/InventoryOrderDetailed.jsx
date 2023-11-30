@@ -59,8 +59,8 @@ function InventoryOrderDetailed() {
         <>
             <Header title={`${entity} #${id}`} />
             <DetailedView 
-            deleteable={inventoryOrder.status === 'CLOSED'? false : true} 
-            editable={inventoryOrder.status === 'CLOSED'? false : true} 
+            deleteable={inventoryOrder.status === 'COMPLETED'? false : true} 
+            editable={inventoryOrder.status === 'COMPLETED'? false : true} 
             entity='ordenes-inventario' data={inventoryOrder} 
             handleDelete={handleDelete} />
         </>

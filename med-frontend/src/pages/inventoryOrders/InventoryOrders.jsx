@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import CustomTable from '../../components/CustomTable'
 import Header from '../../components/Header'
 import { Link } from 'react-router-dom';
-import { Button } from '@mui/material';
+import { Button, Typography, Stack } from '@mui/material';
 import InventoryOrderService from '../../services/inventoryOrderService';
 import triggerCannotDeleteAlert from '../../components/alerts/CannotDeleteAlert';
 import { dateArrayToString } from '../../utils/EntityProcessingMethods';
@@ -48,7 +48,6 @@ function InventoryOrders() {
   return (
     <>
       <Header title={"Ordenes de inventario"} />
-
       <Button
         component={Link}
         to="/ordenes-inventario/agregar"
@@ -58,6 +57,7 @@ function InventoryOrders() {
         Agregar {entity}
       </Button>
 
+      <Typography >Nota: Para editar o eliminar alguna {entity} se debe hacer por la vista detallada</Typography>
       <CustomTable
         columns={[
           { title: 'ID', field: 'id', type: 'numeric' },
@@ -72,6 +72,8 @@ function InventoryOrders() {
         ]}
         singleEntity={entity}
         entity='ordenes-inventario'
+        editable={false}
+        deleteable={false}
         handleDelete={handleDeleteInventoryOrder}
         data={inventoryOrders} />
 

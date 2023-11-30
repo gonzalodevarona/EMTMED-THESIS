@@ -43,7 +43,7 @@ public class InventoryOrderEntityServiceImpl implements InventoryOrderEntityServ
         if (inventoryOrderEntityDTO.getId() != null) {
             throw new RuntimeException("A new inventory order cannot already have an ID");
         }
-        inventoryOrderEntityDTO.setStatus(OrderStatus.OPEN);
+//        inventoryOrderEntityDTO.setStatus(OrderStatus.OPEN);
         InventoryOrderEntity inventoryOrderEntity = inventoryOrderEntityMapper.toEntity(inventoryOrderEntityDTO);
         if (inventoryOrderEntity.getSource() == null || inventoryOrderEntity.getDestination() == null){
             throw new RuntimeException("A new inventory order must have a source and a destination");

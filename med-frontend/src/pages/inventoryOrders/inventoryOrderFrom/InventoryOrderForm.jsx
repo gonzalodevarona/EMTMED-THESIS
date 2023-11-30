@@ -114,7 +114,6 @@ function InventoryOrderForm({ action, preloadedData, id }) {
                         } else{
                             editedSuccessfully()
                         }
-                        
                     })
                 break;
             default:
