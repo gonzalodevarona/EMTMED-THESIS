@@ -30,9 +30,7 @@ public abstract class Supply {
     private CountingUnitEntity countingUnit;
     @ManyToMany
     private Set<OrderEntity> orders;
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JsonBackReference("location-supply")
-    private Location location;
+
 
 
 }

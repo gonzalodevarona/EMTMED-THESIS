@@ -31,6 +31,6 @@ public class SupplyDTO {
 
     private WeightUnitEntityDTO weightUnit;
     private CountingUnitEntityDTO countingUnit;
-    private LocationDTO location;
+
 
 }

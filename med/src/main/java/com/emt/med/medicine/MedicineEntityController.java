@@ -23,6 +23,11 @@ public class MedicineEntityController {
         return ResponseEntity.ok(medicineEntityService.getAllMedicines());
     }
 
+    @GetMapping("/noOrdersNoBatches")
+    public ResponseEntity<List<MedicineEntityDTO>> getAllMedicinesNoOrdersNoBatches() {
+        return ResponseEntity.ok(medicineEntityService.getAllMedicinesNoOrdersNoBatches());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<MedicineEntityDTO> getMedicineEntityDTOById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(medicineEntityService.getMedicineEntityDTOById(id));
@@ -60,8 +65,5 @@ public class MedicineEntityController {
         return new ResponseEntity<MedicineEntityDTO>(medicineEntityService.removeMedicationBatchFromMedicine(idMedicine, idMedicationBatch), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{idMedicine}/location/{idLocation}")
-    public ResponseEntity removeLocationFromMedicine(@PathVariable("idMedicine") Long idMedicine, @PathVariable("idLocation") Long idLocation) {
-        return new ResponseEntity<MedicineEntityDTO>(medicineEntityService.removeLocationFromMedicine(idMedicine, idLocation), HttpStatus.OK);
-    }
+
 }

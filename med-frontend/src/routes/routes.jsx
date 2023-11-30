@@ -14,6 +14,10 @@ import PharmacyFormPage from '../pages/locations/pharmacies/pharmacyForm/Pharmac
 import InventoryOrderFormPage from '../pages/inventoryOrders/inventoryOrderFrom/InventoryOrderFormPage'
 import DisposalStationFormPage from '../pages/locations/disposalStations/disposaStationForm/DisposalStationFormPage'
 import InventoryOrderDetailed from '../pages/inventoryOrders/InventoryOrderDetailed'
+import Medicines from '../pages/medicines/Medicines'
+import MedicineDetailed from '../pages/medicines/MedicineDetailed'
+import MedicineFormPage from '../pages/medicines/medicineForm/MedicineFormPage'
+import MedicineForm from '../pages/medicines/medicineForm/MedicineForm'
 
 export default function Routes() {
 
@@ -127,6 +131,27 @@ export default function Routes() {
                 {
                     path: "/ordenes-inventario/editar/:id",
                     element: <InventoryOrderFormPage action='edit'/>
+                },
+
+
+                // *** MEDICAMENTOS ***
+
+
+                {
+                    path: "/medicamentos",
+                    element: <Medicines />
+                },
+                {
+                    path: "/medicamentos/:id",
+                    element: <MedicineDetailed title='medicamento'/>
+                },
+                {
+                    path: "/medicamentos/agregar",
+                    element: <MedicineFormPage action='add'/>
+                },
+                {
+                    path: "/medicamentos/editar/:id",
+                    element: <MedicineFormPage action='edit'/>
                 },
 
                 // *** UNIDAD DE PESO ***

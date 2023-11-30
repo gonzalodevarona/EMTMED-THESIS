@@ -4,6 +4,7 @@ import Header from '../../../components/Header';
 import { useParams } from "react-router-dom";
 import InventoryOrderService from '../../../services/inventoryOrderService'
 import { removeNullProperties } from '../../../utils/CommonMethods'
+import { useNavigate } from "react-router-dom";
 
 function InventoryOrderFormPage({ action }) {
 
@@ -13,11 +14,22 @@ function InventoryOrderFormPage({ action }) {
 
     const entity = 'orden de inventario';
 
+    const navigate = useNavigate();
+
+    const redirect = (path) => {
+        navigate(path);
+    };
+
 
     useEffect(() => {
 
         async function fetchData() {
             let fetchedData = await InventoryOrderService.getInventoryOrderById(id);
+            console.log(fetchedData);
+            if ((fetchedData.status == 500 && fetchedData.error) || fetchedData.status === 'COMPLETED') {
+                redirect('/404')
+            }
+          
             setInventoryOrderData(fetchedData);
         }
 

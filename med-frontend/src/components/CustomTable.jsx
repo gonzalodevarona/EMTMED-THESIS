@@ -23,7 +23,7 @@ import triggerConfrirmationAlert from './alerts/ConfirmationAlert';
 import { capitalizeFirstLetter, refreshPage } from '../utils/CommonMethods';
 
 
-function CustomTable({ entity, sx, columns, data, singleEntity, handleDelete, deleteable, editable }) {
+function CustomTable({ entity, title, sx, columns, data, singleEntity, handleDelete, deleteable, editable }) {
     const navigate = useNavigate();
 
 
@@ -92,7 +92,7 @@ function CustomTable({ entity, sx, columns, data, singleEntity, handleDelete, de
         <Box sx={sx}>
             <MaterialTable
                 icons={tableIcons}
-                title=''
+                title={title? title: ''}
                 columns={columns}
                 data={data}
                 options={{

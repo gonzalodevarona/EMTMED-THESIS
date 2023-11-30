@@ -19,7 +19,7 @@ public class MedicineEntity extends Supply {
 
     private String activePharmaceuticalIngredient;
     private String concentration;
-    @OneToMany(mappedBy = "medicine", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @OneToMany(mappedBy = "medicine", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
     @JsonManagedReference("medicine-medicationBatch")
     @ToString.Exclude
     private List<MedicationBatchEntity> batches;

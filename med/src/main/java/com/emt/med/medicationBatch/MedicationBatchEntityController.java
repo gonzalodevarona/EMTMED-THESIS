@@ -2,6 +2,7 @@ package com.emt.med.medicationBatch;
 
 import com.emt.med.batch.BatchEntityDTO;
 import com.emt.med.batch.BatchEntityService;
+import com.emt.med.medicine.MedicineEntityDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,5 +46,10 @@ public class MedicationBatchEntityController {
     public ResponseEntity deleteMedicationBatch(@PathVariable("id") Long id) {
         medicationBatchEntityService.deleteMedicationBatch(id);
         return ResponseEntity.ok("Erased medication batch with id "+ id);
+    }
+
+    @DeleteMapping("/{idMedicationBatch}/location/{idLocation}")
+    public ResponseEntity removeLocationFromMedicine(@PathVariable("idMedicationBatch") Long idMedicationBatch, @PathVariable("idLocation") Long idLocation) {
+        return new ResponseEntity<MedicationBatchEntityDTO>(medicationBatchEntityService.removeLocationFromMedicationBatch(idMedicationBatch, idLocation), HttpStatus.OK);
     }
 }

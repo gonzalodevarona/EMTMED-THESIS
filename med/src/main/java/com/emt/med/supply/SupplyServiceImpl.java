@@ -1,15 +1,8 @@
 package com.emt.med.supply;
 
-
-import com.emt.med.batch.BatchEntityService;
-
 import com.emt.med.countingUnit.CountingUnitEntity;
 import com.emt.med.countingUnit.CountingUnitEntityService;
-
-import com.emt.med.location.Location;
 import com.emt.med.location.LocationService;
-import com.emt.med.medicationBatch.MedicationBatchEntityService;
-
 import com.emt.med.weightUnit.WeightUnitEntity;
 import com.emt.med.weightUnit.WeightUnitEntityService;
 import jakarta.transaction.Transactional;
@@ -17,7 +10,6 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-
 
 @Service
 public class SupplyServiceImpl implements SupplyService{
@@ -106,7 +98,6 @@ public class SupplyServiceImpl implements SupplyService{
     public Supply addRelationships(Supply supply) {
         supply.setCountingUnit(countingUnitEntityService.getCountingUnitById(supply.getCountingUnit().getId()));
         supply.setWeightUnit(weightUnitEntityService.getWeightUnitById(supply.getWeightUnit().getId()));
-        supply.setLocation(locationService.getLocationById(supply.getLocation().getId()));
         return supply;
     }
 

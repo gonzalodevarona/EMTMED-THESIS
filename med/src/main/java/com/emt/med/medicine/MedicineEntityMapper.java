@@ -23,6 +23,11 @@ public interface MedicineEntityMapper {
     @Mapping(target = "orders", ignore = true)
     MedicineEntityDTO toDTO(MedicineEntity medicineEntity);
 
+    @Named("toDTONoOrdersNoBatches")
+    @Mapping(target = "orders", ignore = true)
+    @Mapping(target = "batches", ignore = true)
+    MedicineEntityDTO toDTONoOrdersNoBatches(MedicineEntity medicineEntity);
+
     @Mapping(target = "orders", ignore = true)
     MedicineEntity toEntity(MedicineEntityDTO medicineEntityDTO);
 

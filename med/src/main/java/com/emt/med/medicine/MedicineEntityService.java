@@ -15,6 +15,8 @@ public interface MedicineEntityService {
 
     List<MedicineEntityDTO> getAllMedicines();
 
+    List<MedicineEntityDTO> getAllMedicinesNoOrdersNoBatches();
+
     MedicineEntityDTO addMedicine(MedicineEntityDTO medicineEntityDTO);
 
     MedicineEntity saveMedicineEntity(MedicineEntity medicineEntity);
@@ -29,9 +31,6 @@ public interface MedicineEntityService {
     MedicineEntity addMedicationBatchesToMedicine(List<MedicationBatchEntity> medicationBatchEntities, MedicineEntity medicine);
 
     MedicineEntityDTO removeMedicationBatchFromMedicine(Long medicineId, Long medicationBatchId);
-
-    MedicineEntityDTO removeLocationFromMedicine(Long medicineId, Long locationId);
-
 
     MedicineEntityDTO updateMedicine(MedicineEntityDTO medicineEntityDTO);
 

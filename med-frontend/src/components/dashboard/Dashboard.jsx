@@ -19,7 +19,7 @@ import Copyright from '../Copyright'
 import { Logout } from '@mui/icons-material'
 import logoBHSR from '../../assets/logo.jpg'
 
-const drawerWidth = 240
+const drawerWidth = 280
 
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
@@ -58,7 +58,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
                 }),
                 width: theme.spacing(7),
                 [theme.breakpoints.up('sm')]: {
-                    width: theme.spacing(9),
+                    width: theme.spacing(8),
                 },
             }),
             '& .MuiList-root': {

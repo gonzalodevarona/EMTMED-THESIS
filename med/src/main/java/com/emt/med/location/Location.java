@@ -1,6 +1,8 @@
 package com.emt.med.location;
 
+import com.emt.med.baseBatch.BaseBatch;
 import com.emt.med.inventoryOrder.InventoryOrderEntity;
+import com.emt.med.medicationBatch.MedicationBatchEntity;
 import com.emt.med.supply.Supply;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -21,8 +23,8 @@ public abstract class Location {
     private Long id;
     private String name;
     @OneToMany(mappedBy = "location", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JsonManagedReference("location-supply")
-    private List<Supply> supplyList;
+    @JsonManagedReference("location-medicationBatch")
+    private List<MedicationBatchEntity> medicationBatchList;
 
     @OneToMany(mappedBy = "destination", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JsonManagedReference("inventoryOrder-destination")

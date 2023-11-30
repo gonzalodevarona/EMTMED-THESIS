@@ -20,4 +20,6 @@ public interface MedicationBatchEntityService {
     MedicationBatchEntityDTO updateMedicationBatch(MedicationBatchEntityDTO medicationBatchEntityDTO);
 
     void deleteMedicationBatch(Long id);
+
+    MedicationBatchEntityDTO removeLocationFromMedicationBatch(Long medicationBatchId, Long locationId);
 }

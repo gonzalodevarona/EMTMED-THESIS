@@ -10,13 +10,13 @@ public interface DisposalStationEntityMapper {
 
     DisposalStationEntityMapper INSTANCE = Mappers.getMapper( DisposalStationEntityMapper.class );
 
-    @Mapping(target = "supplyList", ignore = true)
+    @Mapping(target = "medicationBatchList", ignore = true)
     DisposalStationEntityDTO toDTO(DisposalStationEntity disposalStationEntity);
 
-    @Mapping(target = "supplyList", ignore = true)
+    @Mapping(target = "medicationBatchList", ignore = true)
     DisposalStationEntity toEntity(DisposalStationEntityDTO disposalStationEntityDTO);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    @Mapping(target = "supplyList", ignore = true)
+    @Mapping(target = "medicationBatchList", ignore = true)
     void updateDisposalStationFromDTO(DisposalStationEntityDTO dto, @MappingTarget DisposalStationEntity entity);
 }

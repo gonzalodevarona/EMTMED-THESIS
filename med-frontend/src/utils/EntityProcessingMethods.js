@@ -1,23 +1,31 @@
 export function dateArrayToString(array) {
-    // Crear una nueva fecha con los elementos del array
-    let fecha = new Date(array[0], array[1] - 1, array[2], array[3], array[4], array[5]);
+    const year = array[0];
+    const month = array[1] - 1;
+    const day = array[2];
+    const hour = array[3] || 0;
+    const minute = array[4] || 0;
+    const second = array[5] || 0;
 
-    // Opciones para el formato de la fecha
-    let opciones = {
+    const fecha = new Date(year, month, day, hour, minute, second);
+
+    const opciones = {
         year: 'numeric',
         month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        timeZoneName: 'short',
-        hour12: false
+        day: 'numeric'
     };
 
-    // Convertir la fecha a un string legible
-    let fechaString = fecha.toLocaleString('es-ES', opciones);
+    if (array.length > 3) {
+        opciones.hour = '2-digit';
+        opciones.minute = '2-digit';
+        opciones.timeZoneName = 'short';
+        opciones.hour12 = false;
+    }
+
+    const fechaString = fecha.toLocaleString('es-ES', opciones);
 
     return fechaString;
 }
+
 
 export function convertToLocalTimeZone(dateString) {
     // Crear un objeto de fecha a partir de la cadena de fecha ISO 8600
@@ -32,7 +40,7 @@ export function convertToLocalTimeZone(dateString) {
 import dayjs from 'dayjs';
 
 export function convertDateObjectToDayjs(dateObject) {
-
+    
     if (dayjs.isDayjs(dateObject)) {
         return dateObject;
     } else {

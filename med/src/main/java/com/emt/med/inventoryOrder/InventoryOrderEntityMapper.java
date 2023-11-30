@@ -13,18 +13,18 @@ public interface InventoryOrderEntityMapper {
 
     @Mapping(target = "destination.sourceList", ignore = true)
     @Mapping(target = "destination.destinationList", ignore = true)
-    @Mapping(target = "destination.supplyList", ignore = true)
+    @Mapping(target = "destination.medicationBatchList", ignore = true)
     @Mapping(target = "source.sourceList", ignore = true)
     @Mapping(target = "source.destinationList", ignore = true)
-    @Mapping(target = "source.supplyList", ignore = true)
+    @Mapping(target = "source.medicationBatchList", ignore = true)
     InventoryOrderEntityDTO toDTO(InventoryOrderEntity inventoryOrderEntity);
 
     @Mapping(target = "destination.sourceList", ignore = true)
     @Mapping(target = "destination.destinationList", ignore = true)
-    @Mapping(target = "destination.supplyList", ignore = true)
+    @Mapping(target = "destination.medicationBatchList", ignore = true)
     @Mapping(target = "source.sourceList", ignore = true)
     @Mapping(target = "source.destinationList", ignore = true)
-    @Mapping(target = "source.supplyList", ignore = true)
+    @Mapping(target = "source.medicationBatchList", ignore = true)
     InventoryOrderEntity toEntity(InventoryOrderEntityDTO inventoryOrderEntityDTO);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

@@ -4,6 +4,7 @@ import com.emt.med.disposalStation.DisposalStationEntity;
 import com.emt.med.disposalStation.DisposalStationEntityDTO;
 import com.emt.med.inventoryOrder.InventoryOrderEntity;
 import com.emt.med.inventoryOrder.InventoryOrderEntityDTO;
+import com.emt.med.medicationBatch.MedicationBatchEntityDTO;
 import com.emt.med.pharmacy.PharmacyEntity;
 import com.emt.med.pharmacy.PharmacyEntityDTO;
 import com.emt.med.supply.SupplyDTO;
@@ -31,7 +32,7 @@ public class LocationDTO {
     private Long id;
     @NotBlank(message = "name shouldn't be blank")
     private String name;
-    private List<SupplyDTO> supplyList;
+    private List<MedicationBatchEntityDTO> medicationBatchList;
     private List<InventoryOrderEntityDTO> destinationList;
     private List<InventoryOrderEntityDTO> sourceList;
 }

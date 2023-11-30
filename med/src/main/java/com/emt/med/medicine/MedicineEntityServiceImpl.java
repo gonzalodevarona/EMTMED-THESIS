@@ -1,10 +1,8 @@
 package com.emt.med.medicine;
 
-import com.emt.med.location.Location;
 import com.emt.med.location.LocationRepository;
 import com.emt.med.medicationBatch.MedicationBatchEntity;
 import com.emt.med.medicationBatch.MedicationBatchEntityRepository;
-import com.emt.med.supply.Supply;
 import com.emt.med.supply.SupplyService;
 import jakarta.transaction.Transactional;
 import org.mapstruct.factory.Mappers;
@@ -49,6 +47,11 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
     @Override
     public List<MedicineEntityDTO> getAllMedicines() {
         return medicineEntityRepository.findAll(Sort.by(Sort.Direction.ASC, "activePharmaceuticalIngredient")).stream().map(medicineEntityMapper::toDTO).collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    @Override
+    public List<MedicineEntityDTO> getAllMedicinesNoOrdersNoBatches() {
+        return medicineEntityRepository.findAll(Sort.by(Sort.Direction.ASC, "activePharmaceuticalIngredient")).stream().map(medicineEntityMapper::toDTONoOrdersNoBatches).collect(Collectors.toCollection(ArrayList::new));
     }
 
     @Override
@@ -97,11 +100,16 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
             List<MedicationBatchEntity> addedBatches = new ArrayList<MedicationBatchEntity>();
 
             for (MedicationBatchEntity medicationBatchEntity : medicationBatchEntities) {
-                medicationBatchEntity.setMedicine(medicine);
                 if (medicationBatchEntity.getId() == null) {
 
                     medicationBatchEntity =  medicationBatchEntityRepository.save(medicationBatchEntity);
                 }
+
+                Long medicationBatchId = medicationBatchEntity.getId();
+
+                medicationBatchEntity = medicationBatchEntityRepository.findById(medicationBatchId).orElseThrow(() -> new RuntimeException("No medication batch found with id "+medicationBatchId));
+                medicationBatchEntity.setMedicine(medicine);
+
 
                 addedBatches.add(medicationBatchEntity);
             }
@@ -126,18 +134,6 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
         medicine.getBatches().remove(medicationBatchEntity);
 
         medicationBatchEntity.setMedicine(null);
-
-        return medicineEntityMapper.toDTO(saveMedicineEntity(medicine));
-    }
-
-    @Override
-    @Transactional
-    public MedicineEntityDTO removeLocationFromMedicine(Long medicineId, Long locationId) {
-        MedicineEntity medicine = medicineEntityRepository.findById(medicineId).orElseThrow(() -> new RuntimeException("No medicine entity found with id "+medicineId));
-        Location location = locationRepository.findById(locationId).orElseThrow(() -> new RuntimeException("No location found with id "+locationId));
-
-        medicine.setLocation(null);
-        location.getSupplyList().remove(medicine);
 
         return medicineEntityMapper.toDTO(saveMedicineEntity(medicine));
     }

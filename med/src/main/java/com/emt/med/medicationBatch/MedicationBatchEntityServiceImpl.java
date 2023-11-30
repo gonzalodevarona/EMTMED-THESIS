@@ -1,6 +1,10 @@
 package com.emt.med.medicationBatch;
 
 import com.emt.med.batch.BatchEntity;
+import com.emt.med.location.Location;
+import com.emt.med.location.LocationRepository;
+import com.emt.med.medicine.MedicineEntity;
+import com.emt.med.medicine.MedicineEntityDTO;
 import jakarta.transaction.Transactional;
 import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Sort;
@@ -16,10 +20,13 @@ public class MedicationBatchEntityServiceImpl implements MedicationBatchEntitySe
 
     private MedicationBatchEntityRepository medicationBatchEntityRepository;
 
+    private LocationRepository locationRepository;
+
     static MedicationBatchEntityMapper medicationBatchEntityMapper = Mappers.getMapper(MedicationBatchEntityMapper.class);
 
-    public MedicationBatchEntityServiceImpl(MedicationBatchEntityRepository medicationBatchEntityRepository) {
+    public MedicationBatchEntityServiceImpl(MedicationBatchEntityRepository medicationBatchEntityRepository, LocationRepository locationRepository) {
         this.medicationBatchEntityRepository = medicationBatchEntityRepository;
+        this.locationRepository = locationRepository;
     }
 
     @Override
@@ -68,5 +75,17 @@ public class MedicationBatchEntityServiceImpl implements MedicationBatchEntitySe
     @Transactional
     public void deleteMedicationBatch(Long id) {
         medicationBatchEntityRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public MedicationBatchEntityDTO removeLocationFromMedicationBatch(Long medicationBatchId, Long locationId) {
+        MedicationBatchEntity medicationBatch = medicationBatchEntityRepository.findById(medicationBatchId).orElseThrow(() -> new RuntimeException("No medication batch entity found with id "+medicationBatchId));
+        Location location = locationRepository.findById(locationId).orElseThrow(() -> new RuntimeException("No location found with id "+locationId));
+
+        medicationBatch.setLocation(null);
+        location.getMedicationBatchList().remove(medicationBatch);
+
+        return medicationBatchEntityMapper.toDTO(saveMedicationBatch(medicationBatch));
     }
 }
