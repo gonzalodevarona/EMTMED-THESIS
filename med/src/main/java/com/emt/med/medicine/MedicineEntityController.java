@@ -35,7 +35,6 @@ public class MedicineEntityController {
 
     @PostMapping()
     public ResponseEntity<MedicineEntityDTO> addMedicine(@Valid @RequestBody MedicineEntityDTO medicineEntityDTO) throws RuntimeException{
-
         return new ResponseEntity<MedicineEntityDTO>(medicineEntityService.addMedicine(medicineEntityDTO), HttpStatus.CREATED);
     }
 

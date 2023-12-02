@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react'
-import MedicineForm from './MedicineForm';
+import MedicationBatchForm from './MedicationBatchForm';
 import Header from '../../../components/Header';
 import { useParams } from "react-router-dom";
-import MedicineService from '../../../services/medicineService'
+import MedicationBatchService from '../../../services/medicationBatchService'
 import { removeNullProperties } from '../../../utils/CommonMethods'
 import { useNavigate } from "react-router-dom";
 
-function MedicineFormPage({ action }) {
+function MedicationBatchFormPage({ action }) {
 
     let { id } = useParams();
 
-    const [medicineData, setMedicineData] = useState({})
+    const [medicationBatchData, setMedicationBatchData] = useState({})
 
-    const entity = 'medicamento';
+    const entity = 'lote de medicamento';
 
     const navigate = useNavigate();
 
@@ -24,13 +24,13 @@ function MedicineFormPage({ action }) {
     useEffect(() => {
 
         async function fetchData() {
-            let fetchedData = await MedicineService.getMedicineById(id);
+            let fetchedData = await MedicationBatchService.getMedicationBatchById(id);
             console.log(fetchedData);
             if (fetchedData.status == 500 && fetchedData.error) {
                 redirect('/404')
             }
           
-            setMedicineData(fetchedData);
+            setMedicationBatchData(fetchedData);
         }
 
         if(action === 'edit'){
@@ -47,15 +47,15 @@ function MedicineFormPage({ action }) {
                 <Header title={`Agregar un ${entity}`} /> :
                 <Header title={`Editar el ${entity} #${id}`} />
             }
-            {action === 'edit' && medicineData.id &&
-                <MedicineForm id={id} action={action} preloadedData={removeNullProperties(medicineData)}/>
+            {action === 'edit' && medicationBatchData.id &&
+                <MedicationBatchForm id={id} action={action} preloadedData={removeNullProperties(medicationBatchData)}/>
             }
             {action === 'add' && 
-                <MedicineForm  action={action} />
+                <MedicationBatchForm  action={action} />
             }
 
         </>
     )
 }
 
-export default MedicineFormPage
+export default MedicationBatchFormPage

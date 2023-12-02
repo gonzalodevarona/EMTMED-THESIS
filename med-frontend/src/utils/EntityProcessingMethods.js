@@ -37,6 +37,15 @@ export function convertToLocalTimeZone(dateString) {
     return localDate;
 }
 
+export function formatDateToYYYYMMDD(isoDate) {
+    let date = new Date(isoDate);
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1; // Los meses en JavaScript empiezan desde 0
+    let day = date.getDate();
+
+    return year + '-' + month + '-' + day;
+}
+
 import dayjs from 'dayjs';
 
 export function convertDateObjectToDayjs(dateObject) {
@@ -54,4 +63,20 @@ export function convertDateObjectToDayjs(dateObject) {
         return date;
     }
 
+}
+
+export function calculateBatchStatus(expirationDate) {
+    const currentDate = new Date();
+    const sixMonthsInMilliseconds = 6 * 30 * 24 * 60 * 60 * 1000; // Approximately 6 months in milliseconds
+    const oneYearInMilliseconds = 365 * 24 * 60 * 60 * 1000; // Approximately 1 year in milliseconds
+
+    const timeDifference = expirationDate - currentDate;
+
+    if (timeDifference < sixMonthsInMilliseconds) {
+        return "RED"; // Less than 6 months
+    } else if (timeDifference >= sixMonthsInMilliseconds && timeDifference < oneYearInMilliseconds) {
+        return "YELLOW"; // Between 6 months and 1 year
+    } else {
+        return "GREEN"; // More than 1 year
+    }
 }

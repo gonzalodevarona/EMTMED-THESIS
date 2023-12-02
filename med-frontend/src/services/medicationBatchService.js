@@ -1,8 +1,8 @@
 import axios from '../config/axios';
 
-const entity = 'medicines'
+const entity = 'medicationBatches'
 
-const getMedicines = async () => {
+const getMedicationBatches = async () => {
     const res = await axios.get(`/${entity}`)
         .catch((error) => {
             console.log(error)
@@ -11,17 +11,8 @@ const getMedicines = async () => {
 
     return res.data
 }
-const getMedicinesNoOrdersNoBatches = async () => {
-    const res = await axios.get(`/${entity}/noOrdersNoBatches`)
-        .catch((error) => {
-            console.log(error)
-            return error.response;
-        });
 
-    return res.data
-}
-
-const getMedicineById = async (id) => {
+const getMedicationBatchById = async (id) => {
     const res = await axios.get(`/${entity}/${id}`)
         .catch((error) => {
             console.log(error)
@@ -31,8 +22,8 @@ const getMedicineById = async (id) => {
     return res.data
 }
 
-const addMedicine = async (medicine) => {
-    const res = await axios.post(`/${entity}`, medicine)
+const addMedicationBatch = async (medicationBatch) => {
+    const res = await axios.post(`/${entity}`, medicationBatch)
         .catch((error) => {
             console.log(error)
             return error.response;
@@ -41,8 +32,8 @@ const addMedicine = async (medicine) => {
     return res.data
 }
 
-const editMedicine = async (medicine) => {
-    const res = await axios.put(`/${entity}`, medicine)
+const editMedicationBatch = async (medicationBatch) => {
+    const res = await axios.put(`/${entity}`, medicationBatch)
         .catch((error) => {
             console.log(error)
             return error.response;
@@ -51,7 +42,7 @@ const editMedicine = async (medicine) => {
     return res.data
 }
 
-const deleteMedicine = async (id) => {
+const deleteMedicationBatch = async (id) => {
     const res = await axios.delete(`/${entity}/${id}`)
         .catch((error) => {
             console.log(error)
@@ -62,13 +53,12 @@ const deleteMedicine = async (id) => {
 }
 
 
-const MedicineService  = {
-    getMedicines,
-    getMedicinesNoOrdersNoBatches,
-    getMedicineById,
-    addMedicine,
-    editMedicine,
-    deleteMedicine
+const MedicationBatchService = {
+    getMedicationBatches,
+    getMedicationBatchById,
+    addMedicationBatch,
+    editMedicationBatch,
+    deleteMedicationBatch
 }
 
-export default MedicineService;
+export default MedicationBatchService;
