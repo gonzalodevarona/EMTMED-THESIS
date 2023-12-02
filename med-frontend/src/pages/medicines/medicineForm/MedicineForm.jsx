@@ -89,6 +89,9 @@ function MedicineForm({ action, preloadedData, id }) {
   function errorAdding() {
     triggerInfoAlert('error', 'Ha habido un error agregando el nuevo medicamento')
   }
+  function errorAddingFields() {
+    triggerInfoAlert('error', 'Ha habido un error agregando el nuevo medicamento, revisa los campos del formulario')
+  }
 
   function editedSuccessfully() {
     triggerInfoAlert('success', 'El medicamento ha sido editada', refreshPage)
@@ -105,35 +108,52 @@ function MedicineForm({ action, preloadedData, id }) {
     data.countingUnit = { id: data.countingUnit };
     data.weightUnit = { id: data.weightUnit };
 
+    if (checkQuantity(data.batches) && data.quantity > 0) {
 
-    switch (action) {
-      case 'add':
-        addMedicine(data)
-          .then((result) => {
-            console.log(result)
-            addedSuccessfully()
-          })
-          .catch((error) => {
-            errorAdding()
-            console.error('Error en la operación:', error);
-          });
-        break;
-      case 'edit':
+      switch (action) {
+        case 'add':
+          addMedicine(data)
+            .then((result) => {
+              console.log(result)
+              addedSuccessfully()
+            })
+            .catch((error) => {
+              errorAdding()
+              console.error('Error en la operación:', error);
+            });
+          break;
+        case 'edit':
 
-        editMedicine(data)
-          .then((result) => {
-            if (result.status === 500) {
-              errorEditing()
-              console.error('Error en la operación:', result);
-            } else {
-              editedSuccessfully()
-            }
-          })
-        break;
-      default:
-        break;
+          editMedicine(data)
+            .then((result) => {
+              if (result.status === 500) {
+                errorEditing()
+                console.error('Error en la operación:', result);
+              } else {
+                editedSuccessfully()
+              }
+            })
+          break;
+        default:
+          break;
+      }
+
+    } else {
+
+      action === 'add' ? errorAddingFields() : errorEditing();
+      return;
     }
+
+
+
   };
+
+  function checkQuantity(arr) {
+    return !arr.some(obj => {
+      return !(obj.hasOwnProperty('quantity') && obj.quantity > 0);
+    });
+  }
+
 
   return (
     <>

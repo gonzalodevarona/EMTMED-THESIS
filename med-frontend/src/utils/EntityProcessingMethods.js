@@ -80,3 +80,20 @@ export function calculateBatchStatus(expirationDate) {
         return "GREEN"; // More than 1 year
     }
 }
+
+
+export function checkNull(object) {
+    for (let key in object) {
+        if (object.hasOwnProperty(key)) {
+            if (object[key] === null) {
+                return true;
+            }
+            if (typeof object[key] === 'object') {
+                if (checkNull(object[key])) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}

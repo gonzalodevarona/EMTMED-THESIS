@@ -43,9 +43,6 @@ function MedicationBatchEmbeddedForm({ action, addMedicationBatch, deleteMedicat
         fetchPharmacies()
     }, [])
 
-
-
-
     async function editMedicationBatch(medicationBatch) {
         medicationBatch.id = id;
         return await MedicationBatchService.editMedicationBatch(medicationBatch);
@@ -91,9 +88,8 @@ function MedicationBatchEmbeddedForm({ action, addMedicationBatch, deleteMedicat
         data.status = currentStatus;
         data.location = findPreloadedLocation(data.location)
         data.expirationDate = formatDateToYYYYMMDD(convertToLocalTimeZone(data.expirationDate.toISOString()))
-
         addMedicationBatch(id, data)
-
+        
         // switch (action) {
         //   case 'add':
         //     addMedicine(data)
@@ -131,8 +127,6 @@ function MedicationBatchEmbeddedForm({ action, addMedicationBatch, deleteMedicat
 
         return foundLocationCopy
     }
-
-
 
     return (
         <>
