@@ -17,7 +17,7 @@ public interface MedicationBatchEntityService {
     MedicationBatchEntity saveMedicationBatch(MedicationBatchEntity medicationBatchEntity);
     MedicationBatchEntityDTO addMedicationBatch(MedicationBatchEntityDTO medicationBatchEntityDTO);
 
-    MedicationBatchEntityDTO updateMedicationBatch(MedicationBatchEntityDTO medicationBatchEntityDTO);
+    MedicationBatchEntityDTO updateMedicationBatch(MedicationBatchEntity medicationBatchEntity);
 
     void deleteMedicationBatch(Long id);
 

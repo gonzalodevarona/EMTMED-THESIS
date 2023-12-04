@@ -19,10 +19,6 @@ const FormDateTimePicker = ({
 }) => {
 
     return (
-
-
-
-
         <Controller
             control={control}
             name={name}

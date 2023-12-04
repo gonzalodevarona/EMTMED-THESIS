@@ -11,7 +11,7 @@ import MedicationBatchService from '../../../services/medicationBatchService';
 import PharmacyService from '../../../services/PharmacyService';
 import { refreshPage } from "../../../utils/CommonMethods";
 import { calculateBatchStatus } from "../../../utils/EntityProcessingMethods";
-import { formatDateToYYYYMMDD, convertToLocalTimeZone } from "../../../utils/EntityProcessingMethods"
+import { formatDateToYYYYMMDD, convertToLocalTimeZone, dateArrayToString } from "../../../utils/EntityProcessingMethods"
 import dayjs from 'dayjs';
 
 function MedicationBatchEmbeddedForm({ action, addMedicationBatch, deleteMedicationBatch, preloadedData, id }) {
@@ -25,7 +25,6 @@ function MedicationBatchEmbeddedForm({ action, addMedicationBatch, deleteMedicat
             let data = await BatchStatusService.getBatchStatuses();
             statuses = data;
         }
-
 
         async function fetchPharmacies() {
             try {
@@ -48,6 +47,9 @@ function MedicationBatchEmbeddedForm({ action, addMedicationBatch, deleteMedicat
         return await MedicationBatchService.editMedicationBatch(medicationBatch);
     }
 
+    useEffect(() => {
+        console.log(preloadedData)
+    }, [preloadedData])
 
 
     const {
@@ -63,8 +65,18 @@ function MedicationBatchEmbeddedForm({ action, addMedicationBatch, deleteMedicat
     const expirationDateWatch = watch('expirationDate')
 
     useEffect(() => {
-        if (expirationDateWatch) {
-            setCurrentStatus(calculateBatchStatus(expirationDateWatch.toDate()))
+
+        if (action === 'add') {
+            if (expirationDateWatch) {
+                setCurrentStatus(calculateBatchStatus(expirationDateWatch.toDate()))
+            }
+        } else {
+            if (expirationDateWatch) {
+                let arrayDate = Object.values(expirationDateWatch)
+                let dateObj = new Date(arrayDate[0], arrayDate[1] - 1, arrayDate[2])
+                setCurrentStatus(calculateBatchStatus(dateObj))
+            }
+
         }
     }, [expirationDateWatch])
 
@@ -85,47 +97,36 @@ function MedicationBatchEmbeddedForm({ action, addMedicationBatch, deleteMedicat
     }
 
     async function onSubmit(data) {
-        data.status = currentStatus;
-        data.location = findPreloadedLocation(data.location)
-        data.expirationDate = formatDateToYYYYMMDD(convertToLocalTimeZone(data.expirationDate.toISOString()))
-        addMedicationBatch(id, data)
         
-        // switch (action) {
-        //   case 'add':
-        //     addMedicine(data)
-        //       .then((result) => {
-        //         console.log(result)
-        //         addedSuccessfully()
-        //       })
-        //       .catch((error) => {
-        //         errorAdding()
-        //         console.error('Error en la operación:', error);
-        //       });
-        //     break;
-        //   case 'edit':
+        data.status = currentStatus;
+        if (action === 'add') {
+            data.location = findPreloadedLocation(data.location, 'object');
+            data.expirationDate = formatDateToYYYYMMDD(convertToLocalTimeZone(data.expirationDate.toISOString()))
+        } else{
+            data.expirationDate = `${data.expirationDate[0]}-${data.expirationDate[1]}-${data.expirationDate[2]}`
+        }
+        
+        addMedicationBatch(id, data)
 
-        //     editMedicine(data)
-        //       .then((result) => {
-        //         if (result.status === 500) {
-        //           errorEditing()
-        //           console.error('Error en la operación:', result);
-        //         } else {
-        //           editedSuccessfully()
-        //         }
-        //       })
-        //     break;
-        //   default:
-        //     break;
-        // }
     };
 
-    function findPreloadedLocation(preloadedLocationId) {
-        let parts = preloadedLocationId.split(' ');
-        preloadedLocationId = Number(parts[0]);
+    function findPreloadedLocation(preloadedLocationId, objectOrString) {
+        if (typeof preloadedLocationId !== 'number') {
+            let parts = preloadedLocationId.split(' ');
+            preloadedLocationId = Number(parts[0]);
+        }
+
+
         let foundLocation = pharmacies.find(pharmacy => pharmacy.id === preloadedLocationId)
         let foundLocationCopy = { id: foundLocation.id, type: foundLocation.type };
 
-        return foundLocationCopy
+        if (objectOrString === 'object') {
+            return foundLocationCopy
+        } else {
+            return `${foundLocationCopy.id} ${foundLocationCopy.type}`
+        }
+
+
     }
 
     return (
@@ -135,7 +136,6 @@ function MedicationBatchEmbeddedForm({ action, addMedicationBatch, deleteMedicat
 
                     <FormTextfield
                         isRequired
-                        disabled={action === 'edit' ? true : false}
                         label='Fabricante'
                         name='manufacturer'
                         register={register}
@@ -152,7 +152,6 @@ function MedicationBatchEmbeddedForm({ action, addMedicationBatch, deleteMedicat
                     <FormTextfield
                         isRequired
                         type='number'
-                        disabled={action === 'edit' ? true : false}
                         label='Cantidad'
                         min={0}
                         name='quantity'
@@ -167,7 +166,7 @@ function MedicationBatchEmbeddedForm({ action, addMedicationBatch, deleteMedicat
                         control={control}
                         errors={errors}
                         minDate={dayjs().add(1, 'day')}
-                        value={action === 'edit' ? preloadedData?.authoredOn : dayjs().add(1, 'day')} />
+                        value={action === 'edit' ? preloadedData?.expirationDate : dayjs().add(1, 'day')} />
 
                     {currentStatus !== '' && < Typography sx={{ backgroundColor: 'black', color: currentStatus.toLowerCase() }} > Semaforización: {currentStatus}</Typography>}
 
@@ -177,7 +176,7 @@ function MedicationBatchEmbeddedForm({ action, addMedicationBatch, deleteMedicat
                             name="location"
                             label="Ubicación"
                             disabled={action === 'edit' ? true : false}
-                            defaultValue={action === 'edit' ? findPreloadedLocation(preloadedData?.location.id) : ''}
+                            defaultValue={action === 'edit' ? findPreloadedLocation(preloadedData?.location.id, '') : `${pharmacies[0].id} ${pharmacies[0].type}`}
                             register={register}
                             errors={errors}
                         >
@@ -190,7 +189,6 @@ function MedicationBatchEmbeddedForm({ action, addMedicationBatch, deleteMedicat
 
                     <FormTextfield
                         isRequired
-                        disabled={action === 'edit' ? true : false}
                         label='Código Único de Medicamento (CUM)'
                         name='cum'
                         register={register}

@@ -37,10 +37,10 @@ public class MedicationBatchEntityController {
         return new ResponseEntity<MedicationBatchEntityDTO>(medicationBatchEntityService.addMedicationBatch(medicationBatchEntityDTO), HttpStatus.CREATED);
     }
 
-    @PutMapping()
-    public ResponseEntity<MedicationBatchEntityDTO> updateMedicationBatch(@Valid @RequestBody MedicationBatchEntityDTO medicationBatchEntityDTO) {
-        return ResponseEntity.ok(medicationBatchEntityService.updateMedicationBatch(medicationBatchEntityDTO));
-    }
+//    @PutMapping()
+//    public ResponseEntity<MedicationBatchEntityDTO> updateMedicationBatch(@Valid @RequestBody MedicationBatchEntityDTO medicationBatchEntityDTO) {
+//        return ResponseEntity.ok(medicationBatchEntityService.updateMedicationBatch(medicationBatchEntityDTO));
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteMedicationBatch(@PathVariable("id") Long id) {

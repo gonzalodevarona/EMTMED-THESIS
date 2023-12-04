@@ -1,9 +1,11 @@
 package com.emt.med.medicine;
 
+import com.emt.med.countingUnit.CountingUnitEntityRepository;
 import com.emt.med.location.LocationRepository;
-import com.emt.med.medicationBatch.MedicationBatchEntity;
-import com.emt.med.medicationBatch.MedicationBatchEntityRepository;
+import com.emt.med.medicationBatch.*;
 import com.emt.med.supply.SupplyService;
+import com.emt.med.weightUnit.WeightUnitEntity;
+import com.emt.med.weightUnit.WeightUnitEntityRepository;
 import jakarta.transaction.Transactional;
 import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Sort;
@@ -20,17 +22,27 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
 
     private SupplyService supplyService;
 
+    private MedicationBatchEntityService medicationBatchEntityService;
+
     private MedicationBatchEntityRepository medicationBatchEntityRepository;
 
     private LocationRepository locationRepository;
 
-    static MedicineEntityMapper medicineEntityMapper = Mappers.getMapper(MedicineEntityMapper.class);
+    private WeightUnitEntityRepository weightUnitEntityRepository;
 
-    public MedicineEntityServiceImpl(MedicineEntityRepository medicineEntityRepository, SupplyService supplyService, MedicationBatchEntityRepository medicationBatchEntityRepository, LocationRepository locationRepository) {
+    private CountingUnitEntityRepository countingUnitEntityRepository;
+
+    static MedicineEntityMapper medicineEntityMapper = Mappers.getMapper(MedicineEntityMapper.class);
+    static MedicationBatchEntityMapper medicationBatchEntityMapper = Mappers.getMapper(MedicationBatchEntityMapper.class);
+
+    public MedicineEntityServiceImpl(MedicineEntityRepository medicineEntityRepository, SupplyService supplyService, MedicationBatchEntityService medicationBatchEntityService, MedicationBatchEntityRepository medicationBatchEntityRepository, LocationRepository locationRepository, WeightUnitEntityRepository weightUnitEntityRepository, CountingUnitEntityRepository countingUnitEntityRepository) {
         this.medicineEntityRepository = medicineEntityRepository;
         this.supplyService = supplyService;
+        this.medicationBatchEntityService = medicationBatchEntityService;
         this.medicationBatchEntityRepository = medicationBatchEntityRepository;
         this.locationRepository = locationRepository;
+        this.weightUnitEntityRepository = weightUnitEntityRepository;
+        this.countingUnitEntityRepository = countingUnitEntityRepository;
     }
 
     @Override
@@ -107,11 +119,17 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
 
                 Long medicationBatchId = medicationBatchEntity.getId();
 
-                medicationBatchEntity = medicationBatchEntityRepository.findById(medicationBatchId).orElseThrow(() -> new RuntimeException("No medication batch found with id "+medicationBatchId));
-                medicationBatchEntity.setMedicine(medicine);
+                MedicationBatchEntity foundMedicationBatchEntity = medicationBatchEntityRepository.findById(medicationBatchId).orElseThrow(() -> new RuntimeException("No medication batch found with id "+medicationBatchId));
 
+                if(foundMedicationBatchEntity.getMedicine() == null){
+                    foundMedicationBatchEntity.setMedicine(medicine);
 
-                addedBatches.add(medicationBatchEntity);
+                    addedBatches.add(foundMedicationBatchEntity);
+                } else{
+                    medicationBatchEntityService.updateMedicationBatch(medicationBatchEntity);
+                    continue;
+                }
+
             }
 
             medicine.getBatches().clear();
@@ -146,13 +164,62 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
     }
 
 
+//    @Override
+//    @Transactional
+//    public MedicineEntityDTO updateMedicine(MedicineEntityDTO medicineEntityDTO) {
+//        MedicineEntity existingFieldEntity = medicineEntityRepository.findById(medicineEntityDTO.getId()).orElseThrow(() -> new RuntimeException("No medicine found with id "+medicineEntityDTO.getId()));
+//        if(medicineEntityDTO.getBatches().size()==0){
+//            throw new RuntimeException("A medicine must have at least one medication batch");
+//        }
+//        medicineEntityMapper.updateMedicineFromDTO((MedicineEntityDTO) medicineEntityDTO, existingFieldEntity);
+//        return medicineEntityMapper.toDTO(medicineEntityRepository.save(existingFieldEntity));
+//    }
+
     @Override
     @Transactional
     public MedicineEntityDTO updateMedicine(MedicineEntityDTO medicineEntityDTO) {
-        MedicineEntity existingFieldEntity = medicineEntityRepository.findById(medicineEntityDTO.getId()).orElseThrow(() -> new RuntimeException("No medicine found with id "+medicineEntityDTO.getId()));
-        medicineEntityMapper.updateMedicineFromDTO((MedicineEntityDTO) medicineEntityDTO, existingFieldEntity);
-        return medicineEntityMapper.toDTO(medicineEntityRepository.save(existingFieldEntity));
+        MedicineEntity existingMedicine = medicineEntityRepository.findById(medicineEntityDTO.getId()).orElseThrow(() -> new RuntimeException("No medicine found with id "+medicineEntityDTO.getId()));
+
+
+//        if (medicineEntityDTO.getName() != null) {
+//            existingMedicine.setName(medicineEntityDTO.getName());
+//        }
+        if (medicineEntityDTO.getWeight() != null) {
+            existingMedicine.setWeight(medicineEntityDTO.getWeight());
+        }
+        if (medicineEntityDTO.getQuantity() != null) {
+            existingMedicine.setQuantity(medicineEntityDTO.getQuantity());
+        }
+        if (medicineEntityDTO.getWeightUnit() != null) {
+            WeightUnitEntity foundWeightUnit = weightUnitEntityRepository.findById(medicineEntityDTO.getWeightUnit().getId()).orElseThrow(() -> new RuntimeException("No weight unit found with id "+medicineEntityDTO.getWeightUnit().getId()));
+            existingMedicine.setWeightUnit(foundWeightUnit);
+        }
+//        if (medicineEntityDTO.getCountingUnit() != null) {
+//            CountingUnitEntity foundCountingUnit = countingUnitEntityRepository.findById(medicineEntityDTO.getWeightUnit().getId()).orElseThrow(() -> new RuntimeException("No counting unit found with id "+medicineEntityDTO.getCountingUnit().getId()));
+//            existingMedicine.setCountingUnit(foundCountingUnit);
+//        }
+//        if (medicineEntityDTO.getActivePharmaceuticalIngredient() != null) {
+//            existingMedicine.setActivePharmaceuticalIngredient(medicineEntityDTO.getActivePharmaceuticalIngredient());
+//        }
+//        if (medicineEntityDTO.getConcentration() != null) {
+//            existingMedicine.setConcentration(medicineEntityDTO.getConcentration());
+//        }
+        if (medicineEntityDTO.getBatches() != null) {
+
+
+            List<MedicationBatchEntity> batches = medicationBatchEntityMapper.map(medicineEntityDTO.getBatches());
+            for (MedicationBatchEntity batch : batches) {
+                if(batch.getId() != null){
+                    MedicationBatchEntity foundMedicationBatch = medicationBatchEntityRepository.findById(batch.getId()).orElseThrow(() -> new RuntimeException("No medication batch entity found with id "+batch.getId()));
+                    batch.setMedicine(foundMedicationBatch.getMedicine());
+                }
+            }
+            addMedicationBatchesToMedicine( batches, existingMedicine);
+        }
+
+        return medicineEntityMapper.toDTO(medicineEntityRepository.save(existingMedicine));
     }
+
 
     @Override
     @Transactional

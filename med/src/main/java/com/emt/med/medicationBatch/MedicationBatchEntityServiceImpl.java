@@ -2,9 +2,12 @@ package com.emt.med.medicationBatch;
 
 import com.emt.med.batch.BatchEntity;
 import com.emt.med.location.Location;
+import com.emt.med.location.LocationMapper;
 import com.emt.med.location.LocationRepository;
 import com.emt.med.medicine.MedicineEntity;
 import com.emt.med.medicine.MedicineEntityDTO;
+import com.emt.med.medicine.MedicineEntityMapper;
+import com.emt.med.medicine.MedicineEntityService;
 import jakarta.transaction.Transactional;
 import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Sort;
@@ -23,6 +26,8 @@ public class MedicationBatchEntityServiceImpl implements MedicationBatchEntitySe
     private LocationRepository locationRepository;
 
     static MedicationBatchEntityMapper medicationBatchEntityMapper = Mappers.getMapper(MedicationBatchEntityMapper.class);
+    static MedicineEntityMapper medicineEntityMapper = Mappers.getMapper(MedicineEntityMapper.class);
+    static LocationMapper locationMapper = Mappers.getMapper(LocationMapper.class);
 
     public MedicationBatchEntityServiceImpl(MedicationBatchEntityRepository medicationBatchEntityRepository, LocationRepository locationRepository) {
         this.medicationBatchEntityRepository = medicationBatchEntityRepository;
@@ -62,11 +67,44 @@ public class MedicationBatchEntityServiceImpl implements MedicationBatchEntitySe
         return medicationBatchEntityMapper.toDTO(medicationBatchEntity);
     }
 
+//    @Override
+//    @Transactional
+//    public MedicationBatchEntityDTO updateMedicationBatch(MedicationBatchEntityDTO medicationBatchEntityDTO) {
+//        MedicationBatchEntity existingMedicationBatchEntity = medicationBatchEntityRepository.findById(medicationBatchEntityDTO.getId()).orElseThrow(() -> new RuntimeException("No medication batch found with id "+medicationBatchEntityDTO.getId()));
+//        medicationBatchEntityMapper.updateMedicationBatchFromDto(medicationBatchEntityDTO, existingMedicationBatchEntity);
+//        return medicationBatchEntityMapper.toDTO(medicationBatchEntityRepository.save(existingMedicationBatchEntity));
+//    }
     @Override
     @Transactional
-    public MedicationBatchEntityDTO updateMedicationBatch(MedicationBatchEntityDTO medicationBatchEntityDTO) {
-        MedicationBatchEntity existingMedicationBatchEntity = medicationBatchEntityRepository.findById(medicationBatchEntityDTO.getId()).orElseThrow(() -> new RuntimeException("No medication batch found with id "+medicationBatchEntityDTO.getId()));
-        medicationBatchEntityMapper.updateMedicationBatchFromDto(medicationBatchEntityDTO, existingMedicationBatchEntity);
+    public MedicationBatchEntityDTO updateMedicationBatch(MedicationBatchEntity medicationBatchEntity) {
+
+        MedicationBatchEntity existingMedicationBatchEntity = medicationBatchEntityRepository.findById(medicationBatchEntity.getId()).orElseThrow(() -> new RuntimeException("No medication batch found with id "+medicationBatchEntity.getId()));
+
+        if(medicationBatchEntity.getQuantity() != null) {
+            existingMedicationBatchEntity.setQuantity(medicationBatchEntity.getQuantity());
+        }
+        if(medicationBatchEntity.getCum() != null) {
+            existingMedicationBatchEntity.setCum(medicationBatchEntity.getCum());
+        }
+        if(medicationBatchEntity.getMedicine() != null) {
+            existingMedicationBatchEntity.setMedicine(medicationBatchEntity.getMedicine());
+        }
+//        if(medicationBatchEntity.getLocation() != null) {
+//            existingMedicationBatchEntity.setLocation(medicationBatchEntity.getLocation());
+//        }
+        if(medicationBatchEntity.getManufacturer() != null) {
+            existingMedicationBatchEntity.setManufacturer(medicationBatchEntity.getManufacturer());
+        }
+        if(medicationBatchEntity.getExpirationDate() != null) {
+            existingMedicationBatchEntity.setExpirationDate(medicationBatchEntity.getExpirationDate());
+        }
+//        if(medicationBatchEntity.getAdministrationRoute() != null) {
+//            existingMedicationBatchEntity.setAdministrationRoute(medicationBatchEntity.getAdministrationRoute());
+//        }
+        if(medicationBatchEntity.getStatus() != null) {
+            existingMedicationBatchEntity.setStatus(medicationBatchEntity.getStatus());
+        }
+
         return medicationBatchEntityMapper.toDTO(medicationBatchEntityRepository.save(existingMedicationBatchEntity));
     }
 

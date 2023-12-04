@@ -25,7 +25,6 @@ function MedicineFormPage({ action }) {
 
         async function fetchData() {
             let fetchedData = await MedicineService.getMedicineById(id);
-            console.log(fetchedData);
             if (fetchedData.status == 500 && fetchedData.error) {
                 redirect('/404')
             }

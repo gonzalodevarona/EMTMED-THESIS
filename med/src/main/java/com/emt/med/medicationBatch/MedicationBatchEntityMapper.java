@@ -4,10 +4,14 @@ import com.emt.med.countingUnit.CountingUnitEntityMapper;
 import com.emt.med.location.LocationMapper;
 import com.emt.med.medicine.MedicineEntityMapper;
 import com.emt.med.order.OrderEntityMapper;
+import com.emt.med.supply.Supply;
+import com.emt.med.supply.SupplyDTO;
 import com.emt.med.supply.SupplyMapper;
 import com.emt.med.weightUnit.WeightUnitEntityMapper;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
+
+import java.util.List;
 
 @Mapper(uses = {MedicineEntityMapper.class, OrderEntityMapper.class, WeightUnitEntityMapper.class, CountingUnitEntityMapper.class, LocationMapper.class})
 public interface MedicationBatchEntityMapper {
@@ -20,7 +24,7 @@ public interface MedicationBatchEntityMapper {
     @Mapping(target = "medicine", ignore = true)
     MedicationBatchEntity toEntity(MedicationBatchEntityDTO medicationBatchEntityDTO);
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    List<MedicationBatchEntityDTO> mapToDTO(List<MedicationBatchEntity> medicationBatches);
 
-    void updateMedicationBatchFromDto(MedicationBatchEntityDTO dto, @MappingTarget MedicationBatchEntity entity);
+    List<MedicationBatchEntity> map(List<MedicationBatchEntityDTO> medicationBatches);
 }
