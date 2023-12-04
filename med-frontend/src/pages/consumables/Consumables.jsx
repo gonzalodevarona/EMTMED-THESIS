@@ -3,12 +3,11 @@ import CustomTable from '../../components/CustomTable'
 import Header from '../../components/Header'
 import { Link } from 'react-router-dom';
 import { Button, Typography, Stack } from '@mui/material';
-import MedicineService from '../../services/medicineService';
 import triggerCannotDeleteAlert from '../../components/alerts/CannotDeleteAlert';
 import { dateArrayToString } from '../../utils/EntityProcessingMethods';
 import ConsumableService from '../../services/consumableService';
 
-function Medicines() {
+function Consumables() {
 
     const entity = 'consumible'
 
@@ -20,7 +19,7 @@ function Medicines() {
         async function fetchData() {
             const allConsumables = await ConsumableService.getConsumablesNoOrdersNoBatches();
 
-            setConsumables(processMedicines(allConsumables))
+            setConsumables(processConsumables(allConsumables))
         }
 
         fetchData()
@@ -33,18 +32,14 @@ function Medicines() {
         { error.status === 500 ? triggerCannotDeleteAlert(entity, id, `No se pudo eliminar el ${entity} con ID ${id}`) : null }
     }
 
-    function processMedicines(medicines) {
+    function processConsumables(consumables) {
 
-        for (let i = 0; i < medicines.length; i++) {
-
-            
-            medicines[i].countingUnit = medicines[i].countingUnit.name;
-            medicines[i].weightUnit = medicines[i].weightUnit.name;
-            delete medicines[i].batches
-            delete medicines[i].orders
+        for (let i = 0; i < consumables.length; i++) {
+            consumables[i].countingUnit = consumables[i].countingUnit.name;
+            consumables[i].weightUnit = consumables[i].weightUnit.name;
 
         }
-        return medicines;
+        return consumables;
     }
 
 
@@ -59,6 +54,7 @@ function Medicines() {
                 sx={{ px: 10, py: 1, mb: 2 }}
                 color={'info'}>
                 Agregar {entity}
+
             </Button>
 
             <Typography >Nota: Para editar o eliminar algún {entity} se debe hacer por la vista detallada</Typography>
@@ -67,8 +63,6 @@ function Medicines() {
                 columns={[
                     { title: 'ID', field: 'id', type: 'numeric' },
                     { title: 'Nombre', field: 'name' },
-                    { title: 'Compuesto Activo', field: 'activePharmaceuticalIngredient' },
-                    { title: 'Concentración', field: 'concentration' },
                     { title: 'Cantidad', field: 'quantity', type: 'numeric' },
                     { title: 'Unidad de Conteo', field: 'countingUnit' },
                     { title: 'Peso', field: 'weight' },
@@ -80,10 +74,10 @@ function Medicines() {
                 editable={false}
                 deleteable={false}
                 handleDelete={handleDeleteConsumable}
-                data={consumable} />
+                data={consumables} />
 
         </>
     )
 }
 
-export default Medicines
+export default Consumables

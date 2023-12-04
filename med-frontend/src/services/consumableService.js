@@ -1,6 +1,6 @@
 import axios from '../config/axios';
 
-const entity = 'consumable'
+const entity = 'consumables'
 
 const getConsumables = async () => {
     const res = await axios.get(`/${entity}`)

@@ -17,6 +17,8 @@ public interface ConsumableEntityService {
     ConsumableEntityDTO getConsumableEntityDTOById(Long consumableEntityId);
     List<ConsumableEntityDTO> getAllConsumables();
 
+    List<ConsumableEntityDTO> getAllConsumablesNoOrdersNoBatches();
+
     ConsumableEntity saveConsumableEntity(ConsumableEntity consumableEntity);
     ConsumableEntityDTO addConsumable(ConsumableEntityDTO consumableEntityDTO);
 

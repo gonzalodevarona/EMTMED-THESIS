@@ -50,6 +50,11 @@ public class ConsumableEntityServiceImpl implements ConsumableEntityService{
     }
 
     @Override
+    public List<ConsumableEntityDTO> getAllConsumablesNoOrdersNoBatches() {
+        return consumableEntityRepository.findAll(Sort.by(Sort.Direction.ASC, "name")).stream().map(consumableEntityMapper::toDTONoOrdersNoBatches).collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    @Override
     public ConsumableEntity saveConsumableEntity(ConsumableEntity consumableEntity) {
         return consumableEntityRepository.save(consumableEntity);
     }

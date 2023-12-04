@@ -19,6 +19,12 @@ public interface ConsumableEntityMapper {
     @Mapping(target = "orders", ignore = true)
     ConsumableEntityDTO toDTO(ConsumableEntity consumableEntity);
 
+    @Named("toDTONoOrdersNoBatches")
+    @Mapping(target = "orders", ignore = true)
+    @Mapping(target = "batches", ignore = true)
+    ConsumableEntityDTO toDTONoOrdersNoBatches(ConsumableEntity consumableEntity);
+
+
     @Mapping(target = "orders", ignore = true)
     ConsumableEntity toEntity(ConsumableEntityDTO consumableEntityDTO);
 

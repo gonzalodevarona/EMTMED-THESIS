@@ -23,6 +23,11 @@ public class ConsumableEntityController {
         return ResponseEntity.ok(consumableEntityService.getAllConsumables());
     }
 
+    @GetMapping("/noOrdersNoBatches")
+    public ResponseEntity<List<ConsumableEntityDTO>> getAllConsumablesNoOrdersNoBatches() {
+        return ResponseEntity.ok(consumableEntityService.getAllConsumablesNoOrdersNoBatches());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ConsumableEntityDTO> getConsumableById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(consumableEntityService.getConsumableEntityDTOById(id));

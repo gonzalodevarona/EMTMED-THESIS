@@ -2,15 +2,15 @@ import Header from "../../components/Header"
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { removeNullProperties, previousPage, capitalizeFirstLetter } from '../../utils/CommonMethods';
-import MedicineService from "../../services/medicineService";
+import ConsumableService from "../../services/consumableService";
 import { useNavigate } from "react-router-dom";
 import triggerConfrirmationAlert from "../../components/alerts/ConfirmationAlert";
-import MedicineDetailedView from "./MedicineDetailedView";
+import ConsumableDetailedView from "./ConsumableDetailedView";
 
-function MedicineDetailed() {
+function ConsumableDetailed() {
 
     let { id } = useParams();
-    const [medicine, setMedicine] = useState({})
+    const [consumable, setConsumable] = useState({})
 
     const navigate = useNavigate();
 
@@ -18,7 +18,7 @@ function MedicineDetailed() {
         navigate(path);
     };
 
-    const entity = 'medicamento';
+    const entity = 'consumible';
 
     async function handleDelete() {
         triggerConfrirmationAlert({
@@ -26,7 +26,7 @@ function MedicineDetailed() {
             text: "¿Estas seguro que quieres eliminarlo?",
             type: "warning",
             confirmText: "Borrar",
-            action: async () => await MedicineService.deleteMedicine(id),
+            action: async () => await ConsumableService.deleteConsumable(id),
             successTitle: `${capitalizeFirstLetter(entity)} con ID ${id} eliminado con éxito.`,
             successType: "success",
             successAction: previousPage,
@@ -37,7 +37,7 @@ function MedicineDetailed() {
 
     useEffect(() => {
         async function fetchData() {
-            const entityData = await MedicineService.getMedicineById(id);
+            const entityData = await ConsumableService.getConsumableById(id);
 
             if (entityData.status == 500 && entityData.error) {
                 redirect('/404')
@@ -45,9 +45,9 @@ function MedicineDetailed() {
                 
                 entityData.countingUnit = `${entityData.countingUnit.id} - ${entityData.countingUnit.name}`
                 entityData.weightUnit = `${entityData.weightUnit.id} - ${entityData.weightUnit.name}`
-                processMedicineBatches(entityData.batches)
+                processBatches(entityData.batches)
                 console.log(entityData)
-                setMedicine(removeNullProperties(entityData))
+                setConsumable(removeNullProperties(entityData))
             }
 
         }
@@ -56,25 +56,29 @@ function MedicineDetailed() {
     }, [])
 
 
-    function processMedicineBatches(medicineBatches) {
+    function processBatches(batches) {
 
-        for (let i = 0; i < medicineBatches.length; i++) {
-            medicineBatches[i] = removeNullProperties(medicineBatches[i])
+        for (let i = 0; i < batches.length; i++) {
+            batches[i] = removeNullProperties(batches[i])
         }
-        return medicineBatches;
+        return batches;
     }
 
+    useEffect(() => {
+      console.log(consumable)
+    }, [consumable])
+    
 
     return (
         <>
             <Header title={`${entity} #${id}`} />
-            <MedicineDetailedView
+            <ConsumableDetailedView
                 editable
                 deleteable
-                entity='medicamentos' data={medicine}
+                entity='consumibles' data={consumable}
                 handleDelete={handleDelete} />
         </>
     )
 }
 
-export default MedicineDetailed
+export default ConsumableDetailed

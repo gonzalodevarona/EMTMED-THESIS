@@ -21,6 +21,7 @@ import Batches from '../pages/batches/Batches'
 import MedicationBatchDetailed from '../pages/batches/medicationBatches/MedicationBatchDetailed'
 import BatchDetailed from '../pages/batches/BatchDetailed'
 import Consumables from '../pages/consumables/Consumables'
+import ConsumableDetailed from '../pages/consumables/ConsumableDetailed'
 
 export default function Routes() {
 
@@ -162,11 +163,11 @@ export default function Routes() {
 
                     {
                         path: "/consumibles",
-                        element: <Medicines />
+                        element: <Consumables />
                     },
                     {
                         path: "/consumibles/:id",
-                        element: <MedicineDetailed title='medicamento' />
+                        element: <ConsumableDetailed title='consumible' />
                     },
                     {
                         path: "/consumibles/agregar",
