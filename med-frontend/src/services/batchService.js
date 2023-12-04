@@ -1,8 +1,8 @@
 import axios from '../config/axios';
 
-const entity = 'medicationBatches'
+const entity = 'batches'
 
-const getMedicationBatches = async () => {
+const getBatches = async () => {
     const res = await axios.get(`/${entity}`)
         .catch((error) => {
             console.log(error)
@@ -12,7 +12,7 @@ const getMedicationBatches = async () => {
     return res.data
 }
 
-const getMedicationBatchById = async (id) => {
+const getBatchById = async (id) => {
     const res = await axios.get(`/${entity}/${id}`)
         .catch((error) => {
             console.log(error)
@@ -22,8 +22,8 @@ const getMedicationBatchById = async (id) => {
     return res.data
 }
 
-const getMedicineByMedicationBatchId = async (id) => {
-    const res = await axios.get(`/${entity}/${id}/medicine`)
+const getConsumableByBatchId = async (id) => {
+    const res = await axios.get(`/${entity}/${id}/consumable`)
         .catch((error) => {
             console.log(error)
             return error.response;
@@ -32,8 +32,8 @@ const getMedicineByMedicationBatchId = async (id) => {
     return res.data
 }
 
-const addMedicationBatch = async (medicationBatch) => {
-    const res = await axios.post(`/${entity}`, medicationBatch)
+const addBatch = async (batch) => {
+    const res = await axios.post(`/${entity}`, batch)
         .catch((error) => {
             console.log(error)
             return error.response;
@@ -42,8 +42,8 @@ const addMedicationBatch = async (medicationBatch) => {
     return res.data
 }
 
-const editMedicationBatch = async (medicationBatch) => {
-    const res = await axios.put(`/${entity}`, medicationBatch)
+const editBatch = async (batch) => {
+    const res = await axios.put(`/${entity}`, batch)
         .catch((error) => {
             console.log(error)
             return error.response;
@@ -52,7 +52,7 @@ const editMedicationBatch = async (medicationBatch) => {
     return res.data
 }
 
-const deleteMedicationBatch = async (id) => {
+const deleteBatch = async (id) => {
     const res = await axios.delete(`/${entity}/${id}`)
         .catch((error) => {
             console.log(error)
@@ -63,13 +63,13 @@ const deleteMedicationBatch = async (id) => {
 }
 
 
-const MedicationBatchService = {
-    getMedicationBatches,
-    getMedicationBatchById,
-    getMedicineByMedicationBatchId,
-    addMedicationBatch,
-    editMedicationBatch,
-    deleteMedicationBatch
+const BatchService = {
+    getBatches,
+    getBatchById,
+    getConsumableByBatchId,
+    addBatch,
+    editBatch,
+    deleteBatch
 }
 
-export default MedicationBatchService;
+export default BatchService;

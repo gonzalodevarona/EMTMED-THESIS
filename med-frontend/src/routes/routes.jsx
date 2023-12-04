@@ -17,7 +17,10 @@ import InventoryOrderDetailed from '../pages/inventoryOrders/InventoryOrderDetai
 import Medicines from '../pages/medicines/Medicines'
 import MedicineDetailed from '../pages/medicines/MedicineDetailed'
 import MedicineFormPage from '../pages/medicines/medicineForm/MedicineFormPage'
-import MedicineForm from '../pages/medicines/medicineForm/MedicineForm'
+import Batches from '../pages/batches/Batches'
+import MedicationBatchDetailed from '../pages/batches/medicationBatches/MedicationBatchDetailed'
+import BatchDetailed from '../pages/batches/BatchDetailed'
+import Consumables from '../pages/consumables/Consumables'
 
 export default function Routes() {
 
@@ -25,143 +28,179 @@ export default function Routes() {
         [
             {
                 path: "/",
-            element: <Dashboard />,
-            children: [
-                {
-                    path: "*",
-                    element: <Typography>Error 404: Página no encontrada</Typography>
-                },
-                {
-                    path: "404",
-                    element: <Typography>Error 404: Página no encontrada</Typography>
-                },
+                element: <Dashboard />,
+                children: [
+                    {
+                        path: "*",
+                        element: <Typography>Error 404: Página no encontrada</Typography>
+                    },
+                    {
+                        path: "404",
+                        element: <Typography>Error 404: Página no encontrada</Typography>
+                    },
 
-                // *** UNIDADES ***
+                    // *** UNIDADES ***
 
-                {
-                    path: "/unidades",
-                    element: <Units />
-                },
+                    {
+                        path: "/unidades",
+                        element: <Units />
+                    },
 
-                // *** UNIDAD DE PESO ***
+                    // *** UNIDAD DE PESO ***
 
-                {
-                    path: "/unidadespeso/:id",
-                    element: <WeightUnitDetailed/>
-                },
-                {
-                    path: "/unidadespeso/agregar",
-                    element: <UnitFormPage type='peso' action='add'/>
-                },
-                {
-                    path: "/unidadespeso/editar/:id",
-                    element: <UnitFormPage type='peso' action='edit'/>
-                },
+                    {
+                        path: "/unidadespeso/:id",
+                        element: <WeightUnitDetailed />
+                    },
+                    {
+                        path: "/unidadespeso/agregar",
+                        element: <UnitFormPage type='peso' action='add' />
+                    },
+                    {
+                        path: "/unidadespeso/editar/:id",
+                        element: <UnitFormPage type='peso' action='edit' />
+                    },
 
-                // *** UNIDAD DE CONTEO ***
+                    // *** UNIDAD DE CONTEO ***
 
-                {
-                    path: "/unidadesconteo/:id",
-                    element: <CountingUnitDetailed/>
-                },
-                {
-                    path: "/unidadesconteo/agregar",
-                    element: <UnitFormPage type='conteo' action='add'/>
-                },
-                {
-                    path: "/unidadesconteo/editar/:id",
-                    element: <UnitFormPage type='conteo' action='edit'/>
-                },
-
-
-
-                // *** UBICACIONES ***
-
-                {
-                    path: "/ubicaciones",
-                    element: <Locations />
-                },
-
-                // *** FARMACIA ***
-
-                {
-                    path: "/farmacia/:id",
-                    element: <PharmacyDetailed/>
-                },
-                {
-                    path: "/farmacia/agregar",
-                    element: <PharmacyFormPage action='add'/>
-                },
-                {
-                    path: "/farmacia/editar/:id",
-                    element: <PharmacyFormPage action='edit'/>
-                },
-
-                // *** ESTACIÓN DE DESECHOS ***
-
-                {
-                    path: "/estaciondesechos/:id",
-                    element: <DisposalStationDetailed/>
-                },
-                {
-                    path: "/estaciondesechos/agregar",
-                    element: <DisposalStationFormPage action='add'/>
-                },
-                {
-                    path: "/estaciondesechos/editar/:id",
-                    element: <DisposalStationFormPage action='edit'/>
-                },
+                    {
+                        path: "/unidadesconteo/:id",
+                        element: <CountingUnitDetailed />
+                    },
+                    {
+                        path: "/unidadesconteo/agregar",
+                        element: <UnitFormPage type='conteo' action='add' />
+                    },
+                    {
+                        path: "/unidadesconteo/editar/:id",
+                        element: <UnitFormPage type='conteo' action='edit' />
+                    },
 
 
-                // *** ORDENES DE INVENTARIO ***
+
+                    // *** UBICACIONES ***
+
+                    {
+                        path: "/ubicaciones",
+                        element: <Locations />
+                    },
+
+                    // *** FARMACIA ***
+
+                    {
+                        path: "/farmacia/:id",
+                        element: <PharmacyDetailed />
+                    },
+                    {
+                        path: "/farmacia/agregar",
+                        element: <PharmacyFormPage action='add' />
+                    },
+                    {
+                        path: "/farmacia/editar/:id",
+                        element: <PharmacyFormPage action='edit' />
+                    },
+
+                    // *** ESTACIÓN DE DESECHOS ***
+
+                    {
+                        path: "/estaciondesechos/:id",
+                        element: <DisposalStationDetailed />
+                    },
+                    {
+                        path: "/estaciondesechos/agregar",
+                        element: <DisposalStationFormPage action='add' />
+                    },
+                    {
+                        path: "/estaciondesechos/editar/:id",
+                        element: <DisposalStationFormPage action='edit' />
+                    },
 
 
-                {
-                    path: "/ordenes-inventario",
-                    element: <InventoryOrders />
-                },
-                {
-                    path: "/ordenes-inventario/:id",
-                    element: <InventoryOrderDetailed title='orden'/>
-                },
-                {
-                    path: "/ordenes-inventario/agregar",
-                    element: <InventoryOrderFormPage action='add'/>
-                },
-                {
-                    path: "/ordenes-inventario/editar/:id",
-                    element: <InventoryOrderFormPage action='edit'/>
-                },
+                    // *** ORDENES DE INVENTARIO ***
 
 
-                // *** MEDICAMENTOS ***
+                    {
+                        path: "/ordenes-inventario",
+                        element: <InventoryOrders />
+                    },
+                    {
+                        path: "/ordenes-inventario/:id",
+                        element: <InventoryOrderDetailed title='orden' />
+                    },
+                    {
+                        path: "/ordenes-inventario/agregar",
+                        element: <InventoryOrderFormPage action='add' />
+                    },
+                    {
+                        path: "/ordenes-inventario/editar/:id",
+                        element: <InventoryOrderFormPage action='edit' />
+                    },
 
 
-                {
-                    path: "/medicamentos",
-                    element: <Medicines />
-                },
-                {
-                    path: "/medicamentos/:id",
-                    element: <MedicineDetailed title='medicamento'/>
-                },
-                {
-                    path: "/medicamentos/agregar",
-                    element: <MedicineFormPage action='add'/>
-                },
-                {
-                    path: "/medicamentos/editar/:id",
-                    element: <MedicineFormPage action='edit'/>
-                },
+                    // *** MEDICAMENTOS ***
 
-                // *** UNIDAD DE PESO ***
 
-                {
-                    path: "/test",
-                    element: <Test/>
-                },
+                    {
+                        path: "/medicamentos",
+                        element: <Medicines />
+                    },
+                    {
+                        path: "/medicamentos/:id",
+                        element: <MedicineDetailed title='medicamento' />
+                    },
+                    {
+                        path: "/medicamentos/agregar",
+                        element: <MedicineFormPage action='add' />
+                    },
+                    {
+                        path: "/medicamentos/editar/:id",
+                        element: <MedicineFormPage action='edit' />
+                    },
 
-            ]
+                    // *** CONSUMIBLES ***
+
+
+                    {
+                        path: "/consumibles",
+                        element: <Medicines />
+                    },
+                    {
+                        path: "/consumibles/:id",
+                        element: <MedicineDetailed title='medicamento' />
+                    },
+                    {
+                        path: "/consumibles/agregar",
+                        element: <MedicineFormPage action='add' />
+                    },
+                    {
+                        path: "/consumibles/editar/:id",
+                        element: <MedicineFormPage action='edit' />
+                    },
+
+                    // *** LOTES ***
+
+
+                    {
+                        path: "/lotes",
+                        element: <Batches />
+                    },
+                    {
+                        path: "/lotes-medicamentos/:id",
+                        element: <MedicationBatchDetailed title='medicamento' />
+                    },
+                    {
+                        path: "/lotes/:id",
+                        element: <BatchDetailed title='medicamento' />
+                    },
+
+                    // *** UNIDAD DE PESO ***
+
+                    {
+                        path: "/test",
+                        element: <Test />
+                    },
+
+                ]
             }
         ]
     )

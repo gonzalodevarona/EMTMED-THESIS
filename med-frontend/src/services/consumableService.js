@@ -1,8 +1,8 @@
 import axios from '../config/axios';
 
-const entity = 'medicationBatches'
+const entity = 'consumable'
 
-const getMedicationBatches = async () => {
+const getConsumables = async () => {
     const res = await axios.get(`/${entity}`)
         .catch((error) => {
             console.log(error)
@@ -11,8 +11,17 @@ const getMedicationBatches = async () => {
 
     return res.data
 }
+const getConsumablesNoOrdersNoBatches = async () => {
+    const res = await axios.get(`/${entity}/noOrdersNoBatches`)
+        .catch((error) => {
+            console.log(error)
+            return error.response;
+        });
 
-const getMedicationBatchById = async (id) => {
+    return res.data
+}
+
+const getConsumableById = async (id) => {
     const res = await axios.get(`/${entity}/${id}`)
         .catch((error) => {
             console.log(error)
@@ -22,8 +31,8 @@ const getMedicationBatchById = async (id) => {
     return res.data
 }
 
-const getMedicineByMedicationBatchId = async (id) => {
-    const res = await axios.get(`/${entity}/${id}/medicine`)
+const addConsumable = async (consumable) => {
+    const res = await axios.post(`/${entity}`, consumable)
         .catch((error) => {
             console.log(error)
             return error.response;
@@ -32,8 +41,8 @@ const getMedicineByMedicationBatchId = async (id) => {
     return res.data
 }
 
-const addMedicationBatch = async (medicationBatch) => {
-    const res = await axios.post(`/${entity}`, medicationBatch)
+const editConsumable = async (consumable) => {
+    const res = await axios.put(`/${entity}`, consumable)
         .catch((error) => {
             console.log(error)
             return error.response;
@@ -42,17 +51,7 @@ const addMedicationBatch = async (medicationBatch) => {
     return res.data
 }
 
-const editMedicationBatch = async (medicationBatch) => {
-    const res = await axios.put(`/${entity}`, medicationBatch)
-        .catch((error) => {
-            console.log(error)
-            return error.response;
-        });
-
-    return res.data
-}
-
-const deleteMedicationBatch = async (id) => {
+const deleteConsumable = async (id) => {
     const res = await axios.delete(`/${entity}/${id}`)
         .catch((error) => {
             console.log(error)
@@ -63,13 +62,13 @@ const deleteMedicationBatch = async (id) => {
 }
 
 
-const MedicationBatchService = {
-    getMedicationBatches,
-    getMedicationBatchById,
-    getMedicineByMedicationBatchId,
-    addMedicationBatch,
-    editMedicationBatch,
-    deleteMedicationBatch
+const ConsumableService  = {
+    getConsumables,
+    getConsumablesNoOrdersNoBatches,
+    getConsumableById,
+    addConsumable,
+    editConsumable,
+    deleteConsumable
 }
 
-export default MedicationBatchService;
+export default ConsumableService;

@@ -11,7 +11,7 @@ import CountingUnitService from '../../../services/countingUnitService';
 import MedicationBatchService from '../../../services/medicationBatchService';
 import { refreshPage } from "../../../utils/CommonMethods";
 import MedicineService from "../../../services/medicineService";
-import MedicationBatchFormEmbedded from "../../medicationBatches/medicationBatchForm/MedicationBatchFormEmbedded";
+import MedicationBatchFormEmbedded from "../../../pages/batches/medicationBatches/medicationBatchForm/MedicationBatchFormEmbedded";
 
 function MedicineForm({ action, preloadedData, id }) {
 

@@ -32,15 +32,16 @@ public class MedicationBatchEntityController {
         return ResponseEntity.ok(medicationBatchEntityService.getMedicationBatchEntityDTOById(id));
     }
 
+    @GetMapping("/{id}/medicine")
+    public ResponseEntity<MedicineEntityDTO> getMedicineByMedicationBatchId(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(medicationBatchEntityService.getMedicineByMedicationBatchId(id));
+    }
+
     @PostMapping()
     public ResponseEntity<MedicationBatchEntityDTO> addMedicationBatch(@Valid @RequestBody MedicationBatchEntityDTO medicationBatchEntityDTO) {
         return new ResponseEntity<MedicationBatchEntityDTO>(medicationBatchEntityService.addMedicationBatch(medicationBatchEntityDTO), HttpStatus.CREATED);
     }
 
-//    @PutMapping()
-//    public ResponseEntity<MedicationBatchEntityDTO> updateMedicationBatch(@Valid @RequestBody MedicationBatchEntityDTO medicationBatchEntityDTO) {
-//        return ResponseEntity.ok(medicationBatchEntityService.updateMedicationBatch(medicationBatchEntityDTO));
-//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteMedicationBatch(@PathVariable("id") Long id) {

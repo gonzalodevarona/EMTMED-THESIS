@@ -163,18 +163,6 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
         return medicineEntityRepository.save(medicineEntity);
     }
 
-
-//    @Override
-//    @Transactional
-//    public MedicineEntityDTO updateMedicine(MedicineEntityDTO medicineEntityDTO) {
-//        MedicineEntity existingFieldEntity = medicineEntityRepository.findById(medicineEntityDTO.getId()).orElseThrow(() -> new RuntimeException("No medicine found with id "+medicineEntityDTO.getId()));
-//        if(medicineEntityDTO.getBatches().size()==0){
-//            throw new RuntimeException("A medicine must have at least one medication batch");
-//        }
-//        medicineEntityMapper.updateMedicineFromDTO((MedicineEntityDTO) medicineEntityDTO, existingFieldEntity);
-//        return medicineEntityMapper.toDTO(medicineEntityRepository.save(existingFieldEntity));
-//    }
-
     @Override
     @Transactional
     public MedicineEntityDTO updateMedicine(MedicineEntityDTO medicineEntityDTO) {

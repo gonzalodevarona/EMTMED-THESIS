@@ -46,6 +46,13 @@ public class MedicationBatchEntityServiceImpl implements MedicationBatchEntitySe
         return medicationBatchEntityMapper.toDTO(medicationBatchEntity);
     }
 
+
+    public MedicineEntityDTO getMedicineByMedicationBatchId(Long medicationBatchEntityId){
+        MedicationBatchEntity medicationBatchEntity = medicationBatchEntityRepository.findById(medicationBatchEntityId).orElseThrow(() -> new RuntimeException("No medication batch found with id "+medicationBatchEntityId));
+        return medicineEntityMapper.toDTO(medicationBatchEntity.getMedicine());
+    }
+
+
     @Override
     public List<MedicationBatchEntityDTO> getAllMedicationBatches() {
         return medicationBatchEntityRepository.findAll(Sort.by(Sort.Direction.ASC, "expirationDate")).stream().map(medicationBatchEntityMapper::toDTO).collect(Collectors.toCollection(ArrayList::new));
@@ -67,13 +74,6 @@ public class MedicationBatchEntityServiceImpl implements MedicationBatchEntitySe
         return medicationBatchEntityMapper.toDTO(medicationBatchEntity);
     }
 
-//    @Override
-//    @Transactional
-//    public MedicationBatchEntityDTO updateMedicationBatch(MedicationBatchEntityDTO medicationBatchEntityDTO) {
-//        MedicationBatchEntity existingMedicationBatchEntity = medicationBatchEntityRepository.findById(medicationBatchEntityDTO.getId()).orElseThrow(() -> new RuntimeException("No medication batch found with id "+medicationBatchEntityDTO.getId()));
-//        medicationBatchEntityMapper.updateMedicationBatchFromDto(medicationBatchEntityDTO, existingMedicationBatchEntity);
-//        return medicationBatchEntityMapper.toDTO(medicationBatchEntityRepository.save(existingMedicationBatchEntity));
-//    }
     @Override
     @Transactional
     public MedicationBatchEntityDTO updateMedicationBatch(MedicationBatchEntity medicationBatchEntity) {
