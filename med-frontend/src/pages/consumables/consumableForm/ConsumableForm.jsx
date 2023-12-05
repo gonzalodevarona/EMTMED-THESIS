@@ -8,17 +8,18 @@ import Header from '../../../components/Header';
 import triggerInfoAlert from "../../../components/alerts/InfoAlert";
 import WeightUnitService from '../../../services/weightUnitService';
 import CountingUnitService from '../../../services/countingUnitService';
-import MedicationBatchService from '../../../services/medicationBatchService';
-import { refreshPage } from "../../../utils/CommonMethods";
-import MedicineService from "../../../services/medicineService";
-import MedicationBatchFormEmbedded from "../../../pages/medicationBatches/medicationBatchForm/MedicationBatchFormEmbedded";
 
-function MedicineForm({ action, preloadedData, id }) {
+import { refreshPage } from "../../../utils/CommonMethods";
+import BatchService from "../../../services/batchService";
+import ConsumableService from "../../../services/consumableService";
+import BatchFormEmbedded from "../../../pages/batches/batchForm/BatchFormEmbedded";
+
+function ConsumableForm({ action, preloadedData, id }) {
 
   const [weightUnits, setWeightUnits] = useState([])
   const [countingUnits, setCountingUnits] = useState([])
 
-  const [medicationBatches, setMedicationBatches] = useState([{ id: 1 }])
+  const [batches, setBatches] = useState([{ id: 1 }])
 
 
   useEffect(() => {
@@ -34,7 +35,7 @@ function MedicineForm({ action, preloadedData, id }) {
     if (action === 'edit') {
       let fetchedBatches = Object.values(preloadedData.batches);
       fetchedBatches = fetchedBatches.map(batch => ({ ...batch, existing: true }));
-      setMedicationBatches(fetchedBatches);
+      setBatches(fetchedBatches);
     }
 
 
@@ -42,52 +43,52 @@ function MedicineForm({ action, preloadedData, id }) {
     fetchCountingUnits()
   }, [])
 
-  async function addMedicine(medicine) {
-    return await MedicineService.addMedicine(medicine);
+  async function addConsumable(consumable) {
+    return await ConsumableService.addConsumable(consumable);
   }
 
-  async function editMedicine(medicine) {
+  async function editConsumable(consumable) {
 
-    console.log(medicine);
-    if (medicine.batches) {
-      for (let i = 0; i < medicine.batches.length; i++) {
-        medicine.batches[i].existing = undefined
-        if (typeof medicine.batches[i].expirationDate !== 'string') {
-          medicine.batches[i].expirationDate = `${medicine.batches[i].expirationDate[0]}-${medicine.batches[i].expirationDate[1]}-${medicine.batches[i].expirationDate[2]}`
+    console.log(consumable);
+    if (consumable.batches) {
+      for (let i = 0; i < consumable.batches.length; i++) {
+        consumable.batches[i].existing = undefined
+        if (typeof consumable.batches[i].expirationDate !== 'string') {
+          consumable.batches[i].expirationDate = `${consumable.batches[i].expirationDate[0]}-${consumable.batches[i].expirationDate[1]}-${consumable.batches[i].expirationDate[2]}`
         }
 
       }
     }
-    console.log(medicine)
-    return await MedicineService.editMedicine(medicine);
+    console.log(consumable)
+    return await ConsumableService.editConsumable(consumable);
   }
 
-  const addMedicationBatch = () => {
+  const addBatch = () => {
     if (action === 'add') {
-      setMedicationBatches([...medicationBatches, { id: medicationBatches.length + 1 }]);
+      setBatches([...batches, { id: batches.length + 1 }]);
     } else {
-      setMedicationBatches([
-        ...medicationBatches,
-        { id: medicationBatches[medicationBatches.length - 1].id + 1 }
+      setBatches([
+        ...batches,
+        { id: batches[batches.length - 1].id + 1 }
       ]);
 
     }
 
   };
 
-  async function deleteMedicationBatch(batchId) {
-    const newBatches = medicationBatches.filter((batch) => batch.id !== batchId);
-    setMedicationBatches(newBatches);
+  async function deleteBatch(batchId) {
+    const newBatches = batches.filter((batch) => batch.id !== batchId);
+    setBatches(newBatches);
 
     if (action === 'edit') {
-      await MedicationBatchService.deleteMedicationBatch(batchId)
+      await BatchService.deleteBatch(batchId)
     }
   }
 
 
 
-  const updateMedicationBatch = (id, newValues) => {
-    setMedicationBatches(prevState => {
+  const updateBatch = (id, newValues) => {
+    setBatches(prevState => {
       return prevState.map(batch => {
         if (batch.id === id) {
           return { ...batch, ...newValues };
@@ -108,14 +109,14 @@ function MedicineForm({ action, preloadedData, id }) {
   });
 
   useEffect(() => {
-    if (medicationBatches.length > 0 && medicationBatches.every(medicationBatch => {
+    if (batches.length > 0 && batches.every(medicationBatch => {
       return medicationBatch.hasOwnProperty('quantity');
     })) {
-      const totalQuantity = medicationBatches.reduce((total, batch) => total + (batch.quantity | 0), 0);
+      const totalQuantity = batches.reduce((total, batch) => total + (batch.quantity | 0), 0);
       setValue('quantity', totalQuantity)
     }
 
-  }, [medicationBatches])
+  }, [batches])
 
 
   function addedSuccessfully() {
@@ -136,8 +137,8 @@ function MedicineForm({ action, preloadedData, id }) {
   }
 
   async function onSubmit(data) {
-    console.log(medicationBatches)
-    data.batches = medicationBatches.map(obj => {
+    console.log(batches)
+    data.batches = batches.map(obj => {
       obj.quantity = Number(obj.quantity);
       if (!obj.existing) {
         let { id, ...rest } = obj;
@@ -156,7 +157,7 @@ function MedicineForm({ action, preloadedData, id }) {
 
       switch (action) {
         case 'add':
-          addMedicine(data)
+          addConsumable(data)
             .then((result) => {
               console.log(result)
               addedSuccessfully()
@@ -168,7 +169,7 @@ function MedicineForm({ action, preloadedData, id }) {
           break;
         case 'edit':
 
-          editMedicine(data)
+          editConsumable(data)
             .then((result) => {
               if (result.status === 500) {
                 // errorEditing()
@@ -190,8 +191,8 @@ function MedicineForm({ action, preloadedData, id }) {
   };
 
   useEffect(() => {
-    console.log(medicationBatches)
-  }, [medicationBatches])
+    console.log(batches)
+  }, [batches])
 
 
   function checkQuantity(arr) {
@@ -211,22 +212,6 @@ function MedicineForm({ action, preloadedData, id }) {
             disabled={action === 'edit' ? true : false}
             label='Nombre'
             name='name'
-            register={register}
-            errors={errors} />
-
-          <FormTextfield
-            isRequired
-            disabled={action === 'edit' ? true : false}
-            label='Compuesto Activo'
-            name='activePharmaceuticalIngredient'
-            register={register}
-            errors={errors} />
-
-          <FormTextfield
-            isRequired
-            disabled={action === 'edit' ? true : false}
-            label='Concentración'
-            name='concentration'
             register={register}
             errors={errors} />
 
@@ -280,29 +265,29 @@ function MedicineForm({ action, preloadedData, id }) {
             </FormSelect>
           }
 
-          <Button onClick={addMedicationBatch} variant="contained" color="info">
-            Agregar lote de medicamento
+          <Button onClick={addBatch} variant="contained" color="info">
+            Agregar lote
           </Button>
 
           <Divider />
 
           <Button type="submit" variant="contained" color="info">
-            {action === 'add' ? 'Agregar medicamento' : 'Editar medicamento'}
+            {action === 'add' ? 'Agregar consumible' : 'Editar consumible'}
           </Button>
 
         </Stack>
 
       </form>
 
-      {medicationBatches.length > 0 && medicationBatches.map((batch, index) => (
+      {batches.length > 0 && batches.map((batch, index) => (
         <Stack my={4} key={batch.id}>
-          <Header title={action === 'add' ? 'Agregar un lote de medicamento' : 'Editar un lote de medicamento'} />
-          <MedicationBatchFormEmbedded
+          <Header title={action === 'add' ? 'Agregar un lote' : 'Editar un lote'} />
+          <BatchFormEmbedded
             action={action === 'edit' && batch.quantity ? 'edit' : 'add'}
-            addMedicationBatch={updateMedicationBatch}
+            addBatch={updateBatch}
             id={batch.id}
             preloadedData={action === 'edit' ? batch : undefined}
-            deleteMedicationBatch={index === 0 ? null : deleteMedicationBatch} />
+            deleteBatch={index === 0 ? null : deleteBatch} />
         </Stack>
       ))}
 
@@ -311,4 +296,4 @@ function MedicineForm({ action, preloadedData, id }) {
   )
 }
 
-export default MedicineForm
+export default ConsumableForm

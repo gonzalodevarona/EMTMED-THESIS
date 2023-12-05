@@ -2,6 +2,7 @@ package com.emt.med.batch;
 
 import com.emt.med.baseBatch.BaseBatchDTO;
 import com.emt.med.consumable.ConsumableEntityDTO;
+import com.emt.med.location.LocationDTO;
 import com.emt.med.supply.Supply;
 import com.emt.med.supply.SupplyDTO;
 import jakarta.validation.constraints.Future;
@@ -18,4 +19,5 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class BatchEntityDTO extends BaseBatchDTO {
     private ConsumableEntityDTO consumable;
+    private LocationDTO location;
 }

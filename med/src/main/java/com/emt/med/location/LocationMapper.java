@@ -24,16 +24,19 @@ public interface LocationMapper {
     @SubclassMapping( source = DisposalStationEntity.class, target = DisposalStationEntityDTO.class )
     @SubclassMapping( source = PharmacyEntity.class, target = PharmacyEntityDTO.class )
     @Mapping(target = "medicationBatchList", ignore = true)
+    @Mapping(target = "batchList", ignore = true)
     @Mapping(target = "destinationList", ignore = true)
     @Mapping(target = "sourceList", ignore = true)
     LocationDTO toDTO(Location location);
 
     @InheritInverseConfiguration
     @Mapping(target = "medicationBatchList", ignore = true)
+    @Mapping(target = "batchList", ignore = true)
     Location toEntity(LocationDTO locationDTO);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "medicationBatchList", ignore = true)
+    @Mapping(target = "batchList", ignore = true)
     void updateLocationFromDTO(LocationDTO dto, @MappingTarget Location entity);
 
     @ObjectFactory

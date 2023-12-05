@@ -1,5 +1,6 @@
 package com.emt.med.batch;
 
+import com.emt.med.consumable.ConsumableEntityDTO;
 import com.emt.med.medicationBatch.MedicationBatchEntity;
 import com.emt.med.weightUnit.WeightUnitEntity;
 import org.hibernate.engine.jdbc.batch.spi.Batch;
@@ -15,11 +16,13 @@ public interface BatchEntityService {
 
     BatchEntityDTO getBatchEntityDTOById(Long batchEntityId);
     List<BatchEntityDTO> getAllBatches();
+
+    ConsumableEntityDTO getConsumableByBatchId(Long batchEntityId);
     BatchEntityDTO addBatch(BatchEntityDTO batchDTO);
 
     BatchEntity saveBatch(BatchEntity batchEntity);
 
-    BatchEntityDTO updateBatch(BatchEntityDTO batchDTO);
+    BatchEntityDTO updateBatch(BatchEntity batchEntity);
 
     void deleteBatch(Long id);
 

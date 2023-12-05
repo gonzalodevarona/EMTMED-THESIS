@@ -48,6 +48,7 @@ function ConsumableDetailedView({ data, entity, handleDelete, deleteable, editab
         let batchesArray = [];
         if (batches) {
             Object.entries(batches).forEach(([_, value]) => {
+                console.log(value)
                 value.location = value.location.name
                 value.expirationDate = dateArrayToString(value.expirationDate)
                     batchesArray.push(value);

@@ -18,10 +18,11 @@ import Medicines from '../pages/medicines/Medicines'
 import MedicineDetailed from '../pages/medicines/MedicineDetailed'
 import MedicineFormPage from '../pages/medicines/medicineForm/MedicineFormPage'
 import Batches from '../pages/batches/Batches'
-import MedicationBatchDetailed from '../pages/batches/medicationBatches/MedicationBatchDetailed'
+import MedicationBatchDetailed from '../pages/medicationBatches/MedicationBatchDetailed'
 import BatchDetailed from '../pages/batches/BatchDetailed'
 import Consumables from '../pages/consumables/Consumables'
 import ConsumableDetailed from '../pages/consumables/ConsumableDetailed'
+import ConsumableFormPage from '../pages/consumables/consumableForm/ConsumableFormPage'
 
 export default function Routes() {
 
@@ -171,11 +172,11 @@ export default function Routes() {
                     },
                     {
                         path: "/consumibles/agregar",
-                        element: <MedicineFormPage action='add' />
+                        element: <ConsumableFormPage action='add' />
                     },
                     {
                         path: "/consumibles/editar/:id",
-                        element: <MedicineFormPage action='edit' />
+                        element: <ConsumableFormPage action='edit' />
                     },
 
                     // *** LOTES ***
@@ -187,11 +188,11 @@ export default function Routes() {
                     },
                     {
                         path: "/lotes-medicamentos/:id",
-                        element: <MedicationBatchDetailed title='medicamento' />
+                        element: <MedicationBatchDetailed/>
                     },
                     {
                         path: "/lotes/:id",
-                        element: <BatchDetailed title='medicamento' />
+                        element: <BatchDetailed/>
                     },
 
                     // *** UNIDAD DE PESO ***

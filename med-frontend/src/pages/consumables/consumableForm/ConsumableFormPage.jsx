@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react'
-import MedicationBatchForm from './MedicationBatchForm';
+import ConsumableForm from './ConsumableForm';
 import Header from '../../../components/Header';
 import { useParams } from "react-router-dom";
-import MedicationBatchService from '../../../services/medicationBatchService'
+import ConsumableService from '../../../services/consumableService'
 import { removeNullProperties } from '../../../utils/CommonMethods'
 import { useNavigate } from "react-router-dom";
 
-function MedicationBatchFormPage({ action }) {
+function ConsumableFormPage({ action }) {
 
     let { id } = useParams();
 
-    const [medicationBatchData, setMedicationBatchData] = useState({})
+    const [consumableData, setConsumableData] = useState({})
 
-    const entity = 'lote de medicamento';
+    const entity = 'consumible';
 
     const navigate = useNavigate();
 
@@ -24,13 +24,12 @@ function MedicationBatchFormPage({ action }) {
     useEffect(() => {
 
         async function fetchData() {
-            let fetchedData = await MedicationBatchService.getMedicationBatchById(id);
-            console.log(fetchedData);
+            let fetchedData = await ConsumableService.getConsumableById(id);
             if (fetchedData.status == 500 && fetchedData.error) {
                 redirect('/404')
             }
           
-            setMedicationBatchData(fetchedData);
+            setConsumableData(fetchedData);
         }
 
         if(action === 'edit'){
@@ -47,15 +46,15 @@ function MedicationBatchFormPage({ action }) {
                 <Header title={`Agregar un ${entity}`} /> :
                 <Header title={`Editar el ${entity} #${id}`} />
             }
-            {action === 'edit' && medicationBatchData.id &&
-                <MedicationBatchForm id={id} action={action} preloadedData={removeNullProperties(medicationBatchData)}/>
+            {action === 'edit' && consumableData.id &&
+                <ConsumableForm id={id} action={action} preloadedData={removeNullProperties(consumableData)}/>
             }
             {action === 'add' && 
-                <MedicationBatchForm  action={action} />
+                <ConsumableForm  action={action} />
             }
 
         </>
     )
 }
 
-export default MedicationBatchFormPage
+export default ConsumableFormPage

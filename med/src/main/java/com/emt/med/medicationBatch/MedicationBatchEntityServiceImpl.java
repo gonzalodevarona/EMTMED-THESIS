@@ -46,7 +46,7 @@ public class MedicationBatchEntityServiceImpl implements MedicationBatchEntitySe
         return medicationBatchEntityMapper.toDTO(medicationBatchEntity);
     }
 
-
+    @Override
     public MedicineEntityDTO getMedicineByMedicationBatchId(Long medicationBatchEntityId){
         MedicationBatchEntity medicationBatchEntity = medicationBatchEntityRepository.findById(medicationBatchEntityId).orElseThrow(() -> new RuntimeException("No medication batch found with id "+medicationBatchEntityId));
         return medicineEntityMapper.toDTO(medicationBatchEntity.getMedicine());

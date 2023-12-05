@@ -2,19 +2,19 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Stack, MenuItem, Typography } from "@mui/material";
 import { DevTool } from "@hookform/devtools";
-import FormTextfield from '../../../../components/form/FormTextfield';
-import FormSelect from '../../../../components/form/FormSelect';
-import FormDatePicker from '../../../../components/form/FormDatePicker';
-import triggerInfoAlert from "../../../../components/alerts/InfoAlert";
-import BatchStatusService from '../../../../services/batchStatusService';
-import MedicationBatchService from '../../../../services/medicationBatchService';
-import PharmacyService from '../../../../services/PharmacyService';
-import { refreshPage } from "../../../../utils/CommonMethods";
-import { calculateBatchStatus } from "../../../../utils/EntityProcessingMethods";
-import { formatDateToYYYYMMDD, convertToLocalTimeZone, dateArrayToString } from "../../../../utils/EntityProcessingMethods"
+import FormTextfield from '../../../components/form/FormTextfield';
+import FormSelect from '../../../components/form/FormSelect';
+import FormDatePicker from '../../../components/form/FormDatePicker';
+import triggerInfoAlert from "../../../components/alerts/InfoAlert";
+import BatchStatusService from '../../../services/batchStatusService';
+import MedicationBatchService from '../../../services/medicationBatchService';
+import PharmacyService from '../../../services/pharmacyService';
+import { refreshPage } from "../../../utils/CommonMethods";
+import { calculateBatchStatus } from "../../../utils/EntityProcessingMethods";
+import { formatDateToYYYYMMDD, convertToLocalTimeZone, dateArrayToString } from "../../../utils/EntityProcessingMethods"
 import dayjs from 'dayjs';
 
-function MedicationBatchEmbeddedForm({ action, addMedicationBatch, deleteMedicationBatch, preloadedData, id }) {
+function BatchEmbeddedForm({ action, addBatch, deleteBatch, preloadedData, id }) {
 
     let statuses;
     const [currentStatus, setCurrentStatus] = useState('')
@@ -71,6 +71,7 @@ function MedicationBatchEmbeddedForm({ action, addMedicationBatch, deleteMedicat
                 setCurrentStatus(calculateBatchStatus(expirationDateWatch.toDate()))
             }
         } else {
+            console.log(expirationDateWatch)
             if (expirationDateWatch) {
                 let arrayDate = Object.values(expirationDateWatch)
                 let dateObj = new Date(arrayDate[0], arrayDate[1] - 1, arrayDate[2])
@@ -97,16 +98,16 @@ function MedicationBatchEmbeddedForm({ action, addMedicationBatch, deleteMedicat
     }
 
     async function onSubmit(data) {
-        
+
         data.status = currentStatus;
         if (action === 'add') {
             data.location = findPreloadedLocation(data.location, 'object');
             data.expirationDate = formatDateToYYYYMMDD(convertToLocalTimeZone(data.expirationDate.toISOString()))
-        } else{
+        } else {
             data.expirationDate = `${data.expirationDate[0]}-${data.expirationDate[1]}-${data.expirationDate[2]}`
         }
-        
-        addMedicationBatch(id, data)
+
+        addBatch(id, data)
 
     };
 
@@ -187,19 +188,11 @@ function MedicationBatchEmbeddedForm({ action, addMedicationBatch, deleteMedicat
                         </FormSelect>
                     }
 
-                    <FormTextfield
-                        isRequired
-                        label='Código Único de Medicamento (CUM)'
-                        name='cum'
-                        register={register}
-                        errors={errors} />
-
-
 
                     <Button type="submit" variant="contained" color="info">
                         {action === 'add' ? 'Agregar' : 'Editar'}
                     </Button>
-                    {deleteMedicationBatch && <Button onClick={() => deleteMedicationBatch(id)} variant="contained" color="error">
+                    {deleteBatch && <Button onClick={() => deleteBatch(id)} variant="contained" color="error">
                         Eliminar
                     </Button>}
                 </Stack>
@@ -210,4 +203,4 @@ function MedicationBatchEmbeddedForm({ action, addMedicationBatch, deleteMedicat
     )
 }
 
-export default MedicationBatchEmbeddedForm
+export default BatchEmbeddedForm

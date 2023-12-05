@@ -18,6 +18,9 @@ public class BaseBatchDTO {
     @Positive(message = "id number should be greater than zero")
     private Long id;
 
+    @Positive(message = "quantity should be greater than zero")
+    private Integer quantity;
+
     @NotBlank(message = "manufacturer shouldn't be blank")
     private String manufacturer;
 

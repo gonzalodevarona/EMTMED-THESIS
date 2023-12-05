@@ -18,4 +18,5 @@ public abstract class BaseBatch {
     private LocalDate expirationDate;
     private String administrationRoute;
     private BatchStatus status;
+    private Integer quantity;
 }

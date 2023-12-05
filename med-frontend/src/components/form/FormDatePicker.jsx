@@ -3,6 +3,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { Controller } from "react-hook-form"
 import { convertDateObjectToDayjs } from '../../utils/EntityProcessingMethods';
+import { useEffect } from 'react'
 
 const FormDateTimePicker = ({
     name,
@@ -17,6 +18,11 @@ const FormDateTimePicker = ({
     value,
     ...props
 }) => {
+
+    // useEffect(() => {
+    //     console.log(value);
+    // }, [value])
+
 
     return (
         <Controller

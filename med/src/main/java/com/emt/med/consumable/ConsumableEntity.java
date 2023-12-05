@@ -18,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ConsumableEntity extends Supply {
-    @OneToMany(mappedBy = "consumable", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @OneToMany(mappedBy = "consumable", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
     @JsonManagedReference("consumable-batch")
     private List<BatchEntity> batches;
 }

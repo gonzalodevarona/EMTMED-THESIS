@@ -16,7 +16,6 @@ import lombok.*;
 @NoArgsConstructor
 public class MedicationBatchEntity extends BaseBatch {
 
-    private Integer quantity;
     private String cum;
     @ManyToOne
     @JsonBackReference("medicine-medicationBatch")

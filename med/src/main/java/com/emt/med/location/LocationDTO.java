@@ -1,5 +1,6 @@
 package com.emt.med.location;
 
+import com.emt.med.batch.BatchEntityDTO;
 import com.emt.med.disposalStation.DisposalStationEntity;
 import com.emt.med.disposalStation.DisposalStationEntityDTO;
 import com.emt.med.inventoryOrder.InventoryOrderEntity;
@@ -33,6 +34,7 @@ public class LocationDTO {
     @NotBlank(message = "name shouldn't be blank")
     private String name;
     private List<MedicationBatchEntityDTO> medicationBatchList;
+    private List<BatchEntityDTO> batchList;
     private List<InventoryOrderEntityDTO> destinationList;
     private List<InventoryOrderEntityDTO> sourceList;
 }

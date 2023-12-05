@@ -1,10 +1,10 @@
-import DetailedView from "../../../components/DetailedView"
-import Header from "../../../components/Header"
+import DetailedView from "../../components/DetailedView"
+import Header from "../../components/Header"
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { removeNullProperties, previousPage, capitalizeFirstLetter } from '../../../utils/CommonMethods';
-import { dateArrayToString } from '../../../utils/EntityProcessingMethods';
-import MedicationBatchService from "../../../services/medicationBatchService";
+import { removeNullProperties, previousPage, capitalizeFirstLetter } from '../../utils/CommonMethods';
+import { dateArrayToString } from '../../utils/EntityProcessingMethods';
+import MedicationBatchService from "../../services/medicationBatchService";
 import { useNavigate } from "react-router-dom";
 
 function MedicationBatchDetailed() {

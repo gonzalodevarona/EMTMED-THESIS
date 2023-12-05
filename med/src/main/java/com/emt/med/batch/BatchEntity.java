@@ -3,6 +3,7 @@ package com.emt.med.batch;
 import com.emt.med.baseBatch.BaseBatch;
 import com.emt.med.consumable.ConsumableEntity;
 import com.emt.med.countingUnit.CountingUnitEntity;
+import com.emt.med.location.Location;
 import com.emt.med.medicationBatch.MedicationBatchEntity;
 import com.emt.med.supply.Supply;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -24,4 +25,8 @@ public class BatchEntity extends BaseBatch {
     @ManyToOne
     @JsonBackReference("consumable-batch")
     private ConsumableEntity consumable;
+
+    @ManyToOne
+    @JsonBackReference("location-batch")
+    private Location location;
 }

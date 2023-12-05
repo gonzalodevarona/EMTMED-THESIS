@@ -15,9 +15,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MedicationBatchEntityDTO extends BaseBatchDTO {
 
-    @Min(0)
-    private Integer quantity;
-
     private String cum;
 
     private MedicineEntityDTO medicine;
