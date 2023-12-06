@@ -13,7 +13,7 @@ import { refreshPage } from "../../../utils/CommonMethods";
 import MedicineService from "../../../services/medicineService";
 import MedicationBatchFormEmbedded from "../../../pages/medicationBatches/medicationBatchForm/MedicationBatchFormEmbedded";
 
-function MedicineForm({ action, preloadedData, id }) {
+function MedicineForm({ action, preloadedData }) {
 
   const [weightUnits, setWeightUnits] = useState([])
   const [countingUnits, setCountingUnits] = useState([])
@@ -152,6 +152,7 @@ function MedicineForm({ action, preloadedData, id }) {
       data.weightUnit = { id: data.weightUnit };
     }
 
+    data.purpose="GENERAL"
     if (checkQuantity(data.batches) && data.quantity > 0) {
 
       switch (action) {
@@ -171,10 +172,10 @@ function MedicineForm({ action, preloadedData, id }) {
           editMedicine(data)
             .then((result) => {
               if (result.status === 500) {
-                // errorEditing()
+                errorEditing()
                 console.error('Error en la operación:', result);
               } else {
-                // editedSuccessfully()
+                editedSuccessfully()
               }
             })
           break;

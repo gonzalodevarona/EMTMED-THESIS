@@ -50,6 +50,7 @@ function BatchEmbeddedForm({ action, addBatch, deleteBatch, preloadedData, id })
     useEffect(() => {
         console.log(preloadedData)
     }, [preloadedData])
+    
 
 
     const {
@@ -65,7 +66,7 @@ function BatchEmbeddedForm({ action, addBatch, deleteBatch, preloadedData, id })
     const expirationDateWatch = watch('expirationDate')
 
     useEffect(() => {
-
+        
         if (action === 'add') {
             if (expirationDateWatch) {
                 setCurrentStatus(calculateBatchStatus(expirationDateWatch.toDate()))

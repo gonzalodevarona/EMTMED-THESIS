@@ -47,7 +47,7 @@ function MedicineFormPage({ action }) {
                 <Header title={`Editar el ${entity} #${id}`} />
             }
             {action === 'edit' && medicineData.id &&
-                <MedicineForm id={id} action={action} preloadedData={removeNullProperties(medicineData)}/>
+                <MedicineForm action={action} preloadedData={removeNullProperties(medicineData)}/>
             }
             {action === 'add' && 
                 <MedicineForm  action={action} />

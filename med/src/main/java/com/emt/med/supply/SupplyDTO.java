@@ -31,6 +31,8 @@ public class SupplyDTO {
 
     private WeightUnitEntityDTO weightUnit;
     private CountingUnitEntityDTO countingUnit;
+    @NotBlank(message = "purpose shouldn't be blank")
+    private SupplyPurpose purpose;
 
 
 }

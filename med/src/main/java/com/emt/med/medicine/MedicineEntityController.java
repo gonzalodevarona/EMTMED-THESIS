@@ -1,6 +1,7 @@
 package com.emt.med.medicine;
 
 import com.emt.med.consumable.ConsumableEntityDTO;
+import com.emt.med.supply.SupplyPurpose;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +25,8 @@ public class MedicineEntityController {
     }
 
     @GetMapping("/noOrdersNoBatches")
-    public ResponseEntity<List<MedicineEntityDTO>> getAllMedicinesNoOrdersNoBatches() {
-        return ResponseEntity.ok(medicineEntityService.getAllMedicinesNoOrdersNoBatches());
+    public ResponseEntity<List<MedicineEntityDTO>> getAllMedicinesNoOrdersNoBatches(@RequestParam(name="purpose", defaultValue = "GENERAL") SupplyPurpose purpose) {
+        return ResponseEntity.ok(medicineEntityService.getAllMedicinesNoOrdersNoBatches(purpose));
     }
 
     @GetMapping("/{id}")

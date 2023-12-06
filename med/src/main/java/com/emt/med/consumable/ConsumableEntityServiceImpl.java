@@ -8,6 +8,7 @@ import com.emt.med.countingUnit.CountingUnitEntity;
 import com.emt.med.medicine.MedicineEntity;
 import com.emt.med.medicine.MedicineEntityDTO;
 import com.emt.med.supply.Supply;
+import com.emt.med.supply.SupplyPurpose;
 import com.emt.med.supply.SupplyService;
 import com.emt.med.weightUnit.WeightUnitEntity;
 import com.emt.med.weightUnit.WeightUnitEntityRepository;
@@ -60,8 +61,13 @@ public class ConsumableEntityServiceImpl implements ConsumableEntityService{
     }
 
     @Override
-    public List<ConsumableEntityDTO> getAllConsumablesNoOrdersNoBatches() {
-        return consumableEntityRepository.findAll(Sort.by(Sort.Direction.ASC, "name")).stream().map(consumableEntityMapper::toDTONoOrdersNoBatches).collect(Collectors.toCollection(ArrayList::new));
+    public List<ConsumableEntityDTO> getConsumablesByPurpose(SupplyPurpose purpose) {
+        return consumableEntityRepository.findByPurpose(purpose, Sort.by(Sort.Direction.DESC, "quantity")).stream().map(consumableEntityMapper::toDTO).collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    @Override
+    public List<ConsumableEntityDTO> getAllConsumablesNoOrdersNoBatches(SupplyPurpose purpose) {
+        return consumableEntityRepository.findByPurpose(purpose, Sort.by(Sort.Direction.ASC, "name")).stream().map(consumableEntityMapper::toDTONoOrdersNoBatches).collect(Collectors.toCollection(ArrayList::new));
     }
 
     @Override

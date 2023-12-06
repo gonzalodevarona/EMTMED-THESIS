@@ -17,7 +17,7 @@ function Medicines() {
     useEffect(() => {
 
         async function fetchData() {
-            const allMedicines = await MedicineService.getMedicinesNoOrdersNoBatches();
+            const allMedicines = await MedicineService.getMedicinesNoOrdersNoBatches('GENERAL');
 
             setMedicines(processMedicines(allMedicines))
         }

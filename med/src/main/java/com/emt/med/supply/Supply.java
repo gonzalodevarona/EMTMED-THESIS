@@ -30,6 +30,7 @@ public abstract class Supply {
     private CountingUnitEntity countingUnit;
     @ManyToMany
     private Set<OrderEntity> orders;
+    private SupplyPurpose purpose;
 
 
 

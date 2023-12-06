@@ -6,6 +6,7 @@ import com.emt.med.medicationBatch.MedicationBatchEntity;
 import com.emt.med.medicine.MedicineEntity;
 import com.emt.med.medicine.MedicineEntityDTO;
 import com.emt.med.supply.Supply;
+import com.emt.med.supply.SupplyPurpose;
 import com.emt.med.weightUnit.WeightUnitEntity;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,9 @@ public interface ConsumableEntityService {
     ConsumableEntityDTO getConsumableEntityDTOById(Long consumableEntityId);
     List<ConsumableEntityDTO> getAllConsumables();
 
-    List<ConsumableEntityDTO> getAllConsumablesNoOrdersNoBatches();
+    List<ConsumableEntityDTO> getConsumablesByPurpose(SupplyPurpose supplyPurpose);
+
+    List<ConsumableEntityDTO> getAllConsumablesNoOrdersNoBatches(SupplyPurpose supplyPurpose);
 
     ConsumableEntity saveConsumableEntity(ConsumableEntity consumableEntity);
     ConsumableEntityDTO addConsumable(ConsumableEntityDTO consumableEntityDTO);

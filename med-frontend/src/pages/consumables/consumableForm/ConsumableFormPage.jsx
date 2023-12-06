@@ -47,7 +47,7 @@ function ConsumableFormPage({ action }) {
                 <Header title={`Editar el ${entity} #${id}`} />
             }
             {action === 'edit' && consumableData.id &&
-                <ConsumableForm id={id} action={action} preloadedData={removeNullProperties(consumableData)}/>
+                <ConsumableForm action={action} preloadedData={removeNullProperties(consumableData)}/>
             }
             {action === 'add' && 
                 <ConsumableForm  action={action} />

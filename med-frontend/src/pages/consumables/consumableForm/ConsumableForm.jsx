@@ -14,7 +14,7 @@ import BatchService from "../../../services/batchService";
 import ConsumableService from "../../../services/consumableService";
 import BatchFormEmbedded from "../../../pages/batches/batchForm/BatchFormEmbedded";
 
-function ConsumableForm({ action, preloadedData, id }) {
+function ConsumableForm({ action, preloadedData }) {
 
   const [weightUnits, setWeightUnits] = useState([])
   const [countingUnits, setCountingUnits] = useState([])
@@ -44,6 +44,7 @@ function ConsumableForm({ action, preloadedData, id }) {
   }, [])
 
   async function addConsumable(consumable) {
+    console.log(consumable)
     return await ConsumableService.addConsumable(consumable);
   }
 
@@ -153,19 +154,20 @@ function ConsumableForm({ action, preloadedData, id }) {
       data.weightUnit = { id: data.weightUnit };
     }
 
+    data.purpose="GENERAL"
     if (checkQuantity(data.batches) && data.quantity > 0) {
 
       switch (action) {
         case 'add':
           addConsumable(data)
-            .then((result) => {
-              console.log(result)
-              addedSuccessfully()
-            })
-            .catch((error) => {
-              errorAdding()
-              console.error('Error en la operación:', error);
-            });
+            // .then((result) => {
+            //   console.log(result)
+            //   addedSuccessfully()
+            // })
+            // .catch((error) => {
+            //   errorAdding()
+            //   console.error('Error en la operación:', error);
+            // });
           break;
         case 'edit':
 

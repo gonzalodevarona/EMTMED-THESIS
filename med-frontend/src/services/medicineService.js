@@ -11,8 +11,8 @@ const getMedicines = async () => {
 
     return res.data
 }
-const getMedicinesNoOrdersNoBatches = async () => {
-    const res = await axios.get(`/${entity}/noOrdersNoBatches`)
+const getMedicinesNoOrdersNoBatches = async (supplyPurpose) => {
+    const res = await axios.get(`/${entity}/noOrdersNoBatches?purpose=${supplyPurpose}`)
         .catch((error) => {
             console.log(error)
             return error.response;

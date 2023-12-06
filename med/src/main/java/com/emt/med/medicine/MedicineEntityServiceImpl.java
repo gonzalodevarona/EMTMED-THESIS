@@ -1,8 +1,10 @@
 package com.emt.med.medicine;
 
+import com.emt.med.consumable.ConsumableEntityDTO;
 import com.emt.med.countingUnit.CountingUnitEntityRepository;
 import com.emt.med.location.LocationRepository;
 import com.emt.med.medicationBatch.*;
+import com.emt.med.supply.SupplyPurpose;
 import com.emt.med.supply.SupplyService;
 import com.emt.med.weightUnit.WeightUnitEntity;
 import com.emt.med.weightUnit.WeightUnitEntityRepository;
@@ -52,6 +54,12 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
     }
 
     @Override
+    public List<MedicineEntityDTO> getMedicinesByPurpose(SupplyPurpose purpose) {
+        return medicineEntityRepository.findByPurpose(purpose, Sort.by(Sort.Direction.DESC, "quantity")).stream().map(medicineEntityMapper::toDTO).collect(Collectors.toCollection(ArrayList::new));
+    }
+
+
+    @Override
     public MedicineEntity getMedicineEntityById(Long medicineEntityId) {
         return medicineEntityRepository.findById(medicineEntityId).orElseThrow(() -> new RuntimeException("No medicine found with id "+medicineEntityId));
     }
@@ -62,8 +70,8 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
     }
 
     @Override
-    public List<MedicineEntityDTO> getAllMedicinesNoOrdersNoBatches() {
-        return medicineEntityRepository.findAll(Sort.by(Sort.Direction.ASC, "activePharmaceuticalIngredient")).stream().map(medicineEntityMapper::toDTONoOrdersNoBatches).collect(Collectors.toCollection(ArrayList::new));
+    public List<MedicineEntityDTO> getAllMedicinesNoOrdersNoBatches(SupplyPurpose purpose) {
+        return medicineEntityRepository.findByPurpose(purpose, Sort.by(Sort.Direction.ASC, "activePharmaceuticalIngredient")).stream().map(medicineEntityMapper::toDTONoOrdersNoBatches).collect(Collectors.toCollection(ArrayList::new));
     }
 
     @Override

@@ -17,7 +17,7 @@ function Consumables() {
     useEffect(() => {
 
         async function fetchData() {
-            const allConsumables = await ConsumableService.getConsumablesNoOrdersNoBatches();
+            const allConsumables = await ConsumableService.getConsumablesNoOrdersNoBatches('GENERAL');
 
             setConsumables(processConsumables(allConsumables))
         }
