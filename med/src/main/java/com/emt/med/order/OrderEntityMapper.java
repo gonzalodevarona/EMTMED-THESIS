@@ -24,9 +24,6 @@ public interface OrderEntityMapper {
     @InheritInverseConfiguration
     OrderEntity toEntity(OrderEntityDTO orderDTO);
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateOrderFromDTO(OrderEntityDTO dto, @MappingTarget OrderEntity entity);
-
     @ObjectFactory
     default OrderEntity createOrder(OrderEntityDTO orderDTO) {
         if (orderDTO instanceof SupplyOrderEntityDTO) {

@@ -16,7 +16,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper( uses = {OrderEntityMapper.class, WeightUnitEntityMapper.class, CountingUnitEntityMapper.class, MedicationBatchEntityMapper.class, LocationMapper.class})
+@Mapper( uses = {SupplyMapper.class, OrderEntityMapper.class, WeightUnitEntityMapper.class, CountingUnitEntityMapper.class, MedicationBatchEntityMapper.class, LocationMapper.class})
 public interface MedicineEntityMapper {
     MedicineEntityMapper INSTANCE = Mappers.getMapper( MedicineEntityMapper.class );
 

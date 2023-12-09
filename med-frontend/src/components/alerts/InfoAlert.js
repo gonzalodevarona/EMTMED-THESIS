@@ -7,7 +7,8 @@ const triggerInfoAlert = (icon, title, followingAction) => {
         title: capitalizeFirstLetter(title),
         showConfirmButton: true,
     }).then((result) => {
-        followingAction()
+        
+        followingAction && followingAction()
     });
 };
 

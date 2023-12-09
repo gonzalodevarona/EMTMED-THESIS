@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 public class InventoryOrderEntityDTO extends OrderEntityDTO {
     @NotNull(message = "inventory order operation shouldn't be null")
     private InventoryOrderOperation operation;
-    private String note;
     @NotNull(message = "destination shouldn't be null")
     private LocationDTO destination;
     @NotNull(message = "source shouldn't be null")

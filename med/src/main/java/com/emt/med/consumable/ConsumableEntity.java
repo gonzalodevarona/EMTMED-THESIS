@@ -10,6 +10,7 @@ import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -20,5 +21,6 @@ import java.util.List;
 public class ConsumableEntity extends Supply {
     @OneToMany(mappedBy = "consumable", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
     @JsonManagedReference("consumable-batch")
+    @ToString.Exclude
     private List<BatchEntity> batches;
 }

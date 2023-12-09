@@ -50,7 +50,6 @@ function ConsumableForm({ action, preloadedData }) {
 
   async function editConsumable(consumable) {
 
-    console.log(consumable);
     if (consumable.batches) {
       for (let i = 0; i < consumable.batches.length; i++) {
         consumable.batches[i].existing = undefined
@@ -121,20 +120,20 @@ function ConsumableForm({ action, preloadedData }) {
 
 
   function addedSuccessfully() {
-    triggerInfoAlert('success', 'El nuevo medicamento ha sido agregado', refreshPage)
+    triggerInfoAlert('success', 'El nuevo consumible ha sido agregado', refreshPage)
   }
   function errorAdding() {
-    triggerInfoAlert('error', 'Ha habido un error agregando el nuevo medicamento')
+    triggerInfoAlert('error', 'Ha habido un error agregando el nuevo consumible')
   }
   function errorAddingFields() {
-    triggerInfoAlert('error', 'Ha habido un error agregando el nuevo medicamento, revisa los campos del formulario')
+    triggerInfoAlert('error', 'Ha habido un error agregando el nuevo consumible, revisa los campos del formulario')
   }
 
   function editedSuccessfully() {
-    triggerInfoAlert('success', 'El medicamento ha sido editado', refreshPage)
+    triggerInfoAlert('success', 'El consumible ha sido editado', refreshPage)
   }
   function errorEditing() {
-    triggerInfoAlert('error', 'Ha habido un error editando el medicamento')
+    triggerInfoAlert('error', 'Ha habido un error editando el consumible')
   }
 
   async function onSubmit(data) {
@@ -154,30 +153,31 @@ function ConsumableForm({ action, preloadedData }) {
       data.weightUnit = { id: data.weightUnit };
     }
 
-    data.purpose="GENERAL"
+    data.purpose = "GENERAL"
+    data.type = 'consumable'
     if (checkQuantity(data.batches) && data.quantity > 0) {
 
       switch (action) {
         case 'add':
           addConsumable(data)
-            // .then((result) => {
-            //   console.log(result)
-            //   addedSuccessfully()
-            // })
-            // .catch((error) => {
-            //   errorAdding()
-            //   console.error('Error en la operación:', error);
-            // });
+            .then((result) => {
+              console.log(result)
+              addedSuccessfully()
+            })
+            .catch((error) => {
+              errorAdding()
+              console.error('Error en la operación:', error);
+            });
           break;
         case 'edit':
 
           editConsumable(data)
             .then((result) => {
               if (result.status === 500) {
-                // errorEditing()
+                errorEditing()
                 console.error('Error en la operación:', result);
               } else {
-                // editedSuccessfully()
+                editedSuccessfully()
               }
             })
           break;

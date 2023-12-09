@@ -18,7 +18,6 @@ import java.util.List;
 public class InventoryOrderEntity extends OrderEntity {
 
     private InventoryOrderOperation operation;
-    private String note;
     @ManyToOne
     @JsonManagedReference("inventoryOrder-destination")
     private Location destination;

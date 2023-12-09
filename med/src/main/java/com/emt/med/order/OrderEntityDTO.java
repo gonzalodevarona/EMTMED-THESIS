@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Positive;
@@ -31,12 +32,13 @@ public class OrderEntityDTO {
     private Long id;
     @Positive(message = "practitioner id should be greater than zero")
     private Long practitionerId;
-    @Positive(message = "quantity should be greater than zero")
-    private Long quantity;
+
     @PastOrPresent(message = "authored on date should be today or before")
         private LocalDateTime authoredOn;
     @NotNull
     private OrderStatus status;
 
     private List<SupplyDTO> supplies;
+    @NotBlank(message = "note should not be blank")
+    private String note;
 }

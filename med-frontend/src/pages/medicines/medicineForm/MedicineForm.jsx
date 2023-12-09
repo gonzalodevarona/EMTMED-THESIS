@@ -153,6 +153,7 @@ function MedicineForm({ action, preloadedData }) {
     }
 
     data.purpose="GENERAL"
+    data.type='medicine'
     if (checkQuantity(data.batches) && data.quantity > 0) {
 
       switch (action) {

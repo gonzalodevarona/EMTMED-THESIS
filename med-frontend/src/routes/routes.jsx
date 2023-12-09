@@ -23,6 +23,8 @@ import BatchDetailed from '../pages/batches/BatchDetailed'
 import Consumables from '../pages/consumables/Consumables'
 import ConsumableDetailed from '../pages/consumables/ConsumableDetailed'
 import ConsumableFormPage from '../pages/consumables/consumableForm/ConsumableFormPage'
+import SupplyOrders from '../pages/supplyOrders/SupplyOrders'
+import SupplyOrderFormPage from '../pages/supplyOrders/supplyOrderForm/SupplyOrderFormPage'
 
 export default function Routes() {
 
@@ -51,30 +53,30 @@ export default function Routes() {
                     // *** UNIDAD DE PESO ***
 
                     {
-                        path: "/unidadespeso/:id",
+                        path: "/unidades-peso/:id",
                         element: <WeightUnitDetailed />
                     },
                     {
-                        path: "/unidadespeso/agregar",
+                        path: "/unidades-peso/agregar",
                         element: <UnitFormPage type='peso' action='add' />
                     },
                     {
-                        path: "/unidadespeso/editar/:id",
+                        path: "/unidades-peso/editar/:id",
                         element: <UnitFormPage type='peso' action='edit' />
                     },
 
                     // *** UNIDAD DE CONTEO ***
 
                     {
-                        path: "/unidadesconteo/:id",
+                        path: "/unidades-conteo/:id",
                         element: <CountingUnitDetailed />
                     },
                     {
-                        path: "/unidadesconteo/agregar",
+                        path: "/unidades-conteo/agregar",
                         element: <UnitFormPage type='conteo' action='add' />
                     },
                     {
-                        path: "/unidadesconteo/editar/:id",
+                        path: "/unidades-conteo/editar/:id",
                         element: <UnitFormPage type='conteo' action='edit' />
                     },
 
@@ -105,15 +107,15 @@ export default function Routes() {
                     // *** ESTACIÓN DE DESECHOS ***
 
                     {
-                        path: "/estaciondesechos/:id",
+                        path: "/estacion-desechos/:id",
                         element: <DisposalStationDetailed />
                     },
                     {
-                        path: "/estaciondesechos/agregar",
+                        path: "/estacion-desechos/agregar",
                         element: <DisposalStationFormPage action='add' />
                     },
                     {
-                        path: "/estaciondesechos/editar/:id",
+                        path: "/estacion-desechos/editar/:id",
                         element: <DisposalStationFormPage action='edit' />
                     },
 
@@ -137,6 +139,22 @@ export default function Routes() {
                         path: "/ordenes-inventario/editar/:id",
                         element: <InventoryOrderFormPage action='edit' />
                     },
+
+                       // *** ORDENES DE INVENTARIO ***
+
+
+                       {
+                        path: "/ordenes",
+                        element: <SupplyOrders />
+                    },
+                    {
+                        path: "/ordenes/:id",
+                        element: <InventoryOrderDetailed title='orden' />
+                    },
+                    {
+                        path: "/ordenes/agregar",
+                        element: <SupplyOrderFormPage action='add' />
+                    },                   
 
 
                     // *** MEDICAMENTOS ***
@@ -193,13 +211,6 @@ export default function Routes() {
                     {
                         path: "/lotes/:id",
                         element: <BatchDetailed/>
-                    },
-
-                    // *** UNIDAD DE PESO ***
-
-                    {
-                        path: "/test",
-                        element: <Test />
                     },
 
                 ]

@@ -27,6 +27,7 @@ public interface SupplyMapper {
     @Mapping(target = "orders", ignore = true)
     Supply toEntity(SupplyDTO supplyDTO);
 
+
     @ObjectFactory
     default Supply createSupply(SupplyDTO supplyDTO) {
         if (supplyDTO instanceof MedicineEntityDTO) {

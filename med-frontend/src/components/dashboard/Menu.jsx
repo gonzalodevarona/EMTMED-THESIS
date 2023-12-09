@@ -33,7 +33,7 @@ export default function Menu({ mobile, toggleDrawer }) {
           <ListItemIcon>
             <ReceiptIcon />
           </ListItemIcon>
-          <ListItemText primary="Ordenes de medicamentos" />
+          <ListItemText primary="Ordenes de pacientes" />
         </ListItemButton>
 
         <ListItemButton component={Link} to="/ordenes-inventario" onClick={closeMenu}>

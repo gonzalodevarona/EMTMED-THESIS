@@ -25,7 +25,7 @@ function ConsumableFormPage({ action }) {
 
         async function fetchData() {
             let fetchedData = await ConsumableService.getConsumableById(id);
-            if (fetchedData.status == 500 && fetchedData.error) {
+            if (fetchedData.status == 500 && fetchedData.error && fetchedData.purpose === 'ORDER') {
                 redirect('/404')
             }
           
