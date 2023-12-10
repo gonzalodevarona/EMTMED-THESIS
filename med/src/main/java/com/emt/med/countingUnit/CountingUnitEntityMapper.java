@@ -1,8 +1,5 @@
 package com.emt.med.countingUnit;
 
-import com.emt.med.medicationBatch.MedicationBatchEntity;
-import com.emt.med.medicationBatch.MedicationBatchEntityDTO;
-import com.emt.med.medicationBatch.MedicationBatchEntityMapper;
 import com.emt.med.supply.SupplyMapper;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;

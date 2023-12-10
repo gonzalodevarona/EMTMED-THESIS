@@ -1,6 +1,5 @@
 package com.emt.med.consumable;
 
-import com.emt.med.batch.BatchEntity;
 import com.emt.med.batch.BatchEntityDTO;
 import com.emt.med.supply.SupplyDTO;
 import com.fasterxml.jackson.annotation.JsonTypeName;

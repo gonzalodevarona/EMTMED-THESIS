@@ -1,20 +1,19 @@
 package com.emt.med.order;
 
-import com.emt.med.consumable.ConsumableEntityMapper;
+import com.emt.med.countingUnit.CountingUnitEntityMapper;
 import com.emt.med.inventoryOrder.InventoryOrderEntity;
 import com.emt.med.inventoryOrder.InventoryOrderEntityDTO;
 import com.emt.med.location.LocationMapper;
-import com.emt.med.medicine.MedicineEntityMapper;
 
 import com.emt.med.supply.SupplyMapper;
 import com.emt.med.supplyOrder.SupplyOrderEntity;
 import com.emt.med.supplyOrder.SupplyOrderEntityDTO;
+import com.emt.med.weightUnit.WeightUnitEntityMapper;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
-import java.util.List;
 
-@Mapper(uses = {SupplyMapper.class, LocationMapper.class})
+@Mapper(uses = {SupplyMapper.class, LocationMapper.class, WeightUnitEntityMapper.class, CountingUnitEntityMapper.class})
 public interface OrderEntityMapper {
 
     OrderEntityMapper INSTANCE = Mappers.getMapper( OrderEntityMapper.class );
@@ -34,7 +33,4 @@ public interface OrderEntityMapper {
         return null;
     }
 
-    List<OrderEntityDTO> toOrderDTOList(List<OrderEntity> orders);
-
-    List<OrderEntity> toOrderList(List<OrderEntityDTO> orders);
 }

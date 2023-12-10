@@ -63,16 +63,16 @@ function CustomTable({ entity, title, sx, columns, data, singleEntity, handleDel
         tooltip: 'Eliminar',
         onClick: (event, rowData) =>
             triggerConfrirmationAlert({
-                title:`Eliminar ${singleEntity} con ID ${rowData.id}`,
-                text:"¿Estas seguro que quieres eliminarlo?",
-                type:"warning",
-                confirmText:"Borrar",
+                title: `Eliminar ${singleEntity} con ID ${rowData.id}`,
+                text: "¿Estas seguro que quieres eliminarlo?",
+                type: "warning",
+                confirmText: "Borrar",
                 action: () => handleDelete(rowData.id),
-                successTitle:`${capitalizeFirstLetter(singleEntity)} con ID ${rowData.id} eliminada con éxito.`,
-                successType:"success",
-                successAction:refreshPage,
-                errorTitle:`${capitalizeFirstLetter(singleEntity)} con ID ${rowData.id} NO fue eliminada.`,
-                errorType:"error"
+                successTitle: `${capitalizeFirstLetter(singleEntity)} con ID ${rowData.id} eliminada con éxito.`,
+                successType: "success",
+                successAction: refreshPage,
+                errorTitle: `${capitalizeFirstLetter(singleEntity)} con ID ${rowData.id} NO fue eliminada.`,
+                errorType: "error"
             })
     }
 
@@ -92,7 +92,7 @@ function CustomTable({ entity, title, sx, columns, data, singleEntity, handleDel
         <Box sx={sx}>
             <MaterialTable
                 icons={tableIcons}
-                title={title? title: ''}
+                title={title ? title : ''}
                 columns={columns}
                 data={data}
                 options={{
@@ -137,8 +137,11 @@ function CustomTable({ entity, title, sx, columns, data, singleEntity, handleDel
                 }}
 
                 onRowClick={(event, rowData) => {
-                    window.open(`/${entity}/${rowData.id}`, "_self")
-                    event.stopPropagation();
+                    if (entity !== undefined) {
+                        window.open(`/${entity}/${rowData.id}`, "_self")
+                        event.stopPropagation();
+                    }
+
                 }}
                 actions={setActions()}
             />

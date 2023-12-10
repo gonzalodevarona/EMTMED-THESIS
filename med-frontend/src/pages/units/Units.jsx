@@ -40,7 +40,7 @@ function Units() {
 
       <Button
         component={Link}
-        to="/unidadesconteo/agregar"
+        to="/unidades-conteo/agregar"
         variant="contained"
         sx={{ px: 10, py: 1, mb: 2 }}
         color={'info'}>
@@ -53,7 +53,7 @@ function Units() {
           { title: 'Nombre', field: 'name' }
         ]}
         singleEntity='unidad de conteo'
-        entity='unidadesconteo'
+        entity='unidades-conteo'
         handleDelete={handleDeleteCountingUnit}
         data={countingUnits} />
 
@@ -65,7 +65,7 @@ function Units() {
 
       <Button
         component={Link}
-        to="/unidadespeso/agregar"
+        to="/unidades-peso/agregar"
         variant="contained"
         sx={{ px: 10, py: 1, mb: 2 }}
         color={'info'}>
@@ -78,7 +78,7 @@ function Units() {
           { title: 'Nombre', field: 'name' }
         ]}
         singleEntity='unidad de peso'
-        entity='unidadespeso'
+        entity='unidades-peso'
         handleDelete={handleDeleteWeightUnit}
         data={weightUnits} />
     </>

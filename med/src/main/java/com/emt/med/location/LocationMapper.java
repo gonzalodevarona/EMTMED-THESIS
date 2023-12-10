@@ -1,12 +1,8 @@
 package com.emt.med.location;
 
-import com.emt.med.consumable.ConsumableEntity;
-import com.emt.med.consumable.ConsumableEntityDTO;
 import com.emt.med.disposalStation.DisposalStationEntity;
 import com.emt.med.disposalStation.DisposalStationEntityDTO;
 import com.emt.med.inventoryOrder.InventoryOrderEntityMapper;
-import com.emt.med.medicine.MedicineEntity;
-import com.emt.med.medicine.MedicineEntityDTO;
 import com.emt.med.medicine.MedicineEntityMapper;
 import com.emt.med.pharmacy.PharmacyEntity;
 import com.emt.med.pharmacy.PharmacyEntityDTO;
@@ -14,7 +10,6 @@ import com.emt.med.supply.SupplyMapper;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
-import java.util.List;
 
 @Mapper(uses = {SupplyMapper.class, InventoryOrderEntityMapper.class, MedicineEntityMapper.class})
 public interface LocationMapper {
@@ -49,7 +44,4 @@ public interface LocationMapper {
         return null;
     }
 
-    List<LocationDTO> toLocationDTOList(List<Location> locations);
-
-    List<Location> toLocationList(List<LocationDTO> locations);
 }

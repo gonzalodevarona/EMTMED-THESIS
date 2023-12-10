@@ -1,13 +1,13 @@
 import Swal from 'sweetalert2';
 
-const triggerConfrirmationAlert = ({title, text, type, confirmText, action, successTitle, successType, successAction, errorTitle, errorType}) => {
+const triggerConfrirmationAlert = ({title, text, type, confirmButtonColor, confirmText, action, successTitle, successType, successAction, errorTitle, errorType}) => {
 
     Swal.fire({
         title: title,
         text: text,
         type: type,
         showCancelButton: true,
-        confirmButtonColor: "#f44336",
+        confirmButtonColor: confirmButtonColor || "#f44336",
         confirmButtonText: confirmText,
         cancelButtonText: "Cancelar",
         closeOnConfirm: false,

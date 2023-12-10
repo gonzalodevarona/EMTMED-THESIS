@@ -1,8 +1,6 @@
 package com.emt.med.inventoryOrder;
 
-import com.emt.med.disposalStation.DisposalStationEntityMapper;
 import com.emt.med.location.LocationMapper;
-import com.emt.med.pharmacy.PharmacyEntityMapper;
 import com.emt.med.supply.SupplyMapper;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;

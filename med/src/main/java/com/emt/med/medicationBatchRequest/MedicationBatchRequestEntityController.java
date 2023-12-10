@@ -1,7 +1,5 @@
 package com.emt.med.medicationBatchRequest;
 
-import com.emt.med.weightUnit.WeightUnitEntityDTO;
-import com.emt.med.weightUnit.WeightUnitEntityService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

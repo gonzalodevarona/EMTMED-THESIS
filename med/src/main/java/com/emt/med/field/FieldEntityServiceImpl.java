@@ -1,10 +1,7 @@
 package com.emt.med.field;
 
-import com.emt.med.batch.BatchEntity;
-import com.emt.med.batch.BatchEntityMapper;
 import com.emt.med.value.ValueEntity;
 import com.emt.med.value.ValueEntityDTO;
-import com.emt.med.value.ValueEntityMapper;
 import com.emt.med.value.ValueEntityService;
 import jakarta.transaction.Transactional;
 import org.mapstruct.factory.Mappers;

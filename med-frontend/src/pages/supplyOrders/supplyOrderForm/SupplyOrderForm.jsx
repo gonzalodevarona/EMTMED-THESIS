@@ -107,14 +107,14 @@ function SupplyOrderForm({ action, preloadedData, id }) {
         switch (action) {
             case 'add':
                 addSupplyOrder(data)
-                // .then((result) => {
-                //     console.log(result)
-                //     addedSuccessfully()
-                // })
-                // .catch((error) => {
-                //     errorAdding()
-                //     console.error('Error en la operación:', error);
-                // });
+                .then((result) => {
+                    console.log(result)
+                    addedSuccessfully()
+                })
+                .catch((error) => {
+                    errorAdding()
+                    console.error('Error en la operación:', error);
+                });
                 break;
             case 'edit':
 
@@ -138,9 +138,7 @@ function SupplyOrderForm({ action, preloadedData, id }) {
 
         switch (action) {
             case 'add':
-                console.log(data.authoredOn)
                 data.authoredOn = convertToLocalTimeZone(data.authoredOn.toISOString());
-
                 break;
             case 'edit':
                 data.authoredOn = convertDateObjectToDayjs(data.authoredOn).toISOString();
@@ -150,24 +148,24 @@ function SupplyOrderForm({ action, preloadedData, id }) {
                 break;
         }
 
+        console.log(batches)
+        data.medicationBatchRequests = []
+        data.batchRequests = []
 
-        batches.forEach(function (batch) {
-            batch.supply.purpose = 'ORDER';
-            batch.supply.quantity = batch.assignedQuantity;
-            if (batch.supply.id) {
-                delete batch.supply.id;
+        batches.forEach(batch => {
+            let generalRequest = {quantity: batch.assignedQuantity}
+
+            const {assignedQuantity, tableData, expirationDate, ...rest} = batch
+            if (batch.cum) {
+                
+                generalRequest.medicationBatch = rest
+                data.medicationBatchRequests.push(generalRequest);
+            } else {
+                generalRequest.batch = rest
+                data.batchRequests.push(generalRequest);
             }
         });
 
-      
-
-        data.supplies = batches.map(batch => {
-            let supply = { ...batch.supply };
-            const { expirationDate, ...batchWithoutExpiration } = batch; // Esto excluye 'expirationDate' de 'batch'
-            supply.batches = [batchWithoutExpiration];
-            return supply;
-        });
-        
 
         return data;
     }

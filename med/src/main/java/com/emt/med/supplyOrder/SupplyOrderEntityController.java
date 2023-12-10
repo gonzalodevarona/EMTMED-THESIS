@@ -1,5 +1,6 @@
 package com.emt.med.supplyOrder;
 
+import com.emt.med.order.OrderStatus;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,14 +29,14 @@ public class SupplyOrderEntityController {
     }
 
     @PostMapping()
-    public ResponseEntity<SupplyOrderEntityDTO> addSupplyOrder(@Valid @RequestBody SupplyOrderEntityDTO batchEntityDTO) throws RuntimeException{
+    public ResponseEntity<SupplyOrderEntityDTO> addSupplyOrder(@Valid @RequestBody SupplyOrderEntityDTO supplyOrderEntityDTO) throws RuntimeException{
 
-        return new ResponseEntity<SupplyOrderEntityDTO>(supplyOrderEntityService.addSupplyOrder(batchEntityDTO), HttpStatus.CREATED);
+        return new ResponseEntity<SupplyOrderEntityDTO>(supplyOrderEntityService.addSupplyOrder(supplyOrderEntityDTO), HttpStatus.CREATED);
     }
 
-    @PutMapping()
-    public ResponseEntity<SupplyOrderEntityDTO> updateSupplyOrder(@Valid @RequestBody SupplyOrderEntityDTO batchEntityDTO) {
-        return ResponseEntity.ok(supplyOrderEntityService.updateSupplyOrder(batchEntityDTO));
+    @PutMapping("/{id}/{newStatus}")
+    public ResponseEntity<SupplyOrderEntityDTO> changeSupplyOrderStatus(@PathVariable("id") Long id, @PathVariable("newStatus") OrderStatus newStatus) {
+        return ResponseEntity.ok(supplyOrderEntityService.changeSupplyOrderStatus(id, newStatus));
     }
 
     @DeleteMapping("/{id}")

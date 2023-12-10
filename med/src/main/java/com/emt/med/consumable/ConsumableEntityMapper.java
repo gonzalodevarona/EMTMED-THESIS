@@ -17,16 +17,16 @@ import java.util.List;
 public interface ConsumableEntityMapper {
     ConsumableEntityMapper INSTANCE = Mappers.getMapper( ConsumableEntityMapper.class );
 
-    @Mapping(target = "orders", ignore = true)
+    @Mapping(target = "inventoryOrders", ignore = true)
     ConsumableEntityDTO toDTO(ConsumableEntity consumableEntity);
 
     @Named("toDTONoOrdersNoBatches")
-    @Mapping(target = "orders", ignore = true)
+    @Mapping(target = "inventoryOrders", ignore = true)
     @Mapping(target = "batches", ignore = true)
     ConsumableEntityDTO toDTONoOrdersNoBatches(ConsumableEntity consumableEntity);
 
 
-    @Mapping(target = "orders", ignore = true)
+    @Mapping(target = "inventoryOrders", ignore = true)
     ConsumableEntity toEntity(ConsumableEntityDTO consumableEntityDTO);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

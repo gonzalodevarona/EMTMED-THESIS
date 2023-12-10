@@ -6,8 +6,6 @@ import java.util.List;
 
 @Service
 public interface DisposalStationEntityService {
-
-    DisposalStationEntity getDisposalStationEntityById(Long disposalStationEntityId);
     DisposalStationEntityDTO getDisposalStationEntityDTOById(Long disposalStationEntityId);
     List<DisposalStationEntityDTO> getAllDisposalStations();
     DisposalStationEntityDTO addDisposalStation(DisposalStationEntityDTO disposalStationEntityDTO);

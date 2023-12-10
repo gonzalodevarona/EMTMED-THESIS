@@ -1,7 +1,5 @@
 package com.emt.med.countingUnit;
 
-import com.emt.med.batch.BatchEntityDTO;
-import com.emt.med.weightUnit.WeightUnitEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

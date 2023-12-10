@@ -1,8 +1,6 @@
 package com.emt.med.weightUnit;
 
 import com.emt.med.supply.Supply;
-import com.emt.med.supply.SupplyDTO;
-import com.emt.med.supply.SupplyRepository;
 import jakarta.transaction.Transactional;
 import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Sort;

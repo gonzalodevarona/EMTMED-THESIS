@@ -68,7 +68,7 @@ function Locations() {
 
       <Button
         component={Link}
-        to="/estaciondesechos/agregar"
+        to="/estacion-desechos/agregar"
         variant="contained"
         sx={{ px: 10, py: 1, mb: 2 }}
         color={'info'}>
@@ -81,7 +81,7 @@ function Locations() {
           { title: 'Nombre', field: 'name' }
         ]}
         singleEntity='estación de desechos'
-        entity='estaciondesechos'
+        entity='estacion-desechos'
         handleDelete={handleDeleteDisposalStation}
         data={disposalStations} />
     </>

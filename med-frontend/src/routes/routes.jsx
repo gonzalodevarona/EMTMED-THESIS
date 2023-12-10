@@ -24,6 +24,7 @@ import Consumables from '../pages/consumables/Consumables'
 import ConsumableDetailed from '../pages/consumables/ConsumableDetailed'
 import ConsumableFormPage from '../pages/consumables/consumableForm/ConsumableFormPage'
 import SupplyOrders from '../pages/supplyOrders/SupplyOrders'
+import SupplyOrderDetailed from '../pages/supplyOrders/SupplyOrderDetailed'
 import SupplyOrderFormPage from '../pages/supplyOrders/supplyOrderForm/SupplyOrderFormPage'
 
 export default function Routes() {
@@ -149,7 +150,7 @@ export default function Routes() {
                     },
                     {
                         path: "/ordenes/:id",
-                        element: <InventoryOrderDetailed title='orden' />
+                        element: <SupplyOrderDetailed title='orden' />
                     },
                     {
                         path: "/ordenes/agregar",

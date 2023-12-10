@@ -32,8 +32,8 @@ const addSupplyOrder = async (supplyOrder) => {
     return res.data
 }
 
-const editSupplyOrder = async (supplyOrder) => {
-    const res = await axios.put(`/${entity}`, supplyOrder)
+const changeSupplyOrderStatus = async (id, orderStatus) => {
+    const res = await axios.put(`/${entity}/${id}/${orderStatus}`)
         .catch((error) => {
             console.log(error)
             return error.response;
@@ -57,7 +57,7 @@ const SupplyOrderService = {
     getSupplyOrders,
     getSupplyOrderById,
     addSupplyOrder,
-    editSupplyOrder,
+    changeSupplyOrderStatus,
     deleteSupplyOrder
 }
 

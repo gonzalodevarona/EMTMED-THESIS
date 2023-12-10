@@ -1,7 +1,6 @@
 package com.emt.med.consumable;
 
 import com.emt.med.batch.BatchEntity;
-import com.emt.med.medicationBatch.MedicationBatchEntity;
 import com.emt.med.supply.Supply;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;

@@ -1,7 +1,5 @@
 package com.emt.med.medicationBatch;
 
-import com.emt.med.batch.BatchEntityDTO;
-import com.emt.med.batch.BatchEntityService;
 import com.emt.med.medicine.MedicineEntityDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -9,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/medicationBatches")

@@ -1,6 +1,5 @@
 package com.emt.med.baseBatch;
 
-import com.emt.med.supply.Supply;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

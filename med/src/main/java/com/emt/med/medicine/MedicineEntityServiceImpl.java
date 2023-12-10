@@ -1,6 +1,5 @@
 package com.emt.med.medicine;
 
-import com.emt.med.consumable.ConsumableEntityDTO;
 import com.emt.med.countingUnit.CountingUnitEntityRepository;
 import com.emt.med.location.LocationRepository;
 import com.emt.med.medicationBatch.*;
@@ -51,11 +50,6 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
     public MedicineEntityDTO getMedicineEntityDTOById(Long medicineEntityId) {
         MedicineEntity medicineEntity = medicineEntityRepository.findById(medicineEntityId).orElseThrow(() -> new RuntimeException("No medicine found with id "+medicineEntityId));
         return medicineEntityMapper.toDTO(medicineEntity);
-    }
-
-    @Override
-    public List<MedicineEntityDTO> getMedicinesByPurpose(SupplyPurpose purpose) {
-        return medicineEntityRepository.findByPurpose(purpose, Sort.by(Sort.Direction.DESC, "quantity")).stream().map(medicineEntityMapper::toDTO).collect(Collectors.toCollection(ArrayList::new));
     }
 
 

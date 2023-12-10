@@ -53,7 +53,7 @@ function CountingUnitDetailed() {
     return (
         <>
             <Header title={`unidad de conteo #${id}`} />
-            <DetailedView deleteable editable entity='unidadesconteo' data={countingUnit} handleDelete={handleDelete} />
+            <DetailedView deleteable editable entity='unidades-conteo' data={countingUnit} handleDelete={handleDelete} />
         </>
     )
 }

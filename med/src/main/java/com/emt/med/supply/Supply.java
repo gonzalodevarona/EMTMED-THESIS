@@ -1,6 +1,7 @@
 package com.emt.med.supply;
 
 import com.emt.med.countingUnit.CountingUnitEntity;
+import com.emt.med.inventoryOrder.InventoryOrderEntity;
 import com.emt.med.location.Location;
 import com.emt.med.order.OrderEntity;
 import com.emt.med.weightUnit.WeightUnitEntity;
@@ -29,7 +30,7 @@ public abstract class Supply {
     @JsonBackReference("countingUnit-supply")
     private CountingUnitEntity countingUnit;
     @ManyToMany
-    private Set<OrderEntity> orders;
+    private Set<InventoryOrderEntity> inventoryOrders;
     private SupplyPurpose purpose;
 
 

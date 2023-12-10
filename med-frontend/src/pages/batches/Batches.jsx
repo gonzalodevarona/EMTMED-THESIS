@@ -88,6 +88,7 @@ function Batches() {
           { title: 'Consumible', field: 'consumable.name' },
           { title: 'Fabricante', field: 'manufacturer' },
           { title: 'Vía de Administración', field: 'administrationRoute' },
+          { title: 'Cantidad', field: 'quantity', type: 'numeric' },
           { title: 'Fecha de Vencimiento', field: 'expirationDate' },
           { title: 'Semaforización', field: 'status' },
           { title: 'Ubicación', field: 'location.name' },

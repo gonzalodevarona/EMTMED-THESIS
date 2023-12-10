@@ -1,6 +1,5 @@
 package com.emt.med.medicine;
 
-import com.emt.med.consumable.ConsumableEntityDTO;
 import com.emt.med.supply.SupplyPurpose;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

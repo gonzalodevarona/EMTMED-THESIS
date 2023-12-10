@@ -1,7 +1,5 @@
 package com.emt.med.countingUnit;
 
-import com.emt.med.batch.BatchEntityDTO;
-import com.emt.med.batch.BatchEntityService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

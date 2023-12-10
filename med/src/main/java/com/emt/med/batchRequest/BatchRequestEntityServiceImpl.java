@@ -1,7 +1,6 @@
 package com.emt.med.batchRequest;
 
 import com.emt.med.batch.BatchEntityRepository;
-import com.emt.med.medicationBatch.MedicationBatchEntityRepository;
 import jakarta.transaction.Transactional;
 import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Sort;

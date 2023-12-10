@@ -2,8 +2,7 @@ package com.emt.med.batch;
 
 import com.emt.med.consumable.ConsumableEntityDTO;
 import com.emt.med.consumable.ConsumableEntityMapper;
-import com.emt.med.medicationBatch.MedicationBatchEntity;
-import com.emt.med.medicine.MedicineEntityDTO;
+import com.emt.med.consumable.ConsumableEntityRepository;
 import jakarta.transaction.Transactional;
 import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Sort;
@@ -19,17 +18,15 @@ public class BatchEntityServiceImpl implements BatchEntityService {
 
     private BatchEntityRepository batchEntityRepository;
 
+    private ConsumableEntityRepository consumableEntityRepository;
+
     static BatchEntityMapper batchEntityMapper = Mappers.getMapper(BatchEntityMapper.class);
 
     static ConsumableEntityMapper consumableEntityMapper = Mappers.getMapper(ConsumableEntityMapper.class);
 
-    public BatchEntityServiceImpl(BatchEntityRepository batchEntityRepository) {
+    public BatchEntityServiceImpl(BatchEntityRepository batchEntityRepository, ConsumableEntityRepository consumableEntityRepository) {
         this.batchEntityRepository = batchEntityRepository;
-    }
-
-    @Override
-    public BatchEntity getBatchEntityById(Long batchEntityId) {
-        return batchEntityRepository.findById(batchEntityId).orElseThrow(() -> new RuntimeException("No batch found with id "+batchEntityId));
+        this.consumableEntityRepository = consumableEntityRepository;
     }
 
     @Override
@@ -61,17 +58,27 @@ public class BatchEntityServiceImpl implements BatchEntityService {
     }
 
     @Override
+    @Transactional
+    public BatchEntity decrementBatchQuantity(Long batchEntityId, Integer quantityToDecrement) {
+        BatchEntity batchEntity = batchEntityRepository.findById(batchEntityId).orElseThrow(() -> new RuntimeException("No batch found with id "+batchEntityId));
+        Integer difference = batchEntity.getQuantity() - quantityToDecrement;
+
+        if (difference >= 0) {
+            batchEntity.setQuantity(difference);
+            batchEntity.getConsumable().setQuantity(batchEntity.getConsumable().getQuantity() - quantityToDecrement);
+            consumableEntityRepository.save(batchEntity.getConsumable());
+            batchEntity = batchEntityRepository.save(batchEntity);
+        } else {
+            throw new RuntimeException("Error: insufficient quantity to satisfy this request");
+        }
+
+        return batchEntity;
+    }
+
+    @Override
     public BatchEntity saveBatch(BatchEntity batchEntity) {
         return batchEntityRepository.save(batchEntity);
     }
-
-//    @Override
-//    @Transactional
-//    public BatchEntityDTO updateBatch(BatchEntityDTO batchDTO) {
-//        BatchEntity existingBatchEntity = batchEntityRepository.findById(batchDTO.getId()).orElseThrow(() -> new RuntimeException("No batch found with id "+batchDTO.getId()));
-//        batchEntityMapper.updateBatchFromDto(batchDTO, existingBatchEntity);
-//        return batchEntityMapper.toDTO(batchEntityRepository.save(existingBatchEntity));
-//    }
 
     @Override
     @Transactional

@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/batches")
@@ -39,11 +38,6 @@ public class BatchEntityController {
 
         return new ResponseEntity<BatchEntityDTO>(batchEntityService.addBatch(batchEntityDTO), HttpStatus.CREATED);
     }
-
-//    @PutMapping()
-//    public ResponseEntity<BatchEntityDTO> updateBatch(@Valid @RequestBody BatchEntityDTO batchEntityDTO) {
-//        return ResponseEntity.ok(batchEntityService.updateBatch(batchEntityDTO));
-//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteBatch(@PathVariable("id") Long id) {

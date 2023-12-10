@@ -1,15 +1,9 @@
 package com.emt.med.order;
 
-import com.emt.med.disposalStation.DisposalStationEntityDTO;
 import com.emt.med.inventoryOrder.InventoryOrderEntityDTO;
-import com.emt.med.pharmacy.PharmacyEntityDTO;
-import com.emt.med.supply.Supply;
-import com.emt.med.supply.SupplyDTO;
 import com.emt.med.supplyOrder.SupplyOrderEntityDTO;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
@@ -19,7 +13,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -38,7 +31,7 @@ public class OrderEntityDTO {
     @NotNull
     private OrderStatus status;
 
-    private List<SupplyDTO> supplies;
+
     @NotBlank(message = "note should not be blank")
     private String note;
 }

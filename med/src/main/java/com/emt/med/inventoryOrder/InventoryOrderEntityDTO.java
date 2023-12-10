@@ -2,11 +2,14 @@ package com.emt.med.inventoryOrder;
 
 import com.emt.med.location.LocationDTO;
 import com.emt.med.order.OrderEntityDTO;
+import com.emt.med.supply.SupplyDTO;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -19,4 +22,5 @@ public class InventoryOrderEntityDTO extends OrderEntityDTO {
     private LocationDTO destination;
     @NotNull(message = "source shouldn't be null")
     private LocationDTO source;
+    private List<SupplyDTO> supplies;
 }

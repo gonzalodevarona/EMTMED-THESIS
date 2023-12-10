@@ -20,11 +20,11 @@ public interface SupplyMapper {
     SupplyMapper INSTANCE = Mappers.getMapper( SupplyMapper.class );
     @SubclassMapping( source = MedicineEntity.class, target = MedicineEntityDTO.class )
     @SubclassMapping( source = ConsumableEntity.class, target = ConsumableEntityDTO.class )
-    @Mapping(target = "orders", ignore = true)
+    @Mapping(target = "inventoryOrders", ignore = true)
     SupplyDTO toDTO(Supply supply);
 
     @InheritInverseConfiguration
-    @Mapping(target = "orders", ignore = true)
+    @Mapping(target = "inventoryOrders", ignore = true)
     Supply toEntity(SupplyDTO supplyDTO);
 
 

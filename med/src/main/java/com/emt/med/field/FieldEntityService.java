@@ -1,6 +1,5 @@
 package com.emt.med.field;
 
-import com.emt.med.batch.BatchEntityDTO;
 import com.emt.med.value.ValueEntityDTO;
 import org.springframework.stereotype.Service;
 

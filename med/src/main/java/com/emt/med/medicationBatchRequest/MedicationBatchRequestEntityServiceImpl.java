@@ -24,11 +24,6 @@ public class MedicationBatchRequestEntityServiceImpl implements MedicationBatchR
     }
 
     @Override
-    public MedicationBatchRequestEntity getMedicationBatchRequestById(Long medicationBatchRequestEntityId) {
-        return medicationBatchRequestEntityRepository.findById(medicationBatchRequestEntityId).orElseThrow(() -> new RuntimeException("No medication batch request found with id "+medicationBatchRequestEntityId));
-    }
-
-    @Override
     public MedicationBatchRequestEntityDTO getMedicationBatchRequestDTOtById(Long medicationBatchRequestEntityId) {
         MedicationBatchRequestEntity medicationBatchRequestEntity = medicationBatchRequestEntityRepository.findById(medicationBatchRequestEntityId).orElseThrow(() -> new RuntimeException("No medication batch request found with id "+medicationBatchRequestEntityId));
         return medicationBatchRequestEntityMapper.toDTO(medicationBatchRequestEntity);

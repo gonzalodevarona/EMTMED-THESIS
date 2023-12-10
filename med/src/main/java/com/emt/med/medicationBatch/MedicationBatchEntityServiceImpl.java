@@ -1,13 +1,9 @@
 package com.emt.med.medicationBatch;
 
-import com.emt.med.batch.BatchEntity;
 import com.emt.med.location.Location;
 import com.emt.med.location.LocationMapper;
 import com.emt.med.location.LocationRepository;
-import com.emt.med.medicine.MedicineEntity;
-import com.emt.med.medicine.MedicineEntityDTO;
-import com.emt.med.medicine.MedicineEntityMapper;
-import com.emt.med.medicine.MedicineEntityService;
+import com.emt.med.medicine.*;
 import jakarta.transaction.Transactional;
 import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Sort;
@@ -25,13 +21,17 @@ public class MedicationBatchEntityServiceImpl implements MedicationBatchEntitySe
 
     private LocationRepository locationRepository;
 
+    private MedicineEntityRepository medicineEntityRepository;
+
     static MedicationBatchEntityMapper medicationBatchEntityMapper = Mappers.getMapper(MedicationBatchEntityMapper.class);
+
     static MedicineEntityMapper medicineEntityMapper = Mappers.getMapper(MedicineEntityMapper.class);
     static LocationMapper locationMapper = Mappers.getMapper(LocationMapper.class);
 
-    public MedicationBatchEntityServiceImpl(MedicationBatchEntityRepository medicationBatchEntityRepository, LocationRepository locationRepository) {
+    public MedicationBatchEntityServiceImpl(MedicationBatchEntityRepository medicationBatchEntityRepository, LocationRepository locationRepository, MedicineEntityRepository medicineEntityRepository) {
         this.medicationBatchEntityRepository = medicationBatchEntityRepository;
         this.locationRepository = locationRepository;
+        this.medicineEntityRepository = medicineEntityRepository;
     }
 
     @Override
@@ -73,6 +73,25 @@ public class MedicationBatchEntityServiceImpl implements MedicationBatchEntitySe
         medicationBatchEntity = medicationBatchEntityRepository.save(medicationBatchEntity);
         return medicationBatchEntityMapper.toDTO(medicationBatchEntity);
     }
+
+    @Override
+    @Transactional
+    public MedicationBatchEntity decrementMedicationBatchQuantity(Long medicationBatchEntityId, Integer quantityToDecrement) {
+        MedicationBatchEntity medicationBatchEntity = medicationBatchEntityRepository.findById(medicationBatchEntityId).orElseThrow(() -> new RuntimeException("No medication batch found with id "+medicationBatchEntityId));
+        Integer difference = medicationBatchEntity.getQuantity() - quantityToDecrement;
+
+        if (difference >= 0) {
+            medicationBatchEntity.setQuantity(difference);
+            medicationBatchEntity.getMedicine().setQuantity(medicationBatchEntity.getMedicine().getQuantity() - quantityToDecrement);
+            medicineEntityRepository.save(medicationBatchEntity.getMedicine());
+            medicationBatchEntity = medicationBatchEntityRepository.save(medicationBatchEntity);
+        } else {
+            throw new RuntimeException("Error: insufficient quantity to satisfy this request");
+        }
+
+        return medicationBatchEntity;
+    }
+
 
     @Override
     @Transactional

@@ -4,10 +4,6 @@ import com.emt.med.batch.BatchEntity;
 import com.emt.med.batch.BatchEntityMapper;
 import com.emt.med.batch.BatchEntityRepository;
 import com.emt.med.batch.BatchEntityService;
-import com.emt.med.countingUnit.CountingUnitEntity;
-import com.emt.med.medicine.MedicineEntity;
-import com.emt.med.medicine.MedicineEntityDTO;
-import com.emt.med.supply.Supply;
 import com.emt.med.supply.SupplyPurpose;
 import com.emt.med.supply.SupplyService;
 import com.emt.med.weightUnit.WeightUnitEntity;
@@ -92,23 +88,10 @@ public class ConsumableEntityServiceImpl implements ConsumableEntityService{
         return consumableEntityMapper.toDTO(consumableEntity);
     }
 
-
-    @Override
-    @Transactional
-    public Supply addWeightUnitToConsumable(WeightUnitEntity weightUnit, ConsumableEntity consumable) {
-        return saveConsumableEntity((ConsumableEntity) supplyService.addWeightUnitToSupply(weightUnit, consumable));
-    }
-
     @Override
     @Transactional
     public ConsumableEntityDTO removeWeightUnitFromConsumable(Long consumableEntityId) {
         return consumableEntityMapper.toDTO(saveConsumableEntity((ConsumableEntity) supplyService.removeWeightUnitFromSupply(getConsumableEntityById(consumableEntityId))));
-    }
-
-    @Override
-    @Transactional
-    public Supply addCountingUnitToConsumable(CountingUnitEntity countingUnit, ConsumableEntity consumable) {
-        return saveConsumableEntity((ConsumableEntity) supplyService.addCountingUnitToSupply(countingUnit, consumable));
     }
 
     @Override
@@ -195,16 +178,6 @@ public class ConsumableEntityServiceImpl implements ConsumableEntityService{
 
         return consumableEntityMapper.toDTO(saveConsumableEntity(consumable));
     }
-
-
-
-//    @Override
-//    @Transactional
-//    public ConsumableEntityDTO updateConsumable(ConsumableEntityDTO consumableEntityDTO) {
-//        ConsumableEntity existingFieldEntity = consumableEntityRepository.findById(consumableEntityDTO.getId()).orElseThrow(() -> new RuntimeException("No consumable found with id "+consumableEntityDTO.getId()));
-//        consumableEntityMapper.updateConsumableFromDTO(consumableEntityDTO, existingFieldEntity);
-//        return consumableEntityMapper.toDTO(consumableEntityRepository.save(existingFieldEntity));
-//    }
 
     public ConsumableEntityDTO updateConsumable(ConsumableEntityDTO consumableEntityDTO) {
         ConsumableEntity existingConsumable = consumableEntityRepository.findById(consumableEntityDTO.getId()).orElseThrow(() -> new RuntimeException("No consumable found with id "+consumableEntityDTO.getId()));

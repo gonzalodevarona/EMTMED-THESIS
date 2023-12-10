@@ -1,6 +1,5 @@
 package com.emt.med.weightUnit;
 
-import com.emt.med.supply.Supply;
 import com.emt.med.supply.SupplyDTO;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;

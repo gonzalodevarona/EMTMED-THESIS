@@ -1,11 +1,9 @@
 package com.emt.med.medicationBatch;
 
-import com.emt.med.batch.BatchEntity;
 import com.emt.med.medicine.MedicineEntityDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public interface MedicationBatchEntityService {
@@ -18,6 +16,8 @@ public interface MedicationBatchEntityService {
 
     MedicationBatchEntity saveMedicationBatch(MedicationBatchEntity medicationBatchEntity);
     MedicationBatchEntityDTO addMedicationBatch(MedicationBatchEntityDTO medicationBatchEntityDTO);
+
+    MedicationBatchEntity decrementMedicationBatchQuantity(Long medicationBatchEntityId, Integer quantityToDecrement);
 
     MedicationBatchEntityDTO updateMedicationBatch(MedicationBatchEntity medicationBatchEntity);
 
