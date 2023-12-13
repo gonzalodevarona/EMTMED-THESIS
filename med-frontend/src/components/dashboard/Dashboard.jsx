@@ -18,6 +18,8 @@ import { Grid, Paper, useMediaQuery } from '@mui/material'
 import Copyright from '../Copyright'
 import { Logout } from '@mui/icons-material'
 import logoBHSR from '../../assets/logo.jpg'
+import keycloak from '../../config/keycloak'
+import { useKeycloak } from '@react-keycloak/web'
 
 const drawerWidth = 280
 
@@ -76,6 +78,8 @@ const mdTheme = createTheme({
 
 export default function Dashboard() {
     const [open, setOpen] = React.useState(false)
+    
+    const {keycloak} = useKeycloak()
 
     let mobile = false
     useMediaQuery('(min-width:1200px)') ? (mobile = false) : (mobile = true)
@@ -85,6 +89,8 @@ export default function Dashboard() {
     }
 
     const handleLogout = () => {
+        
+        keycloak.logout()
 
     }
 
