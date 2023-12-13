@@ -2,10 +2,10 @@ import DetailedView from "../../components/DetailedView"
 import Header from "../../components/Header"
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { removeNullProperties, previousPage, capitalizeFirstLetter } from '../../utils/CommonMethods';
+import { removeNullProperties } from '../../utils/CommonMethods';
+import { useNavigate } from 'react-router-dom';
 import { dateArrayToString } from '../../utils/EntityProcessingMethods';
 import BatchService from "../../services/batchService";
-import { useNavigate } from "react-router-dom";
 
 function BatchDetailed() {
 

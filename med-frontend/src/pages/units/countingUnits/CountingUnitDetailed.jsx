@@ -2,7 +2,7 @@ import DetailedView from "../../../components/DetailedView"
 import Header from "../../../components/Header"
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { removeNullProperties, previousPage } from '../../../utils/CommonMethods';
+import { removeNullProperties,  } from '../../../utils/CommonMethods';
 import CountingUnitService from "../../../services/countingUnitService";
 import { useNavigate } from "react-router-dom";
 import triggerConfrirmationAlert from "../../../components/alerts/ConfirmationAlert";
@@ -27,7 +27,7 @@ function CountingUnitDetailed() {
             action: async () => await CountingUnitService.deleteCountingUnit(id),
             successTitle: `Unidad de conteo con ID ${id} eliminada con éxito.`,
             successType: "success",
-            successAction: previousPage,
+            successAction: redirect(-1),
             errorTitle: `Unidad de conteo con ID ${id} NO fue eliminada.`,
             errorType: "error"
         })

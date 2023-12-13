@@ -138,8 +138,7 @@ function CustomTable({ entity, title, sx, columns, data, singleEntity, handleDel
 
                 onRowClick={(event, rowData) => {
                     if (entity !== undefined) {
-                        window.open(`/${entity}/${rowData.id}`, "_self")
-                        event.stopPropagation();
+                        navigate(`/${entity}/${rowData.id}`)
                     }
 
                 }}

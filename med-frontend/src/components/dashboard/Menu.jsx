@@ -26,7 +26,7 @@ export default function Menu({ mobile, toggleDrawer }) {
     }
   };
 
-  const {keycloak } = useKeycloak();
+  const { keycloak } = useKeycloak();
 
   return (
     <>
@@ -37,71 +37,78 @@ export default function Menu({ mobile, toggleDrawer }) {
         <ListItemText primary="Inicio" />
       </ListItemButton >
 
-    
-     { keycloak.hasRealmRole("ROLE_ADMIN") && 
-      <ListItemButton component={Link} to="/ordenes" onClick={closeMenu}>
-        <ListItemIcon>
-          <ReceiptIcon />
-        </ListItemIcon>
-        <ListItemText primary="Ordenes de pacientes" />
-      </ListItemButton>}
 
-      { keycloak.hasRealmRole("ROLE_PRACTITIONER") && 
-      <ListItemButton component={Link} to="/ordenes/agregar" onClick={closeMenu}>
-        <ListItemIcon>
-          <ReceiptIcon />
-        </ListItemIcon>
-        <ListItemText primary="Agregar Orden de Paciente" />
-      </ListItemButton>}
+      {(keycloak.hasRealmRole("ROLE_ADMIN") || keycloak.hasRealmRole("ROLE_REGENT")) &&
+        <ListItemButton component={Link} to="/ordenes" onClick={closeMenu}>
+          <ListItemIcon>
+            <ReceiptIcon />
+          </ListItemIcon>
+          <ListItemText primary="Ordenes de pacientes" />
+        </ListItemButton>}
 
-      <ListItemButton component={Link} to="/ordenes-inventario" onClick={closeMenu}>
-        <ListItemIcon>
-          <ListAltIcon />
-        </ListItemIcon>
-        <ListItemText primary="Ordenes de inventario" />
-      </ListItemButton>
+      {keycloak.hasRealmRole("ROLE_PRACTITIONER") &&
+        <ListItemButton component={Link} to="/ordenes/agregar" onClick={closeMenu}>
+          <ListItemIcon>
+            <ReceiptIcon />
+          </ListItemIcon>
+          <ListItemText primary="Agregar Orden de Paciente" />
+        </ListItemButton>}
 
-      <ListItemButton component={Link} to="/medicamentos" onClick={closeMenu}>
-        <ListItemIcon>
-          <MedicationIcon />
-        </ListItemIcon>
-        <ListItemText primary="Medicamentos" />
-      </ListItemButton>
+      {(keycloak.hasRealmRole("ROLE_ADMIN") || keycloak.hasRealmRole("ROLE_REGENT")) &&
+        <ListItemButton component={Link} to="/ordenes-inventario" onClick={closeMenu}>
+          <ListItemIcon>
+            <ListAltIcon />
+          </ListItemIcon>
+          <ListItemText primary="Ordenes de inventario" />
+        </ListItemButton>}
 
-      <ListItemButton component={Link} to="/consumibles" onClick={closeMenu}>
-        <ListItemIcon>
-          <VaccinesIcon />
-        </ListItemIcon>
-        <ListItemText primary="Consumibles" />
-      </ListItemButton>
+      {(keycloak.hasRealmRole("ROLE_ADMIN") || keycloak.hasRealmRole("ROLE_REGENT")) &&
+        <ListItemButton component={Link} to="/medicamentos" onClick={closeMenu}>
+          <ListItemIcon>
+            <MedicationIcon />
+          </ListItemIcon>
+          <ListItemText primary="Medicamentos" />
+        </ListItemButton>}
 
-      <ListItemButton component={Link} to="/lotes" onClick={closeMenu}>
-        <ListItemIcon>
-          <InventoryIcon />
-        </ListItemIcon>
-        <ListItemText primary="Lotes" />
-      </ListItemButton>
+      {(keycloak.hasRealmRole("ROLE_ADMIN") || keycloak.hasRealmRole("ROLE_REGENT")) &&
+        <ListItemButton component={Link} to="/consumibles" onClick={closeMenu}>
+          <ListItemIcon>
+            <VaccinesIcon />
+          </ListItemIcon>
+          <ListItemText primary="Consumibles" />
+        </ListItemButton>}
 
-      <ListItemButton component={Link} to="/ubicaciones" onClick={closeMenu}>
-        <ListItemIcon>
-          <FmdGoodIcon />
-        </ListItemIcon>
-        <ListItemText primary="Ubicaciones" />
-      </ListItemButton>
+      {(keycloak.hasRealmRole("ROLE_ADMIN") || keycloak.hasRealmRole("ROLE_REGENT")) &&
+        <ListItemButton component={Link} to="/lotes" onClick={closeMenu}>
+          <ListItemIcon>
+            <InventoryIcon />
+          </ListItemIcon>
+          <ListItemText primary="Lotes" />
+        </ListItemButton>}
 
-      <ListItemButton component={Link} to="/unidades" onClick={closeMenu}>
-        <ListItemIcon>
-          <LooksOneIcon />
-        </ListItemIcon>
-        <ListItemText primary="Unidades" />
-      </ListItemButton>
+      {(keycloak.hasRealmRole("ROLE_ADMIN") || keycloak.hasRealmRole("ROLE_REGENT")) &&
+        <ListItemButton component={Link} to="/ubicaciones" onClick={closeMenu}>
+          <ListItemIcon>
+            <FmdGoodIcon />
+          </ListItemIcon>
+          <ListItemText primary="Ubicaciones" />
+        </ListItemButton>}
 
-      <ListItemButton component={Link} to="/campos" onClick={closeMenu}>
-        <ListItemIcon>
-          <TextFieldsIcon />
-        </ListItemIcon>
-        <ListItemText primary="Campos adicionales" />
-      </ListItemButton>
+      {(keycloak.hasRealmRole("ROLE_ADMIN") || keycloak.hasRealmRole("ROLE_REGENT")) &&
+        <ListItemButton component={Link} to="/unidades" onClick={closeMenu}>
+          <ListItemIcon>
+            <LooksOneIcon />
+          </ListItemIcon>
+          <ListItemText primary="Unidades" />
+        </ListItemButton>}
+
+      {(keycloak.hasRealmRole("ROLE_ADMIN") || keycloak.hasRealmRole("ROLE_REGENT")) &&
+        <ListItemButton component={Link} to="/campos" onClick={closeMenu}>
+          <ListItemIcon>
+            <TextFieldsIcon />
+          </ListItemIcon>
+          <ListItemText primary="Campos adicionales" />
+        </ListItemButton>}
 
       <Divider></Divider>
 

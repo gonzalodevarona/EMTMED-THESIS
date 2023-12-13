@@ -2,7 +2,7 @@ import DetailedView from "../../components/DetailedView"
 import Header from "../../components/Header"
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { removeNullProperties, previousPage, capitalizeFirstLetter } from '../../utils/CommonMethods';
+import { removeNullProperties,  capitalizeFirstLetter } from '../../utils/CommonMethods';
 import { dateArrayToString } from '../../utils/EntityProcessingMethods';
 import InventoryOrderService from "../../services/inventoryOrderService";
 import { useNavigate } from "react-router-dom";
@@ -30,7 +30,7 @@ function InventoryOrderDetailed() {
             action: async () => await InventoryOrderService.deleteInventoryOrder(id),
             successTitle: `${capitalizeFirstLetter(entity)} con ID ${id} eliminada con éxito.`,
             successType: "success",
-            successAction: previousPage,
+            successAction: redirect(-1),
             errorTitle: `${capitalizeFirstLetter(entity)} con ID ${id} NO fue eliminada.`,
             errorType: "error"
         })

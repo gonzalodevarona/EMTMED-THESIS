@@ -6,9 +6,6 @@ export function refreshPage() {
   location.reload();
 }
 
-export function previousPage() {
-  window.location.replace(document.referrer);
-}
 
 export function removeNullProperties(obj) {
   const newObj = {};

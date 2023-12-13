@@ -1,7 +1,7 @@
 import Header from "../../components/Header"
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { removeNullProperties, previousPage, capitalizeFirstLetter } from '../../utils/CommonMethods';
+import { removeNullProperties, capitalizeFirstLetter } from '../../utils/CommonMethods';
 import ConsumableService from "../../services/consumableService";
 import { useNavigate } from "react-router-dom";
 import triggerConfrirmationAlert from "../../components/alerts/ConfirmationAlert";
@@ -29,7 +29,7 @@ function ConsumableDetailed() {
             action: async () => await ConsumableService.deleteConsumable(id),
             successTitle: `${capitalizeFirstLetter(entity)} con ID ${id} eliminado con éxito.`,
             successType: "success",
-            successAction: previousPage,
+            successAction: redirect(-1),
             errorTitle: `${capitalizeFirstLetter(entity)} con ID ${id} NO fue eliminado.`,
             errorType: "error"
         })

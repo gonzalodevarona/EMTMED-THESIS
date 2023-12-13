@@ -55,8 +55,10 @@ export default function Routes() {
                             element: <Typography>Error 404: Página no encontrada</Typography>
                         },
 
-                        // *** UNIDADES ***
+                    ].concat(  (keycloak.hasRealmRole("ROLE_REGENT") || keycloak.hasRealmRole("ROLE_ADMIN")) ?
 
+                        // *** UNIDADES ***
+[
                         {
                             path: "/unidades",
                             element: <Units />
@@ -220,9 +222,11 @@ export default function Routes() {
                         {
                             path: "/lotes/:id",
                             element: <BatchDetailed />
-                        },
+                        }]
 
-                    ].concat(keycloak.hasRealmRole("ROLE_PRACTITIONER") ?
+                        : []
+
+                    ).concat(keycloak.hasRealmRole("ROLE_PRACTITIONER") || keycloak.hasRealmRole("ROLE_ADMIN") ?
                         [{
                             path: "/ordenes/agregar",
                             element: <SupplyOrderFormPage action='add' />
