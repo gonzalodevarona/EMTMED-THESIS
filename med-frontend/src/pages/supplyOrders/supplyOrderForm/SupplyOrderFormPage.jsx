@@ -5,10 +5,13 @@ import { useParams } from "react-router-dom";
 import SupplyOrderService from '../../../services/supplyOrderService'
 import { removeNullProperties } from '../../../utils/CommonMethods'
 import { useNavigate } from "react-router-dom";
+import { useKeycloak } from '@react-keycloak/web'
 
 function SupplyOrderFormPage({ action }) {
 
     let { id } = useParams();
+
+    const { keycloak } = useKeycloak()
 
     const [supplyOrderData, setSupplyOrderData] = useState({})
 
@@ -26,7 +29,7 @@ function SupplyOrderFormPage({ action }) {
         async function fetchData() {
             let fetchedData = await SupplyOrderService.getSupplyOrderById(id);
             console.log(fetchedData);
-            if ((fetchedData.status == 500 && fetchedData.error) || fetchedData.status === 'COMPLETED') {
+            if ((fetchedData.status == 500 && fetchedData.error) || fetchedData.status === 'COMPLETED' || !(keycloak.hasRealmRole("ROLE_PRACTITIONER"))) {
                 redirect('/404')
             }
           

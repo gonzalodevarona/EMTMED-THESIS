@@ -5,10 +5,16 @@ import FormTextfield from '../../../components/form/FormTextfield';
 import CountingUnitService from "../../../services/countingUnitService";
 import WeightUnitService from "../../../services/weightUnitService";
 import triggerInfoAlert from "../../../components/alerts/InfoAlert";
-import { refreshPage } from "../../../utils/CommonMethods";
+import { useNavigate } from "react-router-dom";
 
 
 function UnitForm({ type, action, preloadedData, id }) {
+
+    const navigate = useNavigate();
+
+    const redirect = (path) => {
+        navigate(path);
+    };
 
     async function addCountingUnit(countingUnit) {
         await CountingUnitService.addCountingUnit(countingUnit);
@@ -33,19 +39,20 @@ function UnitForm({ type, action, preloadedData, id }) {
         register,
         formState: { errors },
         control,
+        reset
     } = useForm({
         defaultValues: preloadedData
     });
 
     function addedSuccessfully() {
-        triggerInfoAlert('success', `La nueva unidad de ${type} ha sido agregada`, refreshPage)
+        triggerInfoAlert('success', `La nueva unidad de ${type} ha sido agregada`, reset)
     }
     function errorAdding() {
         triggerInfoAlert('error', `Ha habido un error agregando la nueva unidad de ${type}`)
     }
 
-    function editedSuccessfully() { 
-        triggerInfoAlert('success', `La unidad de ${type} ha sido editada`, refreshPage)
+    function editedSuccessfully() {
+        triggerInfoAlert('success', `La unidad de ${type} ha sido editada`, () => redirect(-1))
     }
     function errorEditing() {
         triggerInfoAlert('error', `Ha habido un error editando la unidad de ${type}`)

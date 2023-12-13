@@ -36,7 +36,7 @@ function Units() {
   
   return (
     <>
-      <Header title={"Unidad de conteo"} />
+      <Header title={"Unidad de Conteo"} />
 
       <Button
         component={Link}
@@ -61,7 +61,7 @@ function Units() {
 
       
 
-      <Header title={"Unidad de peso"} />
+      <Header title={"Unidad de Peso"} />
 
       <Button
         component={Link}

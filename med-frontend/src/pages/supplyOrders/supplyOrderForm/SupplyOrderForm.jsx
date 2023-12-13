@@ -8,12 +8,18 @@ import FormDateTimePicker from '../../../components/form/FormDateTimePicker';
 import SupplyOrderService from "../../../services/supplyOrderService";
 import OrderService from "../../../services/orderService";
 import triggerInfoAlert from "../../../components/alerts/InfoAlert";
-import { refreshPage } from "../../../utils/CommonMethods";
 import { convertToLocalTimeZone, convertDateObjectToDayjs } from "../../../utils/EntityProcessingMethods";
 import dayjs from 'dayjs';
 import SupplyTable from "./SupplyTable";
+import { useNavigate } from "react-router-dom";
 
 function SupplyOrderForm({ action, preloadedData, id }) {
+
+    const navigate = useNavigate();
+
+    const redirect = (path) => {
+        navigate(path);
+    };
 
     const [pacient, setPacient] = useState({})
     const [statuses, setStatuses] = useState([])
@@ -71,19 +77,20 @@ function SupplyOrderForm({ action, preloadedData, id }) {
         register,
         formState: { errors },
         control,
+        reset
     } = useForm({
         defaultValues: preloadedData
     });
 
     function addedSuccessfully() {
-        triggerInfoAlert('success', 'La nueva orden ha sido agregada', refreshPage)
+        triggerInfoAlert('success', 'La nueva orden ha sido agregada', reset)
     }
     function errorAdding() {
         triggerInfoAlert('error', 'Ha habido un error agregando la nueva orden')
     }
 
     function editedSuccessfully() {
-        triggerInfoAlert('success', 'La orden ha sido editada', refreshPage)
+        triggerInfoAlert('success', 'La orden ha sido editada', () => redirect(-1))
     }
     function errorEditing() {
         triggerInfoAlert('error', 'Ha habido un error editando la orden')
@@ -107,14 +114,14 @@ function SupplyOrderForm({ action, preloadedData, id }) {
         switch (action) {
             case 'add':
                 addSupplyOrder(data)
-                .then((result) => {
-                    console.log(result)
-                    addedSuccessfully()
-                })
-                .catch((error) => {
-                    errorAdding()
-                    console.error('Error en la operación:', error);
-                });
+                    .then((result) => {
+                        console.log(result)
+                        addedSuccessfully()
+                    })
+                    .catch((error) => {
+                        errorAdding()
+                        console.error('Error en la operación:', error);
+                    });
                 break;
             case 'edit':
 
@@ -153,11 +160,11 @@ function SupplyOrderForm({ action, preloadedData, id }) {
         data.batchRequests = []
 
         batches.forEach(batch => {
-            let generalRequest = {quantity: batch.assignedQuantity}
+            let generalRequest = { quantity: batch.assignedQuantity }
 
-            const {assignedQuantity, tableData, expirationDate, ...rest} = batch
+            const { assignedQuantity, tableData, expirationDate, ...rest } = batch
             if (batch.cum) {
-                
+
                 generalRequest.medicationBatch = rest
                 data.medicationBatchRequests.push(generalRequest);
             } else {

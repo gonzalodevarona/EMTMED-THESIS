@@ -5,13 +5,11 @@ import { DevTool } from "@hookform/devtools";
 import FormTextfield from '../../../components/form/FormTextfield';
 import FormSelect from '../../../components/form/FormSelect';
 import FormDatePicker from '../../../components/form/FormDatePicker';
-import triggerInfoAlert from "../../../components/alerts/InfoAlert";
 import BatchStatusService from '../../../services/batchStatusService';
 import MedicationBatchService from '../../../services/medicationBatchService';
 import PharmacyService from '../../../services/pharmacyService';
-import { refreshPage } from "../../../utils/CommonMethods";
 import { calculateBatchStatus } from "../../../utils/EntityProcessingMethods";
-import { formatDateToYYYYMMDD, convertToLocalTimeZone, dateArrayToString } from "../../../utils/EntityProcessingMethods"
+import { formatDateToYYYYMMDD, convertToLocalTimeZone } from "../../../utils/EntityProcessingMethods"
 import dayjs from 'dayjs';
 
 function BatchEmbeddedForm({ action, addBatch, deleteBatch, preloadedData, id }) {
@@ -50,7 +48,7 @@ function BatchEmbeddedForm({ action, addBatch, deleteBatch, preloadedData, id })
     useEffect(() => {
         console.log(preloadedData)
     }, [preloadedData])
-    
+
 
 
     const {
@@ -58,6 +56,7 @@ function BatchEmbeddedForm({ action, addBatch, deleteBatch, preloadedData, id })
         register,
         formState: { errors },
         control,
+        reset,
         watch
     } = useForm({
         defaultValues: preloadedData
@@ -66,7 +65,7 @@ function BatchEmbeddedForm({ action, addBatch, deleteBatch, preloadedData, id })
     const expirationDateWatch = watch('expirationDate')
 
     useEffect(() => {
-        
+
         if (action === 'add') {
             if (expirationDateWatch) {
                 setCurrentStatus(calculateBatchStatus(expirationDateWatch.toDate()))
@@ -82,21 +81,6 @@ function BatchEmbeddedForm({ action, addBatch, deleteBatch, preloadedData, id })
         }
     }, [expirationDateWatch])
 
-
-
-    function addedSuccessfully() {
-        triggerInfoAlert('success', 'El nuevo medicamento ha sido agregado', refreshPage)
-    }
-    function errorAdding() {
-        triggerInfoAlert('error', 'Ha habido un error agregando el nuevo medicamento')
-    }
-
-    function editedSuccessfully() {
-        triggerInfoAlert('success', 'El medicamento ha sido editada', refreshPage)
-    }
-    function errorEditing() {
-        triggerInfoAlert('error', 'Ha habido un error editando el medicamento')
-    }
 
     async function onSubmit(data) {
 

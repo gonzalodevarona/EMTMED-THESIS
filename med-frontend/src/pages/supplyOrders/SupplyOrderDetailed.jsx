@@ -9,6 +9,7 @@ import BatchService from "../../services/batchService";
 import { useNavigate } from "react-router-dom";
 import SupplyOrderDetailedView from "./SupplyOrderDetailedView";
 
+
 function SupplyOrderDetailed() {
 
     let { id } = useParams();

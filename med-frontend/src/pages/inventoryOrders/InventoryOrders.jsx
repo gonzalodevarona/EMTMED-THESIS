@@ -47,7 +47,7 @@ function InventoryOrders() {
 
   return (
     <>
-      <Header title={"Ordenes de inventario"} />
+      <Header title={"Ordenes de Inventario"} />
       <Button
         component={Link}
         to="/ordenes-inventario/agregar"

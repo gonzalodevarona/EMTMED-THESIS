@@ -64,7 +64,7 @@ function Locations() {
 
       
 
-      <Header title={"Estación de desechos"} />
+      <Header title={"Estación de Desechos"} />
 
       <Button
         component={Link}

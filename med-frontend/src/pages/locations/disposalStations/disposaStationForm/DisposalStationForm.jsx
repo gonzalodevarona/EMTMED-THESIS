@@ -1,13 +1,21 @@
 import { useForm } from "react-hook-form";
 import { Button, Stack } from "@mui/material";
 import { DevTool } from "@hookform/devtools";
+
+import { useNavigate } from "react-router-dom";
 import FormTextfield from '../../../../components/form/FormTextfield';
 import DisposalStationService from '../../../../services/disposalStationService'
 import triggerInfoAlert from "../../../../components/alerts/InfoAlert";
-import { refreshPage } from "../../../../utils/CommonMethods";
+
 
 
 function DisposalStationForm({ action, preloadedData, id }) {
+
+    const navigate = useNavigate();
+
+    const redirect = (path) => {
+        navigate(path);
+    };
 
     async function addDisposalStation(disposalStation) {
         return await DisposalStationService.addDisposalStation(disposalStation);
@@ -25,19 +33,20 @@ function DisposalStationForm({ action, preloadedData, id }) {
         register,
         formState: { errors },
         control,
+        reset,
     } = useForm({
         defaultValues: preloadedData
     });
 
     function addedSuccessfully() {
-        triggerInfoAlert('success', `La nueva ${entity} ha sido agregada`, refreshPage)
+        triggerInfoAlert('success', `La nueva ${entity} ha sido agregada`, reset)
     }
     function errorAdding() {
         triggerInfoAlert('error', `Ha habido un error agregando la nueva ${entity}`)
     }
 
     function editedSuccessfully() {
-        triggerInfoAlert('success', `La ${entity} ha sido editada`, refreshPage)
+        triggerInfoAlert('success', `La ${entity} ha sido editada`, () => redirect(-1))
     }
     function errorEditing() {
         triggerInfoAlert('error', `Ha habido un error editando la ${entity}`)

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { Button, Stack, MenuItem, Divider } from "@mui/material";
 import { DevTool } from "@hookform/devtools";
 import FormTextfield from '../../../components/form/FormTextfield';
@@ -9,12 +10,17 @@ import triggerInfoAlert from "../../../components/alerts/InfoAlert";
 import WeightUnitService from '../../../services/weightUnitService';
 import CountingUnitService from '../../../services/countingUnitService';
 
-import { refreshPage } from "../../../utils/CommonMethods";
 import BatchService from "../../../services/batchService";
 import ConsumableService from "../../../services/consumableService";
 import BatchFormEmbedded from "../../../pages/batches/batchForm/BatchFormEmbedded";
 
 function ConsumableForm({ action, preloadedData }) {
+
+  const navigate = useNavigate();
+
+  const redirect = (path) => {
+    navigate(path);
+  };
 
   const [weightUnits, setWeightUnits] = useState([])
   const [countingUnits, setCountingUnits] = useState([])
@@ -103,6 +109,7 @@ function ConsumableForm({ action, preloadedData }) {
     handleSubmit,
     register,
     formState: { errors },
+    reset,
     setValue
   } = useForm({
     defaultValues: preloadedData
@@ -120,7 +127,7 @@ function ConsumableForm({ action, preloadedData }) {
 
 
   function addedSuccessfully() {
-    triggerInfoAlert('success', 'El nuevo consumible ha sido agregado', refreshPage)
+    triggerInfoAlert('success', 'El nuevo consumible ha sido agregado', reset)
   }
   function errorAdding() {
     triggerInfoAlert('error', 'Ha habido un error agregando el nuevo consumible')
@@ -130,7 +137,7 @@ function ConsumableForm({ action, preloadedData }) {
   }
 
   function editedSuccessfully() {
-    triggerInfoAlert('success', 'El consumible ha sido editado', refreshPage)
+    triggerInfoAlert('success', 'El consumible ha sido editado', () => redirect(-1))
   }
   function errorEditing() {
     triggerInfoAlert('error', 'Ha habido un error editando el consumible')

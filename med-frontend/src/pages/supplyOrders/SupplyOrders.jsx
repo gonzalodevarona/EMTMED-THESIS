@@ -6,10 +6,13 @@ import { Button, Typography, Stack } from '@mui/material';
 import SupplyOrderService from '../../services/supplyOrderService';
 import triggerCannotDeleteAlert from '../../components/alerts/CannotDeleteAlert';
 import { dateArrayToString } from '../../utils/EntityProcessingMethods';
+import { useKeycloak } from '@react-keycloak/web'
 
 function SupplyOrders() {
 
   const entity = 'orden'
+
+  const { keycloak } = useKeycloak()
 
   const [supplyOrders, setSupplyOrders] = useState([])
 
@@ -46,14 +49,6 @@ function SupplyOrders() {
   return (
     <>
       <Header title={"Ordenes de Pacientes"} />
-      <Button
-        component={Link}
-        to="/ordenes/agregar"
-        variant="contained"
-        sx={{ px: 10, py: 1, mb: 2 }}
-        color={'info'}>
-        Agregar {entity}
-      </Button>
 
       <Typography >Nota: Las ordenes de pacientes no se pueden borrar, solo cambiar de estado y se hace desde la vista detallada</Typography>
       <CustomTable

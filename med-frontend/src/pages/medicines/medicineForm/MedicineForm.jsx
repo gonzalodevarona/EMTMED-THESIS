@@ -9,11 +9,17 @@ import triggerInfoAlert from "../../../components/alerts/InfoAlert";
 import WeightUnitService from '../../../services/weightUnitService';
 import CountingUnitService from '../../../services/countingUnitService';
 import MedicationBatchService from '../../../services/medicationBatchService';
-import { refreshPage } from "../../../utils/CommonMethods";
 import MedicineService from "../../../services/medicineService";
 import MedicationBatchFormEmbedded from "../../../pages/medicationBatches/medicationBatchForm/MedicationBatchFormEmbedded";
+import { useNavigate } from "react-router-dom";
 
 function MedicineForm({ action, preloadedData }) {
+
+  const navigate = useNavigate();
+
+  const redirect = (path) => {
+    navigate(path);
+  };
 
   const [weightUnits, setWeightUnits] = useState([])
   const [countingUnits, setCountingUnits] = useState([])
@@ -102,7 +108,8 @@ function MedicineForm({ action, preloadedData }) {
     handleSubmit,
     register,
     formState: { errors },
-    setValue
+    setValue,
+    reset
   } = useForm({
     defaultValues: preloadedData
   });
@@ -119,7 +126,7 @@ function MedicineForm({ action, preloadedData }) {
 
 
   function addedSuccessfully() {
-    triggerInfoAlert('success', 'El nuevo medicamento ha sido agregado', refreshPage)
+    triggerInfoAlert('success', 'El nuevo medicamento ha sido agregado', reset)
   }
   function errorAdding() {
     triggerInfoAlert('error', 'Ha habido un error agregando el nuevo medicamento')
@@ -129,7 +136,7 @@ function MedicineForm({ action, preloadedData }) {
   }
 
   function editedSuccessfully() {
-    triggerInfoAlert('success', 'El medicamento ha sido editado', refreshPage)
+    triggerInfoAlert('success', 'El medicamento ha sido editado', () => redirect(-1))
   }
   function errorEditing() {
     triggerInfoAlert('error', 'Ha habido un error editando el medicamento')
@@ -152,8 +159,8 @@ function MedicineForm({ action, preloadedData }) {
       data.weightUnit = { id: data.weightUnit };
     }
 
-    data.purpose="GENERAL"
-    data.type='medicine'
+    data.purpose = "GENERAL"
+    data.type = 'medicine'
     if (checkQuantity(data.batches) && data.quantity > 0) {
 
       switch (action) {

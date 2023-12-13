@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+
+import { useNavigate } from "react-router-dom";
 import { Button, Stack, MenuItem } from "@mui/material";
 import { DevTool } from "@hookform/devtools";
 import FormTextfield from '../../../components/form/FormTextfield';
@@ -11,11 +13,16 @@ import DisposalStationService from "../../../services/disposalStationService";
 import InventoryOrderOperationService from "../../../services/inventoryOrderOperationService";
 import OrderService from "../../../services/orderService";
 import triggerInfoAlert from "../../../components/alerts/InfoAlert";
-import { refreshPage } from "../../../utils/CommonMethods";
 import { convertToLocalTimeZone, convertDateObjectToDayjs } from "../../../utils/EntityProcessingMethods";
 import dayjs from 'dayjs';
 
 function InventoryOrderForm({ action, preloadedData, id }) {
+
+    const navigate = useNavigate();
+
+    const redirect = (path) => {
+        navigate(path);
+    };
 
     const [statuses, setStatuses] = useState([])
     const [locations, setLocations] = useState([])
@@ -70,20 +77,21 @@ function InventoryOrderForm({ action, preloadedData, id }) {
         handleSubmit,
         register,
         formState: { errors },
+        reset,
         control,
     } = useForm({
         defaultValues: preloadedData
     });
 
     function addedSuccessfully() {
-        triggerInfoAlert('success', 'La nueva orden de inventario ha sido agregada', refreshPage)
+        triggerInfoAlert('success', 'La nueva orden de inventario ha sido agregada', reset)
     }
     function errorAdding() {
         triggerInfoAlert('error', 'Ha habido un error agregando la nueva orden de inventario')
     }
 
     function editedSuccessfully() {
-        triggerInfoAlert('success', 'La orden de inventario ha sido editada', refreshPage)
+        triggerInfoAlert('success', 'La orden de inventario ha sido editada', () => redirect(-1))
     }
     function errorEditing() {
         triggerInfoAlert('error', 'Ha habido un error editando la orden de inventario')
@@ -105,13 +113,13 @@ function InventoryOrderForm({ action, preloadedData, id }) {
                     });
                 break;
             case 'edit':
-                
+
                 editInventoryOrder(data)
                     .then((result) => {
-                        if(result.status === 500){
+                        if (result.status === 500) {
                             errorEditing()
                             console.error('Error en la operación:', result);
-                        } else{
+                        } else {
                             editedSuccessfully()
                         }
                     })
@@ -133,10 +141,10 @@ function InventoryOrderForm({ action, preloadedData, id }) {
             case 'edit':
                 data.authoredOn = convertDateObjectToDayjs(data.authoredOn).toISOString();
                 data.source = await fetchLocationEdit(data.source)
-                data.source = {id: data.source.id, type: data.source.type}
+                data.source = { id: data.source.id, type: data.source.type }
 
                 data.destination = await fetchLocationEdit(data.destination)
-                data.destination = {id: data.destination.id, type: data.destination.type}
+                data.destination = { id: data.destination.id, type: data.destination.type }
                 break;
 
             default:

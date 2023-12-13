@@ -6,11 +6,15 @@ import FormTextfield from '../../../../components/form/FormTextfield';
 import FormSelect from '../../../../components/form/FormSelect';
 import PharmacyService from "../../../../services/pharmacyService";
 import triggerInfoAlert from "../../../../components/alerts/InfoAlert";
-import { refreshPage } from "../../../../utils/CommonMethods";
-
-
+import { useNavigate } from "react-router-dom";
 
 function PharmacyForm({ action, preloadedData, id }) {
+
+    const navigate = useNavigate();
+
+    const redirect = (path) => {
+        navigate(path);
+    };
 
     const [categories, setCategories] = useState([])
 
@@ -26,12 +30,12 @@ function PharmacyForm({ action, preloadedData, id }) {
 
     async function addPharmacy(pharmacy) {
         return await PharmacyService.addPharmacy(pharmacy);
-     }
- 
-     async function editPharmacy(pharmacy) {
-         pharmacy.id = id;
-         return await PharmacyService.editPharmacy(pharmacy);
-     }
+    }
+
+    async function editPharmacy(pharmacy) {
+        pharmacy.id = id;
+        return await PharmacyService.editPharmacy(pharmacy);
+    }
 
 
 
@@ -40,19 +44,20 @@ function PharmacyForm({ action, preloadedData, id }) {
         register,
         formState: { errors },
         control,
+        reset
     } = useForm({
         defaultValues: preloadedData
     });
 
     function addedSuccessfully() {
-        triggerInfoAlert('success', 'La nueva farmacia ha sido agregada', refreshPage)
+        triggerInfoAlert('success', 'La nueva farmacia ha sido agregada', reset)
     }
     function errorAdding() {
         triggerInfoAlert('error', 'Ha habido un error agregando la nueva farmacia')
     }
 
     function editedSuccessfully() {
-        triggerInfoAlert('success', 'La farmacia ha sido editada', refreshPage)
+        triggerInfoAlert('success', 'La farmacia ha sido editada', () => redirect(-1))
     }
     function errorEditing() {
         triggerInfoAlert('error', 'Ha habido un error editando la farmacia')
@@ -98,7 +103,7 @@ function PharmacyForm({ action, preloadedData, id }) {
                         <FormSelect
                             name="category"
                             label="Categoria"
-                            defaultValue={ action === 'edit'? preloadedData?.category : categories[1]}
+                            defaultValue={action === 'edit' ? preloadedData?.category : categories[1]}
                             register={register}
                             errors={errors}
                         >
