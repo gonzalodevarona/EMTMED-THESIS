@@ -226,7 +226,7 @@ export default function Routes() {
 
                         : []
 
-                    ).concat(keycloak.hasRealmRole("ROLE_PRACTITIONER") || keycloak.hasRealmRole("ROLE_ADMIN") ?
+                    ).concat((keycloak.hasRealmRole("ROLE_PRACTITIONER") || keycloak.hasRealmRole("ROLE_ADMIN")) ?
                         [{
                             path: "/ordenes/agregar",
                             element: <SupplyOrderFormPage action='add' />

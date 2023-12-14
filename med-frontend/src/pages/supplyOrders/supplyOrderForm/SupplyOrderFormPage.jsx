@@ -29,7 +29,7 @@ function SupplyOrderFormPage({ action }) {
         async function fetchData() {
             let fetchedData = await SupplyOrderService.getSupplyOrderById(id);
             console.log(fetchedData);
-            if ((fetchedData.status == 500 && fetchedData.error) || fetchedData.status === 'COMPLETED' || !(keycloak.hasRealmRole("ROLE_PRACTITIONER"))) {
+            if ((fetchedData.status == 500 && fetchedData.error) || fetchedData.status === 'COMPLETED' || !(keycloak.hasRealmRole("ROLE_PRACTITIONER") || keycloak.hasRealmRole("ROLE_ADMIN") )) {
                 redirect('/404')
             }
           

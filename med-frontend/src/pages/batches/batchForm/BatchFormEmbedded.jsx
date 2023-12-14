@@ -56,7 +56,6 @@ function BatchEmbeddedForm({ action, addBatch, deleteBatch, preloadedData, id })
         register,
         formState: { errors },
         control,
-        reset,
         watch
     } = useForm({
         defaultValues: preloadedData

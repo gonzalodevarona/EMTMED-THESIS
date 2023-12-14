@@ -13,9 +13,7 @@ const Home = () => {
     useEffect(() => {
         dispatch(login({ token: keycloak.token }))
         console.log(keycloak.tokenParsed)
-        keycloak.loadUserProfile().then((profile) => {
-            console.log(profile)
-        })
+        
     }, [])
 
     return (

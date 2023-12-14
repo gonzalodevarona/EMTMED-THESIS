@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Button, Stack, MenuItem, Grid, Box } from "@mui/material";
+import { Button, Stack, MenuItem, Grid, Box, Typography } from "@mui/material";
 import { DevTool } from "@hookform/devtools";
 import FormTextfield from '../../../components/form/FormTextfield';
 import FormSelect from '../../../components/form/FormSelect';
@@ -9,7 +9,9 @@ import SupplyOrderService from "../../../services/supplyOrderService";
 import OrderService from "../../../services/orderService";
 import triggerInfoAlert from "../../../components/alerts/InfoAlert";
 import { convertToLocalTimeZone, convertDateObjectToDayjs } from "../../../utils/EntityProcessingMethods";
+import { capitalizeFirstLetter } from '../../../utils/CommonMethods';
 import dayjs from 'dayjs';
+import { useKeycloak } from '@react-keycloak/web'
 import SupplyTable from "./SupplyTable";
 import { useNavigate } from "react-router-dom";
 
@@ -17,13 +19,30 @@ function SupplyOrderForm({ action, preloadedData, id }) {
 
     const navigate = useNavigate();
 
+    const { keycloak } = useKeycloak()
+
     const redirect = (path) => {
         navigate(path);
     };
 
+
     const [pacient, setPacient] = useState({})
     const [statuses, setStatuses] = useState([])
     const [chosenBatches, setChosenBatches] = useState([])
+
+    const {
+        handleSubmit,
+        register,
+        formState: { errors },
+        control,
+        watch,
+        setValue,
+        reset
+    } = useForm({
+        defaultValues: preloadedData
+    });
+
+    const pacientIdWatch = watch('pacientId')
 
     const addOrUpdateBatch = (batch) => {
         setChosenBatches(prevBatches => {
@@ -46,6 +65,10 @@ function SupplyOrderForm({ action, preloadedData, id }) {
     };
 
 
+    useEffect(() => {
+        console.log(pacient)
+    }, [pacient])
+
 
     useEffect(() => {
         async function fetchStatuses() {
@@ -53,7 +76,15 @@ function SupplyOrderForm({ action, preloadedData, id }) {
             setStatuses(data);
         }
 
+        function fetchPractitioner() {
+            keycloak.loadUserProfile().then((profile) => {
+                setValue('practitionerId', profile.attributes.cc[0])
+            })
+        }
+
+
         fetchStatuses()
+        fetchPractitioner()
     }, [])
 
 
@@ -66,21 +97,203 @@ function SupplyOrderForm({ action, preloadedData, id }) {
         return await SupplyOrderService.editSupplyOrder(supplyOrder);
     }
 
-    // useEffect(() => {
-    //     console.log(chosenBatches)
-    // }, [chosenBatches])
+    function findClient() {
+        console.log(pacientIdWatch)
+        let foundPacient = [
+            {
+                "id": "657a78863d65cd21f6001f7a",
+                "created": "2023-12-14T03:37:42.776Z",
+                "role": "string",
+                "fieldsList": [
+                    {
+                        "name": "Name",
+                        "value": "John"
+                    },
+                    {
+                        "name": "middleName",
+                        "value": "Doe"
+                    },
+                    {
+                        "name": "lastName",
+                        "value": "Smith"
+                    },
+                    {
+                        "name": "secondLastName",
+                        "value": "Doe"
+                    },
+                    {
+                        "name": "idType",
+                        "value": "CC"
+                    },
+                    {
+                        "name": "idNumber",
+                        "value": "123456789"
+                    },
+                    {
+                        "name": "idPlace",
+                        "value": "SomePlace"
+                    },
+                    {
+                        "name": "age",
+                        "value": 30
+                    },
+                    {
+                        "name": "birthDate",
+                        "value": "1993-01-01T05:00:00Z"
+                    },
+                    {
+                        "name": "birthPlace",
+                        "value": "SomeCity"
+                    },
+                    {
+                        "name": "gender",
+                        "value": "MALE"
+                    },
+                    {
+                        "name": "address",
+                        "value": "SomeAddress"
+                    },
+                    {
+                        "name": "city",
+                        "value": "SomeCity"
+                    },
+                    {
+                        "name": "neighborhood",
+                        "value": "SomeNeighborhood"
+                    },
+                    {
+                        "name": "locality",
+                        "value": "SomeLocality"
+                    },
+                    {
+                        "name": "phoneNumber",
+                        "value": "123456789"
+                    },
+                    {
+                        "name": "guardianPhoneNumber",
+                        "value": "987654321"
+                    },
+                    {
+                        "name": "guardianName",
+                        "value": "GuardianName"
+                    },
+                    {
+                        "name": "guardianRelationship",
+                        "value": "GuardianRelationship"
+                    },
+                    {
+                        "name": "occupation",
+                        "value": "Occupation"
+                    },
+                    {
+                        "name": "civilStatus",
+                        "value": "S"
+                    },
+                    {
+                        "name": "ethnicGroup",
+                        "value": "INDIGENOUS"
+                    },
+                    {
+                        "name": "ethnic",
+                        "value": "SomeEthnicity"
+                    },
+                    {
+                        "name": "healthcareProvider",
+                        "value": "SomeProvider"
+                    },
+                    {
+                        "name": "healthcareType",
+                        "value": "SUB"
+                    }
+                ],
+                "personalInformationId": "someId",
+                "isEnabled": true
+            }
+        ]
+        if (!foundPacient || foundPacient.length === 0) {
+            return undefined;
+        }
 
+        const firstItem = foundPacient[0];
+        const fieldsList = firstItem.fieldsList;
 
+        let name, lastName, secondLastName, middleName, idType, idNumber, age, birthDate, gender, phoneNumber, civilStatus, healthcareProvider, healthcareType;
 
-    const {
-        handleSubmit,
-        register,
-        formState: { errors },
-        control,
-        reset
-    } = useForm({
-        defaultValues: preloadedData
-    });
+        for (let i = 0; i < fieldsList.length; i++) {
+            switch (fieldsList[i].name) {
+                case 'Name':
+                    name = fieldsList[i].value;
+                    break;
+                case 'lastName':
+                    lastName = fieldsList[i].value;
+                    break;
+                case 'secondLastName':
+                    secondLastName = fieldsList[i].value;
+                    break;
+                case 'middleName':
+                    middleName = fieldsList[i].value;
+                    break;
+                case 'idType':
+                    idType = fieldsList[i].value;
+                    break;
+                case 'idNumber':
+                    idNumber = fieldsList[i].value;
+                    break;
+                case 'age':
+                    age = fieldsList[i].value;
+                    break;
+                case 'birthDate':
+                    birthDate = fieldsList[i].value;
+                    break;
+                case 'gender':
+                    gender = fieldsList[i].value;
+                    break;
+                case 'phoneNumber':
+                    phoneNumber = fieldsList[i].value;
+                    break;
+                case 'civilStatus':
+                    civilStatus = fieldsList[i].value;
+                    break;
+                case 'healthcareProvider':
+                    healthcareProvider = fieldsList[i].value;
+                    break;
+                case 'healthcareType':
+                    healthcareType = fieldsList[i].value;
+                    break;
+            }
+        }
+
+        setPacient({ name, lastName, secondLastName, middleName, idType, idNumber, age, birthDate, gender, phoneNumber, civilStatus, healthcareProvider, healthcareType });
+    }
+
+    function renderPacient() {
+        let entries;
+        let leftColumnEntries;
+        let rightColumnEntries;
+        if (pacient != {}) {
+            entries = Object.entries(pacient);
+            leftColumnEntries = entries.slice(0, 7);
+            rightColumnEntries = entries.slice(7);
+        }
+        return (
+            pacient != {} ?
+                <Grid container spacing={2}>
+                    <Grid item xs={6}>
+                        {leftColumnEntries.map(([key, value], index) => (
+                            <Typography key={index} variant="body1"><strong>{capitalizeFirstLetter(key)}</strong>: {value}</Typography>
+                        ))}
+                    </Grid>
+                    <Grid item xs={6}>
+                        {rightColumnEntries.map(([key, value], index) => (
+                            <Typography key={index} variant="body1"><strong>{capitalizeFirstLetter(key)}</strong>: {value}</Typography>
+                        ))}
+                    </Grid>
+                </Grid>
+                :
+                <Typography key={index} variant="body1">No se encontró el paciente</Typography>
+        );
+    }
+
 
     function addedSuccessfully() {
         triggerInfoAlert('success', 'La nueva orden ha sido agregada', reset)
@@ -102,10 +315,10 @@ function SupplyOrderForm({ action, preloadedData, id }) {
             triggerInfoAlert('error', 'La orden debe de tener al menos 1 medicamento o consumible asociado')
             return;
         }
-        // if (pacient.exists !== true) {
-        //     triggerInfoAlert('error', 'El paciente no existe o no fue encontrado')
-        //     return;
-        // }
+        if (!(pacient.name)) {
+            triggerInfoAlert('error', 'El paciente no existe o no fue encontrado')
+            return;
+        }
 
         data = processOrder(data, chosenBatches)
 
@@ -115,6 +328,7 @@ function SupplyOrderForm({ action, preloadedData, id }) {
             case 'add':
                 addSupplyOrder(data)
                     .then((result) => {
+                        setPacient({})
                         console.log(result)
                         addedSuccessfully()
                     })
@@ -194,9 +408,11 @@ function SupplyOrderForm({ action, preloadedData, id }) {
                                 register={register}
                                 errors={errors} />
 
-                            {action === 'add' && <Button type="submit" variant="contained" color="info">
+                            {action === 'add' && <Button onClick={findClient} variant="contained" color="info">
                                 Buscar paciente
                             </Button>}
+                            {pacient != {} && renderPacient()}
+
                         </Stack>
                     </Grid>
 
@@ -207,7 +423,7 @@ function SupplyOrderForm({ action, preloadedData, id }) {
                             <FormTextfield
                                 isRequired
                                 type='number'
-                                disabled={action === 'edit' ? true : false}
+                                disabled
                                 label='CC del Autorizador'
                                 name='practitionerId'
                                 register={register}
