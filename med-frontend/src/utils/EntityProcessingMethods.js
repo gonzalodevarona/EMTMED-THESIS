@@ -56,13 +56,13 @@ export function convertDateObjectToDayjs(dateObject) {
         const date = dayjs().set('year', dateObject[0])
             .set('month', dateObject[1] - 1) // Los meses en JavaScript empiezan en 0
             .set('date', dateObject[2]);
-        
+
         if (dateObject.length > 3) {
             date.set('hour', dateObject[3])
                 .set('minute', dateObject[4])
                 .set('second', dateObject[5]);
         }
-        
+
         return date;
     }
 }
@@ -99,4 +99,53 @@ export function checkNull(object) {
         }
     }
     return false;
+}
+
+export function formatNoteForEmr(note) {
+    let formattedNote = { nameFormat: "orden medicamentos", fields: [] }
+    let attachments = { name: "Adjuntos", value: [] };
+
+    for (let key in note) {
+        if (key !== 'batchRequests' && key !== 'medicationBatchRequests' && key !== 'type' && note[key]) {
+            formattedNote.fields.push({ name: key, value: note[key] });
+        }
+    }
+
+    for (let item of note.medicationBatchRequests) {
+        let tempAttachment = [];
+        console.log(item)
+        if (item.quantity) tempAttachment.push({ name: 'quantity', value: item.quantity});
+        if (item.medicationBatch.administrationRoute) tempAttachment.push({ name: 'administrationRoute', value: item.medicationBatch.administrationRoute});
+        if (item.medicationBatch.manufacturer) tempAttachment.push({ name: 'manufacturer', value: item.medicationBatch.manufacturer});
+        if (item.medicationBatch.supply.activePharmaceuticalIngredient) tempAttachment.push({ name: 'activePharmaceuticalIngredient', value: item.medicationBatch.supply.activePharmaceuticalIngredient});
+        if (item.medicationBatch.supply.concentration) tempAttachment.push({ name: 'concentration', value: item.medicationBatch.supply.concentration});
+        if (item.medicationBatch.supply.name) tempAttachment.push({ name: 'name', value: item.medicationBatch.supply.name});
+        if (item.medicationBatch.supply.countingUnit.name) tempAttachment.push({ name: 'countingUnit', value: item.medicationBatch.supply.countingUnit.name});
+        if (item.medicationBatch.supply.weight) tempAttachment.push({ name: 'weight', value: item.medicationBatch.supply.weight});
+        if (item.medicationBatch.supply.weightUnit.name) tempAttachment.push({ name: 'weightUnit', value: item.medicationBatch.supply.weightUnit.name});
+        if (item.medicationBatch.supply.type) tempAttachment.push({ name: 'type', value: item.medicationBatch.supply.type});
+
+        if (tempAttachment.length > 0) attachments.value.push(tempAttachment);
+    }
+
+    for (let item of note.batchRequests) {
+        let tempAttachment = [];
+
+        console.log(item)
+        if (item.quantity) tempAttachment.push({ name: 'quantity', value: item.quantity});
+        if (item.batch.administrationRoute) tempAttachment.push({ name: 'administrationRoute', value: item.batch.administrationRoute});
+        if (item.batch.manufacturer) tempAttachment.push({ name: 'manufacturer', value: item.batch.manufacturer});
+        if (item.batch.supply.activePharmaceuticalIngredient) tempAttachment.push({ name: 'activePharmaceuticalIngredient', value: item.batch.supply.activePharmaceuticalIngredient});
+        if (item.batch.supply.concentration) tempAttachment.push({ name: 'concentration', value: item.batch.supply.concentration});
+        if (item.batch.supply.name) tempAttachment.push({ name: 'name', value: item.batch.supply.name});
+        if (item.batch.supply.countingUnit.name) tempAttachment.push({ name: 'countingUnit', value: item.batch.supply.countingUnit.name});
+        if (item.batch.supply.weight) tempAttachment.push({ name: 'weight', value: item.batch.supply.weight});
+        if (item.batch.supply.weightUnit.name) tempAttachment.push({ name: 'weightUnit', value: item.batch.supply.weightUnit.name});
+        if (item.batch.supply.type) tempAttachment.push({ name: 'type', value: item.batch.supply.type});
+
+        if (tempAttachment.length > 0) attachments.value.push(tempAttachment);
+    }
+    if (attachments.value.length > 0) formattedNote.fields.push(attachments);
+
+    return formattedNote;
 }

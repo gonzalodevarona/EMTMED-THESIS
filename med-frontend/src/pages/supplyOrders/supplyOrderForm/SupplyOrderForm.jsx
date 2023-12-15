@@ -6,9 +6,11 @@ import FormTextfield from '../../../components/form/FormTextfield';
 import FormSelect from '../../../components/form/FormSelect';
 import FormDateTimePicker from '../../../components/form/FormDateTimePicker';
 import SupplyOrderService from "../../../services/supplyOrderService";
+import ClinicalHistoryService from "../../../services/clinicalHistoryService";
+import PacientService from "../../../services/pacientService";
 import OrderService from "../../../services/orderService";
 import triggerInfoAlert from "../../../components/alerts/InfoAlert";
-import { convertToLocalTimeZone, convertDateObjectToDayjs } from "../../../utils/EntityProcessingMethods";
+import { convertToLocalTimeZone, convertDateObjectToDayjs, formatNoteForEmr } from "../../../utils/EntityProcessingMethods";
 import { capitalizeFirstLetter } from '../../../utils/CommonMethods';
 import dayjs from 'dayjs';
 import { useKeycloak } from '@react-keycloak/web'
@@ -42,6 +44,8 @@ function SupplyOrderForm({ action, preloadedData, id }) {
         defaultValues: preloadedData
     });
 
+    
+
     const pacientIdWatch = watch('pacientId')
 
     const addOrUpdateBatch = (batch) => {
@@ -69,6 +73,11 @@ function SupplyOrderForm({ action, preloadedData, id }) {
         console.log(pacient)
     }, [pacient])
 
+    function fetchPractitioner() {
+        keycloak.loadUserProfile().then((profile) => {
+            setValue('practitionerId', profile.attributes.cc[0])
+        })
+    }
 
     useEffect(() => {
         async function fetchStatuses() {
@@ -76,20 +85,24 @@ function SupplyOrderForm({ action, preloadedData, id }) {
             setStatuses(data);
         }
 
-        function fetchPractitioner() {
-            keycloak.loadUserProfile().then((profile) => {
-                setValue('practitionerId', profile.attributes.cc[0])
-            })
-        }
-
-
         fetchStatuses()
         fetchPractitioner()
     }, [])
 
+    function handleReset() {
+        reset()
+        fetchPractitioner()
+    }
+
 
     async function addSupplyOrder(supplyOrder) {
-        return await SupplyOrderService.addSupplyOrder(supplyOrder);
+
+        const savedOrder = await SupplyOrderService.addSupplyOrder(supplyOrder);
+        
+        supplyOrder.id = savedOrder.id
+        
+        await ClinicalHistoryService.addNoteToEMR(pacient.id, formatNoteForEmr(supplyOrder));
+        return savedOrder;
     }
 
     async function editSupplyOrder(supplyOrder) {
@@ -97,120 +110,14 @@ function SupplyOrderForm({ action, preloadedData, id }) {
         return await SupplyOrderService.editSupplyOrder(supplyOrder);
     }
 
-    function findClient() {
-        console.log(pacientIdWatch)
-        let foundPacient = [
-            {
-                "id": "657a78863d65cd21f6001f7a",
-                "created": "2023-12-14T03:37:42.776Z",
-                "role": "string",
-                "fieldsList": [
-                    {
-                        "name": "Name",
-                        "value": "John"
-                    },
-                    {
-                        "name": "middleName",
-                        "value": "Doe"
-                    },
-                    {
-                        "name": "lastName",
-                        "value": "Smith"
-                    },
-                    {
-                        "name": "secondLastName",
-                        "value": "Doe"
-                    },
-                    {
-                        "name": "idType",
-                        "value": "CC"
-                    },
-                    {
-                        "name": "idNumber",
-                        "value": "123456789"
-                    },
-                    {
-                        "name": "idPlace",
-                        "value": "SomePlace"
-                    },
-                    {
-                        "name": "age",
-                        "value": 30
-                    },
-                    {
-                        "name": "birthDate",
-                        "value": "1993-01-01T05:00:00Z"
-                    },
-                    {
-                        "name": "birthPlace",
-                        "value": "SomeCity"
-                    },
-                    {
-                        "name": "gender",
-                        "value": "MALE"
-                    },
-                    {
-                        "name": "address",
-                        "value": "SomeAddress"
-                    },
-                    {
-                        "name": "city",
-                        "value": "SomeCity"
-                    },
-                    {
-                        "name": "neighborhood",
-                        "value": "SomeNeighborhood"
-                    },
-                    {
-                        "name": "locality",
-                        "value": "SomeLocality"
-                    },
-                    {
-                        "name": "phoneNumber",
-                        "value": "123456789"
-                    },
-                    {
-                        "name": "guardianPhoneNumber",
-                        "value": "987654321"
-                    },
-                    {
-                        "name": "guardianName",
-                        "value": "GuardianName"
-                    },
-                    {
-                        "name": "guardianRelationship",
-                        "value": "GuardianRelationship"
-                    },
-                    {
-                        "name": "occupation",
-                        "value": "Occupation"
-                    },
-                    {
-                        "name": "civilStatus",
-                        "value": "S"
-                    },
-                    {
-                        "name": "ethnicGroup",
-                        "value": "INDIGENOUS"
-                    },
-                    {
-                        "name": "ethnic",
-                        "value": "SomeEthnicity"
-                    },
-                    {
-                        "name": "healthcareProvider",
-                        "value": "SomeProvider"
-                    },
-                    {
-                        "name": "healthcareType",
-                        "value": "SUB"
-                    }
-                ],
-                "personalInformationId": "someId",
-                "isEnabled": true
-            }
-        ]
+    async function findClient() {
+        let foundPacient = await PacientService.getPacientById({
+            name: "idNumber",
+            value: `${pacientIdWatch}`
+        });
+
         if (!foundPacient || foundPacient.length === 0) {
+            setPacient({})
             return undefined;
         }
 
@@ -263,7 +170,7 @@ function SupplyOrderForm({ action, preloadedData, id }) {
             }
         }
 
-        setPacient({ name, lastName, secondLastName, middleName, idType, idNumber, age, birthDate, gender, phoneNumber, civilStatus, healthcareProvider, healthcareType });
+        setPacient({ id:firstItem.id, name, lastName, secondLastName, middleName, idType, idNumber, age, birthDate, gender, phoneNumber, civilStatus, healthcareProvider, healthcareType });
     }
 
     function renderPacient() {
@@ -296,7 +203,7 @@ function SupplyOrderForm({ action, preloadedData, id }) {
 
 
     function addedSuccessfully() {
-        triggerInfoAlert('success', 'La nueva orden ha sido agregada', reset)
+        triggerInfoAlert('success', 'La nueva orden ha sido agregada', handleReset)
     }
     function errorAdding() {
         triggerInfoAlert('error', 'Ha habido un error agregando la nueva orden')
@@ -411,7 +318,7 @@ function SupplyOrderForm({ action, preloadedData, id }) {
                             {action === 'add' && <Button onClick={findClient} variant="contained" color="info">
                                 Buscar paciente
                             </Button>}
-                            {pacient != {} && renderPacient()}
+                            {pacient.name ? renderPacient() : <Typography>No fue encontrado el paciente</Typography>}
 
                         </Stack>
                     </Grid>

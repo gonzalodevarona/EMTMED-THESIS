@@ -1,15 +1,17 @@
 import { Button, Grid, Stack, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { capitalizeFirstLetter, refreshPage } from '../../utils/CommonMethods';
+import { dateArrayToString, formatNoteForEmr } from '../../utils/EntityProcessingMethods';
 import CustomTable from '../../components/CustomTable';
 import SupplyOrderService from '../../services/supplyOrderService';
+import ClinicalHistoryService from '../../services/clinicalHistoryService';
 import triggerConfrirmationAlert from "../../components/alerts/ConfirmationAlert";
 
 
 function SupplyOrderDetailedView({ data }) {
     const [firstHalf, setFirstHalf] = useState([]);
     const [secondHalf, setSecondHalf] = useState([]);
-    
+
     const entity = 'orden de paciente';
 
     useEffect(() => {
@@ -43,15 +45,24 @@ function SupplyOrderDetailedView({ data }) {
 
     }, [data]);
 
+    async function changeSupplyOrderStatusAndSaveToEmr(id, status) {
+        // 
+        const foundSupplyOrder = await SupplyOrderService.getSupplyOrderById(id)
+        foundSupplyOrder.authoredOn = dateArrayToString(foundSupplyOrder.authoredOn)
+
+        await ClinicalHistoryService.addNoteToEMR(formatNoteForEmr(foundSupplyOrder))
+    }
+
+
     async function changeSupplyOrderStatus(id, status) {
-        
+
         triggerConfrirmationAlert({
             title: `${status === 'COMPLETED'? 'Completar' : 'Cancelar'} la ${entity} con ID ${id}`,
             text: `¿Estas seguro que quieres ${status === 'COMPLETED'? 'completarla' : 'cancelarla'}?`,
             type: "confirm",
             confirmButtonColor: "#1976d2",
             confirmText: "Confirmar",
-            action: async () => await SupplyOrderService.changeSupplyOrderStatus(id, status),
+            action: async () => await changeSupplyOrderStatusAndSaveToEmr(id, status),
             successTitle: `La ${entity} con ID ${id} fue ${status === 'COMPLETED'? 'completada' : 'cancelada'} con éxito.`,
             successType: "success",
             successAction: refreshPage,
@@ -60,6 +71,8 @@ function SupplyOrderDetailedView({ data }) {
         })
 
     }
+
+
 
 
 
