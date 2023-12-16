@@ -205,7 +205,7 @@ export default function Dashboard() {
                     }}
                 >
                     <Toolbar />
-                    <Container maxWidth='100%' sx={{ p: 2 }}>
+                    <Container maxWidth='100%' sx={{ mt: 4, mb: 3 }}>
                         <Box component={Paper} xs={12} sx={{ p: 2 }} align="center">
                             <Outlet />
                         </Box>

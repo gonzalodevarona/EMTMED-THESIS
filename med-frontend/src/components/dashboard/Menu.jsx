@@ -123,7 +123,7 @@ export default function Menu({ mobile, toggleDrawer }) {
         <ListItemText primary="Historia clínica" />
       </ListItemButton>
 
-      <ListItemButton>
+      <ListItemButton component={Link} to="http://localhost:5173/emt/practitioners" onClick={closeMenu}>
         <ListItemIcon>
           <AssignmentIcon />
         </ListItemIcon>

@@ -124,12 +124,12 @@ function SupplyOrderForm({ action, preloadedData, id }) {
         const firstItem = foundPacient[0];
         const fieldsList = firstItem.fieldsList;
 
-        let name, lastName, secondLastName, middleName, idType, idNumber, age, birthDate, gender, phoneNumber, civilStatus, healthcareProvider, healthcareType;
-
+        let firstname, lastName, secondLastName, middleName, idType, idNumber, age, birthDate, gender, phoneNumber, civilStatus, healthcareProvider, healthcareType;
+        console.log(fieldsList)
         for (let i = 0; i < fieldsList.length; i++) {
             switch (fieldsList[i].name) {
-                case 'Name':
-                    name = fieldsList[i].value;
+                case 'firstName':
+                    firstname = fieldsList[i].value;
                     break;
                 case 'lastName':
                     lastName = fieldsList[i].value;
@@ -170,7 +170,7 @@ function SupplyOrderForm({ action, preloadedData, id }) {
             }
         }
 
-        setPacient({ id:firstItem.id, name, lastName, secondLastName, middleName, idType, idNumber, age, birthDate, gender, phoneNumber, civilStatus, healthcareProvider, healthcareType });
+        setPacient({ id:firstItem.id, firstname, lastName, secondLastName, middleName, idType, idNumber, age, birthDate, gender, phoneNumber, civilStatus, healthcareProvider, healthcareType });
     }
 
     function renderPacient() {
@@ -222,7 +222,7 @@ function SupplyOrderForm({ action, preloadedData, id }) {
             triggerInfoAlert('error', 'La orden debe de tener al menos 1 medicamento o consumible asociado')
             return;
         }
-        if (!(pacient.name)) {
+        if (!(pacient.firstname)) {
             triggerInfoAlert('error', 'El paciente no existe o no fue encontrado')
             return;
         }
@@ -318,7 +318,7 @@ function SupplyOrderForm({ action, preloadedData, id }) {
                             {action === 'add' && <Button onClick={findClient} variant="contained" color="info">
                                 Buscar paciente
                             </Button>}
-                            {pacient.name ? renderPacient() : <Typography>No fue encontrado el paciente</Typography>}
+                            {pacient.firstname ? renderPacient() : <Typography>No fue encontrado el paciente</Typography>}
 
                         </Stack>
                     </Grid>
