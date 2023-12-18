@@ -12,6 +12,8 @@ public interface MedicineEntityService {
 
     List<MedicineEntityDTO> getAllMedicines();
 
+    List<MedicineEntityDTO> getAllMedicinesInStock();
+
     List<MedicineEntityDTO> getAllMedicinesNoBatches();
 
     MedicineEntityDTO addMedicine(MedicineEntityDTO medicineEntityDTO);

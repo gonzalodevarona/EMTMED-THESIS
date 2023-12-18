@@ -2,8 +2,11 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Stack, MenuItem, Typography } from "@mui/material";
 import { DevTool } from "@hookform/devtools";
+import CheckIcon from '@mui/icons-material/Check';
+import { Delete } from '@mui/icons-material';
 import FormTextfield from '../../../components/form/FormTextfield';
 import FormSelect from '../../../components/form/FormSelect';
+import Header from '../../../components/Header';
 import FormDatePicker from '../../../components/form/FormDatePicker';
 import BatchStatusService from '../../../services/batchStatusService';
 import MedicationBatchService from '../../../services/medicationBatchService';
@@ -11,12 +14,15 @@ import PharmacyService from '../../../services/pharmacyService';
 import { calculateBatchStatus } from "../../../utils/EntityProcessingMethods";
 import { formatDateToYYYYMMDD, convertToLocalTimeZone } from "../../../utils/EntityProcessingMethods"
 import dayjs from 'dayjs';
+import FabSubmitButton from "../../../components/buttons/FabSubmitButton";
+import FabActionButton from "../../../components/buttons/FabActionButton";
 
 function MedicationBatchEmbeddedForm({ action, addMedicationBatch, deleteMedicationBatch, preloadedData, id }) {
 
     let statuses;
     const [currentStatus, setCurrentStatus] = useState('')
     const [pharmacies, setPharmacies] = useState([])
+    const [submitted, setSubmitted] = useState(false)
 
     useEffect(() => {
         async function fetchStatuses() {
@@ -89,6 +95,7 @@ function MedicationBatchEmbeddedForm({ action, addMedicationBatch, deleteMedicat
         }
 
         addMedicationBatch(id, data)
+        setSubmitted(true)
 
     };
 
@@ -113,8 +120,9 @@ function MedicationBatchEmbeddedForm({ action, addMedicationBatch, deleteMedicat
 
     return (
         <>
-            <form onSubmit={handleSubmit(onSubmit)} noValidate>
-                <Stack spacing={2} width={400}>
+            <form onChange={() => setSubmitted(false)} onSubmit={handleSubmit(onSubmit)} noValidate>
+                <Stack spacing={2} width={400} >
+                    <Header title={`Lote de Medicamento ${id}`} />
 
                     <FormTextfield
                         isRequired
@@ -171,20 +179,18 @@ function MedicationBatchEmbeddedForm({ action, addMedicationBatch, deleteMedicat
                     }
 
                     <FormTextfield
-                        
+
                         label='Código Único de Medicamento (CUM)'
                         name='cum'
                         register={register}
                         errors={errors} />
 
 
-
-                    <Button type="submit" variant="contained" color="info">
-                        {action === 'add' ? 'Agregar' : 'Editar'}
-                    </Button>
-                    {deleteMedicationBatch && <Button onClick={() => deleteMedicationBatch(id)} variant="contained" color="error">
-                        Eliminar
-                    </Button>}
+                    <Stack direction="row" spacing={2} justifyContent='center' alignItems='center'>
+                        {submitted && <CheckIcon color="secondary" />}
+                        <FabSubmitButton color='info' />
+                        {deleteMedicationBatch && <FabActionButton handleClick={() => deleteMedicationBatch(id)} color="error" icon={<Delete />} />}
+                    </Stack>
                 </Stack>
             </form >
             <DevTool control={control} />

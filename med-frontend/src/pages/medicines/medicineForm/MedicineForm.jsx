@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Button, Stack, MenuItem, Divider } from "@mui/material";
+import { Grid, Stack, MenuItem } from "@mui/material";
 import { DevTool } from "@hookform/devtools";
 import FormTextfield from '../../../components/form/FormTextfield';
 import FormSelect from '../../../components/form/FormSelect';
 import Header from '../../../components/Header';
+import AddIcon from '@mui/icons-material/Add';
+import FabSubmitButton from '../../../components/buttons/FabSubmitButton';
+import FabActionButton from '../../../components/buttons/FabActionButton';
 import triggerInfoAlert from "../../../components/alerts/InfoAlert";
 import WeightUnitService from '../../../services/weightUnitService';
 import CountingUnitService from '../../../services/countingUnitService';
@@ -124,9 +127,15 @@ function MedicineForm({ action, preloadedData }) {
 
   }, [medicationBatches])
 
+  function resetForm() {
+    reset()
+    setBatches([{ id: 1 }])
+
+  }
+
 
   function addedSuccessfully() {
-    triggerInfoAlert('success', 'El nuevo medicamento ha sido agregado', reset)
+    triggerInfoAlert('success', 'El nuevo medicamento ha sido agregado', resetForm)
   }
   function errorAdding() {
     triggerInfoAlert('error', 'Ha habido un error agregando el nuevo medicamento')
@@ -212,7 +221,7 @@ function MedicineForm({ action, preloadedData }) {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
-        <Stack spacing={2} width={400} my={3}>
+        <Stack spacing={2} width={400} my={3} alignItems='center'>
 
           <FormTextfield
             isRequired
@@ -241,6 +250,9 @@ function MedicineForm({ action, preloadedData }) {
           <FormTextfield
             type="number"
             isRequired
+            InputLabelProps={{
+              shrink: true,
+            }}
             disabled
             label='Cantidad Total (cantidades de todos los lotes)'
             name='quantity'
@@ -289,31 +301,34 @@ function MedicineForm({ action, preloadedData }) {
             </FormSelect>
           }
 
-          <Button onClick={addMedicationBatch} variant="contained" color="info">
-            Agregar lote de medicamento
-          </Button>
-
-          <Divider />
-
-          <Button type="submit" variant="contained" color="info">
-            {action === 'add' ? 'Agregar medicamento' : 'Editar medicamento'}
-          </Button>
+          <FabSubmitButton color='info' />
 
         </Stack>
 
       </form>
 
-      {medicationBatches.length > 0 && medicationBatches.map((batch, index) => (
-        <Stack my={4} key={batch.id}>
-          <Header title={action === 'add' ? 'Agregar un lote de medicamento' : 'Editar un lote de medicamento'} />
-          <MedicationBatchFormEmbedded
-            action={action === 'edit' && batch.quantity ? 'edit' : 'add'}
-            addMedicationBatch={updateMedicationBatch}
-            id={batch.id}
-            preloadedData={action === 'edit' ? batch : undefined}
-            deleteMedicationBatch={index === 0 ? null : deleteMedicationBatch} />
-        </Stack>
-      ))}
+      <Header title='Lotes de Medicamentos' />
+
+      <FabActionButton handleClick={addMedicationBatch} color='secondary' icon={<AddIcon />} />
+
+      {medicationBatches.length > 0 &&
+        <Grid container justifyContent='center' rowSpacing={4} >
+
+          {medicationBatches.map((batch, index) => (
+
+
+            <Grid key={batch.id} item xs={12} lg={4} sx={{ mt: 2 }}>
+              <MedicationBatchFormEmbedded
+                action={action === 'edit' && batch.quantity ? 'edit' : 'add'}
+                addMedicationBatch={updateMedicationBatch}
+                id={index + 1}
+                preloadedData={action === 'edit' ? batch : undefined}
+                deleteMedicationBatch={index === 0 ? null : deleteMedicationBatch} />
+            </Grid>
+
+          ))}
+        </Grid>
+      }
 
 
     </>

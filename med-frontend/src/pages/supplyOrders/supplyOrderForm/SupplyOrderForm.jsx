@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Button, Stack, MenuItem, Grid, Box, Typography } from "@mui/material";
+import { Stack, MenuItem, Grid, Box, Typography } from "@mui/material";
 import { DevTool } from "@hookform/devtools";
 import FabSubmitButton from '../../../components/buttons/FabSubmitButton';
 import FormTextfield from '../../../components/form/FormTextfield';
@@ -78,7 +78,7 @@ function SupplyOrderForm({ action, preloadedData, id }) {
 
     function fetchPractitioner() {
         keycloak.loadUserProfile().then((profile) => {
-            setValue('practitionerId', profile.attributes.cc[0])
+            setValue('practitionerId', profile.attributes.idNumber[0])
         })
     }
 
@@ -104,7 +104,7 @@ function SupplyOrderForm({ action, preloadedData, id }) {
 
         supplyOrder.id = savedOrder.id
 
-        await ClinicalHistoryService.addNoteToEMR(pacient.id, formatNoteForEmr(supplyOrder));
+        // await ClinicalHistoryService.addNoteToEMR(pacient.id, formatNoteForEmr(supplyOrder));
         return savedOrder;
     }
 
@@ -250,15 +250,6 @@ function SupplyOrderForm({ action, preloadedData, id }) {
                 break;
             case 'edit':
 
-                editSupplyOrder(data)
-                    .then((result) => {
-                        if (result.status === 500) {
-                            errorEditing()
-                            console.error('Error en la operación:', result);
-                        } else {
-                            editedSuccessfully()
-                        }
-                    })
                 break;
             default:
                 break;
@@ -334,6 +325,9 @@ function SupplyOrderForm({ action, preloadedData, id }) {
 
                             <FormTextfield
                                 isRequired
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
                                 type='number'
                                 disabled
                                 label='CC del Autorizador'

@@ -55,6 +55,11 @@ public class ConsumableEntityServiceImpl implements ConsumableEntityService{
         return consumableEntityRepository.findAll(Sort.by(Sort.Direction.DESC, "quantity")).stream().map(consumableEntityMapper::toDTO).collect(Collectors.toCollection(ArrayList::new));
     }
 
+    @Override
+    public List<ConsumableEntityDTO> getAllConsumablesInStock() {
+        return consumableEntityRepository.findByQuantityGreaterThanEqualOrderByQuantityDesc(1L).stream().map(consumableEntityMapper::toDTO).collect(Collectors.toCollection(ArrayList::new));
+    }
+
 
     @Override
     public List<ConsumableEntityDTO> getAllConsumablesNoBatches() {

@@ -10,7 +10,7 @@ public interface ConsumableEntityService {
     ConsumableEntity getConsumableEntityById(Long consumableEntityId);
     ConsumableEntityDTO getConsumableEntityDTOById(Long consumableEntityId);
     List<ConsumableEntityDTO> getAllConsumables();
-
+    List<ConsumableEntityDTO> getAllConsumablesInStock();
     List<ConsumableEntityDTO> getAllConsumablesNoBatches();
 
     ConsumableEntity saveConsumableEntity(ConsumableEntity consumableEntity);

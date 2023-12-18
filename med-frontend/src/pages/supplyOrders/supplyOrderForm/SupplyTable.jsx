@@ -56,8 +56,8 @@ function SupplyTable({ addOrUpdateBatch, removeBatch }) {
 
     useEffect(() => {
         async function fetchSupplies() {
-            let allMedicines = await MedicineService.getMedicines();
-            let allConsumables = await ConsumableService.getConsumables();
+            let allMedicines = await MedicineService.getMedicinesInStock();
+            let allConsumables = await ConsumableService.getConsumablesInStock();
 
             let allSupplies = [...allMedicines, ...allConsumables];
 

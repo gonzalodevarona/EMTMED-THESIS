@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { Grid, Stack, MenuItem, Divider } from "@mui/material";
+import { Grid, Stack, MenuItem } from "@mui/material";
 import { DevTool } from "@hookform/devtools";
-import SaveIcon from '@mui/icons-material/Save';
 import AddIcon from '@mui/icons-material/Add';
 import FormTextfield from '../../../components/form/FormTextfield';
 import FormSelect from '../../../components/form/FormSelect';
@@ -129,7 +128,7 @@ function ConsumableForm({ action, preloadedData }) {
 
   }, [batches])
 
-  function resetForm(){
+  function resetForm() {
     reset()
     setBatches([{ id: 1 }])
 
@@ -238,6 +237,9 @@ function ConsumableForm({ action, preloadedData }) {
             type="number"
             isRequired
             disabled
+            InputLabelProps={{
+              shrink: true,
+            }}
             label='Cantidad Total (cantidades de todos los lotes)'
             name='quantity'
             register={register}
@@ -295,23 +297,21 @@ function ConsumableForm({ action, preloadedData }) {
       <FabActionButton handleClick={addBatch} color='secondary' icon={<AddIcon />} />
 
       {batches.length > 0 &&
-        <Grid container justifyContent='center'  rowSpacing={4} >
+        <Grid container justifyContent='center' rowSpacing={4} >
 
 
           {batches.map((batch, index) => (
-            <Grid key={batch.id} item xs={12} lg={4} sx={{mt:2}}>
+            <Grid key={batch.id} item xs={12} lg={4} sx={{ mt: 2 }}>
               <BatchFormEmbedded
                 action={action === 'edit' && batch.quantity ? 'edit' : 'add'}
                 addBatch={updateBatch}
-                id={index+1}
+                id={index + 1}
                 preloadedData={action === 'edit' ? batch : undefined}
                 deleteBatch={index === 0 ? null : deleteBatch} />
             </Grid>
           ))}
 
         </Grid>
-
-
 
       }
 

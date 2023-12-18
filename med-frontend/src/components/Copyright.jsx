@@ -6,7 +6,7 @@ export default function Copyright(props) {
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             {'Copyright © '}
             <Link color="inherit" href="https://www.instagram.com/barcohospital">
-                EMT - Fundación Italocolombiana del Monte Tabor
+                Emergency Medical Team
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}

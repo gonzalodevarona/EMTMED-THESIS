@@ -3,7 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { capitalizeFirstLetter, refreshPage } from '../../utils/CommonMethods';
 import { dateArrayToString, formatNoteForEmr } from '../../utils/EntityProcessingMethods';
 import CustomTable from '../../components/CustomTable';
+import FabActionButton from '../../components/buttons/FabActionButton';
 import SupplyOrderService from '../../services/supplyOrderService';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 import ClinicalHistoryService from '../../services/clinicalHistoryService';
 import triggerConfrirmationAlert from "../../components/alerts/ConfirmationAlert";
 
@@ -46,24 +49,24 @@ function SupplyOrderDetailedView({ data }) {
     }, [data]);
 
     async function changeSupplyOrderStatusAndSaveToEmr(id, status) {
-        // 
+
         const foundSupplyOrder = await SupplyOrderService.getSupplyOrderById(id)
         foundSupplyOrder.authoredOn = dateArrayToString(foundSupplyOrder.authoredOn)
-
-        await ClinicalHistoryService.addNoteToEMR(formatNoteForEmr(foundSupplyOrder))
+        await SupplyOrderService.changeSupplyOrderStatus(id, status)
+        //await ClinicalHistoryService.addNoteToEMR(formatNoteForEmr(foundSupplyOrder))
     }
 
 
     async function changeSupplyOrderStatus(id, status) {
 
         triggerConfrirmationAlert({
-            title: `${status === 'COMPLETED'? 'Completar' : 'Cancelar'} la ${entity} con ID ${id}`,
-            text: `¿Estas seguro que quieres ${status === 'COMPLETED'? 'completarla' : 'cancelarla'}?`,
+            title: `${status === 'COMPLETED' ? 'Completar' : 'Cancelar'} la ${entity} con ID ${id}`,
+            text: `¿Estas seguro que quieres ${status === 'COMPLETED' ? 'completarla' : 'cancelarla'}?`,
             type: "confirm",
             confirmButtonColor: "#1976d2",
             confirmText: "Confirmar",
             action: async () => await changeSupplyOrderStatusAndSaveToEmr(id, status),
-            successTitle: `La ${entity} con ID ${id} fue ${status === 'COMPLETED'? 'completada' : 'cancelada'} con éxito.`,
+            successTitle: `La ${entity} con ID ${id} fue ${status === 'COMPLETED' ? 'completada' : 'cancelada'} con éxito.`,
             successType: "success",
             successAction: refreshPage,
             errorTitle: `El estado de la ${capitalizeFirstLetter(entity)} con ID ${id} NO pudo ser modificado.`,
@@ -171,20 +174,13 @@ function SupplyOrderDetailedView({ data }) {
             }
 
             {(data.status !== 'COMPLETED') && (data.status !== 'CANCELLED') &&
-                <>
-                    <Button
-                        variant="contained"
-                        sx={{ px: 9, py: 1, mr: 2, mt: 4 }}
-                        color={'info'}
-                        onClick={() => changeSupplyOrderStatus(data.id, 'COMPLETED')}
-                    >
+                <Stack direction='row' spacing={4} justifyContent='center' alignItems='center' mt={2}>
+                    <FabActionButton color='secondary' icon={<CheckIcon />} handleClick={() => changeSupplyOrderStatus(data.id, 'COMPLETED')} />
+                    <FabActionButton color='error' icon={<CloseIcon />} handleClick={() => changeSupplyOrderStatus(data.id, 'CANCELLED')} />
 
-                        Completar orden
-                    </Button>
-                    <Button sx={{ px: 9, py: 1, mr: 2, mt: 4 }} color='error' variant='contained' onClick={() => changeSupplyOrderStatus(data.id, 'CANCELLED')}>
-                        Cancelar orden
-                    </Button>
-                </>}
+                </Stack>
+
+            }
 
         </>
     );

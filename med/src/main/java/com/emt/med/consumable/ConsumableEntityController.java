@@ -22,6 +22,11 @@ public class ConsumableEntityController {
         return ResponseEntity.ok(consumableEntityService.getAllConsumables());
     }
 
+    @GetMapping("/inStock")
+    public ResponseEntity<List<ConsumableEntityDTO>> getAllConsumablesInStock() {
+        return ResponseEntity.ok(consumableEntityService.getAllConsumablesInStock());
+    }
+
     @GetMapping("/noBatches")
     public ResponseEntity<List<ConsumableEntityDTO>> getAllConsumablesNoBatches() {
         return ResponseEntity.ok(consumableEntityService.getAllConsumablesNoBatches());

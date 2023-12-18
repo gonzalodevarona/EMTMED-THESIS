@@ -1,5 +1,6 @@
 package com.emt.med.medicine;
 
+import com.emt.med.consumable.ConsumableEntityDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,11 @@ public class MedicineEntityController {
     @GetMapping
     public ResponseEntity<List<MedicineEntityDTO>> getAllMedicines() {
         return ResponseEntity.ok(medicineEntityService.getAllMedicines());
+    }
+
+    @GetMapping("/inStock")
+    public ResponseEntity<List<MedicineEntityDTO>> getAllMedicinesInStock() {
+        return ResponseEntity.ok(medicineEntityService.getAllMedicinesInStock());
     }
 
     @GetMapping("/noBatches")

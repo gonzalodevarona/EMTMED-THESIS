@@ -20,6 +20,15 @@ const getMedicinesNoBatches = async () => {
 
     return res.data
 }
+const getMedicinesInStock = async () => {
+    const res = await axios.get(`/${entity}/inStock`)
+        .catch((error) => {
+            console.log(error)
+            return error.response;
+        });
+
+    return res.data
+}
 
 const getMedicineById = async (id) => {
     const res = await axios.get(`/${entity}/${id}`)
@@ -65,6 +74,7 @@ const deleteMedicine = async (id) => {
 const MedicineService  = {
     getMedicines,
     getMedicinesNoBatches,
+    getMedicinesInStock,
     getMedicineById,
     addMedicine,
     editMedicine,

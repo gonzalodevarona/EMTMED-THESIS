@@ -1,5 +1,6 @@
 package com.emt.med.medicine;
 
+import com.emt.med.consumable.ConsumableEntityDTO;
 import com.emt.med.countingUnit.CountingUnitEntityRepository;
 import com.emt.med.location.LocationRepository;
 import com.emt.med.medicationBatch.*;
@@ -60,6 +61,11 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
     @Override
     public List<MedicineEntityDTO> getAllMedicines() {
         return medicineEntityRepository.findAll(Sort.by(Sort.Direction.ASC, "activePharmaceuticalIngredient")).stream().map(medicineEntityMapper::toDTO).collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    @Override
+    public List<MedicineEntityDTO> getAllMedicinesInStock() {
+        return medicineEntityRepository.findByQuantityGreaterThanEqualOrderByQuantityDesc(1L).stream().map(medicineEntityMapper::toDTO).collect(Collectors.toCollection(ArrayList::new));
     }
 
     @Override
