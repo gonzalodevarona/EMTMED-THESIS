@@ -1,19 +1,20 @@
-import {useEffect, useState} from 'react'
+import { useEffect, useState } from 'react'
 import CustomTable from '../../components/CustomTable'
 import Header from '../../components/Header'
 import { Box, Button } from '@mui/material'
-import { Link } from 'react-router-dom';
+import AddIcon from '@mui/icons-material/Add';
+import FabLink from '../../components/buttons/FabLink';
 import CountingUnitService from '../../services/countingUnitService';
 import WeightUnitService from '../../services/weightUnitService';
 
 function Units() {
-  
+
   const [countingUnits, setCountingUnits] = useState([])
   const [weightUnits, setWeightUnits] = useState([])
 
   useEffect(() => {
 
-    async function fetchData(){
+    async function fetchData() {
       const allCountingUnits = await CountingUnitService.getCountingUnits();
       const allWeightUnits = await WeightUnitService.getWeightUnits();
 
@@ -23,29 +24,23 @@ function Units() {
     }
 
     fetchData()
-    
+
   }, [])
 
-  async function handleDeleteCountingUnit(id){
+  async function handleDeleteCountingUnit(id) {
     await CountingUnitService.deleteCountingUnit(id)
   }
 
-  async function handleDeleteWeightUnit(id){
+  async function handleDeleteWeightUnit(id) {
     await WeightUnitService.deleteWeightUnit(id)
   }
-  
+
   return (
     <>
       <Header title={"Unidad de Conteo"} />
 
-      <Button
-        component={Link}
-        to="/unidades-conteo/agregar"
-        variant="contained"
-        sx={{ px: 10, py: 1, mb: 2 }}
-        color={'info'}>
-        Agregar unidad de conteo
-      </Button>
+      <FabLink to="/unidades-conteo/agregar" icon={<AddIcon/>} color='secondary'/ >
+
 
       <CustomTable
         columns={[
@@ -59,18 +54,13 @@ function Units() {
 
       <Box my={5}></Box>
 
-      
+
 
       <Header title={"Unidad de Peso"} />
 
-      <Button
-        component={Link}
-        to="/unidades-peso/agregar"
-        variant="contained"
-        sx={{ px: 10, py: 1, mb: 2 }}
-        color={'info'}>
-        Agregar unidad de peso
-      </Button>
+      <FabLink to="/unidades-peso/agregar" icon={<AddIcon/>} color='secondary'/ >
+
+      
 
       <CustomTable
         columns={[

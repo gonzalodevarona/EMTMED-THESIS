@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import PharmacyForm from './PharmacyForm';
-import Header from '../../../../components/Header';
+import Header from '../../../components/Header';
 import { useParams } from "react-router-dom";
-import PharmacyService from '../../../../services/pharmacyService'
-import { removeNullProperties } from '../../../../utils/CommonMethods'
+import PharmacyService from '../../../services/pharmacyService'
+import { removeNullProperties } from '../../../utils/CommonMethods'
 
 function PharmacyFormPage({ action }) {
 
@@ -33,7 +33,7 @@ function PharmacyFormPage({ action }) {
         <>
             {action === 'add' ?
                 <Header title={`Agregar una ${entity}`} /> :
-                <Header title={`Editar la ${entity} #${id}`} />
+                <Header title={`Editar la ${entity} ${id}`} />
             }
             {action === 'edit' && pharmacyData.id &&
                 <PharmacyForm id={id} action={action} preloadedData={removeNullProperties(pharmacyData)}/>

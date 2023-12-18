@@ -35,12 +35,9 @@ public class SupplyDTO {
     private Long weight;
     @Min(0)
     private Long quantity;
-    private List<InventoryOrderEntityDTO> inventoryOrders;
 
     private WeightUnitEntityDTO weightUnit;
     private CountingUnitEntityDTO countingUnit;
-    @NotBlank(message = "purpose shouldn't be blank")
-    private SupplyPurpose purpose;
 
 
 }

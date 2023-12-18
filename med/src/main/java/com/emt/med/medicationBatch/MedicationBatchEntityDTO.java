@@ -1,6 +1,7 @@
 package com.emt.med.medicationBatch;
 
 import com.emt.med.baseBatch.BaseBatchDTO;
+import com.emt.med.inventoryOrder.InventoryOrderEntityDTO;
 import com.emt.med.location.LocationDTO;
 import com.emt.med.medicine.MedicineEntityDTO;
 import lombok.AllArgsConstructor;
@@ -16,4 +17,5 @@ public class MedicationBatchEntityDTO extends BaseBatchDTO {
 
     private MedicineEntityDTO medicine;
     private LocationDTO location;
+    private InventoryOrderEntityDTO inventoryOrder;
 }

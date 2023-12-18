@@ -48,7 +48,7 @@ function SupplyOrderFormPage({ action }) {
         <>
             {action === 'add' ?
                 <Header title={`Agregar una ${entity}`} /> :
-                <Header title={`Editar la ${entity} #${id}`} />
+                <Header title={`Editar la ${entity} ${id}`} />
             }
             {action === 'edit' && inventoryOrderData.id &&
                 <SupplyOrderForm id={id} action={action} preloadedData={removeNullProperties(supplyOrderData)}/>

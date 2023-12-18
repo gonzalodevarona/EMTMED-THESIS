@@ -16,9 +16,11 @@ public interface BatchEntityMapper {
     BatchEntityMapper INSTANCE = Mappers.getMapper( BatchEntityMapper.class );
 
     @Mapping(target = "consumable", ignore = true)
+    @Mapping(target = "inventoryOrder", ignore = true)
     BatchEntityDTO toDTO(BatchEntity batchEntity);
 
     @Mapping(target = "consumable", ignore = true)
+    @Mapping(target = "inventoryOrder", ignore = true)
     BatchEntity toEntity(BatchEntityDTO batchEntityDTO);
 
     List<BatchEntityDTO> mapToDTO(List<BatchEntity> batches);

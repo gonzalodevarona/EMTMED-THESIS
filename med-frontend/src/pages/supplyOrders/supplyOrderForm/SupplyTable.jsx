@@ -145,7 +145,7 @@ function SupplyTable({ addOrUpdateBatch, removeBatch }) {
             data={supplies}
             actions={[
                 {
-                    icon: () => <Delete color="primary" fontSize='medium' />,
+                    icon: () => <Delete color="error" fontSize='medium' />,
                     tooltip: 'Borrar recurso de la orden',
                     onClick: (event, rowData) => { removeBatch(rowData.id); rowData.assignedQuantity = 0; }
                 }

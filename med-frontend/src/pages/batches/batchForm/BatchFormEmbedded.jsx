@@ -1,22 +1,28 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Button, Stack, MenuItem, Typography } from "@mui/material";
+import { Button, Stack, MenuItem, Typography, Box } from "@mui/material";
+import CheckIcon from '@mui/icons-material/Check';
 import { DevTool } from "@hookform/devtools";
 import FormTextfield from '../../../components/form/FormTextfield';
 import FormSelect from '../../../components/form/FormSelect';
+import Header from '../../../components/Header';
 import FormDatePicker from '../../../components/form/FormDatePicker';
+import { Delete } from '@mui/icons-material';
 import BatchStatusService from '../../../services/batchStatusService';
 import MedicationBatchService from '../../../services/medicationBatchService';
 import PharmacyService from '../../../services/pharmacyService';
 import { calculateBatchStatus } from "../../../utils/EntityProcessingMethods";
 import { formatDateToYYYYMMDD, convertToLocalTimeZone } from "../../../utils/EntityProcessingMethods"
 import dayjs from 'dayjs';
+import FabSubmitButton from "../../../components/buttons/FabSubmitButton";
+import FabActionButton from "../../../components/buttons/FabActionButton";
 
 function BatchEmbeddedForm({ action, addBatch, deleteBatch, preloadedData, id }) {
 
     let statuses;
     const [currentStatus, setCurrentStatus] = useState('')
     const [pharmacies, setPharmacies] = useState([])
+    const [submitted, setSubmitted] = useState(false)
 
     useEffect(() => {
         async function fetchStatuses() {
@@ -61,25 +67,25 @@ function BatchEmbeddedForm({ action, addBatch, deleteBatch, preloadedData, id })
         defaultValues: preloadedData
     });
 
-    const expirationDateWatch = watch('expirationDate')
+
+    const formValues = watch()
 
     useEffect(() => {
 
         if (action === 'add') {
-            if (expirationDateWatch) {
-                setCurrentStatus(calculateBatchStatus(expirationDateWatch.toDate()))
+            if (formValues.expirationDate) {
+                setCurrentStatus(calculateBatchStatus(formValues.expirationDate.toDate()))
             }
         } else {
-            console.log(expirationDateWatch)
-            if (expirationDateWatch) {
-                let arrayDate = Object.values(expirationDateWatch)
+            console.log(formValues.expirationDate)
+            if (formValues.expirationDate) {
+                let arrayDate = Object.values(formValues.expirationDate)
                 let dateObj = new Date(arrayDate[0], arrayDate[1] - 1, arrayDate[2])
                 setCurrentStatus(calculateBatchStatus(dateObj))
             }
 
         }
-    }, [expirationDateWatch])
-
+    }, [formValues.expirationDate])
 
     async function onSubmit(data) {
 
@@ -92,6 +98,7 @@ function BatchEmbeddedForm({ action, addBatch, deleteBatch, preloadedData, id })
         }
 
         addBatch(id, data)
+        setSubmitted(true)
 
     };
 
@@ -111,13 +118,13 @@ function BatchEmbeddedForm({ action, addBatch, deleteBatch, preloadedData, id })
             return `${foundLocationCopy.id} ${foundLocationCopy.type}`
         }
 
-
     }
 
     return (
         <>
-            <form onSubmit={handleSubmit(onSubmit)} noValidate>
-                <Stack spacing={2} width={400}>
+            <form onChange={() => setSubmitted(false)} onSubmit={handleSubmit(onSubmit)} noValidate>
+                <Stack spacing={2} width={400} >
+                    <Header title={`Lote ${id}`} />
 
                     <FormTextfield
                         isRequired
@@ -158,6 +165,7 @@ function BatchEmbeddedForm({ action, addBatch, deleteBatch, preloadedData, id })
 
                     {pharmacies.length > 0 &&
                         <FormSelect
+                            required
                             name="location"
                             label="Ubicación"
                             disabled={action === 'edit' ? true : false}
@@ -172,13 +180,13 @@ function BatchEmbeddedForm({ action, addBatch, deleteBatch, preloadedData, id })
                         </FormSelect>
                     }
 
+                    <Stack direction="row" spacing={2} justifyContent='center' alignItems='center'>
+                        {submitted && <CheckIcon color="secondary" />}
+                        <FabSubmitButton color='info' />
+                        {deleteBatch && <FabActionButton handleClick={() => deleteBatch(id)} color="error" icon={<Delete />} />}
+                    </Stack>
 
-                    <Button type="submit" variant="contained" color="info">
-                        {action === 'add' ? 'Agregar' : 'Editar'}
-                    </Button>
-                    {deleteBatch && <Button onClick={() => deleteBatch(id)} variant="contained" color="error">
-                        Eliminar
-                    </Button>}
+
                 </Stack>
             </form >
             <DevTool control={control} />

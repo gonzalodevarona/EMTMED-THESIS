@@ -16,9 +16,11 @@ public interface MedicationBatchEntityMapper {
     MedicationBatchEntityMapper INSTANCE = Mappers.getMapper( MedicationBatchEntityMapper.class );
 
     @Mapping(target = "medicine", ignore = true)
+    @Mapping(target = "inventoryOrder", ignore = true)
     MedicationBatchEntityDTO toDTO(MedicationBatchEntity medicationBatchEntity);
 
     @Mapping(target = "medicine", ignore = true)
+    @Mapping(target = "inventoryOrder", ignore = true)
     MedicationBatchEntity toEntity(MedicationBatchEntityDTO medicationBatchEntityDTO);
 
     List<MedicationBatchEntityDTO> mapToDTO(List<MedicationBatchEntity> medicationBatches);

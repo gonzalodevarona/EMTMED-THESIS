@@ -31,10 +31,10 @@ public abstract class Location {
     private List<BatchEntity> batchList;
 
     @OneToMany(mappedBy = "destination", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JsonManagedReference("inventoryOrder-destination")
+    @JsonManagedReference("destination-inventoryOrder")
     private List<InventoryOrderEntity> destinationList;
 
     @OneToMany(mappedBy = "source", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JsonManagedReference("inventoryOrder-source")
+    @JsonManagedReference("source-inventoryOrder")
     private List<InventoryOrderEntity> sourceList;
 }

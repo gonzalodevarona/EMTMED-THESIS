@@ -1,8 +1,10 @@
-import { Button, Grid, Stack, Typography } from '@mui/material';
+import { Grid, Stack, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { capitalizeFirstLetter } from '../../utils/CommonMethods';
-import { Link } from 'react-router-dom';
+import { Delete, Edit } from '@mui/icons-material';
 import CustomTable from '../../components/CustomTable';
+import FabLink from '../../components/buttons/FabLink';
+import FabActionButton from '../../components/buttons/FabActionButton';
 import { dateArrayToString } from '../../utils/EntityProcessingMethods'
 
 
@@ -51,7 +53,7 @@ function ConsumableDetailedView({ data, entity, handleDelete, deleteable, editab
                 console.log(value)
                 value.location = value.location.name
                 value.expirationDate = dateArrayToString(value.expirationDate)
-                    batchesArray.push(value);
+                batchesArray.push(value);
             });
             setBatches(batchesArray);
         }
@@ -117,26 +119,20 @@ function ConsumableDetailedView({ data, entity, handleDelete, deleteable, editab
                     { title: 'Fecha de Vencimiento', field: 'expirationDate' },
                     { title: 'Estado', field: 'status' },
                     { title: 'Ubicación', field: 'location' },
-                    
+
 
                 ]}
+                clickable
                 entity='lotes'
                 editable={false}
                 deleteable={false}
                 data={batches} />
 
+            <Stack justifyContent='center' direction='row' spacing={5} mt={2}>
+                {editable && <FabLink to={`/${entity}/editar/${data.id}`} icon={<Edit />} color='info' />}
+                {deleteable && <FabActionButton color='error' icon={<Delete />} handleClick={handleDelete} />}
+            </Stack>
 
-            {editable && <Button
-                component={Link}
-                to={`/${entity}/editar/${data.id}`}
-                variant="contained"
-                sx={{ px: 9, py: 1, mr: 2, mt: 4 }}
-                color={'info'}>
-                Editar
-            </Button>}
-            {deleteable && <Button onClick={handleDelete} sx={{ px: 8, py: 1, ml: 2, mt: 4 }} color='error' variant='contained'>
-                Eliminar
-            </Button>}
         </>
     );
 }

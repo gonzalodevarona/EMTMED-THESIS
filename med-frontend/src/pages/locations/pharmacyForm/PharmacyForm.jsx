@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Stack, MenuItem } from "@mui/material";
 import { DevTool } from "@hookform/devtools";
-import FormTextfield from '../../../../components/form/FormTextfield';
-import FormSelect from '../../../../components/form/FormSelect';
-import PharmacyService from "../../../../services/pharmacyService";
-import triggerInfoAlert from "../../../../components/alerts/InfoAlert";
+import FabSubmitButton from '../../../components/buttons/FabSubmitButton';
+import FormTextfield from '../../../components/form/FormTextfield';
+import FormSelect from '../../../components/form/FormSelect';
+import PharmacyService from "../../../services/pharmacyService";
+import triggerInfoAlert from "../../../components/alerts/InfoAlert";
 import { useNavigate } from "react-router-dom";
 
 function PharmacyForm({ action, preloadedData, id }) {
@@ -95,14 +96,14 @@ function PharmacyForm({ action, preloadedData, id }) {
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
-                <Stack spacing={2} width={400}>
+                <Stack spacing={2} width={400} alignItems='center'>
 
                     <FormTextfield isRequired label='Nombre' name='name' register={register} errors={errors} />
 
                     {categories.length > 0 &&
                         <FormSelect
                             name="category"
-                            label="Categoria"
+                            label="Categoría"
                             defaultValue={action === 'edit' ? preloadedData?.category : categories[1]}
                             register={register}
                             errors={errors}
@@ -113,9 +114,7 @@ function PharmacyForm({ action, preloadedData, id }) {
                             </MenuItem>)}
                         </FormSelect>}
 
-                    <Button type="submit" variant="contained" color="info">
-                        {action === 'add' ? 'Agregar' : 'Editar'}
-                    </Button>
+                    <FabSubmitButton color='info'/>
                 </Stack>
             </form>
             <DevTool control={control} />

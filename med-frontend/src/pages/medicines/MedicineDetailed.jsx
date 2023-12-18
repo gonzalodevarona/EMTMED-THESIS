@@ -67,7 +67,7 @@ function MedicineDetailed() {
 
     return (
         <>
-            <Header title={`${entity} #${id}`} />
+            <Header title={`${entity} ${id}`} />
             <MedicineDetailedView
                 editable
                 deleteable

@@ -1,11 +1,13 @@
 package com.emt.med.disposalStation;
 
+import com.emt.med.inventoryOrder.InventoryOrderEntityDTO;
+import com.emt.med.inventoryOrder.InventoryOrderEntityMapper;
 import com.emt.med.location.LocationMapper;
 import com.emt.med.supply.SupplyMapper;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(uses = {SupplyMapper.class, LocationMapper.class})
+@Mapper(uses = {SupplyMapper.class, LocationMapper.class, InventoryOrderEntityMapper.class})
 public interface DisposalStationEntityMapper {
 
     DisposalStationEntityMapper INSTANCE = Mappers.getMapper( DisposalStationEntityMapper.class );

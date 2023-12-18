@@ -25,7 +25,7 @@ function MedicineFormPage({ action }) {
 
         async function fetchData() {
             let fetchedData = await MedicineService.getMedicineById(id);
-            if (fetchedData.status == 500 && fetchedData.error && fetchedData.purpose === 'ORDER') {
+            if (fetchedData.status == 500 && fetchedData.error ) {
                 redirect('/404')
             }
           
@@ -44,7 +44,7 @@ function MedicineFormPage({ action }) {
         <>
             {action === 'add' ?
                 <Header title={`Agregar un ${entity}`} /> :
-                <Header title={`Editar el ${entity} #${id}`} />
+                <Header title={`Editar el ${entity} ${id}`} />
             }
             {action === 'edit' && medicineData.id &&
                 <MedicineForm action={action} preloadedData={removeNullProperties(medicineData)}/>

@@ -15,16 +15,14 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper( uses = {OrderEntityMapper.class, WeightUnitEntityMapper.class, CountingUnitEntityMapper.class, LocationMapper.class})
+@Mapper( uses = { WeightUnitEntityMapper.class, CountingUnitEntityMapper.class, LocationMapper.class})
 public interface SupplyMapper {
     SupplyMapper INSTANCE = Mappers.getMapper( SupplyMapper.class );
     @SubclassMapping( source = MedicineEntity.class, target = MedicineEntityDTO.class )
     @SubclassMapping( source = ConsumableEntity.class, target = ConsumableEntityDTO.class )
-    @Mapping(target = "inventoryOrders", ignore = true)
     SupplyDTO toDTO(Supply supply);
 
     @InheritInverseConfiguration
-    @Mapping(target = "inventoryOrders", ignore = true)
     Supply toEntity(SupplyDTO supplyDTO);
 
 

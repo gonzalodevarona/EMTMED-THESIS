@@ -11,8 +11,8 @@ const getConsumables = async () => {
 
     return res.data
 }
-const getConsumablesNoOrdersNoBatches = async (purpose) => {
-    const res = await axios.get(`/${entity}/noOrdersNoBatches?purpose=${purpose}`)
+const getConsumablesNoBatches = async () => {
+    const res = await axios.get(`/${entity}/noBatches`)
         .catch((error) => {
             console.log(error)
             return error.response;
@@ -64,7 +64,7 @@ const deleteConsumable = async (id) => {
 
 const ConsumableService  = {
     getConsumables,
-    getConsumablesNoOrdersNoBatches,
+    getConsumablesNoBatches,
     getConsumableById,
     addConsumable,
     editConsumable,

@@ -25,7 +25,7 @@ function ConsumableFormPage({ action }) {
 
         async function fetchData() {
             let fetchedData = await ConsumableService.getConsumableById(id);
-            if (fetchedData.status == 500 && fetchedData.error && fetchedData.purpose === 'ORDER') {
+            if (fetchedData.status == 500 && fetchedData.error ) {
                 redirect('/404')
             }
           
@@ -44,7 +44,7 @@ function ConsumableFormPage({ action }) {
         <>
             {action === 'add' ?
                 <Header title={`Agregar un ${entity}`} /> :
-                <Header title={`Editar el ${entity} #${id}`} />
+                <Header title={`Editar el ${entity} ${id}`} />
             }
             {action === 'edit' && consumableData.id &&
                 <ConsumableForm action={action} preloadedData={removeNullProperties(consumableData)}/>

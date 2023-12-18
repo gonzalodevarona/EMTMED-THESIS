@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import DisposalStationForm from './DisposalStationForm';
-import Header from '../../../../components/Header';
+import Header from '../../../components/Header';
 import { useParams } from "react-router-dom";
-import DisposalStationService from '../../../../services/disposalStationService'
-import { removeNullProperties } from '../../../../utils/CommonMethods'
+import DisposalStationService from '../../../services/disposalStationService'
+import { removeNullProperties } from '../../../utils/CommonMethods'
 
 function DisposalStationFormPage({ action }) {
 
@@ -33,7 +33,7 @@ function DisposalStationFormPage({ action }) {
         <>
             {action === 'add' ?
                 <Header title={`Agregar una ${entity}`} /> :
-                <Header title={`Editar la ${entity} #${id}`} />
+                <Header title={`Editar la ${entity} ${id}`} />
             }
             {action === 'edit' && disposalStationData.id &&
                 <DisposalStationForm id={id} action={action} preloadedData={removeNullProperties(disposalStationData)}/>

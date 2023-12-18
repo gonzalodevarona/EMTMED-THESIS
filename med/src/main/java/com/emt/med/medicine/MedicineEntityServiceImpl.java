@@ -3,7 +3,6 @@ package com.emt.med.medicine;
 import com.emt.med.countingUnit.CountingUnitEntityRepository;
 import com.emt.med.location.LocationRepository;
 import com.emt.med.medicationBatch.*;
-import com.emt.med.supply.SupplyPurpose;
 import com.emt.med.supply.SupplyService;
 import com.emt.med.weightUnit.WeightUnitEntity;
 import com.emt.med.weightUnit.WeightUnitEntityRepository;
@@ -64,8 +63,9 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
     }
 
     @Override
-    public List<MedicineEntityDTO> getAllMedicinesNoOrdersNoBatches(SupplyPurpose purpose) {
-        return medicineEntityRepository.findByPurpose(purpose, Sort.by(Sort.Direction.ASC, "activePharmaceuticalIngredient")).stream().map(medicineEntityMapper::toDTONoOrdersNoBatches).collect(Collectors.toCollection(ArrayList::new));
+    public List<MedicineEntityDTO> getAllMedicinesNoBatches() {
+        return medicineEntityRepository.findAll(Sort.by(Sort.Direction.ASC, "activePharmaceuticalIngredient")).stream().map(medicineEntityMapper::toDTONoBatches).collect(Collectors.toCollection(ArrayList::new));
+
     }
 
     @Override

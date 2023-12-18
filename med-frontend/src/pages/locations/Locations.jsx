@@ -1,8 +1,9 @@
 import {useEffect, useState} from 'react'
 import CustomTable from '../../components/CustomTable'
+import FabLink from '../../components/buttons/FabLink'
+import AddIcon from '@mui/icons-material/Add';
 import Header from '../../components/Header'
-import { Box, Button } from '@mui/material'
-import { Link } from 'react-router-dom';
+import { Box } from '@mui/material'
 import PharmacyService from '../../services/pharmacyService';
 import DisposalStationService from '../../services/disposalStationService';
 import triggerCannotDeleteAlert from '../../components/alerts/CannotDeleteAlert';
@@ -40,20 +41,15 @@ function Locations() {
     <>
       <Header title={"Farmacia"} />
 
-      <Button
-        component={Link}
-        to="/farmacia/agregar"
-        variant="contained"
-        sx={{ px: 10, py: 1, mb: 2 }}
-        color={'info'}>
-        Agregar farmacia
-      </Button>
+      <FabLink to="/farmacia/agregar" icon={<AddIcon/>} color='secondary'/ >
+
+
 
       <CustomTable
         columns={[
           { title: 'ID', field: 'id', type: 'numeric' },
           { title: 'Nombre', field: 'name' },
-          { title: 'Categoria', field: 'category' }
+          { title: 'Categoría', field: 'category' }
         ]}
         singleEntity='farmacia'
         entity='farmacia'
@@ -66,14 +62,8 @@ function Locations() {
 
       <Header title={"Estación de Desechos"} />
 
-      <Button
-        component={Link}
-        to="/estacion-desechos/agregar"
-        variant="contained"
-        sx={{ px: 10, py: 1, mb: 2 }}
-        color={'info'}>
-        Agregar estación de desechos
-      </Button>
+      <FabLink to="/estacion-desechos/agregar" icon={<AddIcon/>} color='secondary'/ >
+
 
       <CustomTable
         columns={[

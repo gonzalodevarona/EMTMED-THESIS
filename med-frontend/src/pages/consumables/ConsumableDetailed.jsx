@@ -71,7 +71,7 @@ function ConsumableDetailed() {
 
     return (
         <>
-            <Header title={`${entity} #${id}`} />
+            <Header title={`${entity} ${id}`} />
             <ConsumableDetailedView
                 editable
                 deleteable

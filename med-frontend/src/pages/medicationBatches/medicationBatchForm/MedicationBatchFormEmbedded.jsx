@@ -156,6 +156,7 @@ function MedicationBatchEmbeddedForm({ action, addMedicationBatch, deleteMedicat
                     {pharmacies.length > 0 &&
                         <FormSelect
                             name="location"
+                            required
                             label="Ubicación"
                             disabled={action === 'edit' ? true : false}
                             defaultValue={action === 'edit' ? findPreloadedLocation(preloadedData?.location.id, '') : `${pharmacies[0].id} ${pharmacies[0].type}`}
@@ -170,7 +171,7 @@ function MedicationBatchEmbeddedForm({ action, addMedicationBatch, deleteMedicat
                     }
 
                     <FormTextfield
-                        isRequired
+                        
                         label='Código Único de Medicamento (CUM)'
                         name='cum'
                         register={register}

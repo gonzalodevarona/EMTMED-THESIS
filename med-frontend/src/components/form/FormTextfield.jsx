@@ -4,7 +4,8 @@ function FormTextfield({label, name, register, errors, isRequired, ...props}) {
 
     return (
         <TextField
-        
+            fullWidth
+            required={isRequired}
             label={label}
             type={name}
             {...register(name, isRequired?{ required: `${label} es requerido` }: undefined)}

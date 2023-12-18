@@ -1,7 +1,6 @@
 package com.emt.med.medicine;
 
 import com.emt.med.medicationBatch.MedicationBatchEntity;
-import com.emt.med.supply.SupplyPurpose;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,7 +12,7 @@ public interface MedicineEntityService {
 
     List<MedicineEntityDTO> getAllMedicines();
 
-    List<MedicineEntityDTO> getAllMedicinesNoOrdersNoBatches(SupplyPurpose supplyPurpose);
+    List<MedicineEntityDTO> getAllMedicinesNoBatches();
 
     MedicineEntityDTO addMedicine(MedicineEntityDTO medicineEntityDTO);
 

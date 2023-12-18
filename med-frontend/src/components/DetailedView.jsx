@@ -1,7 +1,9 @@
-import { Box, Button, Grid, Stack, Typography } from '@mui/material';
+import { Button, Grid, Stack, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { capitalizeFirstLetter } from '../utils/CommonMethods';
-import { Link } from 'react-router-dom';
+import FabLink from '../components/buttons/FabLink'
+import FabActionButton from '../components/buttons/FabActionButton'
+import { Edit, Delete } from '@material-ui/icons/';
 
 
 function DetailedView({ data, entity, handleDelete, deleteable, editable }) {
@@ -35,52 +37,48 @@ function DetailedView({ data, entity, handleDelete, deleteable, editable }) {
 
   return (
     <>
-      {data && Object.keys(data).length > 3 ? (
-        <Grid container>
-          <Grid item xs={6}>
-            {firstHalf.map((item, index) => (
-              Object.entries(item).map(([key, value]) => (
-                <Stack m={3} key={key}>
-                  <Typography fontWeight='bold' variant='subtitle1'>{capitalizeFirstLetter(key)}</Typography>
-                  <Typography>{value}</Typography>
-                </Stack>
-              ))
-            ))}
+      <Stack alignItems='center'>
+        {data && Object.keys(data).length > 3 ? (
+          <Grid container>
+            <Grid item xs={6}>
+              {firstHalf.map((item, index) => (
+                Object.entries(item).map(([key, value]) => (
+                  <Stack m={3} key={key}>
+                    <Typography fontWeight='bold' variant='subtitle1'>{capitalizeFirstLetter(key)}</Typography>
+                    <Typography>{value}</Typography>
+                  </Stack>
+                ))
+              ))}
+            </Grid>
+            <Grid item xs={6}>
+              {secondHalf.map((item, index) => (
+                Object.entries(item).map(([key, value]) => (
+                  <Stack m={3} key={key}>
+                    <Typography fontWeight='bold' variant='subtitle1'>{capitalizeFirstLetter(key)}</Typography>
+                    <Typography>{value}</Typography>
+                  </Stack>
+                ))
+              ))}
+            </Grid>
           </Grid>
-          <Grid item xs={6}>
-            {secondHalf.map((item, index) => (
-              Object.entries(item).map(([key, value]) => (
-                <Stack m={3} key={key}>
-                  <Typography fontWeight='bold' variant='subtitle1'>{capitalizeFirstLetter(key)}</Typography>
-                  <Typography>{value}</Typography>
-                </Stack>
-              ))
-            ))}
-          </Grid>
-        </Grid>
 
-      ) : (
-        <Stack>
-          {Object.entries(data).map(([key, value]) => (
-            <Stack m={3} key={key}>
-              <Typography fontWeight='bold' variant='subtitle1'>{capitalizeFirstLetter(key)}</Typography>
-              <Typography>{value}</Typography>
-            </Stack>
-          ))}
+        ) : (
+          <Stack>
+            {Object.entries(data).map(([key, value]) => (
+              <Stack m={3} key={key}>
+                <Typography fontWeight='bold' variant='subtitle1'>{capitalizeFirstLetter(key)}</Typography>
+                <Typography>{value}</Typography>
+              </Stack>
+            ))}
+          </Stack>
+        )}
+
+        <Stack direction='row' spacing={5}>
+          {editable && <FabLink to={`/${entity}/editar/${data.id}`} icon={<Edit />} color='info' />}
+          {deleteable && <FabActionButton color='error' handleClick={handleDelete} icon={<Delete />} />}
         </Stack>
-      )}
 
-      {editable && <Button
-        component={Link}
-        to={`/${entity}/editar/${data.id}`}
-        variant="contained"
-        sx={{ px: 9, py: 1, mr: 2 }}
-        color={'info'}>
-        Editar
-      </Button>}
-      {deleteable && <Button onClick={handleDelete} sx={{ px: 8, py: 1, ml: 2 }} color='error' variant='contained'>
-        Eliminar
-      </Button>}
+      </Stack>
     </>
   );
 }

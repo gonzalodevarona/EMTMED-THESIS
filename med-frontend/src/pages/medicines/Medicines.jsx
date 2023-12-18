@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import CustomTable from '../../components/CustomTable'
 import Header from '../../components/Header'
-import { Link } from 'react-router-dom';
+import FabLink from '../../components/buttons/FabLink'
+import AddIcon from '@mui/icons-material/Add';
 import { Button, Typography, Stack } from '@mui/material';
 import MedicineService from '../../services/medicineService';
 import triggerCannotDeleteAlert from '../../components/alerts/CannotDeleteAlert';
@@ -17,7 +18,7 @@ function Medicines() {
     useEffect(() => {
 
         async function fetchData() {
-            const allMedicines = await MedicineService.getMedicinesNoOrdersNoBatches('GENERAL');
+            const allMedicines = await MedicineService.getMedicinesNoBatches();
 
             setMedicines(processMedicines(allMedicines))
         }
@@ -51,17 +52,12 @@ function Medicines() {
     return (
         <>
             <Header title={"Medicamentos"} />
-            <Button
-                component={Link}
-                to="/medicamentos/agregar"
-                variant="contained"
-                sx={{ px: 10, py: 1, mb: 2 }}
-                color={'info'}>
-                Agregar {entity}
-            </Button>
 
-            <Typography >Nota: Para editar o eliminar algún {entity} se debe hacer por la vista detallada</Typography>
-            <Typography >Cuidado: Si elimina algún {entity}, eliminará todos los lotes asociados a él</Typography>
+            <FabLink to="/medicamentos/agregar" icon={<AddIcon/>} color='secondary'/ >
+
+
+            <Typography >Nota: Para editar o eliminar algún {entity} se debe hacer por la vista detallada.</Typography>
+            <Typography >Cuidado: Si elimina algún {entity}, eliminará todos los lotes asociados a él.</Typography>
             <CustomTable
                 columns={[
                     { title: 'ID', field: 'id', type: 'numeric' },
@@ -74,6 +70,7 @@ function Medicines() {
                     { title: 'Unidad de Peso', field: 'weightUnit' },
 
                 ]}
+                clickable
                 singleEntity={entity}
                 entity='medicamentos'
                 editable={false}

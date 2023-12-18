@@ -3,8 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { capitalizeFirstLetter } from '../../utils/CommonMethods';
 import { Link } from 'react-router-dom';
 import CustomTable from '../../components/CustomTable';
+import FabActionButton from '../../components/buttons/FabActionButton';
+import FabLink from '../../components/buttons/FabLink';
 import { dateArrayToString } from '../../utils/EntityProcessingMethods'
-
+import { Delete, Edit } from '@mui/icons-material';
 
 function MedicineDetailedView({ data, entity, handleDelete, deleteable, editable }) {
     const [firstHalf, setFirstHalf] = useState([]);
@@ -50,7 +52,7 @@ function MedicineDetailedView({ data, entity, handleDelete, deleteable, editable
             Object.entries(batches).forEach(([_, value]) => {
                 value.location = value.location.name
                 value.expirationDate = dateArrayToString(value.expirationDate)
-                    batchesArray.push(value);
+                batchesArray.push(value);
             });
             setBatches(batchesArray);
         }
@@ -119,23 +121,16 @@ function MedicineDetailedView({ data, entity, handleDelete, deleteable, editable
                     { title: 'CUM', field: 'cum' },
 
                 ]}
+                clickable
                 entity='lotes-medicamentos'
                 editable={false}
                 deleteable={false}
                 data={batches} />
 
-
-            {editable && <Button
-                component={Link}
-                to={`/${entity}/editar/${data.id}`}
-                variant="contained"
-                sx={{ px: 9, py: 1, mr: 2, mt: 4 }}
-                color={'info'}>
-                Editar
-            </Button>}
-            {deleteable && <Button onClick={handleDelete} sx={{ px: 8, py: 1, ml: 2, mt: 4 }} color='error' variant='contained'>
-                Eliminar
-            </Button>}
+            <Stack justifyContent='center' direction='row' spacing={5} mt={2}>
+                {editable && <FabLink to={`/${entity}/editar/${data.id}`} icon={<Edit />} color='info' />}
+                {deleteable && <FabActionButton color='error' icon={<Delete />} handleClick={handleDelete} />}
+            </Stack>
         </>
     );
 }

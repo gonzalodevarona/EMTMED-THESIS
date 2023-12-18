@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { Button, Stack, MenuItem, Divider } from "@mui/material";
+import { Grid, Stack, MenuItem, Divider } from "@mui/material";
 import { DevTool } from "@hookform/devtools";
+import SaveIcon from '@mui/icons-material/Save';
+import AddIcon from '@mui/icons-material/Add';
 import FormTextfield from '../../../components/form/FormTextfield';
 import FormSelect from '../../../components/form/FormSelect';
 import Header from '../../../components/Header';
@@ -13,6 +15,8 @@ import CountingUnitService from '../../../services/countingUnitService';
 import BatchService from "../../../services/batchService";
 import ConsumableService from "../../../services/consumableService";
 import BatchFormEmbedded from "../../../pages/batches/batchForm/BatchFormEmbedded";
+import FabActionButton from "../../../components/buttons/FabActionButton";
+import FabSubmitButton from "../../../components/buttons/FabSubmitButton";
 
 function ConsumableForm({ action, preloadedData }) {
 
@@ -125,9 +129,16 @@ function ConsumableForm({ action, preloadedData }) {
 
   }, [batches])
 
+  function resetForm(){
+    reset()
+    setBatches([{ id: 1 }])
+
+  }
+
+
 
   function addedSuccessfully() {
-    triggerInfoAlert('success', 'El nuevo consumible ha sido agregado', reset)
+    triggerInfoAlert('success', 'El nuevo consumible ha sido agregado', resetForm)
   }
   function errorAdding() {
     triggerInfoAlert('error', 'Ha habido un error agregando el nuevo consumible')
@@ -160,7 +171,6 @@ function ConsumableForm({ action, preloadedData }) {
       data.weightUnit = { id: data.weightUnit };
     }
 
-    data.purpose = "GENERAL"
     data.type = 'consumable'
     if (checkQuantity(data.batches) && data.quantity > 0) {
 
@@ -214,7 +224,7 @@ function ConsumableForm({ action, preloadedData }) {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
-        <Stack spacing={2} width={400} my={3}>
+        <Stack spacing={2} width={400} my={3} alignItems='center'>
 
           <FormTextfield
             isRequired
@@ -235,6 +245,7 @@ function ConsumableForm({ action, preloadedData }) {
 
           {countingUnits.length > 0 &&
             <FormSelect
+              required
               name="countingUnit"
               label="Unidad de Conteo"
               disabled={action === 'edit' ? true : false}
@@ -260,7 +271,7 @@ function ConsumableForm({ action, preloadedData }) {
 
           {weightUnits.length > 0 &&
             <FormSelect
-
+              required
               name="weightUnit"
               label="Unidad de Peso"
               defaultValue={action === 'edit' ? preloadedData?.weightUnit.id : weightUnits[0].id}
@@ -274,31 +285,35 @@ function ConsumableForm({ action, preloadedData }) {
             </FormSelect>
           }
 
-          <Button onClick={addBatch} variant="contained" color="info">
-            Agregar lote
-          </Button>
-
-          <Divider />
-
-          <Button type="submit" variant="contained" color="info">
-            {action === 'add' ? 'Agregar consumible' : 'Editar consumible'}
-          </Button>
+          <FabSubmitButton color='info' />
 
         </Stack>
 
       </form>
+      <Header title='Lotes' />
 
-      {batches.length > 0 && batches.map((batch, index) => (
-        <Stack my={4} key={batch.id}>
-          <Header title={action === 'add' ? 'Agregar un lote' : 'Editar un lote'} />
-          <BatchFormEmbedded
-            action={action === 'edit' && batch.quantity ? 'edit' : 'add'}
-            addBatch={updateBatch}
-            id={batch.id}
-            preloadedData={action === 'edit' ? batch : undefined}
-            deleteBatch={index === 0 ? null : deleteBatch} />
-        </Stack>
-      ))}
+      <FabActionButton handleClick={addBatch} color='secondary' icon={<AddIcon />} />
+
+      {batches.length > 0 &&
+        <Grid container justifyContent='center'  rowSpacing={4} >
+
+
+          {batches.map((batch, index) => (
+            <Grid key={batch.id} item xs={12} lg={4} sx={{mt:2}}>
+              <BatchFormEmbedded
+                action={action === 'edit' && batch.quantity ? 'edit' : 'add'}
+                addBatch={updateBatch}
+                id={index+1}
+                preloadedData={action === 'edit' ? batch : undefined}
+                deleteBatch={index === 0 ? null : deleteBatch} />
+            </Grid>
+          ))}
+
+        </Grid>
+
+
+
+      }
 
 
     </>

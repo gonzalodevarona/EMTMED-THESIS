@@ -58,9 +58,7 @@ public class InventoryOrderEntityServiceImpl implements InventoryOrderEntityServ
         if(existingBatchEntity.getStatus() != inventoryOrderEntityDTO.getStatus() &&
                 ( existingBatchEntity.getAuthoredOn() == null ||
                 existingBatchEntity.getOperation() == null ||
-                existingBatchEntity.getPractitionerId() == null ||
-                existingBatchEntity.getSupplies() != null ||
-                (existingBatchEntity.getSupplies() != null && existingBatchEntity.getSupplies().size() <1) )){
+                existingBatchEntity.getPractitionerId() == null )){
 
             throw new RuntimeException(" Error:Cannot change order status if there are no related entities");
         } else{

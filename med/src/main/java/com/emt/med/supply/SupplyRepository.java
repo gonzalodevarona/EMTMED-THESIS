@@ -9,5 +9,5 @@ import java.util.List;
 
 @NoRepositoryBean
 public interface SupplyRepository<T extends Supply> extends JpaRepository<T, Long>{
-    List<T> findByPurpose(SupplyPurpose purpose, Sort sort);
+
 }

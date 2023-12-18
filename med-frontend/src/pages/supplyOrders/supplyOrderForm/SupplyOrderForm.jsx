@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Stack, MenuItem, Grid, Box, Typography } from "@mui/material";
 import { DevTool } from "@hookform/devtools";
+import FabSubmitButton from '../../../components/buttons/FabSubmitButton';
 import FormTextfield from '../../../components/form/FormTextfield';
 import FormSelect from '../../../components/form/FormSelect';
 import FormDateTimePicker from '../../../components/form/FormDateTimePicker';
@@ -10,12 +11,14 @@ import ClinicalHistoryService from "../../../services/clinicalHistoryService";
 import PacientService from "../../../services/pacientService";
 import OrderService from "../../../services/orderService";
 import triggerInfoAlert from "../../../components/alerts/InfoAlert";
+import FabActionButton from "../../../components/buttons/FabActionButton";
 import { convertToLocalTimeZone, convertDateObjectToDayjs, formatNoteForEmr } from "../../../utils/EntityProcessingMethods";
 import { capitalizeFirstLetter } from '../../../utils/CommonMethods';
 import dayjs from 'dayjs';
 import { useKeycloak } from '@react-keycloak/web'
 import SupplyTable from "./SupplyTable";
 import { useNavigate } from "react-router-dom";
+import SearchIcon from '@mui/icons-material/Search';
 
 function SupplyOrderForm({ action, preloadedData, id }) {
 
@@ -44,7 +47,7 @@ function SupplyOrderForm({ action, preloadedData, id }) {
         defaultValues: preloadedData
     });
 
-    
+
 
     const pacientIdWatch = watch('pacientId')
 
@@ -98,9 +101,9 @@ function SupplyOrderForm({ action, preloadedData, id }) {
     async function addSupplyOrder(supplyOrder) {
 
         const savedOrder = await SupplyOrderService.addSupplyOrder(supplyOrder);
-        
+
         supplyOrder.id = savedOrder.id
-        
+
         await ClinicalHistoryService.addNoteToEMR(pacient.id, formatNoteForEmr(supplyOrder));
         return savedOrder;
     }
@@ -170,7 +173,7 @@ function SupplyOrderForm({ action, preloadedData, id }) {
             }
         }
 
-        setPacient({ id:firstItem.id, firstname, lastName, secondLastName, middleName, idType, idNumber, age, birthDate, gender, phoneNumber, civilStatus, healthcareProvider, healthcareType });
+        setPacient({ id: firstItem.id, firstname, lastName, secondLastName, middleName, idType, idNumber, age, birthDate, gender, phoneNumber, civilStatus, healthcareProvider, healthcareType });
     }
 
     function renderPacient() {
@@ -215,6 +218,7 @@ function SupplyOrderForm({ action, preloadedData, id }) {
     function errorEditing() {
         triggerInfoAlert('error', 'Ha habido un error editando la orden')
     }
+
 
     async function onSubmit(data) {
 
@@ -305,19 +309,20 @@ function SupplyOrderForm({ action, preloadedData, id }) {
                 <Grid container>
 
                     <Grid item xs={12} lg={6} mb={5}>
-                        <Stack spacing={2} width={500}>
-                            <FormTextfield
-                                isRequired
-                                type='number'
-                                disabled={action === 'edit' ? true : false}
-                                label='CC del Paciente'
-                                name='pacientId'
-                                register={register}
-                                errors={errors} />
+                        <Stack spacing={2}>
+                            <Stack direction='row' spacing={2} justifyContent='center' alignItems='center'>
+                                <FormTextfield
+                                    sx={{ width: 500 }}
+                                    isRequired
+                                    type='number'
+                                    disabled={action === 'edit' ? true : false}
+                                    label='CC del Paciente'
+                                    name='pacientId'
+                                    register={register}
+                                    errors={errors} />
 
-                            {action === 'add' && <Button onClick={findClient} variant="contained" color="info">
-                                Buscar paciente
-                            </Button>}
+                                {action === 'add' && <FabActionButton handleClick={findClient} icon={<SearchIcon />} color='info' />}
+                            </Stack>
                             {pacient.firstname ? renderPacient() : <Typography>No fue encontrado el paciente</Typography>}
 
                         </Stack>
@@ -370,10 +375,10 @@ function SupplyOrderForm({ action, preloadedData, id }) {
                                 errors={errors} />
 
                             <FormTextfield isRequired inputProps={{ maxLength: 255 }} multiline maxRows={7} label='Nota (máximo 255 caractéres)' name='note' register={register} errors={errors} />
+                            <Box>
 
-                            <Button type="submit" variant="contained" color="info">
-                                {action === 'add' ? 'Agregar orden' : 'Editar orden'}
-                            </Button>
+                                <FabSubmitButton color='info' />
+                            </Box>
                         </Stack>
                     </Grid>
                 </Grid>

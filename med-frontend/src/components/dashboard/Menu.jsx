@@ -102,13 +102,13 @@ export default function Menu({ mobile, toggleDrawer }) {
           <ListItemText primary="Unidades" />
         </ListItemButton>}
 
-      {(keycloak.hasRealmRole("ROLE_ADMIN") || keycloak.hasRealmRole("ROLE_REGENT")) &&
+      {/* {(keycloak.hasRealmRole("ROLE_ADMIN") || keycloak.hasRealmRole("ROLE_REGENT")) &&
         <ListItemButton component={Link} to="/campos" onClick={closeMenu}>
           <ListItemIcon>
             <TextFieldsIcon />
           </ListItemIcon>
           <ListItemText primary="Campos adicionales" />
-        </ListItemButton>}
+        </ListItemButton>} */}
 
       <Divider></Divider>
 

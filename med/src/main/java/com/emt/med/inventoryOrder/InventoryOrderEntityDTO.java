@@ -1,9 +1,16 @@
 package com.emt.med.inventoryOrder;
 
+import com.emt.med.batch.BatchEntity;
+import com.emt.med.batch.BatchEntityDTO;
 import com.emt.med.location.LocationDTO;
+import com.emt.med.medicationBatch.MedicationBatchEntity;
+import com.emt.med.medicationBatch.MedicationBatchEntityDTO;
 import com.emt.med.order.OrderEntityDTO;
 import com.emt.med.supply.SupplyDTO;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,5 +29,6 @@ public class InventoryOrderEntityDTO extends OrderEntityDTO {
     private LocationDTO destination;
     @NotNull(message = "source shouldn't be null")
     private LocationDTO source;
-    private List<SupplyDTO> supplies;
+    private List<MedicationBatchEntityDTO> medicationBatches;
+    private List<BatchEntityDTO> batches;
 }

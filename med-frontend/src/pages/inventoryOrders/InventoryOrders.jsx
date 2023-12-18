@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 import CustomTable from '../../components/CustomTable'
 import Header from '../../components/Header'
-import { Link } from 'react-router-dom';
+import AddIcon from '@mui/icons-material/Add';
 import { Button, Typography, Stack } from '@mui/material';
 import InventoryOrderService from '../../services/inventoryOrderService';
 import triggerCannotDeleteAlert from '../../components/alerts/CannotDeleteAlert';
 import { dateArrayToString } from '../../utils/EntityProcessingMethods';
+import FabLink from '../../components/buttons/FabLink';
 
 function InventoryOrders() {
 
@@ -48,16 +49,10 @@ function InventoryOrders() {
   return (
     <>
       <Header title={"Ordenes de Inventario"} />
-      <Button
-        component={Link}
-        to="/ordenes-inventario/agregar"
-        variant="contained"
-        sx={{ px: 10, py: 1, mb: 2 }}
-        color={'info'}>
-        Agregar {entity}
-      </Button>
+     
+      <FabLink to="/ordenes-inventario/agregar" icon={<AddIcon/>} color='secondary'/ >
 
-      <Typography >Nota: Para editar o eliminar alguna {entity} se debe hacer por la vista detallada</Typography>
+      <Typography >Nota: Para editar o eliminar alguna {entity} se debe hacer por la vista detallada.</Typography>
       <CustomTable
         columns={[
           { title: 'ID', field: 'id', type: 'numeric' },
@@ -70,6 +65,7 @@ function InventoryOrders() {
 
 
         ]}
+        clickable
         singleEntity={entity}
         entity='ordenes-inventario'
         editable={false}

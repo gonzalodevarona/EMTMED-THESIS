@@ -14,15 +14,12 @@ import org.mapstruct.factory.Mappers;
 public interface MedicineEntityMapper {
     MedicineEntityMapper INSTANCE = Mappers.getMapper( MedicineEntityMapper.class );
 
-    @Mapping(target = "inventoryOrders", ignore = true)
     MedicineEntityDTO toDTO(MedicineEntity medicineEntity);
 
-    @Named("toDTONoOrdersNoBatches")
-    @Mapping(target = "inventoryOrders", ignore = true)
+    @Named("toDTONoBatches")
     @Mapping(target = "batches", ignore = true)
-    MedicineEntityDTO toDTONoOrdersNoBatches(MedicineEntity medicineEntity);
+    MedicineEntityDTO toDTONoBatches(MedicineEntity medicineEntity);
 
-    @Mapping(target = "inventoryOrders", ignore = true)
     MedicineEntity toEntity(MedicineEntityDTO medicineEntityDTO);
 
 

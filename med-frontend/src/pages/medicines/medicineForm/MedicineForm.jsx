@@ -159,7 +159,6 @@ function MedicineForm({ action, preloadedData }) {
       data.weightUnit = { id: data.weightUnit };
     }
 
-    data.purpose = "GENERAL"
     data.type = 'medicine'
     if (checkQuantity(data.batches) && data.quantity > 0) {
 
@@ -251,6 +250,7 @@ function MedicineForm({ action, preloadedData }) {
           {countingUnits.length > 0 &&
             <FormSelect
               name="countingUnit"
+              required
               label="Unidad de Conteo"
               disabled={action === 'edit' ? true : false}
               defaultValue={action === 'edit' ? preloadedData?.countingUnit.id : countingUnits[0].id}
@@ -275,7 +275,7 @@ function MedicineForm({ action, preloadedData }) {
 
           {weightUnits.length > 0 &&
             <FormSelect
-
+              required
               name="weightUnit"
               label="Unidad de Peso"
               defaultValue={action === 'edit' ? preloadedData?.weightUnit.id : weightUnits[0].id}

@@ -43,12 +43,8 @@ function BatchDetailed() {
         entityData['consumable-countingUnit'] = `${entityData['consumable-countingUnit'].id} - ${entityData['consumable-countingUnit'].name}`
         entityData['consumable-weightUnit'] = `${entityData['consumable-weightUnit'].id} - ${entityData['consumable-weightUnit'].name}`
 
-        if(entityData['consumable-orders'] !== null){
-          entityData['consumable-countOrders'] = entityData['consumable-orders'].length;
-        }
 
         delete entityData.consumable;
-        delete entityData['consumable-orders'];
         delete entityData['consumable-batches'];
         delete entityData.consumable;
 
@@ -63,7 +59,7 @@ function BatchDetailed() {
 
   return (
     <>
-      <Header title={`${entity} #${id}`} />
+      <Header title={`${entity} ${id}`} />
       <DetailedView
         deleteable={false}
         editable={false}

@@ -80,7 +80,7 @@ function SupplyOrderDetailed() {
 
     return (
         <>
-            <Header title={`${entity} #${id}`} />
+            <Header title={`${entity} ${id}`} />
             <SupplyOrderDetailedView
                 data={supplyOrder}
             />

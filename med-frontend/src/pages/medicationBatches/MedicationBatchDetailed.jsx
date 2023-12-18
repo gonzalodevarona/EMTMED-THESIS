@@ -43,12 +43,8 @@ function MedicationBatchDetailed() {
         entityData['medicine-countingUnit'] = `${entityData['medicine-countingUnit'].id} - ${entityData['medicine-countingUnit'].name}`
         entityData['medicine-weightUnit'] = `${entityData['medicine-weightUnit'].id} - ${entityData['medicine-weightUnit'].name}`
 
-        if(entityData['medicine-orders'] !== null){
-          entityData['medicine-countOrders'] = entityData['medicine-orders'].length;
-        }
 
         delete entityData.medicine;
-        delete entityData['medicine-orders'];
         delete entityData['medicine-batches'];
         delete entityData.medicine;
 
@@ -63,7 +59,7 @@ function MedicationBatchDetailed() {
 
   return (
     <>
-      <Header title={`${entity} #${id}`} />
+      <Header title={`${entity} ${id}`} />
       <DetailedView
         deleteable={false}
         editable={false}

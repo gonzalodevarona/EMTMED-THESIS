@@ -43,7 +43,7 @@ function UnitFormPage({ type, action }) {
         <>
             {action === 'add' ?
                 <Header title={`Agregar una unidad de ${type}`} /> :
-                <Header title={`Editar la unidad de ${type} #${id}`} />
+                <Header title={`Editar la unidad de ${type} ${id}`} />
             }
             {action === 'edit' && unitData.id &&
                 <UnitForm id={id} type={type} action={action} preloadedData={removeNullProperties(unitData)}/>

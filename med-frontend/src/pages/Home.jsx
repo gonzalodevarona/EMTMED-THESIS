@@ -22,7 +22,7 @@ const Home = () => {
                 {
                     "image": welcome,
                     "title": "Bienvenido, personal del EMT",
-                    "description": "En este sitio podrá administrar recursos como medicamentos, consumibles y ordenes de pacientes.",
+                    "description": "En este sitio podrá administrar recursos como medicamentos, consumibles, ordenes de pacientes y ordenes de inventario.",
                 }
             } />
         </>

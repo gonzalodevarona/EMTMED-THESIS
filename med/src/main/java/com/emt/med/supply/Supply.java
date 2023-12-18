@@ -29,9 +29,6 @@ public abstract class Supply {
     @ManyToOne
     @JsonBackReference("countingUnit-supply")
     private CountingUnitEntity countingUnit;
-    @ManyToMany
-    private Set<InventoryOrderEntity> inventoryOrders;
-    private SupplyPurpose purpose;
 
 
 

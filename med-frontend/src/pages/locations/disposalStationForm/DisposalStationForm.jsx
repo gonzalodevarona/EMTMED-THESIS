@@ -3,9 +3,10 @@ import { Button, Stack } from "@mui/material";
 import { DevTool } from "@hookform/devtools";
 
 import { useNavigate } from "react-router-dom";
-import FormTextfield from '../../../../components/form/FormTextfield';
-import DisposalStationService from '../../../../services/disposalStationService'
-import triggerInfoAlert from "../../../../components/alerts/InfoAlert";
+import FabSubmitButton from '../../../components/buttons/FabSubmitButton';
+import FormTextfield from '../../../components/form/FormTextfield';
+import DisposalStationService from '../../../services/disposalStationService'
+import triggerInfoAlert from "../../../components/alerts/InfoAlert";
 
 
 
@@ -84,13 +85,11 @@ function DisposalStationForm({ action, preloadedData, id }) {
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
-                <Stack spacing={2} width={400}>
+                <Stack spacing={2} width={400} alignItems='center'>
 
                     <FormTextfield isRequired label='Nombre' name='name' register={register} errors={errors} />
 
-                    <Button type="submit" variant="contained" color="info">
-                        {action === 'add' ? 'Agregar' : 'Editar'}
-                    </Button>
+                    <FabSubmitButton color='info'/>
                 </Stack>
             </form>
             <DevTool control={control} />

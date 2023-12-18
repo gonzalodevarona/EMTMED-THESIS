@@ -57,7 +57,7 @@ function InventoryOrderDetailed() {
 
     return (
         <>
-            <Header title={`${entity} #${id}`} />
+            <Header title={`${entity} ${id}`} />
             <DetailedView 
             deleteable={inventoryOrder.status === 'COMPLETED'? false : true} 
             editable={inventoryOrder.status === 'COMPLETED'? false : true} 

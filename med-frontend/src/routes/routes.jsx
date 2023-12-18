@@ -4,14 +4,10 @@ import Units from '../pages/units/Units'
 import InventoryOrders from '../pages/inventoryOrders/InventoryOrders'
 import { Typography } from '@mui/material'
 import UnitFormPage from '../pages/units/unitForm/UnitFormPage'
-import CountingUnitDetailed from '../pages/units/countingUnits/CountingUnitDetailed'
-import WeightUnitDetailed from '../pages/units/weightUnits/WeightUnitDetailed'
 import Locations from '../pages/locations/Locations'
-import PharmacyDetailed from '../pages/locations/pharmacies/PharmacyDetailed'
-import DisposalStationDetailed from '../pages/locations/disposalStations/DisaposalStationDetailed'
-import PharmacyFormPage from '../pages/locations/pharmacies/pharmacyForm/PharmacyFormPage'
+import PharmacyFormPage from '../pages/locations/pharmacyForm/PharmacyFormPage'
 import InventoryOrderFormPage from '../pages/inventoryOrders/inventoryOrderFrom/InventoryOrderFormPage'
-import DisposalStationFormPage from '../pages/locations/disposalStations/disposaStationForm/DisposalStationFormPage'
+import DisposalStationFormPage from '../pages/locations/disposalStationForm/DisposalStationFormPage'
 import InventoryOrderDetailed from '../pages/inventoryOrders/InventoryOrderDetailed'
 import Medicines from '../pages/medicines/Medicines'
 import MedicineDetailed from '../pages/medicines/MedicineDetailed'
@@ -66,10 +62,7 @@ export default function Routes() {
 
                         // *** UNIDAD DE PESO ***
 
-                        {
-                            path: "/unidades-peso/:id",
-                            element: <WeightUnitDetailed />
-                        },
+
                         {
                             path: "/unidades-peso/agregar",
                             element: <UnitFormPage type='peso' action='add' />
@@ -81,10 +74,7 @@ export default function Routes() {
 
                         // *** UNIDAD DE CONTEO ***
 
-                        {
-                            path: "/unidades-conteo/:id",
-                            element: <CountingUnitDetailed />
-                        },
+
                         {
                             path: "/unidades-conteo/agregar",
                             element: <UnitFormPage type='conteo' action='add' />
@@ -106,10 +96,6 @@ export default function Routes() {
                         // *** FARMACIA ***
 
                         {
-                            path: "/farmacia/:id",
-                            element: <PharmacyDetailed />
-                        },
-                        {
                             path: "/farmacia/agregar",
                             element: <PharmacyFormPage action='add' />
                         },
@@ -120,10 +106,7 @@ export default function Routes() {
 
                         // *** ESTACIÓN DE DESECHOS ***
 
-                        {
-                            path: "/estacion-desechos/:id",
-                            element: <DisposalStationDetailed />
-                        },
+
                         {
                             path: "/estacion-desechos/agregar",
                             element: <DisposalStationFormPage action='add' />

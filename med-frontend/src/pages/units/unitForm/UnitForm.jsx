@@ -1,11 +1,12 @@
 import { useForm } from "react-hook-form";
-import { Button, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 import { DevTool } from "@hookform/devtools";
 import FormTextfield from '../../../components/form/FormTextfield';
 import CountingUnitService from "../../../services/countingUnitService";
 import WeightUnitService from "../../../services/weightUnitService";
 import triggerInfoAlert from "../../../components/alerts/InfoAlert";
 import { useNavigate } from "react-router-dom";
+import FabSubmitButton from "../../../components/buttons/FabSubmitButton";
 
 
 function UnitForm({ type, action, preloadedData, id }) {
@@ -108,13 +109,11 @@ function UnitForm({ type, action, preloadedData, id }) {
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
-                <Stack spacing={2} width={400}>
+                <Stack spacing={2} width={400} alignItems="center">
 
                     <FormTextfield isRequired label='Nombre' name='name' register={register} errors={errors} />
 
-                    <Button type="submit" variant="contained" color="info">
-                        {action === 'add' ? 'Agregar' : 'Editar'}
-                    </Button>
+                    <FabSubmitButton color='info'/>
                 </Stack>
             </form>
             <DevTool control={control} />

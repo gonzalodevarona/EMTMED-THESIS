@@ -56,7 +56,7 @@ function Batches() {
     <>
       <Header title={"Lote de Medicamento"} />
 
-      <Typography>Nota: Para agregar, editar o eliminar cualquier tipo de lote, se debe hacer desde el modulo del recurso respectivo (Medicamentos o Consumibles)</Typography>
+      <Typography>Nota: Para agregar, editar o eliminar cualquier tipo de lote, se debe hacer desde el módulo del recurso respectivo (Medicamentos o Consumibles).</Typography>
 
       <CustomTable
         columns={[
@@ -69,6 +69,7 @@ function Batches() {
           { title: 'Ubicación', field: 'location.name' },
           { title: 'CUM', field: 'cum' },
         ]}
+        clickable
         singleEntity='lote de medicamento'
         entity='lotes-medicamentos'
         deleteable={false}
@@ -80,7 +81,7 @@ function Batches() {
 
       <Header title={"Lote"} />
 
-      <Typography>Nota: Para agregar, editar o eliminar cualquier tipo de lote, se debe hacer desde el modulo del recurso respectivo (Medicamentos o Consumibles)</Typography>
+      <Typography>Nota: Para agregar, editar o eliminar cualquier tipo de lote, se debe hacer desde el módulo del recurso respectivo (Medicamentos o Consumibles).</Typography>
 
       <CustomTable
         columns={[
@@ -94,6 +95,7 @@ function Batches() {
           { title: 'Ubicación', field: 'location.name' },
 
         ]}
+        clickable
         singleEntity='lote'
         entity='lotes'
         deleteable={false}

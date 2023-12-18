@@ -23,7 +23,7 @@ import triggerConfrirmationAlert from './alerts/ConfirmationAlert';
 import { capitalizeFirstLetter, refreshPage } from '../utils/CommonMethods';
 
 
-function CustomTable({ entity, title, sx, columns, data, singleEntity, handleDelete, deleteable, editable }) {
+function CustomTable({ entity, title, sx, columns, data, singleEntity, handleDelete, deleteable, editable, clickable }) {
     const navigate = useNavigate();
 
 
@@ -137,7 +137,7 @@ function CustomTable({ entity, title, sx, columns, data, singleEntity, handleDel
                 }}
 
                 onRowClick={(event, rowData) => {
-                    if (entity !== undefined) {
+                    if (clickable) {
                         navigate(`/${entity}/${rowData.id}`)
                     }
 

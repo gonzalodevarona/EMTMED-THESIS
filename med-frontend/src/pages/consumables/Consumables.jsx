@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import CustomTable from '../../components/CustomTable'
 import Header from '../../components/Header'
-import { Link } from 'react-router-dom';
-import { Button, Typography, Stack } from '@mui/material';
+import FabLink from '../../components/buttons/FabLink'
+import { Typography } from '@mui/material';
 import triggerCannotDeleteAlert from '../../components/alerts/CannotDeleteAlert';
-import { dateArrayToString } from '../../utils/EntityProcessingMethods';
+import AddIcon from '@mui/icons-material/Add';
 import ConsumableService from '../../services/consumableService';
 
 function Consumables() {
@@ -17,7 +17,7 @@ function Consumables() {
     useEffect(() => {
 
         async function fetchData() {
-            const allConsumables = await ConsumableService.getConsumablesNoOrdersNoBatches('GENERAL');
+            const allConsumables = await ConsumableService.getConsumablesNoBatches();
 
             setConsumables(processConsumables(allConsumables))
         }
@@ -47,18 +47,11 @@ function Consumables() {
     return (
         <>
             <Header title={"Consumibles"} />
-            <Button
-                component={Link}
-                to="/consumibles/agregar"
-                variant="contained"
-                sx={{ px: 10, py: 1, mb: 2 }}
-                color={'info'}>
-                Agregar {entity}
+           
+            <FabLink to="/consumibles/agregar" icon={<AddIcon/>} color='secondary'/ >
 
-            </Button>
-
-            <Typography >Nota: Para editar o eliminar algún {entity} se debe hacer por la vista detallada</Typography>
-            <Typography >Cuidado: Si elimina algún {entity}, eliminará todos los lotes asociados a él</Typography>
+            <Typography >Nota: Para editar o eliminar algún {entity} se debe hacer por la vista detallada.</Typography>
+            <Typography >Cuidado: Si elimina algún {entity}, eliminará todos los lotes asociados a él.</Typography>
             <CustomTable
                 columns={[
                     { title: 'ID', field: 'id', type: 'numeric' },
@@ -69,6 +62,7 @@ function Consumables() {
                     { title: 'Unidad de Peso', field: 'weightUnit' },
 
                 ]}
+                clickable
                 singleEntity={entity}
                 entity='consumibles'
                 editable={false}
