@@ -83,6 +83,10 @@ function SupplyTable({ addOrUpdateBatch, removeBatch }) {
         fetchSupplies()
     }, [])
 
+    useEffect(() => {
+      console.log(supplies)
+    }, [supplies])
+    
     const columns = [
         { title: 'ID Recurso', field: 'supply.id', editable: 'never' },
         { title: 'Nombre Recurso', field: 'supply.name', editable: 'never' },
@@ -90,12 +94,12 @@ function SupplyTable({ addOrUpdateBatch, removeBatch }) {
         { title: 'ID Lote', field: 'id', editable: 'never' },
         { title: 'Vía de Administración', field: 'administrationRoute', editable: 'never' },
         { title: 'Cantidad Disponible', field: 'quantity', type: 'numeric', editable: 'never' },
+        { title: 'Unidad de Conteo', field: 'supply.countingUnit.name', editable: 'never' },
         { title: 'Fecha de Vencimiento', field: 'expirationDate', editable: 'never' },
         { title: 'Ubicación', field: 'location.name', editable: 'never' },
         { title: 'Cantidad a Asignar', field: 'assignedQuantity', type: 'numeric' },
 
     ];
-
 
     return (
         <MaterialTable
