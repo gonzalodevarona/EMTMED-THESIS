@@ -22,7 +22,8 @@ function PharmacyForm({ action, preloadedData, id }) {
     useEffect(() => {
         async function fetchCategories() {
             let data = await PharmacyService.getPharmacyCategories();
-            setCategories(data);
+            
+            setCategories(data.filter(item => item !== "WAREHOUSE" && item !== "PRINCIPAL"));
         }
 
         fetchCategories()

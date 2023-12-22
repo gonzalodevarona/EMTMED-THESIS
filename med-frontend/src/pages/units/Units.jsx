@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
-import CustomTable from '../../components/CustomTable'
+import CustomTable from '../../components/tables/CustomTable'
 import Header from '../../components/Header'
-import { Box, Button } from '@mui/material'
+import { Box } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
 import FabLink from '../../components/buttons/FabLink';
+import triggerCannotDeleteAlert from '../../components/alerts/CannotDeleteAlert';
 import CountingUnitService from '../../services/countingUnitService';
 import WeightUnitService from '../../services/weightUnitService';
 
@@ -28,11 +29,13 @@ function Units() {
   }, [])
 
   async function handleDeleteCountingUnit(id) {
-    await CountingUnitService.deleteCountingUnit(id)
+    const error = await CountingUnitService.deleteCountingUnit(id)
+    {error.status === 500? triggerCannotDeleteAlert('unidad de conteo', id, 'No se puede eliminar esta unidad de conteo, puesto que está ligada a algún lote'): null}
   }
 
   async function handleDeleteWeightUnit(id) {
-    await WeightUnitService.deleteWeightUnit(id)
+    const error = await WeightUnitService.deleteWeightUnit(id)
+    {error.status === 500? triggerCannotDeleteAlert('unidad de peso', id, 'No se puede eliminar esta unidad de peso, puesto que está ligada a algún lote'): null}
   }
 
   return (

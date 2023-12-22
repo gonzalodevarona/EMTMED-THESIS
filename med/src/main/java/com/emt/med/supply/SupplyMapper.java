@@ -15,7 +15,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper( uses = { WeightUnitEntityMapper.class, CountingUnitEntityMapper.class, LocationMapper.class})
+@Mapper(uses = { WeightUnitEntityMapper.class, CountingUnitEntityMapper.class, LocationMapper.class})
 public interface SupplyMapper {
     SupplyMapper INSTANCE = Mappers.getMapper( SupplyMapper.class );
     @SubclassMapping( source = MedicineEntity.class, target = MedicineEntityDTO.class )

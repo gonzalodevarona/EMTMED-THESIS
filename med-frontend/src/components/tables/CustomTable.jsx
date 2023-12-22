@@ -19,8 +19,8 @@ import { Box } from "@mui/material";
 import { Typography } from '@mui/material';
 import { Delete } from '@mui/icons-material';
 import { useNavigate } from "react-router-dom";
-import triggerConfrirmationAlert from './alerts/ConfirmationAlert';
-import { capitalizeFirstLetter, refreshPage } from '../utils/CommonMethods';
+import triggerConfrirmationAlert from '../alerts/ConfirmationAlert';
+import { capitalizeFirstLetter, refreshPage } from '../../utils/CommonMethods';
 
 
 function CustomTable({ entity, title, sx, columns, data, singleEntity, handleDelete, deleteable, editable, clickable }) {

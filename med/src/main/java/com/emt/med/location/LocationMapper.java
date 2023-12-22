@@ -3,15 +3,17 @@ package com.emt.med.location;
 import com.emt.med.disposalStation.DisposalStationEntity;
 import com.emt.med.disposalStation.DisposalStationEntityDTO;
 import com.emt.med.inventoryOrder.InventoryOrderEntityMapper;
+import com.emt.med.medicationBatch.MedicationBatchEntityMapper;
 import com.emt.med.medicine.MedicineEntityMapper;
 import com.emt.med.pharmacy.PharmacyEntity;
 import com.emt.med.pharmacy.PharmacyEntityDTO;
 import com.emt.med.supply.SupplyMapper;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
+import org.springframework.stereotype.Component;
 
 
-@Mapper(uses = {SupplyMapper.class, InventoryOrderEntityMapper.class, MedicineEntityMapper.class})
+@Mapper(uses = {SupplyMapper.class, InventoryOrderEntityMapper.class, MedicineEntityMapper.class, MedicationBatchEntityMapper.class})
 public interface LocationMapper {
 
     LocationMapper INSTANCE = Mappers.getMapper( LocationMapper.class );

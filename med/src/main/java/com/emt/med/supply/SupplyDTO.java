@@ -29,6 +29,8 @@ public class SupplyDTO {
 
     @Positive(message = "id number should be greater than zero")
     private Long id;
+    @Positive(message = "id number created by number should be greater than zero")
+    private Long idNumberCreatedBy;
     @NotBlank(message = "name shouldn't be blank")
     private String name;
     @Positive(message = "weight should be greater than zero")

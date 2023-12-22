@@ -6,8 +6,11 @@ import com.emt.med.location.Location;
 import com.emt.med.medicine.MedicineEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -20,9 +23,9 @@ public class MedicationBatchEntity extends BaseBatch {
     @JsonBackReference("medicine-medicationBatch")
     private MedicineEntity medicine;
 
-    @ManyToOne
+    @ManyToMany
     @JsonBackReference("inventoryOrder-medicationBatch")
-    private InventoryOrderEntity inventoryOrder;
+    private List<InventoryOrderEntity> inventoryOrders;
 
     @ManyToOne
     @JsonBackReference("location-medicationBatch")

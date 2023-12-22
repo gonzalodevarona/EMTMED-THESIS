@@ -20,6 +20,7 @@ public abstract class Supply {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Long idNumberCreatedBy;
     private String name;
     private Long weight;
     private Long quantity;

@@ -16,16 +16,18 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
-import MedicineService from '../../../services/medicineService';
+import MedicineService from '../../services/medicineService';
+import MedicationBatchService from '../../services/medicationBatchService';
+import BatchService from '../../services/batchService';
 import { Delete } from '@mui/icons-material';
-import ConsumableService from '../../../services/consumableService';
+import ConsumableService from '../../services/consumableService';
 import { Typography } from '@mui/material';
-import { removeNullProperties } from '../../../utils/CommonMethods'
-import { dateArrayToString } from '../../../utils/EntityProcessingMethods'
+import { removeNullProperties } from '../../utils/CommonMethods'
+import { dateArrayToString } from '../../utils/EntityProcessingMethods'
 
 
 
-function SupplyTable({ addOrUpdateBatch, removeBatch }) {
+function SupplyTable({ addOrUpdateBatch, removeBatch  }) {
 
     const tableIcons = {
         Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -62,20 +64,23 @@ function SupplyTable({ addOrUpdateBatch, removeBatch }) {
             let allSupplies = [...allMedicines, ...allConsumables];
 
             let allBatches = []
-            allSupplies.forEach(supply => {
+            for (let supply of allSupplies) {
                 if (supply.batches) {
                     for (let batchKey in supply.batches) {
-
                         let batch = supply.batches[batchKey];
+                        console.log(batch)
+                        if(batch.cum){
+                            batch.location = await MedicationBatchService.getLocationByMedicationBatchId(batch.id);
+                        }
                         batch.expirationDate = dateArrayToString(batch.expirationDate)
                         batch.assignedQuantity = 0
                         batch.supply = { ...supply }; // Hacemos una copia del objeto
                         delete batch.supply.batches; // Eliminamos la propiedad batches de la copia
                         allBatches.push(batch);
-
                     }
                 }
-            });
+            }
+            
 
             setSupplies(Object.values(removeNullProperties(allBatches)));
         }

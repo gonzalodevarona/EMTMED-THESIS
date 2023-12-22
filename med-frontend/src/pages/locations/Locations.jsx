@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react'
-import CustomTable from '../../components/CustomTable'
+import CustomTable from '../../components/tables/CustomTable'
 import FabLink from '../../components/buttons/FabLink'
 import AddIcon from '@mui/icons-material/Add';
 import Header from '../../components/Header'
@@ -29,12 +29,13 @@ function Locations() {
 
   async function handleDeletePharmacy(id){
     const error = await PharmacyService.deletePharmacy(id);
-
-    {error.status === 500? triggerCannotDeleteAlert('farmacia', id, 'No se puede eliminar una farmacia principal'): null}
+    {error.status === 500? triggerCannotDeleteAlert('farmacia', id, 'No se puede eliminar esta farmacia, puesto que es principal o bodega o está ligada a algún lote'): null}
   }
 
   async function handleDeleteDisposalStation(id){
-    await DisposalStationService.deleteDisposalStation(id)
+    const error = await DisposalStationService.deleteDisposalStation(id);
+    {error.status === 500? triggerCannotDeleteAlert('farmacia', id, 'No se puede eliminar esta estación de desechos, puesto que está ligada a algún lote'): null}
+  
   }
   
   return (

@@ -2,8 +2,11 @@ package com.emt.med.medicine;
 
 import com.emt.med.consumable.ConsumableEntityDTO;
 import com.emt.med.countingUnit.CountingUnitEntityRepository;
+import com.emt.med.inventoryOrder.InventoryOrderEntityService;
 import com.emt.med.location.LocationRepository;
 import com.emt.med.medicationBatch.*;
+import com.emt.med.pharmacy.PharmacyCategory;
+import com.emt.med.pharmacy.PharmacyEntityService;
 import com.emt.med.supply.SupplyService;
 import com.emt.med.weightUnit.WeightUnitEntity;
 import com.emt.med.weightUnit.WeightUnitEntityRepository;
@@ -23,7 +26,11 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
 
     private SupplyService supplyService;
 
+    private PharmacyEntityService pharmacyEntityService;
+
     private MedicationBatchEntityService medicationBatchEntityService;
+
+    private InventoryOrderEntityService inventoryOrderEntityService;
 
     private MedicationBatchEntityRepository medicationBatchEntityRepository;
 
@@ -36,10 +43,12 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
     static MedicineEntityMapper medicineEntityMapper = Mappers.getMapper(MedicineEntityMapper.class);
     static MedicationBatchEntityMapper medicationBatchEntityMapper = Mappers.getMapper(MedicationBatchEntityMapper.class);
 
-    public MedicineEntityServiceImpl(MedicineEntityRepository medicineEntityRepository, SupplyService supplyService, MedicationBatchEntityService medicationBatchEntityService, MedicationBatchEntityRepository medicationBatchEntityRepository, LocationRepository locationRepository, WeightUnitEntityRepository weightUnitEntityRepository, CountingUnitEntityRepository countingUnitEntityRepository) {
+    public MedicineEntityServiceImpl(MedicineEntityRepository medicineEntityRepository, SupplyService supplyService, PharmacyEntityService pharmacyEntityService, MedicationBatchEntityService medicationBatchEntityService, InventoryOrderEntityService inventoryOrderEntityService, MedicationBatchEntityRepository medicationBatchEntityRepository, LocationRepository locationRepository, WeightUnitEntityRepository weightUnitEntityRepository, CountingUnitEntityRepository countingUnitEntityRepository) {
         this.medicineEntityRepository = medicineEntityRepository;
         this.supplyService = supplyService;
+        this.pharmacyEntityService = pharmacyEntityService;
         this.medicationBatchEntityService = medicationBatchEntityService;
+        this.inventoryOrderEntityService = inventoryOrderEntityService;
         this.medicationBatchEntityRepository = medicationBatchEntityRepository;
         this.locationRepository = locationRepository;
         this.weightUnitEntityRepository = weightUnitEntityRepository;
@@ -85,8 +94,13 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
 
         addMedicationBatchesToMedicine(medicineEntity.getBatches(), medicineEntity);
 
-        medicineEntity = medicineEntityRepository.save(medicineEntity);
+        for (MedicationBatchEntity medicationBatchEntity: medicineEntity.getBatches()) {
+            medicationBatchEntity.setLocation(pharmacyEntityService.getPharmacyByCategory(PharmacyCategory.PRINCIPAL));
+            medicationBatchEntityRepository.save(medicationBatchEntity);
+        }
 
+        medicineEntity = medicineEntityRepository.save(medicineEntity);
+        inventoryOrderEntityService.processNewMedicationBatches(medicineEntity);
 
         return medicineEntityMapper.toDTO(medicineEntity);
     }
@@ -121,7 +135,6 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
 
             for (MedicationBatchEntity medicationBatchEntity : medicationBatchEntities) {
                 if (medicationBatchEntity.getId() == null) {
-
                     medicationBatchEntity =  medicationBatchEntityRepository.save(medicationBatchEntity);
                 }
 

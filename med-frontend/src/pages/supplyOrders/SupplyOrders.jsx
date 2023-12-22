@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import CustomTable from '../../components/CustomTable'
+import CustomTable from '../../components/tables/CustomTable'
 import Header from '../../components/Header'
-import { Button, Typography, Stack } from '@mui/material';
+import {Typography, Stack } from '@mui/material';
 import SupplyOrderService from '../../services/supplyOrderService';
 import triggerCannotDeleteAlert from '../../components/alerts/CannotDeleteAlert';
 import { dateArrayToString } from '../../utils/EntityProcessingMethods';

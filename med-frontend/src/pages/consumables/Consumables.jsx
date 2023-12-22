@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import CustomTable from '../../components/CustomTable'
+import CustomTable from '../../components/tables/CustomTable'
 import Header from '../../components/Header'
 import FabLink from '../../components/buttons/FabLink'
 import { Typography } from '@mui/material';

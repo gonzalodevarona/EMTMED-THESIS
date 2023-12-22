@@ -10,20 +10,26 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(uses = {MedicineEntityMapper.class, OrderEntityMapper.class, WeightUnitEntityMapper.class, CountingUnitEntityMapper.class, LocationMapper.class})
+@Mapper(uses = {MedicineEntityMapper.class, OrderEntityMapper.class, WeightUnitEntityMapper.class, CountingUnitEntityMapper.class})
 public interface MedicationBatchEntityMapper {
 
     MedicationBatchEntityMapper INSTANCE = Mappers.getMapper( MedicationBatchEntityMapper.class );
 
     @Mapping(target = "medicine", ignore = true)
-    @Mapping(target = "inventoryOrder", ignore = true)
+    @Mapping(target = "inventoryOrders", ignore = true)
+    @Mapping(target = "location", ignore = true)
     MedicationBatchEntityDTO toDTO(MedicationBatchEntity medicationBatchEntity);
 
     @Mapping(target = "medicine", ignore = true)
-    @Mapping(target = "inventoryOrder", ignore = true)
+    @Mapping(target = "inventoryOrders", ignore = true)
+    @Mapping(target = "location", ignore = true)
     MedicationBatchEntity toEntity(MedicationBatchEntityDTO medicationBatchEntityDTO);
 
+    @Mapping(target = "inventoryOrders", ignore = true)
+    @Mapping(target = "location", ignore = true)
     List<MedicationBatchEntityDTO> mapToDTO(List<MedicationBatchEntity> medicationBatches);
 
+    @Mapping(target = "medicine", ignore = true)
+    @Mapping(target = "location", ignore = true)
     List<MedicationBatchEntity> map(List<MedicationBatchEntityDTO> medicationBatches);
 }

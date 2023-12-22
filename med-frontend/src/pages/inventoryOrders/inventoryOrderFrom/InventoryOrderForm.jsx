@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 
+import { useKeycloak } from '@react-keycloak/web'
 import { useNavigate } from "react-router-dom";
-import { Button, Stack, MenuItem } from "@mui/material";
+import { Box, Stack, MenuItem } from "@mui/material";
 import { DevTool } from "@hookform/devtools";
+import FabSubmitButton from '../../../components/buttons/FabSubmitButton';
 import FormTextfield from '../../../components/form/FormTextfield';
 import FormSelect from '../../../components/form/FormSelect';
 import FormDateTimePicker from '../../../components/form/FormDateTimePicker';
+import SupplyTable from '../../../components/tables/SupplyTable';
 import InventoryOrderService from "../../../services/inventoryOrderService";
 import PharmacyService from "../../../services/pharmacyService";
 import DisposalStationService from "../../../services/disposalStationService";
@@ -20,6 +23,8 @@ function InventoryOrderForm({ action, preloadedData, id }) {
 
     const navigate = useNavigate();
 
+    const { keycloak } = useKeycloak()
+
     const redirect = (path) => {
         navigate(path);
     };
@@ -27,6 +32,13 @@ function InventoryOrderForm({ action, preloadedData, id }) {
     const [statuses, setStatuses] = useState([])
     const [locations, setLocations] = useState([])
     const [operations, setOperations] = useState([])
+    const [chosenBatches, setChosenBatches] = useState([])
+
+    function fetchUser() {
+        keycloak.loadUserProfile().then((profile) => {
+            setValue('practitionerId', profile.attributes.idNumber[0])
+        })
+    }
 
     useEffect(() => {
         async function fetchStatuses() {
@@ -55,7 +67,7 @@ function InventoryOrderForm({ action, preloadedData, id }) {
             }
         }
 
-
+        fetchUser()
         fetchStatuses()
         fetchOperations()
         fetchLocations()
@@ -71,6 +83,25 @@ function InventoryOrderForm({ action, preloadedData, id }) {
         return await InventoryOrderService.editInventoryOrder(inventoryOrder);
     }
 
+    const addOrUpdateBatch = (batch) => {
+        setChosenBatches(prevBatches => {
+            const existingBatchIndex = prevBatches.findIndex(b => b.id === batch.id);
+
+            if (existingBatchIndex !== -1) {
+                // El objeto ya existe en el arreglo, actualizamos la propiedad assignedQuantity
+                const updatedBatches = [...prevBatches];
+                updatedBatches[existingBatchIndex].assignedQuantity = batch.assignedQuantity;
+                return updatedBatches;
+            } else {
+                // El objeto no existe en el arreglo, lo agregamos
+                return [...prevBatches, batch];
+            }
+        });
+    };
+
+    const removeBatch = (id) => {
+        setChosenBatches(prevBatches => prevBatches.filter(batch => batch.id !== id));
+    };
 
 
     const {
@@ -79,6 +110,7 @@ function InventoryOrderForm({ action, preloadedData, id }) {
         formState: { errors },
         reset,
         control,
+        setValue
     } = useForm({
         defaultValues: preloadedData
     });
@@ -210,8 +242,11 @@ function InventoryOrderForm({ action, preloadedData, id }) {
 
                     <FormTextfield
                         isRequired
+                        disabled
                         type='number'
-                        disabled={action === 'edit' ? true : false}
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
                         label='CC del Autorizador'
                         name='practitionerId'
                         register={register}
@@ -292,11 +327,14 @@ function InventoryOrderForm({ action, preloadedData, id }) {
 
                     <FormTextfield inputProps={{ maxLength: 255 }} multiline maxRows={4} label='Nota (máximo 255 caractéres)' name='note' register={register} errors={errors} />
 
-                    <Button type="submit" variant="contained" color="info">
-                        {action === 'add' ? 'Agregar' : 'Editar'}
-                    </Button>
+
+                    <Box>
+
+                        <FabSubmitButton color='info' />
+                    </Box>
                 </Stack>
             </form>
+            <SupplyTable addOrUpdateBatch={addOrUpdateBatch} removeBatch={removeBatch}></SupplyTable>
             <DevTool control={control} />
 
         </>

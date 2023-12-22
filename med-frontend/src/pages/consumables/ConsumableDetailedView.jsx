@@ -2,7 +2,7 @@ import { Grid, Stack, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { capitalizeFirstLetter } from '../../utils/CommonMethods';
 import { Delete, Edit } from '@mui/icons-material';
-import CustomTable from '../../components/CustomTable';
+import CustomTable from '../../components/tables/CustomTable';
 import FabLink from '../../components/buttons/FabLink';
 import FabActionButton from '../../components/buttons/FabActionButton';
 import { dateArrayToString } from '../../utils/EntityProcessingMethods'

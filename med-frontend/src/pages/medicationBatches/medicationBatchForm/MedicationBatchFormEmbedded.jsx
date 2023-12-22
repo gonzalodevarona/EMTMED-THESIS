@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Button, Stack, MenuItem, Typography } from "@mui/material";
+import { Stack, MenuItem, Typography } from "@mui/material";
 import { DevTool } from "@hookform/devtools";
 import CheckIcon from '@mui/icons-material/Check';
 import { Delete } from '@mui/icons-material';
@@ -88,9 +88,9 @@ function MedicationBatchEmbeddedForm({ action, addMedicationBatch, deleteMedicat
 
         data.status = currentStatus;
         if (action === 'add') {
-            data.location = findPreloadedLocation(data.location, 'object');
             data.expirationDate = formatDateToYYYYMMDD(convertToLocalTimeZone(data.expirationDate.toISOString()))
         } else {
+            
             data.expirationDate = `${data.expirationDate[0]}-${data.expirationDate[1]}-${data.expirationDate[2]}`
         }
 
@@ -161,7 +161,7 @@ function MedicationBatchEmbeddedForm({ action, addMedicationBatch, deleteMedicat
                     {currentStatus !== '' && < Typography sx={{ backgroundColor: 'black', color: currentStatus.toLowerCase() }} > Semaforización: {currentStatus}</Typography>}
 
 
-                    {pharmacies.length > 0 &&
+                    {pharmacies.length > 0 && action === 'edit' &&
                         <FormSelect
                             name="location"
                             required

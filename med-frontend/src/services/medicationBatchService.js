@@ -32,6 +32,16 @@ const getMedicineByMedicationBatchId = async (id) => {
     return res.data
 }
 
+const getLocationByMedicationBatchId = async (id) => {
+    const res = await axios.get(`/${entity}/${id}/location`)
+        .catch((error) => {
+            console.log(error)
+            return error.response;
+        });
+
+    return res.data
+}
+
 const addMedicationBatch = async (medicationBatch) => {
     const res = await axios.post(`/${entity}`, medicationBatch)
         .catch((error) => {
@@ -67,6 +77,7 @@ const MedicationBatchService = {
     getMedicationBatches,
     getMedicationBatchById,
     getMedicineByMedicationBatchId,
+    getLocationByMedicationBatchId,
     addMedicationBatch,
     editMedicationBatch,
     deleteMedicationBatch

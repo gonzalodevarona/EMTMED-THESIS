@@ -4,6 +4,9 @@ import com.emt.med.batch.BatchEntity;
 import com.emt.med.batch.BatchEntityMapper;
 import com.emt.med.batch.BatchEntityRepository;
 import com.emt.med.batch.BatchEntityService;
+import com.emt.med.inventoryOrder.InventoryOrderEntityService;
+import com.emt.med.pharmacy.PharmacyCategory;
+import com.emt.med.pharmacy.PharmacyEntityService;
 import com.emt.med.supply.SupplyService;
 import com.emt.med.weightUnit.WeightUnitEntity;
 import com.emt.med.weightUnit.WeightUnitEntityRepository;
@@ -25,17 +28,21 @@ public class ConsumableEntityServiceImpl implements ConsumableEntityService{
     private WeightUnitEntityRepository weightUnitEntityRepository;
 
     private BatchEntityService batchEntityService;
+    private InventoryOrderEntityService inventoryOrderEntityService;
+    private PharmacyEntityService pharmacyEntityService;
 
     private SupplyService supplyService;
     static ConsumableEntityMapper consumableEntityMapper = Mappers.getMapper(ConsumableEntityMapper.class);
 
     static BatchEntityMapper batchEntityMapper = Mappers.getMapper(BatchEntityMapper.class);
 
-    public ConsumableEntityServiceImpl(ConsumableEntityRepository consumableEntityRepository, BatchEntityRepository batchEntityRepository, WeightUnitEntityRepository weightUnitEntityRepository, BatchEntityService batchEntityService, SupplyService supplyService) {
+    public ConsumableEntityServiceImpl(ConsumableEntityRepository consumableEntityRepository, BatchEntityRepository batchEntityRepository, WeightUnitEntityRepository weightUnitEntityRepository, BatchEntityService batchEntityService, InventoryOrderEntityService inventoryOrderEntityService, PharmacyEntityService pharmacyEntityService, SupplyService supplyService) {
         this.consumableEntityRepository = consumableEntityRepository;
         this.batchEntityRepository = batchEntityRepository;
         this.weightUnitEntityRepository = weightUnitEntityRepository;
         this.batchEntityService = batchEntityService;
+        this.inventoryOrderEntityService = inventoryOrderEntityService;
+        this.pharmacyEntityService = pharmacyEntityService;
         this.supplyService = supplyService;
     }
 
@@ -82,11 +89,17 @@ public class ConsumableEntityServiceImpl implements ConsumableEntityService{
 
         addBatchesToConsumable(consumableEntity.getBatches(), consumableEntity);
 
-        consumableEntity = consumableEntityRepository.save(consumableEntity);
+        for (BatchEntity batchEntity: consumableEntity.getBatches()) {
+            batchEntity.setLocation(pharmacyEntityService.getPharmacyByCategory(PharmacyCategory.PRINCIPAL));
+            batchEntityRepository.save(batchEntity);
+        }
 
+        consumableEntity = consumableEntityRepository.save(consumableEntity);
+        inventoryOrderEntityService.processNewBatches(consumableEntity);
 
         return consumableEntityMapper.toDTO(consumableEntity);
     }
+
 
     @Override
     @Transactional

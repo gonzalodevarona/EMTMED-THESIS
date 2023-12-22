@@ -10,7 +10,7 @@ import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 
-@Mapper( uses = {SupplyMapper.class, OrderEntityMapper.class, WeightUnitEntityMapper.class, CountingUnitEntityMapper.class, MedicationBatchEntityMapper.class, LocationMapper.class})
+@Mapper(uses = {SupplyMapper.class, OrderEntityMapper.class, WeightUnitEntityMapper.class, CountingUnitEntityMapper.class, MedicationBatchEntityMapper.class, LocationMapper.class})
 public interface MedicineEntityMapper {
     MedicineEntityMapper INSTANCE = Mappers.getMapper( MedicineEntityMapper.class );
 

@@ -4,7 +4,7 @@ import com.emt.med.supply.SupplyMapper;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
-@Mapper( uses = SupplyMapper.class)
+@Mapper(uses = SupplyMapper.class)
 public interface    CountingUnitEntityMapper {
 
     CountingUnitEntityMapper INSTANCE = Mappers.getMapper( CountingUnitEntityMapper.class );

@@ -47,7 +47,7 @@ public class PharmacyEntityServiceImpl implements PharmacyEntityService{
         if (pharmacyEntityDTO.getId() != null) {
             throw new RuntimeException("A new pharmacy cannot already have an ID");
         }
-        if(pharmacyEntityDTO.getCategory() == PharmacyCategory.PRINCIPAL && getPharmacyByCategory(PharmacyCategory.PRINCIPAL) != null){
+        if(pharmacyEntityDTO.getCategory() == PharmacyCategory.PRINCIPAL && getPharmacyByCategory(PharmacyCategory.PRINCIPAL) != null && getPharmacyByCategory(PharmacyCategory.WAREHOUSE) != null){
             throw new RuntimeException("Error: there is already a pharmacy with PRINCIPAL category");
         } else{
             PharmacyEntity consumableEntity = pharmacyEntityMapper.toEntity(pharmacyEntityDTO);
@@ -64,14 +64,17 @@ public class PharmacyEntityServiceImpl implements PharmacyEntityService{
         PharmacyEntity existingFieldEntity = pharmacyEntityRepository.findById(pharmacyEntityDTO.getId()).orElseThrow(() -> new RuntimeException("No pharmacy found with id "+pharmacyEntityDTO.getId()));
 
         PharmacyEntity principalPharmacy = getPharmacyByCategory(PharmacyCategory.PRINCIPAL);
+        PharmacyEntity warehousePharmacy = getPharmacyByCategory(PharmacyCategory.WAREHOUSE);
         if(existingFieldEntity.getCategory() != pharmacyEntityDTO.getCategory() &&
-                principalPharmacy.getId() == existingFieldEntity.getId()){
-            throw new RuntimeException("Error: there is already a pharmacy with PRINCIPAL category");
+                principalPharmacy.getId() == existingFieldEntity.getId() &&
+                warehousePharmacy.getId() == existingFieldEntity.getId()){
+            throw new RuntimeException("Error: there is already a pharmacy with PRINCIPAL or WAREHOUSE category");
 
         } else if(existingFieldEntity.getCategory() == PharmacyCategory.SECONDARY &&
                 pharmacyEntityDTO.getCategory() == PharmacyCategory.PRINCIPAL &&
+                pharmacyEntityDTO.getCategory() == PharmacyCategory.WAREHOUSE &&
                 principalPharmacy != null){
-            throw new RuntimeException("Error: there is already a pharmacy with PRINCIPAL category");
+            throw new RuntimeException("Error: there is already a pharmacy with PRINCIPAL or WAREHOUSE category");
 
         } else{
             pharmacyEntityMapper.updatePharmacyFromDTO(pharmacyEntityDTO, existingFieldEntity);
@@ -84,8 +87,8 @@ public class PharmacyEntityServiceImpl implements PharmacyEntityService{
     public void deletePharmacy(Long id) {
         PharmacyEntity existingPharmacy = getPharmacyEntityById(id);
 
-        if (existingPharmacy.getCategory() == PharmacyCategory.PRINCIPAL) {
-            throw new RuntimeException("Error: a pharmacy with PRINCIPAL category cannot be deleted");
+        if (existingPharmacy.getCategory() == PharmacyCategory.PRINCIPAL || existingPharmacy.getCategory() == PharmacyCategory.WAREHOUSE) {
+            throw new RuntimeException("Error: a pharmacy with PRINCIPAL or WAREHOUSE category cannot be deleted");
         } else {
             pharmacyEntityRepository.delete(existingPharmacy);
         }

@@ -10,20 +10,26 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(uses = {ConsumableEntityMapper.class, OrderEntityMapper.class, WeightUnitEntityMapper.class, CountingUnitEntityMapper.class, LocationMapper.class})
+@Mapper(uses = {ConsumableEntityMapper.class, OrderEntityMapper.class, WeightUnitEntityMapper.class, CountingUnitEntityMapper.class})
 public interface BatchEntityMapper {
 
     BatchEntityMapper INSTANCE = Mappers.getMapper( BatchEntityMapper.class );
 
     @Mapping(target = "consumable", ignore = true)
-    @Mapping(target = "inventoryOrder", ignore = true)
+    @Mapping(target = "inventoryOrders", ignore = true)
+    @Mapping(target = "location", ignore = true)
     BatchEntityDTO toDTO(BatchEntity batchEntity);
 
     @Mapping(target = "consumable", ignore = true)
-    @Mapping(target = "inventoryOrder", ignore = true)
+    @Mapping(target = "inventoryOrders", ignore = true)
+    @Mapping(target = "location", ignore = true)
     BatchEntity toEntity(BatchEntityDTO batchEntityDTO);
 
+    @Mapping(target = "inventoryOrders", ignore = true)
+    @Mapping(target = "location", ignore = true)
     List<BatchEntityDTO> mapToDTO(List<BatchEntity> batches);
 
+    @Mapping(target = "consumable", ignore = true)
+    @Mapping(target = "location", ignore = true)
     List<BatchEntity> map(List<BatchEntityDTO> batches);
 }

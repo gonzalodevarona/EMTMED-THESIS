@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Grid, Stack, MenuItem } from "@mui/material";
+import { useKeycloak } from '@react-keycloak/web'
 import { DevTool } from "@hookform/devtools";
 import FormTextfield from '../../../components/form/FormTextfield';
 import FormSelect from '../../../components/form/FormSelect';
@@ -20,9 +21,18 @@ function MedicineForm({ action, preloadedData }) {
 
   const navigate = useNavigate();
 
+  const { keycloak } = useKeycloak()
+
   const redirect = (path) => {
     navigate(path);
   };
+
+  function fetchUser() {
+    keycloak.loadUserProfile().then((profile) => {
+      setValue('idNumberCreatedBy', profile.attributes.idNumber[0])
+    })
+  }
+
 
   const [weightUnits, setWeightUnits] = useState([])
   const [countingUnits, setCountingUnits] = useState([])
@@ -49,6 +59,7 @@ function MedicineForm({ action, preloadedData }) {
 
     fetchWeightUnits()
     fetchCountingUnits()
+    fetchUser()
   }, [])
 
   async function addMedicine(medicine) {
@@ -129,7 +140,8 @@ function MedicineForm({ action, preloadedData }) {
 
   function resetForm() {
     reset()
-    setBatches([{ id: 1 }])
+    setMedicationBatches([{ id: 1 }])
+    fetchUser()
 
   }
 
@@ -176,7 +188,7 @@ function MedicineForm({ action, preloadedData }) {
           addMedicine(data)
             .then((result) => {
               console.log(result)
-              addedSuccessfully()
+              // addedSuccessfully()
             })
             .catch((error) => {
               errorAdding()
@@ -222,6 +234,17 @@ function MedicineForm({ action, preloadedData }) {
     <>
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <Stack spacing={2} width={400} my={3} alignItems='center'>
+
+          <FormTextfield
+            isRequired
+            disabled
+            InputLabelProps={{
+              shrink: true,
+            }}
+            label='CC Responsable'
+            name='idNumberCreatedBy'
+            register={register}
+            errors={errors} />
 
           <FormTextfield
             isRequired

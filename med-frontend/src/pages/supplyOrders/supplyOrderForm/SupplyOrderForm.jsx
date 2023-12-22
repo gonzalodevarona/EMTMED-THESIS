@@ -16,7 +16,7 @@ import { convertToLocalTimeZone, convertDateObjectToDayjs, formatNoteForEmr } fr
 import { capitalizeFirstLetter } from '../../../utils/CommonMethods';
 import dayjs from 'dayjs';
 import { useKeycloak } from '@react-keycloak/web'
-import SupplyTable from "./SupplyTable";
+import SupplyTable from "../../../components/tables/SupplyTable";
 import { useNavigate } from "react-router-dom";
 import SearchIcon from '@mui/icons-material/Search';
 

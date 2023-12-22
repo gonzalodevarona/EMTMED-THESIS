@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,5 +19,5 @@ public class MedicationBatchEntityDTO extends BaseBatchDTO {
 
     private MedicineEntityDTO medicine;
     private LocationDTO location;
-    private InventoryOrderEntityDTO inventoryOrder;
+    private List<InventoryOrderEntityDTO> inventoryOrders;
 }

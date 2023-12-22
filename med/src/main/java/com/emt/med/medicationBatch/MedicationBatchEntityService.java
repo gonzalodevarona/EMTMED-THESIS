@@ -1,5 +1,6 @@
 package com.emt.med.medicationBatch;
 
+import com.emt.med.location.LocationDTO;
 import com.emt.med.medicine.MedicineEntityDTO;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,8 @@ public interface MedicationBatchEntityService {
     MedicationBatchEntityDTO getMedicationBatchEntityDTOById(Long medicationBatchEntityId);
     List<MedicationBatchEntityDTO> getAllMedicationBatches();
     MedicineEntityDTO getMedicineByMedicationBatchId(Long medicationBatchEntityId);
+
+    LocationDTO getLocationByMedicationBatchId(Long medicationBatchEntityId);
 
     MedicationBatchEntity saveMedicationBatch(MedicationBatchEntity medicationBatchEntity);
     MedicationBatchEntityDTO addMedicationBatch(MedicationBatchEntityDTO medicationBatchEntityDTO);

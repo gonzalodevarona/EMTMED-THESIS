@@ -10,6 +10,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -19,9 +21,9 @@ public class BatchEntity extends BaseBatch {
     @JsonBackReference("consumable-batch")
     private ConsumableEntity consumable;
 
-    @ManyToOne
+    @ManyToMany
     @JsonBackReference("inventoryOrder-batch")
-    private InventoryOrderEntity inventoryOrder;
+    private List<InventoryOrderEntity> inventoryOrders;
 
     @ManyToOne
     @JsonBackReference("location-batch")

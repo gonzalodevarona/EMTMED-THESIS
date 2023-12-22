@@ -67,31 +67,29 @@ function BatchEmbeddedForm({ action, addBatch, deleteBatch, preloadedData, id })
         defaultValues: preloadedData
     });
 
-
-    const formValues = watch()
+    const expirationDateWatch = watch('expirationDate')
 
     useEffect(() => {
 
         if (action === 'add') {
-            if (formValues.expirationDate) {
-                setCurrentStatus(calculateBatchStatus(formValues.expirationDate.toDate()))
+            if (expirationDateWatch) {
+                setCurrentStatus(calculateBatchStatus(expirationDateWatch.toDate()))
             }
         } else {
-            console.log(formValues.expirationDate)
-            if (formValues.expirationDate) {
-                let arrayDate = Object.values(formValues.expirationDate)
+            console.log(expirationDateWatch)
+            if (expirationDateWatch) {
+                let arrayDate = Object.values(expirationDateWatch)
                 let dateObj = new Date(arrayDate[0], arrayDate[1] - 1, arrayDate[2])
                 setCurrentStatus(calculateBatchStatus(dateObj))
             }
 
         }
-    }, [formValues.expirationDate])
+    }, [expirationDateWatch])
 
     async function onSubmit(data) {
 
         data.status = currentStatus;
         if (action === 'add') {
-            data.location = findPreloadedLocation(data.location, 'object');
             data.expirationDate = formatDateToYYYYMMDD(convertToLocalTimeZone(data.expirationDate.toISOString()))
         } else {
             data.expirationDate = `${data.expirationDate[0]}-${data.expirationDate[1]}-${data.expirationDate[2]}`
@@ -161,12 +159,10 @@ function BatchEmbeddedForm({ action, addBatch, deleteBatch, preloadedData, id })
                         value={action === 'edit' ? preloadedData?.expirationDate : dayjs().add(1, 'day')} />
 
                     {currentStatus !== '' && < Typography sx={{ backgroundColor: 'black', color: currentStatus.toLowerCase() }} > Semaforización: {currentStatus}</Typography>}
-
-
-                    {pharmacies.length > 0 &&
+                    {pharmacies.length > 0 && action === 'edit' &&
                         <FormSelect
-                            required
                             name="location"
+                            required
                             label="Ubicación"
                             disabled={action === 'edit' ? true : false}
                             defaultValue={action === 'edit' ? findPreloadedLocation(preloadedData?.location.id, '') : `${pharmacies[0].id} ${pharmacies[0].type}`}

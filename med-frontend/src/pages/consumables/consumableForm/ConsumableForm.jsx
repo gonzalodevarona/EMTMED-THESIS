@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Grid, Stack, MenuItem } from "@mui/material";
+import { useKeycloak } from '@react-keycloak/web'
 import { DevTool } from "@hookform/devtools";
 import AddIcon from '@mui/icons-material/Add';
 import FormTextfield from '../../../components/form/FormTextfield';
@@ -21,9 +22,17 @@ function ConsumableForm({ action, preloadedData }) {
 
   const navigate = useNavigate();
 
+  const { keycloak } = useKeycloak()
+
   const redirect = (path) => {
     navigate(path);
   };
+
+  function fetchUser() {
+    keycloak.loadUserProfile().then((profile) => {
+      setValue('idNumberCreatedBy', profile.attributes.idNumber[0])
+    })
+  }
 
   const [weightUnits, setWeightUnits] = useState([])
   const [countingUnits, setCountingUnits] = useState([])
@@ -50,6 +59,7 @@ function ConsumableForm({ action, preloadedData }) {
 
     fetchWeightUnits()
     fetchCountingUnits()
+    fetchUser()
   }, [])
 
   async function addConsumable(consumable) {
@@ -224,6 +234,17 @@ function ConsumableForm({ action, preloadedData }) {
     <>
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <Stack spacing={2} width={400} my={3} alignItems='center'>
+
+          <FormTextfield
+            isRequired
+            disabled
+            InputLabelProps={{
+              shrink: true,
+            }}
+            label='CC Responsable'
+            name='idNumberCreatedBy'
+            register={register}
+            errors={errors} />
 
           <FormTextfield
             isRequired

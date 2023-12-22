@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { removeNullProperties, capitalizeFirstLetter } from '../../utils/CommonMethods';
 import MedicineService from "../../services/medicineService";
+import MedicationBatchService from "../../services/medicationBatchService";
 import { useNavigate } from "react-router-dom";
 import triggerConfrirmationAlert from "../../components/alerts/ConfirmationAlert";
 import MedicineDetailedView from "./MedicineDetailedView";
@@ -45,7 +46,7 @@ function MedicineDetailed() {
                 
                 entityData.countingUnit = `${entityData.countingUnit.id} - ${entityData.countingUnit.name}`
                 entityData.weightUnit = `${entityData.weightUnit.id} - ${entityData.weightUnit.name}`
-                processMedicineBatches(entityData.batches)
+                await processMedicationBatches(entityData.batches)
                 console.log(entityData)
                 setMedicine(removeNullProperties(entityData))
             }
@@ -55,13 +56,18 @@ function MedicineDetailed() {
         fetchData()
     }, [])
 
+    useEffect(() => {
+    console.log(medicine)
+    }, [medicine])
+    
 
-    function processMedicineBatches(medicineBatches) {
+    async function processMedicationBatches(medicationBatches) {
 
-        for (let i = 0; i < medicineBatches.length; i++) {
-            medicineBatches[i] = removeNullProperties(medicineBatches[i])
+        for (let i = 0; i < medicationBatches.length; i++) {
+            medicationBatches[i] = removeNullProperties(medicationBatches[i])
+            medicationBatches[i].location = await MedicationBatchService.getLocationByMedicationBatchId(medicationBatches[i].id)
         }
-        return medicineBatches;
+        return medicationBatches;
     }
 
 

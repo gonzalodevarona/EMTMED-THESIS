@@ -2,9 +2,11 @@ import DetailedView from "../../components/DetailedView"
 import Header from "../../components/Header"
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { removeNullProperties,  capitalizeFirstLetter } from '../../utils/CommonMethods';
+import { removeNullProperties, capitalizeFirstLetter } from '../../utils/CommonMethods';
 import { dateArrayToString } from '../../utils/EntityProcessingMethods';
 import InventoryOrderService from "../../services/inventoryOrderService";
+import MedicationBatchService from "../../services/medicationBatchService";
+import BatchService from "../../services/batchService";
 import { useNavigate } from "react-router-dom";
 import triggerConfrirmationAlert from "../../components/alerts/ConfirmationAlert";
 
@@ -43,6 +45,26 @@ function InventoryOrderDetailed() {
             if (entityData.status == 500 && entityData.error) {
                 redirect('/404')
             } else {
+
+
+                entityData.medicationBatches = Object.values(entityData.medicationBatches);
+                entityData.batches = Object.values(entityData.batches);
+
+                if (entityData.medicationBatches && entityData.medicationBatches.length > 0) {
+                    entityData.medicationBatches = await Promise.all(entityData.medicationBatches.map(async (medicationBatch, _) => {
+                        medicationBatch['medicine'] = await MedicationBatchService.getMedicineByMedicationBatchId(medicationBatch.id);
+                        return medicationBatch;
+                    }));
+                }
+
+                if (entityData.batches && entityData.batches.length > 0) {
+                    entityData.batches = await Promise.all(entityData.batches.map(async (batch, _) => {
+                        batch['consumable'] = await BatchService.getConsumableByBatchId(batch.id);
+                        return batch;
+                    }));
+                }
+
+
                 entityData.source = `${entityData.source.id} - ${entityData.source.name}`
                 entityData.destination = `${entityData.destination.id} - ${entityData.destination.name}`
                 entityData.authoredOn = dateArrayToString(entityData.authoredOn);
@@ -53,16 +75,21 @@ function InventoryOrderDetailed() {
 
         fetchData()
     }, [])
-    
+
+    useEffect(() => {
+        console.log(inventoryOrder)
+    }, [inventoryOrder])
+
+
 
     return (
         <>
             <Header title={`${entity} ${id}`} />
-            <DetailedView 
+            {/* <DetailedView 
             deleteable={inventoryOrder.status === 'COMPLETED'? false : true} 
             editable={inventoryOrder.status === 'COMPLETED'? false : true} 
             entity='ordenes-inventario' data={inventoryOrder} 
-            handleDelete={handleDelete} />
+            handleDelete={handleDelete} /> */}
         </>
     )
 }

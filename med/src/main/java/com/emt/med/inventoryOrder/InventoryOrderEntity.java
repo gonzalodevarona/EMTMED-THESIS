@@ -9,6 +9,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -24,12 +25,14 @@ public class InventoryOrderEntity extends OrderEntity {
     @JsonManagedReference("destination-inventoryOrder")
     private Location destination;
 
-    @OneToMany(mappedBy = "inventoryOrder", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToMany(mappedBy = "inventoryOrders", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JsonManagedReference("inventoryOrder-medicationBatch")
+    @ToString.Exclude
     private List<MedicationBatchEntity> medicationBatches;
 
-    @OneToMany(mappedBy = "inventoryOrder", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToMany(mappedBy = "inventoryOrders", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JsonManagedReference("inventoryOrder-batch")
+    @ToString.Exclude
     private List<BatchEntity> batches;
 
     @ManyToOne

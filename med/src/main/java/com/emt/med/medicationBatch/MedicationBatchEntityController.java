@@ -1,5 +1,6 @@
 package com.emt.med.medicationBatch;
 
+import com.emt.med.location.LocationDTO;
 import com.emt.med.medicine.MedicineEntityDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,12 @@ public class MedicationBatchEntityController {
     public ResponseEntity<MedicineEntityDTO> getMedicineByMedicationBatchId(@PathVariable("id") Long id) {
         return ResponseEntity.ok(medicationBatchEntityService.getMedicineByMedicationBatchId(id));
     }
+
+    @GetMapping("/{id}/location")
+    public ResponseEntity<LocationDTO> getLocationByMedicationBatchId(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(medicationBatchEntityService.getLocationByMedicationBatchId(id));
+    }
+
 
     @PostMapping()
     public ResponseEntity<MedicationBatchEntityDTO> addMedicationBatch(@Valid @RequestBody MedicationBatchEntityDTO medicationBatchEntityDTO) {

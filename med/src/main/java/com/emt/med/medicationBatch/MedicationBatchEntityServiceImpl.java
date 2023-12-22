@@ -1,6 +1,7 @@
 package com.emt.med.medicationBatch;
 
 import com.emt.med.location.Location;
+import com.emt.med.location.LocationDTO;
 import com.emt.med.location.LocationMapper;
 import com.emt.med.location.LocationRepository;
 import com.emt.med.medicine.*;
@@ -50,6 +51,12 @@ public class MedicationBatchEntityServiceImpl implements MedicationBatchEntitySe
     public MedicineEntityDTO getMedicineByMedicationBatchId(Long medicationBatchEntityId){
         MedicationBatchEntity medicationBatchEntity = medicationBatchEntityRepository.findById(medicationBatchEntityId).orElseThrow(() -> new RuntimeException("No medication batch found with id "+medicationBatchEntityId));
         return medicineEntityMapper.toDTO(medicationBatchEntity.getMedicine());
+    }
+
+    @Override
+    public LocationDTO getLocationByMedicationBatchId(Long medicationBatchEntityId){
+        MedicationBatchEntity medicationBatchEntity = medicationBatchEntityRepository.findById(medicationBatchEntityId).orElseThrow(() -> new RuntimeException("No medication batch found with id "+medicationBatchEntityId));
+        return locationMapper.toDTO(medicationBatchEntity.getLocation());
     }
 
 

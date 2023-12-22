@@ -4,7 +4,7 @@ import com.emt.med.value.ValueEntityMapper;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
-@Mapper( uses = ValueEntityMapper.class)
+@Mapper(uses = ValueEntityMapper.class)
 public interface FieldEntityMapper {
 
     FieldEntityMapper INSTANCE = Mappers.getMapper( FieldEntityMapper.class );

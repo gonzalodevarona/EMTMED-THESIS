@@ -2,7 +2,7 @@ import { Button, Grid, Stack, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { capitalizeFirstLetter, refreshPage } from '../../utils/CommonMethods';
 import { dateArrayToString, formatNoteForEmr } from '../../utils/EntityProcessingMethods';
-import CustomTable from '../../components/CustomTable';
+import CustomTable from '../../components/tables/CustomTable';
 import FabActionButton from '../../components/buttons/FabActionButton';
 import SupplyOrderService from '../../services/supplyOrderService';
 import CheckIcon from '@mui/icons-material/Check';

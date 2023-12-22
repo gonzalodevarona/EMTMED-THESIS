@@ -32,6 +32,16 @@ const getConsumableByBatchId = async (id) => {
     return res.data
 }
 
+const getLocationByBatchId = async (id) => {
+    const res = await axios.get(`/${entity}/${id}/location`)
+        .catch((error) => {
+            console.log(error)
+            return error.response;
+        });
+
+    return res.data
+}
+
 const addBatch = async (batch) => {
     const res = await axios.post(`/${entity}`, batch)
         .catch((error) => {
@@ -67,6 +77,7 @@ const BatchService = {
     getBatches,
     getBatchById,
     getConsumableByBatchId,
+    getLocationByBatchId,
     addBatch,
     editBatch,
     deleteBatch

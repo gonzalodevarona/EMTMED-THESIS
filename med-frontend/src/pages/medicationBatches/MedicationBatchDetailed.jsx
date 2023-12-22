@@ -25,6 +25,8 @@ function MedicationBatchDetailed() {
     async function fetchData() {
       const entityData = await MedicationBatchService.getMedicationBatchById(id);
       entityData.medicine = await MedicationBatchService.getMedicineByMedicationBatchId(id);
+      entityData.location = await MedicationBatchService.getLocationByMedicationBatchId(id);
+      
       if (entityData.status == 500 && entityData.error) {
         redirect('/404')
       } else {
