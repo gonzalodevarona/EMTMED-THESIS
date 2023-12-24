@@ -3,6 +3,9 @@ package com.emt.med.batch;
 import com.emt.med.consumable.ConsumableEntityDTO;
 import com.emt.med.consumable.ConsumableEntityMapper;
 import com.emt.med.consumable.ConsumableEntityRepository;
+import com.emt.med.location.LocationDTO;
+import com.emt.med.location.LocationMapper;
+import com.emt.med.medicationBatch.MedicationBatchEntity;
 import jakarta.transaction.Transactional;
 import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Sort;
@@ -24,6 +27,9 @@ public class BatchEntityServiceImpl implements BatchEntityService {
 
     static ConsumableEntityMapper consumableEntityMapper = Mappers.getMapper(ConsumableEntityMapper.class);
 
+    static LocationMapper locationMapper = Mappers.getMapper(LocationMapper.class);
+
+
     public BatchEntityServiceImpl(BatchEntityRepository batchEntityRepository, ConsumableEntityRepository consumableEntityRepository) {
         this.batchEntityRepository = batchEntityRepository;
         this.consumableEntityRepository = consumableEntityRepository;
@@ -39,6 +45,12 @@ public class BatchEntityServiceImpl implements BatchEntityService {
     public ConsumableEntityDTO getConsumableByBatchId(Long batchEntityId){
         BatchEntity batchEntity = batchEntityRepository.findById(batchEntityId).orElseThrow(() -> new RuntimeException("No batch found with id "+batchEntityId));
         return consumableEntityMapper.toDTO(batchEntity.getConsumable());
+    }
+
+    @Override
+    public LocationDTO getLocationByBatchId(Long batchEntityId){
+        BatchEntity batchEntity = batchEntityRepository.findById(batchEntityId).orElseThrow(() -> new RuntimeException("No batch found with id "+batchEntityId));
+        return locationMapper.toDTO(batchEntity.getLocation());
     }
 
     @Override

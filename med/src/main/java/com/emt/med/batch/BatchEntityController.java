@@ -1,6 +1,7 @@
 package com.emt.med.batch;
 
 import com.emt.med.consumable.ConsumableEntityDTO;
+import com.emt.med.location.LocationDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,11 @@ public class BatchEntityController {
     @GetMapping("/{id}/consumable")
     public ResponseEntity<ConsumableEntityDTO> getConsumableByBatchId(@PathVariable("id") Long id) {
         return ResponseEntity.ok(batchEntityService.getConsumableByBatchId(id));
+    }
+
+    @GetMapping("/{id}/location")
+    public ResponseEntity<LocationDTO> getLocationByBatchId(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(batchEntityService.getLocationByBatchId(id));
     }
 
     @PostMapping()

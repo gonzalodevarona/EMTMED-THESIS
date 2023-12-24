@@ -21,16 +21,22 @@ function Batches() {
       for (let medicationBatch of allMedicationBatches) {
 
         const id = medicationBatch.id;
-        const response = await MedicationBatchService.getMedicineByMedicationBatchId(id);
-        medicationBatch.medicine = response;
+        const medicineResponse = await MedicationBatchService.getMedicineByMedicationBatchId(id);
+        const locationResponse = await MedicationBatchService.getLocationByMedicationBatchId(id);
+
+        medicationBatch.location = locationResponse;
+        medicationBatch.medicine = medicineResponse;
 
       }
 
       for (let batch of allBatches) {
 
         const id = batch.id;
-        const response = await BatchService.getConsumableByBatchId(id);
-        batch.consumable = response;
+        const consumableResponse = await BatchService.getConsumableByBatchId(id);
+        const locationResponse = await BatchService.getLocationByBatchId(id);
+
+        batch.location = locationResponse;
+        batch.consumable = consumableResponse;
         batch.expirationDate = dateArrayToString(batch.expirationDate)
 
       }

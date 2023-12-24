@@ -25,6 +25,7 @@ function BatchDetailed() {
     async function fetchData() {
       const entityData = await BatchService.getBatchById(id);
       entityData.consumable = await BatchService.getConsumableByBatchId(id);
+      entityData.location = await BatchService.getLocationByBatchId(id);
       if (entityData.status == 500 && entityData.error) {
         redirect('/404')
       } else {

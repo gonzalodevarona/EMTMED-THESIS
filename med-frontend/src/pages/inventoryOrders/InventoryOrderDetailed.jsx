@@ -1,4 +1,4 @@
-import DetailedView from "../../components/DetailedView"
+import InventoryOrderDetailedView from "./InventoryOrderDetailedView"
 import Header from "../../components/Header"
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -49,10 +49,10 @@ function InventoryOrderDetailed() {
 
                 entityData.medicationBatches = Object.values(entityData.medicationBatches);
                 entityData.batches = Object.values(entityData.batches);
-
                 if (entityData.medicationBatches && entityData.medicationBatches.length > 0) {
                     entityData.medicationBatches = await Promise.all(entityData.medicationBatches.map(async (medicationBatch, _) => {
                         medicationBatch['medicine'] = await MedicationBatchService.getMedicineByMedicationBatchId(medicationBatch.id);
+                        medicationBatch['location'] = await MedicationBatchService.getLocationByMedicationBatchId(medicationBatch.id);
                         return medicationBatch;
                     }));
                 }
@@ -60,6 +60,7 @@ function InventoryOrderDetailed() {
                 if (entityData.batches && entityData.batches.length > 0) {
                     entityData.batches = await Promise.all(entityData.batches.map(async (batch, _) => {
                         batch['consumable'] = await BatchService.getConsumableByBatchId(batch.id);
+                        batch['location'] = await BatchService.getLocationByBatchId(batch.id);
                         return batch;
                     }));
                 }
@@ -85,11 +86,11 @@ function InventoryOrderDetailed() {
     return (
         <>
             <Header title={`${entity} ${id}`} />
-            {/* <DetailedView 
-            deleteable={inventoryOrder.status === 'COMPLETED'? false : true} 
+            <InventoryOrderDetailedView 
+            deleteable={false} 
             editable={inventoryOrder.status === 'COMPLETED'? false : true} 
             entity='ordenes-inventario' data={inventoryOrder} 
-            handleDelete={handleDelete} /> */}
+            handleDelete={handleDelete} />
         </>
     )
 }

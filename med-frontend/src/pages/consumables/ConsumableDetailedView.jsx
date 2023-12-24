@@ -117,7 +117,7 @@ function ConsumableDetailedView({ data, entity, handleDelete, deleteable, editab
                     { title: 'Vía de Administración', field: 'administrationRoute' },
                     { title: 'Cantidad del Lote', field: 'quantity', type: 'numeric' },
                     { title: 'Fecha de Vencimiento', field: 'expirationDate' },
-                    { title: 'Estado', field: 'status' },
+                    { title: 'Semaforización', field: 'status' },
                     { title: 'Ubicación', field: 'location' },
 
 

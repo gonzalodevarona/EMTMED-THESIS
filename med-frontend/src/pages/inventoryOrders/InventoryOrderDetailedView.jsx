@@ -1,4 +1,4 @@
-import { Button, Grid, Stack, Typography } from '@mui/material';
+import { Box, Grid, Stack, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { capitalizeFirstLetter } from '../../utils/CommonMethods';
 import { Link } from 'react-router-dom';
@@ -8,16 +8,18 @@ import FabLink from '../../components/buttons/FabLink';
 import { dateArrayToString } from '../../utils/EntityProcessingMethods'
 import { Delete, Edit } from '@mui/icons-material';
 
-function MedicineDetailedView({ data, entity, handleDelete, deleteable, editable }) {
+function InventoryOrderDetailedView({ data, entity, handleDelete, deleteable, editable }) {
     const [firstHalf, setFirstHalf] = useState([]);
     const [secondHalf, setSecondHalf] = useState([]);
     const [batches, setBatches] = useState([]);
+    const [medicationBatches, setMedicationBatches] = useState([]);
 
     useEffect(() => {
 
         function splitArray() {
             delete data.orders
             delete data.batches
+            delete data.medicationBatches
             if (data && Object.keys(data).length > 0 && Object.keys(data).length > 3) {
                 const half = Object.keys(data).length / 2;
 
@@ -37,7 +39,7 @@ function MedicineDetailedView({ data, entity, handleDelete, deleteable, editable
             }
         }
 
-        castBatchestoBatchesArray(data.batches)
+        castBatchestoBatchesArray(data.batches, data.medicationBatches)
         splitArray()
 
     }, [data]);
@@ -46,7 +48,7 @@ function MedicineDetailedView({ data, entity, handleDelete, deleteable, editable
         console.log(batches)
     }, [batches])
 
-    function castBatchestoBatchesArray(batches) {
+    function castBatchestoBatchesArray(batches, medicationBatches) {
         let batchesArray = [];
         if (batches) {
             Object.entries(batches).forEach(([_, value]) => {
@@ -55,6 +57,15 @@ function MedicineDetailedView({ data, entity, handleDelete, deleteable, editable
                 batchesArray.push(value);
             });
             setBatches(batchesArray);
+        }
+        if (medicationBatches) {
+            batchesArray = [];
+            Object.entries(medicationBatches).forEach(([_, value]) => {
+                value.location = value.location.name
+                value.expirationDate = dateArrayToString(value.expirationDate)
+                batchesArray.push(value);
+            });
+            setMedicationBatches(batchesArray);
         }
 
     }
@@ -107,25 +118,61 @@ function MedicineDetailedView({ data, entity, handleDelete, deleteable, editable
             )}
 
 
+            {medicationBatches.length > 0 &&
+                <CustomTable
+                    title='Lotes de Medicamentos Asociados'
+                    columns={[
+                        { title: 'ID', field: 'medicine.id', type: 'numeric' },
+                        { title: 'Nombre', field: 'medicine.name' },
+                        { title: 'Unidad de Conteo', field: 'medicine.countingUnit.name' },
+                        { title: 'Peso', field: 'medicine.weight' },
+                        { title: 'Unidad de Peso', field: 'medicine.weightUnit.name' },
+                        { title: 'ID Lote', field: 'id', type: 'numeric' },
+                        { title: 'Fabricante', field: 'manufacturer' },
+                        { title: 'Vía de Administración', field: 'administrationRoute' },
+                        { title: 'Cantidad del Lote', field: 'quantity', type: 'numeric' },
+                        { title: 'Fecha de Vencimiento', field: 'expirationDate' },
+                        { title: 'Semaforización', field: 'status' },
+                        { title: 'Ubicación Actual', field: 'location' },
+                        { title: 'CUM', field: 'cum' }
 
-            <CustomTable
-                title='Lotes Asociados'
-                columns={[
-                    { title: 'ID', field: 'id', type: 'numeric' },
-                    { title: 'Fabricante', field: 'manufacturer' },
-                    { title: 'Vía de Administración', field: 'administrationRoute' },
-                    { title: 'Cantidad del Lote', field: 'quantity', type: 'numeric' },
-                    { title: 'Fecha de Vencimiento', field: 'expirationDate' },
-                    { title: 'Semaforización', field: 'status' },
-                    { title: 'Ubicación', field: 'location' },
-                    { title: 'CUM', field: 'cum' },
+                    ]}
+                    clickable
+                    entity='lotes-medicamentos'
+                    editable={false}
+                    deleteable={false}
+                    data={medicationBatches} />
+            }
 
-                ]}
-                clickable
-                entity='lotes-medicamentos'
-                editable={false}
-                deleteable={false}
-                data={batches} />
+            {(medicationBatches.length > 0 && batches.length > 0) &&
+                <Box my={10} />
+            }
+
+
+            {batches.length > 0 &&
+                <CustomTable
+                    title='Lotes Asociados'
+                    columns={[
+                        { title: 'ID', field: 'consumable.id', type: 'numeric' },
+                        { title: 'Nombre', field: 'consumable.name' },
+                        { title: 'Unidad de Conteo', field: 'consumable.countingUnit.name' },
+                        { title: 'Peso', field: 'consumable.weight' },
+                        { title: 'Unidad de Peso', field: 'consumable.weightUnit.name' },
+                        { title: 'ID Lote', field: 'id', type: 'numeric' },
+                        { title: 'Fabricante', field: 'manufacturer' },
+                        { title: 'Vía de Administración', field: 'administrationRoute' },
+                        { title: 'Cantidad del Lote', field: 'quantity', type: 'numeric' },
+                        { title: 'Fecha de Vencimiento', field: 'expirationDate' },
+                        { title: 'Semaforización', field: 'status' },
+                        { title: 'Ubicación Actual', field: 'location' }
+
+                    ]}
+                    clickable
+                    entity='lotes'
+                    editable={false}
+                    deleteable={false}
+                    data={batches} />
+            }
 
             <Stack justifyContent='center' direction='row' spacing={5} mt={2}>
                 {editable && <FabLink to={`/${entity}/editar/${data.id}`} icon={<Edit />} color='info' />}
@@ -135,6 +182,6 @@ function MedicineDetailedView({ data, entity, handleDelete, deleteable, editable
     );
 }
 
-export default MedicineDetailedView;
+export default InventoryOrderDetailedView;
 
 
