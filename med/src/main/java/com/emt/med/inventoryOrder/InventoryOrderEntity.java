@@ -35,8 +35,5 @@ public class InventoryOrderEntity extends OrderEntity {
     @ToString.Exclude
     private List<BatchEntity> batches;
 
-    @ManyToOne
-    @JsonManagedReference("source-inventoryOrder")
-    private Location source;
 
 }

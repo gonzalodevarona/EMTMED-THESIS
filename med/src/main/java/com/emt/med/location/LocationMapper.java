@@ -23,7 +23,6 @@ public interface LocationMapper {
     @Mapping(target = "medicationBatchList", ignore = true)
     @Mapping(target = "batchList", ignore = true)
     @Mapping(target = "destinationList", ignore = true)
-    @Mapping(target = "sourceList", ignore = true)
     LocationDTO toDTO(Location location);
 
     @InheritInverseConfiguration

@@ -48,6 +48,7 @@ function SupplyOrderDetailed() {
 
             entityData.medicationBatchRequests = await Promise.all(entityData.medicationBatchRequests.map(async (medicationBatchRequest) => {
                 medicationBatchRequest.medicationBatch.supply = await MedicationBatchService.getMedicineByMedicationBatchId(medicationBatchRequest.medicationBatch.id);
+                medicationBatchRequest.medicationBatch.location = await MedicationBatchService.getLocationByMedicationBatchId(medicationBatchRequest.medicationBatch.id);
                 return medicationBatchRequest;
             }));
 
@@ -64,6 +65,7 @@ function SupplyOrderDetailed() {
 
             entityData.batchRequests = await Promise.all(entityData.batchRequests.map(async (batchRequest) => {
                 batchRequest.batch.supply = await BatchService.getConsumableByBatchId(batchRequest.batch.id);
+                batchRequest.batch.location = await BatchService.getLocationByBatchId(batchRequest.batch.id);
                 return batchRequest;
             }));
 

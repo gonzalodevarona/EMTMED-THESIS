@@ -70,16 +70,6 @@ function InventoryOrderDetailedView({ data, entity, handleDelete, deleteable, ed
 
     }
 
-
-    async function handleDeleteMedicine(id) {
-        const error = await MedicineService.deleteMedicine(id);
-
-        { error.status === 500 ? triggerCannotDeleteAlert(entity, id, `No se pudo eliminar el ${entity} con ID ${id}`) : null }
-    }
-
-
-
-
     return (
         <>
             {data && Object.keys(data).length > 3 ? (

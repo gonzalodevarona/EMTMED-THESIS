@@ -66,7 +66,7 @@ function InventoryOrderDetailed() {
                 }
 
 
-                entityData.source = `${entityData.source.id} - ${entityData.source.name}`
+                
                 entityData.destination = `${entityData.destination.id} - ${entityData.destination.name}`
                 entityData.authoredOn = dateArrayToString(entityData.authoredOn);
                 setInventoryOrder(removeNullProperties(entityData))

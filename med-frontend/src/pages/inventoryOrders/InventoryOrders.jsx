@@ -40,7 +40,6 @@ function InventoryOrders() {
     for (let i = 0; i < orders.length; i++) {
 
       orders[i].destination = `${orders[i].destination.id} - ${orders[i].destination.name}`;
-      orders[i].source = `${orders[i].source.id} - ${orders[i].source.name}`;
       orders[i].authoredOn = dateArrayToString(orders[i].authoredOn);
 
     }
@@ -62,7 +61,6 @@ function InventoryOrders() {
           { title: 'CC Responsable', field: 'practitionerId', type: 'numeric' },
           { title: 'Estado', field: 'status' },
           { title: 'Operación', field: 'operation' },
-          { title: 'Origen', field: 'source' },
           { title: 'Destino', field: 'destination' },
 
 

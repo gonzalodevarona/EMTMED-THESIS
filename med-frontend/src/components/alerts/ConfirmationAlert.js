@@ -10,6 +10,7 @@ const triggerConfrirmationAlert = ({title, text, type, confirmButtonColor, confi
         confirmButtonColor: confirmButtonColor || "#f44336",
         confirmButtonText: confirmText,
         cancelButtonText: "Cancelar",
+        cancelButtonColor: "#d32f2f",
         closeOnConfirm: false,
         closeOnCancel: false
     }).then((result) => {

@@ -293,21 +293,7 @@ function InventoryOrderForm({ action, preloadedData, id }) {
                         </FormSelect>
                     }
 
-                    {locations.length > 0 &&
-                        <FormSelect
-                            name="source"
-                            label="Origen"
-                            disabled={action === 'edit' ? true : false}
-                            defaultValue={action === 'edit' ? findPreloadedLocation(preloadedData?.source.id) : ''}
-                            register={register}
-                            errors={errors}
-                        >
-
-                            {locations.map(location => <MenuItem key={location.id} value={`${location.id} ${location.type}`}>
-                                {`${location.id} - ${location.name}`}
-                            </MenuItem>)}
-                        </FormSelect>
-                    }
+                  
 
                     {locations.length > 0 &&
                         <FormSelect

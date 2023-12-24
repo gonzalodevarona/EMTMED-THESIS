@@ -34,7 +34,4 @@ public abstract class Location {
     @JsonManagedReference("destination-inventoryOrder")
     private List<InventoryOrderEntity> destinationList;
 
-    @OneToMany(mappedBy = "source", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JsonManagedReference("source-inventoryOrder")
-    private List<InventoryOrderEntity> sourceList;
 }

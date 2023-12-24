@@ -188,7 +188,7 @@ function MedicineForm({ action, preloadedData }) {
           addMedicine(data)
             .then((result) => {
               console.log(result)
-              // addedSuccessfully()
+              addedSuccessfully()
             })
             .catch((error) => {
               errorAdding()

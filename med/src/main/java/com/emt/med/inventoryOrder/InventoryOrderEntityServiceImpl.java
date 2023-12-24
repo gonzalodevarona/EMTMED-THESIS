@@ -49,10 +49,8 @@ public class InventoryOrderEntityServiceImpl implements InventoryOrderEntityServ
         }
 //        inventoryOrderEntityDTO.setStatus(OrderStatus.OPEN);
         InventoryOrderEntity inventoryOrderEntity = inventoryOrderEntityMapper.toEntity(inventoryOrderEntityDTO);
-        if (inventoryOrderEntity.getSource() == null || inventoryOrderEntity.getDestination() == null){
+        if ( inventoryOrderEntity.getDestination() == null){
             throw new RuntimeException("A new inventory order must have a source and a destination");
-        } else if (inventoryOrderEntity.getSource().getId() == inventoryOrderEntity.getDestination().getId()){
-            throw new RuntimeException("A new inventory order cannot have the same source and destination");
         }
         inventoryOrderEntity = inventoryOrderEntityRepository.save(inventoryOrderEntity);
         return inventoryOrderEntityMapper.toDTO(inventoryOrderEntity);
@@ -67,7 +65,6 @@ public class InventoryOrderEntityServiceImpl implements InventoryOrderEntityServ
         entryInventoryOrder.setStatus(OrderStatus.COMPLETED);
         entryInventoryOrder.setPractitionerId(medicine.getIdNumberCreatedBy());
         entryInventoryOrder.setAuthoredOn(LocalDateTime.now());
-        entryInventoryOrder.setSource(pharmacyEntityService.getPharmacyByCategory(PharmacyCategory.WAREHOUSE));
         entryInventoryOrder.setDestination(pharmacyEntityService.getPharmacyByCategory(PharmacyCategory.PRINCIPAL));
         entryInventoryOrder = inventoryOrderEntityRepository.save(entryInventoryOrder);
         for (MedicationBatchEntity medicationBatch:medicine.getBatches()) {
@@ -93,7 +90,6 @@ public class InventoryOrderEntityServiceImpl implements InventoryOrderEntityServ
         entryInventoryOrder.setStatus(OrderStatus.COMPLETED);
         entryInventoryOrder.setPractitionerId(consumable.getIdNumberCreatedBy());
         entryInventoryOrder.setAuthoredOn(LocalDateTime.now());
-        entryInventoryOrder.setSource(pharmacyEntityService.getPharmacyByCategory(PharmacyCategory.WAREHOUSE));
         entryInventoryOrder.setDestination(pharmacyEntityService.getPharmacyByCategory(PharmacyCategory.PRINCIPAL));
         entryInventoryOrder = inventoryOrderEntityRepository.save(entryInventoryOrder);
         for (BatchEntity batch:consumable.getBatches()) {

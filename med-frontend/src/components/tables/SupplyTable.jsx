@@ -71,6 +71,8 @@ function SupplyTable({ addOrUpdateBatch, removeBatch  }) {
                         console.log(batch)
                         if(batch.cum){
                             batch.location = await MedicationBatchService.getLocationByMedicationBatchId(batch.id);
+                        }else{
+                            batch.location = await BatchService.getLocationByBatchId(batch.id);
                         }
                         batch.expirationDate = dateArrayToString(batch.expirationDate)
                         batch.assignedQuantity = 0

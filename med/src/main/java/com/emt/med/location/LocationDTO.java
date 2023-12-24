@@ -29,5 +29,4 @@ public class LocationDTO {
     private List<MedicationBatchEntityDTO> medicationBatchList;
     private List<BatchEntityDTO> batchList;
     private List<InventoryOrderEntityDTO> destinationList;
-    private List<InventoryOrderEntityDTO> sourceList;
 }

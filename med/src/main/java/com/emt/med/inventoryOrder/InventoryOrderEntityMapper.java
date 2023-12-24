@@ -13,24 +13,16 @@ import org.mapstruct.factory.Mappers;
 public interface InventoryOrderEntityMapper {
     InventoryOrderEntityMapper INSTANCE = Mappers.getMapper( InventoryOrderEntityMapper.class );
 
-    @Mapping(target = "destination.sourceList", ignore = true)
+
     @Mapping(target = "destination.destinationList", ignore = true)
     @Mapping(target = "destination.medicationBatchList", ignore = true)
     @Mapping(target = "destination.batchList", ignore = true)
-    @Mapping(target = "source.sourceList", ignore = true)
-    @Mapping(target = "source.destinationList", ignore = true)
-    @Mapping(target = "source.medicationBatchList", ignore = true)
-    @Mapping(target = "source.batchList", ignore = true)
     InventoryOrderEntityDTO toDTO(InventoryOrderEntity inventoryOrderEntity);
 
-    @Mapping(target = "destination.sourceList", ignore = true)
+
     @Mapping(target = "destination.destinationList", ignore = true)
     @Mapping(target = "destination.medicationBatchList", ignore = true)
     @Mapping(target = "destination.batchList", ignore = true)
-    @Mapping(target = "source.sourceList", ignore = true)
-    @Mapping(target = "source.destinationList", ignore = true)
-    @Mapping(target = "source.medicationBatchList", ignore = true)
-    @Mapping(target = "source.batchList", ignore = true)
     InventoryOrderEntity toEntity(InventoryOrderEntityDTO inventoryOrderEntityDTO);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

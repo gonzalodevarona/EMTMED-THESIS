@@ -27,8 +27,6 @@ public class InventoryOrderEntityDTO extends OrderEntityDTO {
     private InventoryOrderOperation operation;
     @NotNull(message = "destination shouldn't be null")
     private LocationDTO destination;
-    @NotNull(message = "source shouldn't be null")
-    private LocationDTO source;
     private List<MedicationBatchEntityDTO> medicationBatches;
     private List<BatchEntityDTO> batches;
 }

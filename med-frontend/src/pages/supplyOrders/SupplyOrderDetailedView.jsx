@@ -63,7 +63,7 @@ function SupplyOrderDetailedView({ data }) {
             title: `${status === 'COMPLETED' ? 'Completar' : 'Cancelar'} la ${entity} con ID ${id}`,
             text: `¿Estas seguro que quieres ${status === 'COMPLETED' ? 'completarla' : 'cancelarla'}?`,
             type: "confirm",
-            confirmButtonColor: "#1976d2",
+            confirmButtonColor: "#04b44c",
             confirmText: "Confirmar",
             action: async () => await changeSupplyOrderStatusAndSaveToEmr(id, status),
             successTitle: `La ${entity} con ID ${id} fue ${status === 'COMPLETED' ? 'completada' : 'cancelada'} con éxito.`,
