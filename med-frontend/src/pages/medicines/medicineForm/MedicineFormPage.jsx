@@ -3,6 +3,7 @@ import MedicineForm from './MedicineForm';
 import Header from '../../../components/Header';
 import { useParams } from "react-router-dom";
 import MedicineService from '../../../services/medicineService'
+import MedicationBatchService from '../../../services/medicationBatchService'
 import { removeNullProperties } from '../../../utils/CommonMethods'
 import { useNavigate } from "react-router-dom";
 
@@ -28,7 +29,17 @@ function MedicineFormPage({ action }) {
             if (fetchedData.status == 500 && fetchedData.error ) {
                 redirect('/404')
             }
-          
+            if (fetchedData.batches !== undefined) {
+                for (let i = 0; i < fetchedData.batches.length; i++) {
+                    if (fetchedData.batches[i].isAvailable === false) {
+                        fetchedData.batches.splice(i, 1);
+                        i--;
+                    } else {
+                        fetchedData.batches[i] = removeNullProperties(fetchedData.batches[i])
+                        fetchedData.batches[i].location = await MedicationBatchService.getLocationByMedicationBatchId(fetchedData.batches[i].id)
+                    }
+                }
+            }
             setMedicineData(fetchedData);
         }
 

@@ -5,9 +5,10 @@ import { Box, Typography } from '@mui/material'
 import { dateArrayToString } from '../../utils/EntityProcessingMethods';
 import MedicationBatchService from '../../services/medicationBatchService';
 import BatchService from '../../services/batchService';
-
+import { useTranslation } from 'react-i18next';
 
 function Batches() {
+  const { t } = useTranslation();
 
   const [medicationBatches, setMedicationBatches] = useState([])
   const [batches, setBatches] = useState([])
@@ -71,7 +72,7 @@ function Batches() {
           { title: 'Vía de Administración', field: 'administrationRoute' },
           { title: 'Concentración', field: 'medicine.concentration' },
           { title: 'Cantidad', field: 'quantity', type: 'numeric' },
-          { title: 'Semaforización', field: 'status' },
+          { title: 'Semaforización', field: 'status', render: rowData => t(`batch.status.${rowData.status}`) },
           { title: 'Ubicación', field: 'location.name' },
           { title: 'CUM', field: 'cum' },
         ]}
@@ -97,7 +98,7 @@ function Batches() {
           { title: 'Vía de Administración', field: 'administrationRoute' },
           { title: 'Cantidad', field: 'quantity', type: 'numeric' },
           { title: 'Fecha de Vencimiento', field: 'expirationDate' },
-          { title: 'Semaforización', field: 'status' },
+          { title: 'Semaforización', field: 'status', render: rowData => t(`batch.status.${rowData.status}`) },
           { title: 'Ubicación', field: 'location.name' },
 
         ]}

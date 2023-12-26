@@ -90,7 +90,7 @@ function MedicationBatchEmbeddedForm({ action, addMedicationBatch, deleteMedicat
         if (action === 'add') {
             data.expirationDate = formatDateToYYYYMMDD(convertToLocalTimeZone(data.expirationDate.toISOString()))
         } else {
-            
+            data.quantity = Number(data.quantity)
             data.expirationDate = `${data.expirationDate[0]}-${data.expirationDate[1]}-${data.expirationDate[2]}`
         }
 

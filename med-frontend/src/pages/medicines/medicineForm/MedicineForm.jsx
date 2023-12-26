@@ -106,17 +106,35 @@ function MedicineForm({ action, preloadedData }) {
 
 
 
-  const updateMedicationBatch = (id, newValues) => {
+  const updateMedicationBatch = (id, newValues, action) => {
+    
     setMedicationBatches(prevState => {
       return prevState.map(batch => {
+        console.log('melo')
+        console.log(batch.id)
+        console.log(id)
         if (batch.id === id) {
-          return { ...batch, ...newValues };
+
+          if (action === 'add') {
+            return { ...batch, ...newValues };
+          } else {
+
+            // Actualiza solo los campos que han cambiado en newValues
+            let updatedBatch = { ...batch };
+            for (let key in newValues) {
+              if (batch[key] !== newValues[key]) {
+                updatedBatch[key] = newValues[key];
+              }
+            }
+            return updatedBatch;
+          }
         } else {
           return batch;
         }
       });
     });
   };
+
 
   const {
     handleSubmit,
@@ -343,7 +361,7 @@ function MedicineForm({ action, preloadedData }) {
               <MedicationBatchFormEmbedded
                 action={action === 'edit' && batch.quantity ? 'edit' : 'add'}
                 addMedicationBatch={updateMedicationBatch}
-                id={index + 1}
+                id={action === 'add' ? index + 1 : batch.id}
                 preloadedData={action === 'edit' ? batch : undefined}
                 deleteMedicationBatch={index === 0 ? null : deleteMedicationBatch} />
             </Grid>

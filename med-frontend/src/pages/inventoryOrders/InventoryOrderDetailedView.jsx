@@ -9,14 +9,16 @@ import FabActionButton from '../../components/buttons/FabActionButton';
 import InventoryOrderService from '../../services/inventoryOrderService'
 import { dateArrayToString } from '../../utils/EntityProcessingMethods'
 import triggerConfirmationAlert from '../../components/alerts/ConfirmationAlert';
+import { useTranslation } from 'react-i18next';
 
 function InventoryOrderDetailedView({ data, entity }) {
 
+    const { t } = useTranslation();
     const navigate = useNavigate();
 
-  const redirect = (path) => {
-    navigate(path);
-  };
+    const redirect = (path) => {
+        navigate(path);
+    };
 
     const [firstHalf, setFirstHalf] = useState([]);
     const [secondHalf, setSecondHalf] = useState([]);
@@ -48,6 +50,27 @@ function InventoryOrderDetailedView({ data, entity }) {
             }
         }
 
+        if (data.id !== undefined) {
+            let translatedObject = {};
+
+            for (let key in data) {
+                if (typeof data[key] !== 'object' && !Array.isArray(data[key])) {
+                    let translatedKey = t(`inventoryOrder.info.${key}`);
+                    if (key === 'status') {
+                        translatedObject[translatedKey] = t(`order.status.${data[key]}`);
+                    } else if (key === 'operation') {
+                        translatedObject[translatedKey] = t(`inventoryOrder.operation.${data[key]}`);
+                    }
+                    else {
+                        translatedObject[translatedKey] = data[key];
+                    }
+                } else {
+                    translatedObject[key] = data[key];
+                }
+            }
+            data = translatedObject;
+        }
+
         castBatchestoBatchesArray(data.batches, data.medicationBatches)
         splitArray()
 
@@ -65,11 +88,11 @@ function InventoryOrderDetailedView({ data, entity }) {
             action: async () => await InventoryOrderService.changeInventoryOrderStatus(id, status),
             successTitle: `La ${entity} con ID ${id} fue ${status === 'COMPLETED' ? 'completada' : 'cancelada'} con éxito.`,
             successType: "success",
-            successAction: ()=> redirect(-1),
+            successAction: () => redirect(-1),
             errorTitle: `El estado de la ${capitalizeFirstLetter(entity)} con ID ${id} NO pudo ser modificado.`,
             errorType: "error"
         })
-        
+
 
     }
 
@@ -106,20 +129,19 @@ function InventoryOrderDetailedView({ data, entity }) {
                     <Grid item xs={6}>
                         {firstHalf.map((item, index) => (
                             Object.entries(item).map(([key, value]) => (
-                                <Stack m={3} key={key}>
-                                    <Typography fontWeight='bold' variant='subtitle1'>{capitalizeFirstLetter(key)}</Typography>
-                                    <Typography>{value}</Typography>
-                                </Stack>
+                                <Typography m={3} key={key}>
+                                    <span style={{ fontWeight: 'bold' }}>{capitalizeFirstLetter(key)}:</span> {value}
+                                </Typography>
+
                             ))
                         ))}
                     </Grid>
                     <Grid item xs={6}>
                         {secondHalf.map((item, index) => (
                             Object.entries(item).map(([key, value]) => (
-                                <Stack m={3} key={key}>
-                                    <Typography fontWeight='bold' variant='subtitle1'>{capitalizeFirstLetter(key)}</Typography>
-                                    <Typography>{value}</Typography>
-                                </Stack>
+                                <Typography m={3} key={key}>
+                                    <span style={{ fontWeight: 'bold' }}>{capitalizeFirstLetter(key)}:</span> {value}
+                                </Typography>
                             ))
                         ))}
                     </Grid>
@@ -128,10 +150,9 @@ function InventoryOrderDetailedView({ data, entity }) {
             ) : (
                 <Stack>
                     {Object.entries(data).map(([key, value]) => (
-                        <Stack m={3} key={key}>
-                            <Typography fontWeight='bold' variant='subtitle1'>{capitalizeFirstLetter(key)}</Typography>
-                            <Typography>{value}</Typography>
-                        </Stack>
+                        <Typography m={3} key={key}>
+                            <span style={{ fontWeight: 'bold' }}>{capitalizeFirstLetter(key)}:</span> {value}
+                        </Typography>
                     ))}
                 </Stack>
             )}
@@ -151,7 +172,7 @@ function InventoryOrderDetailedView({ data, entity }) {
                         { title: 'Vía de Administración', field: 'administrationRoute' },
                         { title: 'Cantidad del Lote', field: 'quantity', type: 'numeric' },
                         { title: 'Fecha de Vencimiento', field: 'expirationDate' },
-                        { title: 'Semaforización', field: 'status' },
+                        { title: 'Semaforización', field: 'status', render: rowData => t(`batch.status.${rowData.status}`) },
                         { title: 'Ubicación Actual', field: 'location' },
                         { title: 'CUM', field: 'cum' }
 
@@ -182,7 +203,7 @@ function InventoryOrderDetailedView({ data, entity }) {
                         { title: 'Vía de Administración', field: 'administrationRoute' },
                         { title: 'Cantidad del Lote', field: 'quantity', type: 'numeric' },
                         { title: 'Fecha de Vencimiento', field: 'expirationDate' },
-                        { title: 'Semaforización', field: 'status' },
+                        { title: 'Semaforización', field: 'status', render: rowData => t(`batch.status.${rowData.status}`) },
                         { title: 'Ubicación Actual', field: 'location' }
 
                     ]}

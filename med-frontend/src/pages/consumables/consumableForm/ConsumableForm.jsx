@@ -320,13 +320,13 @@ function ConsumableForm({ action, preloadedData }) {
       {batches.length > 0 &&
         <Grid container justifyContent='center' rowSpacing={4} >
 
-
           {batches.map((batch, index) => (
+            
             <Grid key={batch.id} item xs={12} lg={4} sx={{ mt: 2 }}>
               <BatchFormEmbedded
                 action={action === 'edit' && batch.quantity ? 'edit' : 'add'}
                 addBatch={updateBatch}
-                id={index + 1}
+                id={action === 'add' ? index + 1 : batch.id}
                 preloadedData={action === 'edit' ? batch : undefined}
                 deleteBatch={index === 0 ? null : deleteBatch} />
             </Grid>

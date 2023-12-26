@@ -7,8 +7,11 @@ import FabActionButton from '../../components/buttons/FabActionButton';
 import FabLink from '../../components/buttons/FabLink';
 import { dateArrayToString } from '../../utils/EntityProcessingMethods'
 import { Delete, Edit } from '@mui/icons-material';
+import { useTranslation } from 'react-i18next';
 
 function MedicineDetailedView({ data, entity, handleDelete, deleteable, editable }) {
+    const { t } = useTranslation();
+
     const [firstHalf, setFirstHalf] = useState([]);
     const [secondHalf, setSecondHalf] = useState([]);
     const [batches, setBatches] = useState([]);
@@ -35,6 +38,20 @@ function MedicineDetailedView({ data, entity, handleDelete, deleteable, editable
                 setFirstHalf(tempFirstHalf);
                 setSecondHalf(tempSecondHalf);
             }
+        }
+
+        if (data.id !== undefined) {
+            let translatedObject = {};
+
+            for (let key in data) {
+                if (typeof data[key] !== 'object' && !Array.isArray(data[key])) {
+                    let translatedKey = t(`medicine.info.${key}`);
+                    translatedObject[translatedKey] = data[key];
+                } else{
+                    translatedObject[key]= data[key];
+                }
+            }
+            data = translatedObject;
         }
 
         castBatchestoBatchesArray(data.batches)
@@ -76,20 +93,18 @@ function MedicineDetailedView({ data, entity, handleDelete, deleteable, editable
                     <Grid item xs={6}>
                         {firstHalf.map((item, index) => (
                             Object.entries(item).map(([key, value]) => (
-                                <Stack m={3} key={key}>
-                                    <Typography fontWeight='bold' variant='subtitle1'>{capitalizeFirstLetter(key)}</Typography>
-                                    <Typography>{value}</Typography>
-                                </Stack>
+                                <Typography m={3} key={key}>
+                                    <span style={{ fontWeight: 'bold' }}>{capitalizeFirstLetter(key)}:</span> {value}
+                                </Typography>
                             ))
                         ))}
                     </Grid>
                     <Grid item xs={6}>
                         {secondHalf.map((item, index) => (
                             Object.entries(item).map(([key, value]) => (
-                                <Stack m={3} key={key}>
-                                    <Typography fontWeight='bold' variant='subtitle1'>{capitalizeFirstLetter(key)}</Typography>
-                                    <Typography>{value}</Typography>
-                                </Stack>
+                                <Typography m={3} key={key}>
+                                    <span style={{ fontWeight: 'bold' }}>{capitalizeFirstLetter(key)}:</span> {value}
+                                </Typography>
                             ))
                         ))}
                     </Grid>
@@ -98,10 +113,9 @@ function MedicineDetailedView({ data, entity, handleDelete, deleteable, editable
             ) : (
                 <Stack>
                     {Object.entries(data).map(([key, value]) => (
-                        <Stack m={3} key={key}>
-                            <Typography fontWeight='bold' variant='subtitle1'>{capitalizeFirstLetter(key)}</Typography>
-                            <Typography>{value}</Typography>
-                        </Stack>
+                        <Typography m={3} key={key}>
+                            <span style={{ fontWeight: 'bold' }}>{capitalizeFirstLetter(key)}:</span> {value}
+                        </Typography>
                     ))}
                 </Stack>
             )}
@@ -116,7 +130,7 @@ function MedicineDetailedView({ data, entity, handleDelete, deleteable, editable
                     { title: 'Vía de Administración', field: 'administrationRoute' },
                     { title: 'Cantidad del Lote', field: 'quantity', type: 'numeric' },
                     { title: 'Fecha de Vencimiento', field: 'expirationDate' },
-                    { title: 'Semaforización', field: 'status' },
+                    { title: 'Semaforización', field: 'status', render: rowData => t(`batch.status.${rowData.status}`) },
                     { title: 'Ubicación', field: 'location' },
                     { title: 'CUM', field: 'cum' },
 

@@ -6,6 +6,7 @@ import keycloak from './config/keycloak'
 import { persistor, store } from './stores/auth/authStore'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
+import './config/i18n';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <ReactKeycloakProvider authClient={keycloak}>

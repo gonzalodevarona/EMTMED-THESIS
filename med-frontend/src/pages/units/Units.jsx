@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useTransition } from 'react'
 import CustomTable from '../../components/tables/CustomTable'
 import Header from '../../components/Header'
 import { Box } from '@mui/material'
@@ -18,7 +18,7 @@ function Units() {
     async function fetchData() {
       const allCountingUnits = await CountingUnitService.getCountingUnits();
       const allWeightUnits = await WeightUnitService.getWeightUnits();
-
+      console.log(allWeightUnits)
       setCountingUnits(allCountingUnits)
       setWeightUnits(allWeightUnits)
 
@@ -28,21 +28,22 @@ function Units() {
 
   }, [])
 
+
   async function handleDeleteCountingUnit(id) {
     const error = await CountingUnitService.deleteCountingUnit(id)
-    {error.status === 500? triggerCannotDeleteAlert('unidad de conteo', id, 'No se puede eliminar esta unidad de conteo, puesto que está ligada a algún lote'): null}
+    { error.status === 500 ? triggerCannotDeleteAlert('unidad de conteo', id, 'No se puede eliminar esta unidad de conteo, puesto que está ligada a algún lote') : null }
   }
 
   async function handleDeleteWeightUnit(id) {
     const error = await WeightUnitService.deleteWeightUnit(id)
-    {error.status === 500? triggerCannotDeleteAlert('unidad de peso', id, 'No se puede eliminar esta unidad de peso, puesto que está ligada a algún lote'): null}
+    { error.status === 500 ? triggerCannotDeleteAlert('unidad de peso', id, 'No se puede eliminar esta unidad de peso, puesto que está ligada a algún lote') : null }
   }
 
   return (
     <>
       <Header title={"Unidad de Conteo"} />
 
-      <FabLink to="/unidades-conteo/agregar" icon={<AddIcon/>} color='secondary'/ >
+      <FabLink to="/unidades-conteo/agregar" icon={<AddIcon />} color='secondary' />
 
 
       <CustomTable
@@ -61,9 +62,9 @@ function Units() {
 
       <Header title={"Unidad de Peso"} />
 
-      <FabLink to="/unidades-peso/agregar" icon={<AddIcon/>} color='secondary'/ >
+      <FabLink to="/unidades-peso/agregar" icon={<AddIcon />} color='secondary' />
 
-      
+
 
       <CustomTable
         columns={[

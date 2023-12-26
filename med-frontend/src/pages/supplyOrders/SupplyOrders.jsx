@@ -6,9 +6,10 @@ import SupplyOrderService from '../../services/supplyOrderService';
 import triggerCannotDeleteAlert from '../../components/alerts/CannotDeleteAlert';
 import { dateArrayToString } from '../../utils/EntityProcessingMethods';
 import { useKeycloak } from '@react-keycloak/web'
+import { useTranslation } from 'react-i18next';
 
 function SupplyOrders() {
-
+  const { t } = useTranslation();
   const entity = 'orden'
 
   const { keycloak } = useKeycloak()
@@ -56,7 +57,7 @@ function SupplyOrders() {
           { title: 'Fecha de expedición', field: 'authoredOn', type: 'datetime' },
           { title: 'CC Responsable', field: 'practitionerId', type: 'numeric' },
           { title: 'CC Paciente', field: 'pacientId' },
-          { title: 'Estado', field: 'status' },
+          { title: 'Estado', field: 'status', render: rowData => t(`order.status.${rowData.status}`) },
           { title: 'Diagnóstico', field: 'diagnostic' }
 
         ]}

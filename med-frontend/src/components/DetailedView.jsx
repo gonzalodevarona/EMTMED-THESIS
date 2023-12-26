@@ -4,9 +4,12 @@ import { capitalizeFirstLetter } from '../utils/CommonMethods';
 import FabLink from '../components/buttons/FabLink'
 import FabActionButton from '../components/buttons/FabActionButton'
 import { Edit, Delete } from '@material-ui/icons/';
+import { useTranslation } from 'react-i18next';
+
 
 
 function DetailedView({ data, entity, handleDelete, deleteable, editable }) {
+  const { t } = useTranslation();
   const [firstHalf, setFirstHalf] = useState([]);
   const [secondHalf, setSecondHalf] = useState([]);
 
@@ -31,6 +34,38 @@ function DetailedView({ data, entity, handleDelete, deleteable, editable }) {
       }
     }
 
+    if (data.cum !== undefined) {
+      let translatedObject = {};
+
+      for (let key in data) {
+        let translatedKey = t(`medicine.medicationBatch.${key}`);
+        if (key === 'status') {
+          translatedObject[translatedKey] = t(`batch.status.${data[key]}`);
+        } else if (key === 'medicine-type') {
+          translatedObject[translatedKey] = t(`supply.type.${data[key]}`);
+        }
+        else {
+          translatedObject[translatedKey] = data[key];
+        }
+      }
+      data = translatedObject;
+    } else if (data.id !== undefined) {
+      let translatedObject = {};
+
+      for (let key in data) {
+        let translatedKey = t(`consumable.batch.${key}`);
+        if (key === 'status') {
+          translatedObject[translatedKey] = t(`batch.status.${data[key]}`);
+        } else if (key === 'consumable-type') {
+          translatedObject[translatedKey] = t(`supply.type.${data[key]}`);
+        }
+        else {
+          translatedObject[translatedKey] = data[key];
+        }
+      }
+      data = translatedObject;
+    }
+    console.log(data)
     splitArray();
   }, [data]);
 
@@ -43,20 +78,18 @@ function DetailedView({ data, entity, handleDelete, deleteable, editable }) {
             <Grid item xs={6}>
               {firstHalf.map((item, index) => (
                 Object.entries(item).map(([key, value]) => (
-                  <Stack m={3} key={key}>
-                    <Typography fontWeight='bold' variant='subtitle1'>{capitalizeFirstLetter(key)}</Typography>
-                    <Typography>{value}</Typography>
-                  </Stack>
+                  <Typography m={3} key={key}>
+                    <span style={{ fontWeight: 'bold' }}>{capitalizeFirstLetter(key)}:</span> {value}
+                  </Typography>
                 ))
               ))}
             </Grid>
             <Grid item xs={6}>
               {secondHalf.map((item, index) => (
                 Object.entries(item).map(([key, value]) => (
-                  <Stack m={3} key={key}>
-                    <Typography fontWeight='bold' variant='subtitle1'>{capitalizeFirstLetter(key)}</Typography>
-                    <Typography>{value}</Typography>
-                  </Stack>
+                  <Typography m={3} key={key}>
+                    <span style={{ fontWeight: 'bold' }}>{capitalizeFirstLetter(key)}:</span> {value}
+                  </Typography>
                 ))
               ))}
             </Grid>

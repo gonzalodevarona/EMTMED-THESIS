@@ -8,9 +8,11 @@ import FormSelect from '../../../components/form/FormSelect';
 import PharmacyService from "../../../services/pharmacyService";
 import triggerInfoAlert from "../../../components/alerts/InfoAlert";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 
 function PharmacyForm({ action, preloadedData, id }) {
 
+    const { t } = useTranslation();
     const navigate = useNavigate();
 
     const redirect = (path) => {
@@ -22,7 +24,7 @@ function PharmacyForm({ action, preloadedData, id }) {
     useEffect(() => {
         async function fetchCategories() {
             let data = await PharmacyService.getPharmacyCategories();
-            
+
             setCategories(data.filter(item => item !== "WAREHOUSE" && item !== "PRINCIPAL"));
         }
 
@@ -111,11 +113,11 @@ function PharmacyForm({ action, preloadedData, id }) {
                         >
 
                             {categories.map(category => <MenuItem key={category} value={category}>
-                                {category}
+                                {t(`pharmacy.category.${category}`)}
                             </MenuItem>)}
                         </FormSelect>}
 
-                    <FabSubmitButton color='info'/>
+                    <FabSubmitButton color='info' />
                 </Stack>
             </form>
             <DevTool control={control} />

@@ -9,9 +9,10 @@ import BatchService from '../../services/batchService';
 import triggerCannotDeleteAlert from '../../components/alerts/CannotDeleteAlert';
 import { dateArrayToString } from '../../utils/EntityProcessingMethods';
 import FabLink from '../../components/buttons/FabLink';
+import { useTranslation } from 'react-i18next';
 
 function InventoryOrders() {
-
+  const { t } = useTranslation();
   const entity = 'orden de inventario'
 
   const [inventoryOrders, setInventoryOrders] = useState([])
@@ -21,14 +22,14 @@ function InventoryOrders() {
 
     async function fetchData() {
       const allInventoryOrders = await InventoryOrderService.getInventoryOrders();
-  
+
       setInventoryOrders(processInventoryOrders(allInventoryOrders))
     }
 
     fetchData()
 
   }, [])
-  
+
   async function handleDeleteInventoryOrder(id) {
     const error = await InventoryOrderService.deleteInventoryOrder(id);
 
@@ -59,8 +60,8 @@ function InventoryOrders() {
           { title: 'ID', field: 'id', type: 'numeric' },
           { title: 'Fecha de expedición', field: 'authoredOn', type: 'datetime' },
           { title: 'CC Responsable', field: 'practitionerId', type: 'numeric' },
-          { title: 'Estado', field: 'status' },
-          { title: 'Operación', field: 'operation' },
+          { title: 'Estado', field: 'status', render: rowData => t(`order.status.${rowData.status}`) },
+          { title: 'Operación', field: 'operation', render: rowData => t(`inventoryOrder.operation.${rowData.operation}`) },
           { title: 'Destino', field: 'destination' },
 
 

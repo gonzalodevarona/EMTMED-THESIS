@@ -19,8 +19,11 @@ import { useKeycloak } from '@react-keycloak/web'
 import SupplyTable from "../../../components/tables/SupplyTable";
 import { useNavigate } from "react-router-dom";
 import SearchIcon from '@mui/icons-material/Search';
+import { useTranslation } from 'react-i18next';
 
 function SupplyOrderForm({ action, preloadedData, id }) {
+
+    const { t } = useTranslation();
 
     const navigate = useNavigate();
 
@@ -355,7 +358,7 @@ function SupplyOrderForm({ action, preloadedData, id }) {
                                 >
 
                                     {statuses.map(status => <MenuItem key={status} value={status}>
-                                        {status}
+                                        {t(`order.status.${status}`)}
                                     </MenuItem>)}
                                 </FormSelect>
                             }
