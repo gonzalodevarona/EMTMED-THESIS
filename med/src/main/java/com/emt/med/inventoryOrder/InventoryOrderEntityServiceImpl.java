@@ -218,7 +218,7 @@ public class InventoryOrderEntityServiceImpl implements InventoryOrderEntityServ
                             foundBatch.setLocation(existingInventoryOrderEntity.getDestination());
                             foundBatch.setIsAvailable(false);
 
-                            batchEntityService.decrementBatchQuantity(foundBatch.getParentBatchId(), foundBatch.getQuantity());
+
                             batchEntityRepository.save(foundBatch);
                             consumableEntityService.recalculateQuantity(foundBatch.getConsumable().getId());
                         }
@@ -227,7 +227,7 @@ public class InventoryOrderEntityServiceImpl implements InventoryOrderEntityServ
                             foundMedicationBatch.setLocation(existingInventoryOrderEntity.getDestination());
                             foundMedicationBatch.setIsAvailable(false);
 
-                            medicationBatchEntityService.decrementMedicationBatchQuantity(foundMedicationBatch.getParentBatchId(), foundMedicationBatch.getQuantity());
+
                             medicationBatchEntityRepository.save(foundMedicationBatch);
                             medicineEntityService.recalculateQuantity(foundMedicationBatch.getMedicine().getId());
                         }

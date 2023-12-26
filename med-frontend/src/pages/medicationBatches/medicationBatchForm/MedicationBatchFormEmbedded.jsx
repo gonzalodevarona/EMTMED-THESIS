@@ -9,16 +9,16 @@ import FormSelect from '../../../components/form/FormSelect';
 import Header from '../../../components/Header';
 import FormDatePicker from '../../../components/form/FormDatePicker';
 import BatchStatusService from '../../../services/batchStatusService';
-import MedicationBatchService from '../../../services/medicationBatchService';
 import PharmacyService from '../../../services/pharmacyService';
 import { calculateBatchStatus } from "../../../utils/EntityProcessingMethods";
 import { formatDateToYYYYMMDD, convertToLocalTimeZone } from "../../../utils/EntityProcessingMethods"
 import dayjs from 'dayjs';
 import FabSubmitButton from "../../../components/buttons/FabSubmitButton";
 import FabActionButton from "../../../components/buttons/FabActionButton";
+import { useTranslation } from 'react-i18next';
 
 function MedicationBatchEmbeddedForm({ action, addMedicationBatch, deleteMedicationBatch, preloadedData, id }) {
-
+    const { t } = useTranslation();
     let statuses;
     const [currentStatus, setCurrentStatus] = useState('')
     const [pharmacies, setPharmacies] = useState([])
@@ -46,10 +46,6 @@ function MedicationBatchEmbeddedForm({ action, addMedicationBatch, deleteMedicat
         fetchPharmacies()
     }, [])
 
-    async function editMedicationBatch(medicationBatch) {
-        medicationBatch.id = id;
-        return await MedicationBatchService.editMedicationBatch(medicationBatch);
-    }
 
     useEffect(() => {
         console.log(preloadedData)
@@ -158,7 +154,7 @@ function MedicationBatchEmbeddedForm({ action, addMedicationBatch, deleteMedicat
                         minDate={dayjs().add(1, 'day')}
                         value={action === 'edit' ? preloadedData?.expirationDate : dayjs().add(1, 'day')} />
 
-                    {currentStatus !== '' && < Typography sx={{ backgroundColor: 'black', color: currentStatus.toLowerCase() }} > Semaforización: {currentStatus}</Typography>}
+                    {currentStatus !== '' && < Typography sx={{ backgroundColor: 'black', color: currentStatus.toLowerCase() }} > Semaforización: {t(`batch.status.${currentStatus}`)}</Typography>}
 
 
                     {pharmacies.length > 0 && action === 'edit' &&

@@ -16,9 +16,10 @@ import { formatDateToYYYYMMDD, convertToLocalTimeZone } from "../../../utils/Ent
 import dayjs from 'dayjs';
 import FabSubmitButton from "../../../components/buttons/FabSubmitButton";
 import FabActionButton from "../../../components/buttons/FabActionButton";
+import { useTranslation } from 'react-i18next';
 
 function BatchEmbeddedForm({ action, addBatch, deleteBatch, preloadedData, id }) {
-
+    const { t } = useTranslation();
     let statuses;
     const [currentStatus, setCurrentStatus] = useState('')
     const [pharmacies, setPharmacies] = useState([])
@@ -46,14 +47,9 @@ function BatchEmbeddedForm({ action, addBatch, deleteBatch, preloadedData, id })
         fetchPharmacies()
     }, [])
 
-    async function editMedicationBatch(medicationBatch) {
-        medicationBatch.id = id;
-        return await MedicationBatchService.editMedicationBatch(medicationBatch);
-    }
-
     useEffect(() => {
         console.log(preloadedData)
-    }, [preloadedData])
+    }, [preloadedData,id,action])
 
 
 
@@ -159,7 +155,7 @@ function BatchEmbeddedForm({ action, addBatch, deleteBatch, preloadedData, id })
                         minDate={dayjs().add(1, 'day')}
                         value={action === 'edit' ? preloadedData?.expirationDate : dayjs().add(1, 'day')} />
 
-                    {currentStatus !== '' && < Typography sx={{ backgroundColor: 'black', color: currentStatus.toLowerCase() }} > Semaforización: {currentStatus}</Typography>}
+                    {currentStatus !== '' && < Typography sx={{ backgroundColor: 'black', color: currentStatus.toLowerCase() }} > Semaforización: {t(`batch.status.${currentStatus}`)}</Typography>}
                     {pharmacies.length > 0 && action === 'edit' &&
                         <FormSelect
                             name="location"
