@@ -66,6 +66,11 @@ public class MedicationBatchEntityServiceImpl implements MedicationBatchEntitySe
     }
 
     @Override
+    public List<MedicationBatchEntityDTO> getAllMedicationBatchesByIsAvailable(Boolean isAvailable) {
+        return medicationBatchEntityRepository.findAllByIsAvailable(isAvailable).stream().map(medicationBatchEntityMapper::toDTO).collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    @Override
     public MedicationBatchEntity saveMedicationBatch(MedicationBatchEntity medicationBatchEntity) {
         return medicationBatchEntityRepository.save(medicationBatchEntity);
     }

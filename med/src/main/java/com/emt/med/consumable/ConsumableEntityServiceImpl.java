@@ -4,7 +4,8 @@ import com.emt.med.batch.BatchEntity;
 import com.emt.med.batch.BatchEntityMapper;
 import com.emt.med.batch.BatchEntityRepository;
 import com.emt.med.batch.BatchEntityService;
-import com.emt.med.inventoryOrder.InventoryOrderEntityService;
+import com.emt.med.inventoryOrder.*;
+import com.emt.med.order.OrderStatus;
 import com.emt.med.pharmacy.PharmacyCategory;
 import com.emt.med.pharmacy.PharmacyEntityService;
 import com.emt.med.supply.SupplyService;
@@ -15,6 +16,7 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,20 +30,21 @@ public class ConsumableEntityServiceImpl implements ConsumableEntityService{
     private WeightUnitEntityRepository weightUnitEntityRepository;
 
     private BatchEntityService batchEntityService;
-    private InventoryOrderEntityService inventoryOrderEntityService;
+    private InventoryOrderEntityRepository inventoryOrderEntityRepository;
     private PharmacyEntityService pharmacyEntityService;
 
     private SupplyService supplyService;
     static ConsumableEntityMapper consumableEntityMapper = Mappers.getMapper(ConsumableEntityMapper.class);
+    static InventoryOrderEntityMapper inventoryOrderEntityMapper = Mappers.getMapper(InventoryOrderEntityMapper.class);
 
     static BatchEntityMapper batchEntityMapper = Mappers.getMapper(BatchEntityMapper.class);
 
-    public ConsumableEntityServiceImpl(ConsumableEntityRepository consumableEntityRepository, BatchEntityRepository batchEntityRepository, WeightUnitEntityRepository weightUnitEntityRepository, BatchEntityService batchEntityService, InventoryOrderEntityService inventoryOrderEntityService, PharmacyEntityService pharmacyEntityService, SupplyService supplyService) {
+    public ConsumableEntityServiceImpl(ConsumableEntityRepository consumableEntityRepository, BatchEntityRepository batchEntityRepository, WeightUnitEntityRepository weightUnitEntityRepository, BatchEntityService batchEntityService, InventoryOrderEntityRepository inventoryOrderEntityRepository, PharmacyEntityService pharmacyEntityService, SupplyService supplyService) {
         this.consumableEntityRepository = consumableEntityRepository;
         this.batchEntityRepository = batchEntityRepository;
         this.weightUnitEntityRepository = weightUnitEntityRepository;
         this.batchEntityService = batchEntityService;
-        this.inventoryOrderEntityService = inventoryOrderEntityService;
+        this.inventoryOrderEntityRepository = inventoryOrderEntityRepository;
         this.pharmacyEntityService = pharmacyEntityService;
         this.supplyService = supplyService;
     }
@@ -91,13 +94,56 @@ public class ConsumableEntityServiceImpl implements ConsumableEntityService{
 
         for (BatchEntity batchEntity: consumableEntity.getBatches()) {
             batchEntity.setLocation(pharmacyEntityService.getPharmacyByCategory(PharmacyCategory.PRINCIPAL));
+            batchEntity.setIsAvailable(true);
             batchEntityRepository.save(batchEntity);
         }
 
         consumableEntity = consumableEntityRepository.save(consumableEntity);
-        inventoryOrderEntityService.processNewBatches(consumableEntity);
+        processNewBatches(consumableEntity);
 
         return consumableEntityMapper.toDTO(consumableEntity);
+    }
+
+
+    @Override
+    @Transactional
+    public InventoryOrderEntityDTO processNewBatches(ConsumableEntity consumable){
+
+        InventoryOrderEntity entryInventoryOrder = new InventoryOrderEntity();
+        entryInventoryOrder.setOperation(InventoryOrderOperation.ENTRY);
+        entryInventoryOrder.setStatus(OrderStatus.COMPLETED);
+        entryInventoryOrder.setPractitionerId(consumable.getIdNumberCreatedBy());
+        entryInventoryOrder.setAuthoredOn(LocalDateTime.now());
+        entryInventoryOrder.setDestination(pharmacyEntityService.getPharmacyByCategory(PharmacyCategory.PRINCIPAL));
+        entryInventoryOrder = inventoryOrderEntityRepository.save(entryInventoryOrder);
+        for (BatchEntity batch:consumable.getBatches()) {
+            if(entryInventoryOrder.getBatches() == null){
+                entryInventoryOrder.setBatches(new ArrayList<BatchEntity>());
+            }
+            if(batch.getInventoryOrders() == null){
+                batch.setInventoryOrders(new ArrayList<InventoryOrderEntity>());
+            }
+            entryInventoryOrder.getBatches().add(batch);
+            batch.getInventoryOrders().add(entryInventoryOrder);
+        }
+
+        return inventoryOrderEntityMapper.toDTO(inventoryOrderEntityRepository.save(entryInventoryOrder));
+    }
+
+    @Override
+    @Transactional
+    public ConsumableEntityDTO recalculateQuantity(Long consumableEntityId) {
+        ConsumableEntity foundConsumable =  getConsumableEntityById(consumableEntityId);
+        Long totalQuantity = 0L;
+        for (BatchEntity batchEntity: foundConsumable.getBatches()) {
+            if(batchEntity.getIsAvailable()){
+                totalQuantity +=batchEntity.getQuantity();
+            }
+        }
+
+        foundConsumable.setQuantity(totalQuantity);
+
+        return consumableEntityMapper.toDTO(consumableEntityRepository.save(foundConsumable));
     }
 
 

@@ -1,6 +1,7 @@
 package com.emt.med.consumable;
 
 import com.emt.med.batch.BatchEntity;
+import com.emt.med.inventoryOrder.InventoryOrderEntityDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,10 +16,13 @@ public interface ConsumableEntityService {
 
     ConsumableEntity saveConsumableEntity(ConsumableEntity consumableEntity);
     ConsumableEntityDTO addConsumable(ConsumableEntityDTO consumableEntityDTO);
+    InventoryOrderEntityDTO processNewBatches(ConsumableEntity consumable);
 
     ConsumableEntityDTO removeWeightUnitFromConsumable(Long consumableEntityId);
 
     ConsumableEntityDTO removeCountingUnitFromConsumable(Long consumableEntityId);
+
+    public ConsumableEntityDTO recalculateQuantity(Long consumableEntityId);
 
     // Batches
     ConsumableEntity addBatchesToConsumable(List<BatchEntity> batchEntities, ConsumableEntity consumable);

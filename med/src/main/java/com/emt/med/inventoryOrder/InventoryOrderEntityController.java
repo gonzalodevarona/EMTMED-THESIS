@@ -1,5 +1,7 @@
 package com.emt.med.inventoryOrder;
 
+import com.emt.med.order.OrderStatus;
+import com.emt.med.supplyOrder.SupplyOrderEntityDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +34,11 @@ public class InventoryOrderEntityController {
     public ResponseEntity<InventoryOrderEntityDTO> addInventoryOrder(@Valid @RequestBody InventoryOrderEntityDTO inventoryOrderEntityDTO) throws RuntimeException{
 
         return new ResponseEntity<InventoryOrderEntityDTO>(inventoryOrderEntityService.addInventoryOrder(inventoryOrderEntityDTO), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}/{newStatus}")
+    public ResponseEntity<InventoryOrderEntityDTO> changeinventoryOrderStatus(@PathVariable("id") Long id, @PathVariable("newStatus") OrderStatus newStatus) {
+        return ResponseEntity.ok(inventoryOrderEntityService.changeInventoryOrderStatus(id, newStatus));
     }
 
     @PutMapping()

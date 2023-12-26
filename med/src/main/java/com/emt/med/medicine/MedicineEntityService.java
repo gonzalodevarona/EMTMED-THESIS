@@ -1,5 +1,6 @@
 package com.emt.med.medicine;
 
+import com.emt.med.inventoryOrder.InventoryOrderEntityDTO;
 import com.emt.med.medicationBatch.MedicationBatchEntity;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,10 @@ public interface MedicineEntityService {
 
     List<MedicineEntityDTO> getAllMedicinesNoBatches();
 
+    public MedicineEntityDTO recalculateQuantity(Long medicineEntityId);
+
     MedicineEntityDTO addMedicine(MedicineEntityDTO medicineEntityDTO);
+    InventoryOrderEntityDTO processNewMedicationBatches(MedicineEntity medicine);
 
     MedicineEntity saveMedicineEntity(MedicineEntity medicineEntity);
 

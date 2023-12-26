@@ -1,10 +1,10 @@
 package com.emt.med.medicine;
 
-import com.emt.med.consumable.ConsumableEntityDTO;
 import com.emt.med.countingUnit.CountingUnitEntityRepository;
-import com.emt.med.inventoryOrder.InventoryOrderEntityService;
+import com.emt.med.inventoryOrder.*;
 import com.emt.med.location.LocationRepository;
 import com.emt.med.medicationBatch.*;
+import com.emt.med.order.OrderStatus;
 import com.emt.med.pharmacy.PharmacyCategory;
 import com.emt.med.pharmacy.PharmacyEntityService;
 import com.emt.med.supply.SupplyService;
@@ -15,6 +15,7 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,7 +31,7 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
 
     private MedicationBatchEntityService medicationBatchEntityService;
 
-    private InventoryOrderEntityService inventoryOrderEntityService;
+    private InventoryOrderEntityRepository inventoryOrderEntityRepository;
 
     private MedicationBatchEntityRepository medicationBatchEntityRepository;
 
@@ -40,15 +41,17 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
 
     private CountingUnitEntityRepository countingUnitEntityRepository;
 
+    static InventoryOrderEntityMapper inventoryOrderEntityMapper = Mappers.getMapper(InventoryOrderEntityMapper.class);
+
     static MedicineEntityMapper medicineEntityMapper = Mappers.getMapper(MedicineEntityMapper.class);
     static MedicationBatchEntityMapper medicationBatchEntityMapper = Mappers.getMapper(MedicationBatchEntityMapper.class);
 
-    public MedicineEntityServiceImpl(MedicineEntityRepository medicineEntityRepository, SupplyService supplyService, PharmacyEntityService pharmacyEntityService, MedicationBatchEntityService medicationBatchEntityService, InventoryOrderEntityService inventoryOrderEntityService, MedicationBatchEntityRepository medicationBatchEntityRepository, LocationRepository locationRepository, WeightUnitEntityRepository weightUnitEntityRepository, CountingUnitEntityRepository countingUnitEntityRepository) {
+    public MedicineEntityServiceImpl(MedicineEntityRepository medicineEntityRepository, SupplyService supplyService, PharmacyEntityService pharmacyEntityService, MedicationBatchEntityService medicationBatchEntityService, InventoryOrderEntityRepository inventoryOrderEntityRepository, MedicationBatchEntityRepository medicationBatchEntityRepository, LocationRepository locationRepository, WeightUnitEntityRepository weightUnitEntityRepository, CountingUnitEntityRepository countingUnitEntityRepository) {
         this.medicineEntityRepository = medicineEntityRepository;
         this.supplyService = supplyService;
         this.pharmacyEntityService = pharmacyEntityService;
         this.medicationBatchEntityService = medicationBatchEntityService;
-        this.inventoryOrderEntityService = inventoryOrderEntityService;
+        this.inventoryOrderEntityRepository = inventoryOrderEntityRepository;
         this.medicationBatchEntityRepository = medicationBatchEntityRepository;
         this.locationRepository = locationRepository;
         this.weightUnitEntityRepository = weightUnitEntityRepository;
@@ -74,7 +77,25 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
 
     @Override
     public List<MedicineEntityDTO> getAllMedicinesInStock() {
-        return medicineEntityRepository.findByQuantityGreaterThanEqualOrderByQuantityDesc(1L).stream().map(medicineEntityMapper::toDTO).collect(Collectors.toCollection(ArrayList::new));
+        List<MedicineEntity> medicinesInStock = medicineEntityRepository.findByQuantityGreaterThanEqualOrderByQuantityDesc(1L);
+        List<MedicineEntity> addedMedicines = new ArrayList<MedicineEntity>();
+        List<MedicationBatchEntity> addedMedicationBatches = new ArrayList<MedicationBatchEntity>();
+
+        for (MedicineEntity medicineInStock:medicinesInStock) {
+            addedMedicationBatches.clear();
+            for (MedicationBatchEntity medicationBatch : medicineInStock.getBatches()) {
+                if(medicationBatch.getIsAvailable()){
+                    addedMedicationBatches.add(medicationBatch);
+                }
+            }
+            medicineInStock.getBatches().clear();
+            medicineInStock.getBatches().addAll(addedMedicationBatches);
+            addedMedicines.add(medicineInStock);
+        }
+
+
+
+        return addedMedicines.stream().map(medicineEntityMapper::toDTO).collect(Collectors.toCollection(ArrayList::new));
     }
 
     @Override
@@ -100,9 +121,50 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
         }
 
         medicineEntity = medicineEntityRepository.save(medicineEntity);
-        inventoryOrderEntityService.processNewMedicationBatches(medicineEntity);
+        processNewMedicationBatches(medicineEntity);
 
         return medicineEntityMapper.toDTO(medicineEntity);
+    }
+
+    @Override
+    @Transactional
+    public InventoryOrderEntityDTO processNewMedicationBatches(MedicineEntity medicine){
+
+        InventoryOrderEntity entryInventoryOrder = new InventoryOrderEntity();
+        entryInventoryOrder.setOperation(InventoryOrderOperation.ENTRY);
+        entryInventoryOrder.setStatus(OrderStatus.COMPLETED);
+        entryInventoryOrder.setPractitionerId(medicine.getIdNumberCreatedBy());
+        entryInventoryOrder.setAuthoredOn(LocalDateTime.now());
+        entryInventoryOrder.setDestination(pharmacyEntityService.getPharmacyByCategory(PharmacyCategory.PRINCIPAL));
+        entryInventoryOrder = inventoryOrderEntityRepository.save(entryInventoryOrder);
+        for (MedicationBatchEntity medicationBatch:medicine.getBatches()) {
+            if(entryInventoryOrder.getMedicationBatches() == null){
+                entryInventoryOrder.setMedicationBatches(new ArrayList<MedicationBatchEntity>());
+            }
+            if(medicationBatch.getInventoryOrders() == null){
+                medicationBatch.setInventoryOrders(new ArrayList<InventoryOrderEntity>());
+            }
+            entryInventoryOrder.getMedicationBatches().add(medicationBatch);
+            medicationBatch.getInventoryOrders().add(entryInventoryOrder);
+        }
+
+        return inventoryOrderEntityMapper.toDTO(inventoryOrderEntityRepository.save(entryInventoryOrder));
+    }
+
+    @Override
+    @Transactional
+    public MedicineEntityDTO recalculateQuantity(Long medicineEntityId) {
+        MedicineEntity foundMedicine =  getMedicineEntityById(medicineEntityId);
+        Long totalQuantity = 0L;
+        for (MedicationBatchEntity medicationBatchEntity: foundMedicine.getBatches()) {
+            if(medicationBatchEntity.getIsAvailable()){
+                totalQuantity +=medicationBatchEntity.getQuantity();
+            }
+        }
+
+        foundMedicine.setQuantity(totalQuantity);
+
+        return medicineEntityMapper.toDTO(medicineEntityRepository.save(foundMedicine));
     }
 
 
@@ -135,6 +197,7 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
 
             for (MedicationBatchEntity medicationBatchEntity : medicationBatchEntities) {
                 if (medicationBatchEntity.getId() == null) {
+                    medicationBatchEntity.setIsAvailable(true);
                     medicationBatchEntity =  medicationBatchEntityRepository.save(medicationBatchEntity);
                 }
 

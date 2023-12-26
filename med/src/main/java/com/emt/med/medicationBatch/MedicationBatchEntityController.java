@@ -25,6 +25,11 @@ public class MedicationBatchEntityController {
         return ResponseEntity.ok(medicationBatchEntityService.getAllMedicationBatches());
     }
 
+    @GetMapping("/available/{available}")
+    public ResponseEntity<List<MedicationBatchEntityDTO>> getAllMedicationBatchesByIsAvailable(@PathVariable("available") Boolean available) {
+        return ResponseEntity.ok(medicationBatchEntityService.getAllMedicationBatchesByIsAvailable(available));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<MedicationBatchEntityDTO> getMedicationBatchById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(medicationBatchEntityService.getMedicationBatchEntityDTOById(id));

@@ -32,4 +32,8 @@ public class BaseBatchDTO {
     @NotNull(message = "status shouldn't be null")
     private BatchStatus status;
 
+    @NotNull(message = "is available shouldn't be null")
+    private Boolean isAvailable;
+    private Long parentBatchId;
+
 }

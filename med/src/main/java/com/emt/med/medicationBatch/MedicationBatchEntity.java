@@ -16,6 +16,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true, exclude = {"medicine", "inventoryOrders"})
 public class MedicationBatchEntity extends BaseBatch {
 
     private String cum;

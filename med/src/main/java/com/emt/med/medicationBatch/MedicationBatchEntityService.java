@@ -13,6 +13,7 @@ public interface MedicationBatchEntityService {
 
     MedicationBatchEntityDTO getMedicationBatchEntityDTOById(Long medicationBatchEntityId);
     List<MedicationBatchEntityDTO> getAllMedicationBatches();
+    List<MedicationBatchEntityDTO> getAllMedicationBatchesByIsAvailable(Boolean isAvailable);
     MedicineEntityDTO getMedicineByMedicationBatchId(Long medicationBatchEntityId);
 
     LocationDTO getLocationByMedicationBatchId(Long medicationBatchEntityId);
