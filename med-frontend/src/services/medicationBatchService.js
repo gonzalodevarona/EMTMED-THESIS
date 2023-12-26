@@ -11,6 +11,15 @@ const getMedicationBatches = async () => {
 
     return res.data
 }
+const getAllMedicationBatchesByIsAvailable = async (isAvailable) => {
+    const res = await axios.get(`/${entity}/available/${isAvailable}`)
+        .catch((error) => {
+            console.log(error)
+            return error.response;
+        });
+
+    return res.data
+}
 
 const getMedicationBatchById = async (id) => {
     const res = await axios.get(`/${entity}/${id}`)
@@ -75,6 +84,7 @@ const deleteMedicationBatch = async (id) => {
 
 const MedicationBatchService = {
     getMedicationBatches,
+    getAllMedicationBatchesByIsAvailable,
     getMedicationBatchById,
     getMedicineByMedicationBatchId,
     getLocationByMedicationBatchId,

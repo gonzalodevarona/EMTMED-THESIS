@@ -15,7 +15,7 @@ function Batches() {
   useEffect(() => {
 
     async function fetchData() {
-      const allMedicationBatches = await MedicationBatchService.getMedicationBatches();
+      const allMedicationBatches = await MedicationBatchService.getAllMedicationBatchesByIsAvailable(true);
       const allBatches = await BatchService.getBatches();
 
       for (let medicationBatch of allMedicationBatches) {

@@ -5,7 +5,7 @@ import { removeNullProperties, capitalizeFirstLetter } from '../../utils/CommonM
 import MedicineService from "../../services/medicineService";
 import MedicationBatchService from "../../services/medicationBatchService";
 import { useNavigate } from "react-router-dom";
-import triggerConfrirmationAlert from "../../components/alerts/ConfirmationAlert";
+import triggerConfirmationAlert from "../../components/alerts/ConfirmationAlert";
 import MedicineDetailedView from "./MedicineDetailedView";
 
 function MedicineDetailed() {
@@ -22,7 +22,7 @@ function MedicineDetailed() {
     const entity = 'medicamento';
 
     async function handleDelete() {
-        triggerConfrirmationAlert({
+        triggerConfirmationAlert({
             title: `Eliminar ${entity} con ID ${id}`,
             text: "¿Estas seguro que quieres eliminarlo?",
             type: "warning",
@@ -62,10 +62,14 @@ function MedicineDetailed() {
     
 
     async function processMedicationBatches(medicationBatches) {
-
         for (let i = 0; i < medicationBatches.length; i++) {
-            medicationBatches[i] = removeNullProperties(medicationBatches[i])
-            medicationBatches[i].location = await MedicationBatchService.getLocationByMedicationBatchId(medicationBatches[i].id)
+            if (medicationBatches[i].isAvailable === false) {
+                medicationBatches.splice(i, 1);
+                i--; 
+            } else {
+                medicationBatches[i] = removeNullProperties(medicationBatches[i]);
+                medicationBatches[i].location = await MedicationBatchService.getLocationByMedicationBatchId(medicationBatches[i].id);
+            }
         }
         return medicationBatches;
     }

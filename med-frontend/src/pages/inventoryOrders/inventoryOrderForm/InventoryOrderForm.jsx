@@ -16,7 +16,7 @@ import DisposalStationService from "../../../services/disposalStationService";
 import InventoryOrderOperationService from "../../../services/inventoryOrderOperationService";
 import OrderService from "../../../services/orderService";
 import triggerInfoAlert from "../../../components/alerts/InfoAlert";
-import { convertToLocalTimeZone, convertDateObjectToDayjs } from "../../../utils/EntityProcessingMethods";
+import { convertToLocalTimeZone, convertDateObjectToDayjs, convertDateToISO } from "../../../utils/EntityProcessingMethods";
 import dayjs from 'dayjs';
 
 function InventoryOrderForm({ action, preloadedData, id }) {
@@ -31,8 +31,11 @@ function InventoryOrderForm({ action, preloadedData, id }) {
 
     const [statuses, setStatuses] = useState([])
     const [locations, setLocations] = useState([])
+    const [pharmacies, setPharmacies] = useState([])
+    const [disposalStations, setDisposalStations] = useState([])
     const [operations, setOperations] = useState([])
     const [chosenBatches, setChosenBatches] = useState([])
+    const [disableDestination, setDisableDestination] = useState(false)
 
     function fetchUser() {
         keycloak.loadUserProfile().then((profile) => {
@@ -58,7 +61,8 @@ function InventoryOrderForm({ action, preloadedData, id }) {
 
                 const concatenatedArray = [...pharmacies, ...disposalStations];
 
-
+                setPharmacies(pharmacies.map(pharmacy => ({ id: pharmacy.id, name: pharmacy.name, type: pharmacy.type, category: pharmacy.category })))
+                setDisposalStations(disposalStations.map(disposalStation => ({ id: disposalStation.id, name: disposalStation.name, type: disposalStation.type })))
                 setLocations(concatenatedArray.map(location => ({ id: location.id, name: location.name, type: location.type })));
 
 
@@ -109,14 +113,43 @@ function InventoryOrderForm({ action, preloadedData, id }) {
         register,
         formState: { errors },
         reset,
+        watch,
         control,
         setValue
     } = useForm({
         defaultValues: preloadedData
     });
 
+    const operationWatch = watch('operation')
+
+    useEffect(() => {
+        if (operationWatch === 'ENTRY') {
+            setDisableDestination(true)
+        } else if (operationWatch === 'TRANSFER') {
+            let pharmaciesWithoutWarehouse = pharmacies.filter(pharmacy => pharmacy.category !== 'WAREHOUSE');
+            setLocations(pharmaciesWithoutWarehouse)
+            setDisableDestination(false)
+        } else if (operationWatch === 'EXIT') {
+            let warehousePharmacy = pharmacies.find(pharmacy => pharmacy.category === 'WAREHOUSE');
+            let exits = [...disposalStations];
+            exits.push(warehousePharmacy);
+            setLocations(exits)
+            setDisableDestination(false)
+        } else {
+            setDisableDestination(false)
+        }
+    }, [operationWatch])
+
+    function resetForm() {
+        reset()
+        
+        fetchUser()
+    
+      }
+
+
     function addedSuccessfully() {
-        triggerInfoAlert('success', 'La nueva orden de inventario ha sido agregada', reset)
+        triggerInfoAlert('success', 'La nueva orden de inventario ha sido agregada', resetForm)
     }
     function errorAdding() {
         triggerInfoAlert('error', 'Ha habido un error agregando la nueva orden de inventario')
@@ -131,7 +164,22 @@ function InventoryOrderForm({ action, preloadedData, id }) {
 
     async function onSubmit(data) {
         data = await processInventoryOrder(data)
+        data.batches = [];
+        data.medicationBatches = [];
+        console.log(chosenBatches)
 
+        let chosenBatchesCopy = [...chosenBatches]
+        console.log(chosenBatchesCopy)
+        chosenBatchesCopy.forEach(obj => {
+            obj.expirationDate = convertDateToISO(obj.expirationDate)
+            obj.quantity = obj.assignedQuantity;
+            if (obj.supply.type === 'medicine') {
+                data.medicationBatches.push(obj);
+            } else {
+                data.batches.push(obj);
+            }
+        });
+        console.log(data)
         switch (action) {
             case 'add':
                 addInventoryOrder(data)
@@ -167,13 +215,10 @@ function InventoryOrderForm({ action, preloadedData, id }) {
         switch (action) {
             case 'add':
                 data.authoredOn = convertToLocalTimeZone(data.authoredOn.toISOString());
-                data.source = await fetchLocationAdd(data.source)
                 data.destination = await fetchLocationAdd(data.destination)
                 break;
             case 'edit':
                 data.authoredOn = convertDateObjectToDayjs(data.authoredOn).toISOString();
-                data.source = await fetchLocationEdit(data.source)
-                data.source = { id: data.source.id, type: data.source.type }
 
                 data.destination = await fetchLocationEdit(data.destination)
                 data.destination = { id: data.destination.id, type: data.destination.type }
@@ -186,7 +231,7 @@ function InventoryOrderForm({ action, preloadedData, id }) {
         return data;
     }
     async function fetchLocationAdd(locationString) {
-
+        console.log(locationString)
         let parts = locationString.split(' ');
         let secondPosition = parts[1];
 
@@ -293,9 +338,9 @@ function InventoryOrderForm({ action, preloadedData, id }) {
                         </FormSelect>
                     }
 
-                  
 
-                    {locations.length > 0 &&
+
+                    {locations.length > 0 && !disableDestination &&
                         <FormSelect
                             name="destination"
                             label="Destino"

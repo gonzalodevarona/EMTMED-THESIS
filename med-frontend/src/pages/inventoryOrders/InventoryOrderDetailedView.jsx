@@ -1,14 +1,23 @@
 import { Box, Grid, Stack, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { capitalizeFirstLetter } from '../../utils/CommonMethods';
-import { Link } from 'react-router-dom';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 import CustomTable from '../../components/tables/CustomTable';
 import FabActionButton from '../../components/buttons/FabActionButton';
-import FabLink from '../../components/buttons/FabLink';
+import InventoryOrderService from '../../services/inventoryOrderService'
 import { dateArrayToString } from '../../utils/EntityProcessingMethods'
-import { Delete, Edit } from '@mui/icons-material';
+import triggerConfirmationAlert from '../../components/alerts/ConfirmationAlert';
 
-function InventoryOrderDetailedView({ data, entity, handleDelete, deleteable, editable }) {
+function InventoryOrderDetailedView({ data, entity }) {
+
+    const navigate = useNavigate();
+
+  const redirect = (path) => {
+    navigate(path);
+  };
+
     const [firstHalf, setFirstHalf] = useState([]);
     const [secondHalf, setSecondHalf] = useState([]);
     const [batches, setBatches] = useState([]);
@@ -43,6 +52,26 @@ function InventoryOrderDetailedView({ data, entity, handleDelete, deleteable, ed
         splitArray()
 
     }, [data]);
+
+    async function changeInventoryOrderStatus(id, status) {
+        const foundInventoryOrder = await InventoryOrderService.getInventoryOrderById(id)
+        foundInventoryOrder.authoredOn = dateArrayToString(foundInventoryOrder.authoredOn)
+        triggerConfirmationAlert({
+            title: `${status === 'COMPLETED' ? 'Completar' : 'Cancelar'} la ${entity} con ID ${id}`,
+            text: `¿Estas seguro que quieres ${status === 'COMPLETED' ? 'completarla' : 'cancelarla'}?`,
+            type: "confirm",
+            confirmButtonColor: "#04b44c",
+            confirmText: "Confirmar",
+            action: async () => await InventoryOrderService.changeInventoryOrderStatus(id, status),
+            successTitle: `La ${entity} con ID ${id} fue ${status === 'COMPLETED' ? 'completada' : 'cancelada'} con éxito.`,
+            successType: "success",
+            successAction: ()=> redirect(-1),
+            errorTitle: `El estado de la ${capitalizeFirstLetter(entity)} con ID ${id} NO pudo ser modificado.`,
+            errorType: "error"
+        })
+        
+
+    }
 
     useEffect(() => {
         console.log(batches)
@@ -164,14 +193,16 @@ function InventoryOrderDetailedView({ data, entity, handleDelete, deleteable, ed
                     data={batches} />
             }
 
-            <Stack justifyContent='center' direction='row' spacing={5} mt={2}>
-                {editable && <FabLink to={`/${entity}/editar/${data.id}`} icon={<Edit />} color='info' />}
-                {deleteable && <FabActionButton color='error' icon={<Delete />} handleClick={handleDelete} />}
-            </Stack>
+            {(data.status !== 'COMPLETED') && (data.status !== 'CANCELLED') &&
+                <Stack direction='row' spacing={4} justifyContent='center' alignItems='center' mt={2}>
+                    <FabActionButton color='secondary' icon={<CheckIcon />} handleClick={() => changeInventoryOrderStatus(data.id, 'COMPLETED')} />
+                    <FabActionButton color='error' icon={<CloseIcon />} handleClick={() => changeInventoryOrderStatus(data.id, 'CANCELLED')} />
+
+                </Stack>
+
+            }
         </>
     );
 }
 
 export default InventoryOrderDetailedView;
-
-

@@ -5,7 +5,7 @@ import { removeNullProperties, capitalizeFirstLetter } from '../../utils/CommonM
 import ConsumableService from "../../services/consumableService";
 import BatchService from "../../services/batchService";
 import { useNavigate } from "react-router-dom";
-import triggerConfrirmationAlert from "../../components/alerts/ConfirmationAlert";
+import triggerConfirmationAlert from "../../components/alerts/ConfirmationAlert";
 import ConsumableDetailedView from "./ConsumableDetailedView";
 
 function ConsumableDetailed() {
@@ -22,7 +22,7 @@ function ConsumableDetailed() {
     const entity = 'consumible';
 
     async function handleDelete() {
-        triggerConfrirmationAlert({
+        triggerConfirmationAlert({
             title: `Eliminar ${entity} con ID ${id}`,
             text: "¿Estas seguro que quieres eliminarlo?",
             type: "warning",
@@ -43,7 +43,7 @@ function ConsumableDetailed() {
             if (entityData.status == 500 && entityData.error) {
                 redirect('/404')
             } else {
-                
+
                 entityData.countingUnit = `${entityData.countingUnit.id} - ${entityData.countingUnit.name}`
                 entityData.weightUnit = `${entityData.weightUnit.id} - ${entityData.weightUnit.name}`
                 await processBatches(entityData.batches)
@@ -60,16 +60,21 @@ function ConsumableDetailed() {
     async function processBatches(batches) {
 
         for (let i = 0; i < batches.length; i++) {
-            batches[i] = removeNullProperties(batches[i])
-            batches[i].location = await BatchService.getLocationByBatchId(batches[i].id)
+            if (batches[i].isAvailable === false) {
+                batches.splice(i, 1);
+                i--;
+            } else {
+                batches[i] = removeNullProperties(batches[i])
+                batches[i].location = await BatchService.getLocationByBatchId(batches[i].id)
+            }
         }
         return batches;
     }
 
     useEffect(() => {
-      console.log(consumable)
+        console.log(consumable)
     }, [consumable])
-    
+
 
     return (
         <>

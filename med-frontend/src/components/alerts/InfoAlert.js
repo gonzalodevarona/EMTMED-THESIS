@@ -6,6 +6,7 @@ const triggerInfoAlert = (icon, title, followingAction) => {
         icon: icon,
         title: capitalizeFirstLetter(title),
         showConfirmButton: true,
+        confirmButtonColor:'#0288d1'
     }).then((result) => {
         
         followingAction && followingAction()

@@ -19,7 +19,7 @@ import { Box } from "@mui/material";
 import { Typography } from '@mui/material';
 import { Delete } from '@mui/icons-material';
 import { useNavigate } from "react-router-dom";
-import triggerConfrirmationAlert from '../alerts/ConfirmationAlert';
+import triggerConfirmationAlert from '../alerts/ConfirmationAlert';
 import { capitalizeFirstLetter, refreshPage } from '../../utils/CommonMethods';
 
 
@@ -62,7 +62,7 @@ function CustomTable({ entity, title, sx, columns, data, singleEntity, handleDel
         icon: () => <Delete color="error" fontSize='medium' />,
         tooltip: 'Eliminar',
         onClick: (event, rowData) =>
-            triggerConfrirmationAlert({
+            triggerConfirmationAlert({
                 title: `Eliminar ${singleEntity} con ID ${rowData.id}`,
                 text: "¿Estas seguro que quieres eliminarlo?",
                 type: "warning",

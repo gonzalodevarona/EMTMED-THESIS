@@ -69,7 +69,7 @@ function SupplyTable({ addOrUpdateBatch, removeBatch  }) {
                     for (let batchKey in supply.batches) {
                         let batch = supply.batches[batchKey];
                         console.log(batch)
-                        if(batch.cum){
+                        if(batch.cum != undefined){
                             batch.location = await MedicationBatchService.getLocationByMedicationBatchId(batch.id);
                         }else{
                             batch.location = await BatchService.getLocationByBatchId(batch.id);

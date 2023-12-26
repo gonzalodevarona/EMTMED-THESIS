@@ -46,6 +46,16 @@ export function formatDateToYYYYMMDD(isoDate) {
     return year + '-' + month + '-' + day;
 }
 
+export function convertDateToISO(date) {
+    
+    date = date.toLowerCase();
+    let parts = date.split(" de ");
+    let months = {enero: '01', febrero: '02', marzo: '03', abril: '04', mayo: '05', junio: '06', julio: '07', agosto: '08', septiembre: '09', octubre: '10', noviembre: '11', diciembre: '12'};
+    let dateISO = new Date(parts[2], months[parts[1]] - 1, parts[0]).toISOString();
+    
+    return dateISO;
+}
+
 import dayjs from 'dayjs';
 
 export function convertDateObjectToDayjs(dateObject) {

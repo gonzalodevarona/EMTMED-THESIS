@@ -255,7 +255,6 @@ function MedicineForm({ action, preloadedData }) {
             errors={errors} />
 
           <FormTextfield
-            isRequired
             disabled={action === 'edit' ? true : false}
             label='Compuesto Activo'
             name='activePharmaceuticalIngredient'

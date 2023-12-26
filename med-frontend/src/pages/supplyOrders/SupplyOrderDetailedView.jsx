@@ -8,7 +8,7 @@ import SupplyOrderService from '../../services/supplyOrderService';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import ClinicalHistoryService from '../../services/clinicalHistoryService';
-import triggerConfrirmationAlert from "../../components/alerts/ConfirmationAlert";
+import triggerConfirmationAlert from "../../components/alerts/ConfirmationAlert";
 
 
 function SupplyOrderDetailedView({ data }) {
@@ -59,7 +59,7 @@ function SupplyOrderDetailedView({ data }) {
 
     async function changeSupplyOrderStatus(id, status) {
 
-        triggerConfrirmationAlert({
+        triggerConfirmationAlert({
             title: `${status === 'COMPLETED' ? 'Completar' : 'Cancelar'} la ${entity} con ID ${id}`,
             text: `¿Estas seguro que quieres ${status === 'COMPLETED' ? 'completarla' : 'cancelarla'}?`,
             type: "confirm",

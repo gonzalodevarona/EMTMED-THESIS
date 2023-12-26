@@ -8,7 +8,7 @@ import InventoryOrderService from "../../services/inventoryOrderService";
 import MedicationBatchService from "../../services/medicationBatchService";
 import BatchService from "../../services/batchService";
 import { useNavigate } from "react-router-dom";
-import triggerConfrirmationAlert from "../../components/alerts/ConfirmationAlert";
+import triggerConfirmationAlert from "../../components/alerts/ConfirmationAlert";
 
 function InventoryOrderDetailed() {
 
@@ -24,7 +24,7 @@ function InventoryOrderDetailed() {
     const entity = 'orden de inventario';
 
     async function handleDelete() {
-        triggerConfrirmationAlert({
+        triggerConfirmationAlert({
             title: `Eliminar ${entity} con ID ${id}`,
             text: "¿Estas seguro que quieres eliminarla?",
             type: "warning",
@@ -89,7 +89,7 @@ function InventoryOrderDetailed() {
             <InventoryOrderDetailedView 
             deleteable={false} 
             editable={inventoryOrder.status === 'COMPLETED'? false : true} 
-            entity='ordenes-inventario' data={inventoryOrder} 
+            entity={entity} data={inventoryOrder} 
             handleDelete={handleDelete} />
         </>
     )
