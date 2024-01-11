@@ -43,7 +43,7 @@ function MedicationBatchDetailed() {
         }
 
         entityData['medicine-countingUnit'] = `${entityData['medicine-countingUnit'].id} - ${entityData['medicine-countingUnit'].name}`
-        entityData['medicine-weightUnit'] = `${entityData['medicine-weightUnit'].id} - ${entityData['medicine-weightUnit'].name}`
+        
 
 
         delete entityData.medicine;

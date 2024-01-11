@@ -19,7 +19,7 @@ function ConsumableDetailed() {
         navigate(path);
     };
 
-    const entity = 'consumible';
+    const entity = 'insumo';
 
     async function handleDelete() {
         triggerConfirmationAlert({
@@ -45,7 +45,7 @@ function ConsumableDetailed() {
             } else {
 
                 entityData.countingUnit = `${entityData.countingUnit.id} - ${entityData.countingUnit.name}`
-                entityData.weightUnit = `${entityData.weightUnit.id} - ${entityData.weightUnit.name}`
+                
                 await processBatches(entityData.batches)
                 console.log(entityData)
                 setConsumable(removeNullProperties(entityData))
@@ -82,7 +82,7 @@ function ConsumableDetailed() {
             <ConsumableDetailedView
                 editable
                 deleteable
-                entity='consumibles' data={consumable}
+                entity='insumos' data={consumable}
                 handleDelete={handleDelete} />
         </>
     )

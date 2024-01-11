@@ -8,12 +8,11 @@ import com.emt.med.location.LocationMapper;
 import com.emt.med.supply.SupplyMapper;
 import com.emt.med.supplyOrder.SupplyOrderEntity;
 import com.emt.med.supplyOrder.SupplyOrderEntityDTO;
-import com.emt.med.weightUnit.WeightUnitEntityMapper;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 
-@Mapper(uses = {SupplyMapper.class, LocationMapper.class, WeightUnitEntityMapper.class, CountingUnitEntityMapper.class})
+@Mapper(uses = {SupplyMapper.class, LocationMapper.class, CountingUnitEntityMapper.class})
 public interface OrderEntityMapper {
 
     OrderEntityMapper INSTANCE = Mappers.getMapper( OrderEntityMapper.class );

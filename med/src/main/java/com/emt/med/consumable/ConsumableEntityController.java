@@ -55,10 +55,6 @@ public class ConsumableEntityController {
         return ResponseEntity.ok("Erased consumable with id "+ id);
     }
 
-    @DeleteMapping("/{id}/weightUnit")
-    public ResponseEntity removeWeightUnitFromConsumable(@PathVariable("id") Long id) {
-        return new ResponseEntity<ConsumableEntityDTO>(consumableEntityService.removeWeightUnitFromConsumable(id), HttpStatus.OK);
-    }
 
     @DeleteMapping("/{id}/countingUnit")
     public ResponseEntity removeCountingUnitFromConsumable(@PathVariable("id") Long id) {

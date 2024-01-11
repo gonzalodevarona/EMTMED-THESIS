@@ -39,12 +39,14 @@ export function convertToLocalTimeZone(dateString) {
 
 export function formatDateToYYYYMMDD(isoDate) {
     let date = new Date(isoDate);
-    let year = date.getFullYear();
-    let month = date.getMonth() + 1; // Los meses en JavaScript empiezan desde 0
-    let day = date.getDate();
+    let year = date.getUTCFullYear();
+    // Asegurarse de que el mes y el día sean de dos dígitos
+    let month = ('0' + (date.getUTCMonth() + 1)).slice(-2); // Los meses en JavaScript empiezan desde 0
+    let day = ('0' + date.getUTCDate()).slice(-2);
 
     return year + '-' + month + '-' + day;
 }
+
 
 export function convertDateToISO(date) {
     
@@ -131,8 +133,7 @@ export function formatNoteForEmr(note) {
         if (item.medicationBatch.supply.concentration) tempAttachment.push({ name: 'concentration', value: item.medicationBatch.supply.concentration});
         if (item.medicationBatch.supply.name) tempAttachment.push({ name: 'name', value: item.medicationBatch.supply.name});
         if (item.medicationBatch.supply.countingUnit.name) tempAttachment.push({ name: 'countingUnit', value: item.medicationBatch.supply.countingUnit.name});
-        if (item.medicationBatch.supply.weight) tempAttachment.push({ name: 'weight', value: item.medicationBatch.supply.weight});
-        if (item.medicationBatch.supply.weightUnit.name) tempAttachment.push({ name: 'weightUnit', value: item.medicationBatch.supply.weightUnit.name});
+       
         if (item.medicationBatch.supply.type) tempAttachment.push({ name: 'type', value: item.medicationBatch.supply.type});
 
         if (tempAttachment.length > 0) attachments.value.push(tempAttachment);
@@ -149,8 +150,6 @@ export function formatNoteForEmr(note) {
         if (item.batch.supply.concentration) tempAttachment.push({ name: 'concentration', value: item.batch.supply.concentration});
         if (item.batch.supply.name) tempAttachment.push({ name: 'name', value: item.batch.supply.name});
         if (item.batch.supply.countingUnit.name) tempAttachment.push({ name: 'countingUnit', value: item.batch.supply.countingUnit.name});
-        if (item.batch.supply.weight) tempAttachment.push({ name: 'weight', value: item.batch.supply.weight});
-        if (item.batch.supply.weightUnit.name) tempAttachment.push({ name: 'weightUnit', value: item.batch.supply.weightUnit.name});
         if (item.batch.supply.type) tempAttachment.push({ name: 'type', value: item.batch.supply.type});
 
         if (tempAttachment.length > 0) attachments.value.push(tempAttachment);

@@ -25,9 +25,6 @@ public interface MedicineEntityService {
     MedicineEntity saveMedicineEntity(MedicineEntity medicineEntity);
 
 
-    MedicineEntityDTO removeWeightUnitFromMedicine(Long medicineEntityId);
-
-
     MedicineEntityDTO removeCountingUnitFromMedicine(Long medicineEntityId);
 
     // Medication Batches

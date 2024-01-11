@@ -8,8 +8,6 @@ import com.emt.med.order.OrderStatus;
 import com.emt.med.pharmacy.PharmacyCategory;
 import com.emt.med.pharmacy.PharmacyEntityService;
 import com.emt.med.supply.SupplyService;
-import com.emt.med.weightUnit.WeightUnitEntity;
-import com.emt.med.weightUnit.WeightUnitEntityRepository;
 import jakarta.transaction.Transactional;
 import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Sort;
@@ -37,8 +35,6 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
 
     private LocationRepository locationRepository;
 
-    private WeightUnitEntityRepository weightUnitEntityRepository;
-
     private CountingUnitEntityRepository countingUnitEntityRepository;
 
     static InventoryOrderEntityMapper inventoryOrderEntityMapper = Mappers.getMapper(InventoryOrderEntityMapper.class);
@@ -46,7 +42,7 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
     static MedicineEntityMapper medicineEntityMapper = Mappers.getMapper(MedicineEntityMapper.class);
     static MedicationBatchEntityMapper medicationBatchEntityMapper = Mappers.getMapper(MedicationBatchEntityMapper.class);
 
-    public MedicineEntityServiceImpl(MedicineEntityRepository medicineEntityRepository, SupplyService supplyService, PharmacyEntityService pharmacyEntityService, MedicationBatchEntityService medicationBatchEntityService, InventoryOrderEntityRepository inventoryOrderEntityRepository, MedicationBatchEntityRepository medicationBatchEntityRepository, LocationRepository locationRepository, WeightUnitEntityRepository weightUnitEntityRepository, CountingUnitEntityRepository countingUnitEntityRepository) {
+    public MedicineEntityServiceImpl(MedicineEntityRepository medicineEntityRepository, SupplyService supplyService, PharmacyEntityService pharmacyEntityService, MedicationBatchEntityService medicationBatchEntityService, InventoryOrderEntityRepository inventoryOrderEntityRepository, MedicationBatchEntityRepository medicationBatchEntityRepository, LocationRepository locationRepository, CountingUnitEntityRepository countingUnitEntityRepository) {
         this.medicineEntityRepository = medicineEntityRepository;
         this.supplyService = supplyService;
         this.pharmacyEntityService = pharmacyEntityService;
@@ -54,7 +50,6 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
         this.inventoryOrderEntityRepository = inventoryOrderEntityRepository;
         this.medicationBatchEntityRepository = medicationBatchEntityRepository;
         this.locationRepository = locationRepository;
-        this.weightUnitEntityRepository = weightUnitEntityRepository;
         this.countingUnitEntityRepository = countingUnitEntityRepository;
     }
 
@@ -169,12 +164,6 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
 
 
 
-    @Override
-    @Transactional
-    public MedicineEntityDTO removeWeightUnitFromMedicine(Long medicineEntityId) {
-        return medicineEntityMapper.toDTO(saveMedicineEntity((MedicineEntity) supplyService.removeWeightUnitFromSupply(getMedicineEntityById(medicineEntityId))));
-    }
-
 
     @Override
     @Transactional
@@ -256,16 +245,11 @@ public class MedicineEntityServiceImpl implements MedicineEntityService {
 //        if (medicineEntityDTO.getName() != null) {
 //            existingMedicine.setName(medicineEntityDTO.getName());
 //        }
-        if (medicineEntityDTO.getWeight() != null) {
-            existingMedicine.setWeight(medicineEntityDTO.getWeight());
-        }
+
         if (medicineEntityDTO.getQuantity() != null) {
             existingMedicine.setQuantity(medicineEntityDTO.getQuantity());
         }
-        if (medicineEntityDTO.getWeightUnit() != null) {
-            WeightUnitEntity foundWeightUnit = weightUnitEntityRepository.findById(medicineEntityDTO.getWeightUnit().getId()).orElseThrow(() -> new RuntimeException("No weight unit found with id "+medicineEntityDTO.getWeightUnit().getId()));
-            existingMedicine.setWeightUnit(foundWeightUnit);
-        }
+
 //        if (medicineEntityDTO.getCountingUnit() != null) {
 //            CountingUnitEntity foundCountingUnit = countingUnitEntityRepository.findById(medicineEntityDTO.getWeightUnit().getId()).orElseThrow(() -> new RuntimeException("No counting unit found with id "+medicineEntityDTO.getCountingUnit().getId()));
 //            existingMedicine.setCountingUnit(foundCountingUnit);

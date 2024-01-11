@@ -17,7 +17,7 @@ import { Outlet } from 'react-router-dom'
 import { Grid, Paper, useMediaQuery } from '@mui/material'
 import Copyright from '../Copyright'
 import { Logout } from '@mui/icons-material'
-import logoBHSR from '../../assets/logo.jpg'
+import logoEMT from '../../assets/logo.png'
 import keycloak from '../../config/keycloak'
 import { useKeycloak } from '@react-keycloak/web'
 
@@ -73,7 +73,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 )
 
 const mdTheme = createTheme({
-    palette: { primary: { main: '#CA5724' }, secondary: { main: '#04b44c' } }
+    palette: { primary: { main: '#00adef' }, secondary: { main: '#04b44c' } }
 })
 
 
@@ -145,7 +145,7 @@ export default function Dashboard() {
                             }}
                         >
                             <Grid container justifyContent="center">
-                                <img src={logoBHSR} alt="Logo BHSR" width="50" />
+                                <img src={logoEMT} alt="Logo EMT" width="50" />
                             </Grid>
                             <IconButton onClick={toggleDrawer}>
                                 <ChevronLeftIcon />
@@ -181,7 +181,7 @@ export default function Dashboard() {
                             }}
                         >
                             <Grid container justifyContent="center">
-                                <img src={logoBHSR} alt="Logo BHSR" width="50" />
+                                <img src={logoEMT} alt="Logo EMT" width="50" />
                             </Grid>
                             <IconButton onClick={toggleDrawer}>
                                 <ChevronLeftIcon />

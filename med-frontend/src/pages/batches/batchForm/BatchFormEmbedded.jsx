@@ -9,7 +9,6 @@ import Header from '../../../components/Header';
 import FormDatePicker from '../../../components/form/FormDatePicker';
 import { Delete } from '@mui/icons-material';
 import BatchStatusService from '../../../services/batchStatusService';
-import MedicationBatchService from '../../../services/medicationBatchService';
 import PharmacyService from '../../../services/pharmacyService';
 import { calculateBatchStatus } from "../../../utils/EntityProcessingMethods";
 import { formatDateToYYYYMMDD, convertToLocalTimeZone } from "../../../utils/EntityProcessingMethods"

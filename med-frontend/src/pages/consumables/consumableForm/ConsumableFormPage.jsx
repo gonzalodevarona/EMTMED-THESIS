@@ -13,7 +13,7 @@ function ConsumableFormPage({ action }) {
 
     const [consumableData, setConsumableData] = useState({})
 
-    const entity = 'consumible';
+    const entity = 'insumo';
 
     const navigate = useNavigate();
 

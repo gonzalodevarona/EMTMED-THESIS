@@ -3,7 +3,6 @@ import UnitForm from './UnitForm';
 import Header from '../../../components/Header';
 import { useParams } from "react-router-dom";
 import CountingUnitService from '../../../services/countingUnitService';
-import WeightUnitService from '../../../services/weightUnitService';
 import { removeNullProperties } from '../../../utils/CommonMethods'
 
 function UnitFormPage({ type, action }) {
@@ -21,9 +20,7 @@ function UnitFormPage({ type, action }) {
             if (type === 'conteo') {
                 fetchedData = await CountingUnitService.getCountingUnitById(id);
                 
-            } else {
-                fetchedData = await WeightUnitService.getWeightUnitById(id);
-            }
+            } 
 
             setUnitData(fetchedData);
         }

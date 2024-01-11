@@ -9,8 +9,6 @@ import com.emt.med.order.OrderStatus;
 import com.emt.med.pharmacy.PharmacyCategory;
 import com.emt.med.pharmacy.PharmacyEntityService;
 import com.emt.med.supply.SupplyService;
-import com.emt.med.weightUnit.WeightUnitEntity;
-import com.emt.med.weightUnit.WeightUnitEntityRepository;
 import jakarta.transaction.Transactional;
 import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Sort;
@@ -27,8 +25,6 @@ public class ConsumableEntityServiceImpl implements ConsumableEntityService{
     private ConsumableEntityRepository consumableEntityRepository;
     private BatchEntityRepository batchEntityRepository;
 
-    private WeightUnitEntityRepository weightUnitEntityRepository;
-
     private BatchEntityService batchEntityService;
     private InventoryOrderEntityRepository inventoryOrderEntityRepository;
     private PharmacyEntityService pharmacyEntityService;
@@ -39,10 +35,9 @@ public class ConsumableEntityServiceImpl implements ConsumableEntityService{
 
     static BatchEntityMapper batchEntityMapper = Mappers.getMapper(BatchEntityMapper.class);
 
-    public ConsumableEntityServiceImpl(ConsumableEntityRepository consumableEntityRepository, BatchEntityRepository batchEntityRepository, WeightUnitEntityRepository weightUnitEntityRepository, BatchEntityService batchEntityService, InventoryOrderEntityRepository inventoryOrderEntityRepository, PharmacyEntityService pharmacyEntityService, SupplyService supplyService) {
+    public ConsumableEntityServiceImpl(ConsumableEntityRepository consumableEntityRepository, BatchEntityRepository batchEntityRepository, BatchEntityService batchEntityService, InventoryOrderEntityRepository inventoryOrderEntityRepository, PharmacyEntityService pharmacyEntityService, SupplyService supplyService) {
         this.consumableEntityRepository = consumableEntityRepository;
         this.batchEntityRepository = batchEntityRepository;
-        this.weightUnitEntityRepository = weightUnitEntityRepository;
         this.batchEntityService = batchEntityService;
         this.inventoryOrderEntityRepository = inventoryOrderEntityRepository;
         this.pharmacyEntityService = pharmacyEntityService;
@@ -147,11 +142,7 @@ public class ConsumableEntityServiceImpl implements ConsumableEntityService{
     }
 
 
-    @Override
-    @Transactional
-    public ConsumableEntityDTO removeWeightUnitFromConsumable(Long consumableEntityId) {
-        return consumableEntityMapper.toDTO(saveConsumableEntity((ConsumableEntity) supplyService.removeWeightUnitFromSupply(getConsumableEntityById(consumableEntityId))));
-    }
+
 
     @Override
     @Transactional
@@ -245,16 +236,11 @@ public class ConsumableEntityServiceImpl implements ConsumableEntityService{
 //        if (consumableEntityDTO.getName() != null) {
 //            existingConsumable.setName(consumableEntityDTO.getName());
 //        }
-        if (consumableEntityDTO.getWeight() != null) {
-            existingConsumable.setWeight(consumableEntityDTO.getWeight());
-        }
+
         if (consumableEntityDTO.getQuantity() != null) {
             existingConsumable.setQuantity(consumableEntityDTO.getQuantity());
         }
-        if (consumableEntityDTO.getWeightUnit() != null) {
-            WeightUnitEntity foundWeightUnit = weightUnitEntityRepository.findById(consumableEntityDTO.getWeightUnit().getId()).orElseThrow(() -> new RuntimeException("No weight unit found with id "+consumableEntityDTO.getWeightUnit().getId()));
-            existingConsumable.setWeightUnit(foundWeightUnit);
-        }
+
 //        if (consumableEntityDTO.getCountingUnit() != null) {
 //            CountingUnitEntity foundCountingUnit = countingUnitEntityRepository.findById(consumableEntityDTO.getWeightUnit().getId()).orElseThrow(() -> new RuntimeException("No counting unit found with id "+consumableEntityDTO.getCountingUnit().getId()));
 //            existingConsumable.setCountingUnit(foundCountingUnit);

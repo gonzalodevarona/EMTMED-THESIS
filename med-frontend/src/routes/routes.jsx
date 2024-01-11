@@ -56,7 +56,7 @@ export default function Routes() {
                         // *** UNIDADES ***
 [
                         {
-                            path: "/unidades",
+                            path: "/unidades-conteo",
                             element: <Units />
                         },
 
@@ -171,23 +171,23 @@ export default function Routes() {
                             element: <MedicineFormPage action='edit' />
                         },
 
-                        // *** CONSUMIBLES ***
+                        // *** INSUMOS ***
 
 
                         {
-                            path: "/consumibles",
+                            path: "/insumos",
                             element: <Consumables />
                         },
                         {
-                            path: "/consumibles/:id",
-                            element: <ConsumableDetailed title='consumible' />
+                            path: "/insumos/:id",
+                            element: <ConsumableDetailed title='insumo' />
                         },
                         {
-                            path: "/consumibles/agregar",
+                            path: "/insumos/agregar",
                             element: <ConsumableFormPage action='add' />
                         },
                         {
-                            path: "/consumibles/editar/:id",
+                            path: "/insumos/editar/:id",
                             element: <ConsumableFormPage action='edit' />
                         },
 
@@ -209,7 +209,7 @@ export default function Routes() {
 
                         : []
 
-                    ).concat((keycloak.hasRealmRole("ROLE_PRACTITIONER") || keycloak.hasRealmRole("ROLE_ADMIN")) ?
+                    ).concat((keycloak.hasRealmRole("ROLE_PRACTITIONER") || keycloak.hasRealmRole("ROLE_NURSE") || keycloak.hasRealmRole("ROLE_ADMIN")) ?
                         [{
                             path: "/ordenes/agregar",
                             element: <SupplyOrderFormPage action='add' />

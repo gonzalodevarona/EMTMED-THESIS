@@ -10,10 +10,10 @@ import ThemeProvider from '@mui/material/styles/ThemeProvider'
 import { useKeycloak } from '@react-keycloak/web'
 import Copyright from '../components/Copyright'
 import signin from '../assets/signin.jpeg'
-import logo from '../assets/logo.jpg'
+import logo from '../assets/logo.png'
 
 const theme = createTheme({
-    palette: { primary: { main: '#ca5724' }, secondary: { main: '#04b44c' } }
+    palette: { primary: { main: '#00adef' }, secondary: { main: '#04b44c' } }
 })
 
 const SignIn = () => {

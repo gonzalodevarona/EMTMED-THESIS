@@ -54,10 +54,7 @@ public class MedicineEntityController {
         return ResponseEntity.ok("Erased medicine with id "+ id);
     }
 
-    @DeleteMapping("/{id}/weightUnit")
-    public ResponseEntity removeWeightUnitFromMedicine(@PathVariable("id") Long id) {
-        return new ResponseEntity<MedicineEntityDTO>(medicineEntityService.removeWeightUnitFromMedicine(id), HttpStatus.OK);
-    }
+
 
     @DeleteMapping("/{id}/countingUnit")
     public ResponseEntity removeCountingUnitFromMedicine(@PathVariable("id") Long id) {

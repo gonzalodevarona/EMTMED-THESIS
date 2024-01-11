@@ -18,8 +18,6 @@ public interface ConsumableEntityService {
     ConsumableEntityDTO addConsumable(ConsumableEntityDTO consumableEntityDTO);
     InventoryOrderEntityDTO processNewBatches(ConsumableEntity consumable);
 
-    ConsumableEntityDTO removeWeightUnitFromConsumable(Long consumableEntityId);
-
     ConsumableEntityDTO removeCountingUnitFromConsumable(Long consumableEntityId);
 
     public ConsumableEntityDTO recalculateQuantity(Long consumableEntityId);

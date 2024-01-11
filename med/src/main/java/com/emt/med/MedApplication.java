@@ -1,12 +1,10 @@
 package com.emt.med;
 
-import com.emt.med.countingUnit.CountingUnitEntityDTO;
 import com.emt.med.countingUnit.CountingUnitEntityService;
 import com.emt.med.pharmacy.PharmacyCategory;
 import com.emt.med.pharmacy.PharmacyEntity;
 import com.emt.med.pharmacy.PharmacyEntityDTO;
 import com.emt.med.pharmacy.PharmacyEntityService;
-import com.emt.med.weightUnit.WeightUnitEntityService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,7 +20,7 @@ public class MedApplication {
 	}
 
 	@Bean
-	public CommandLineRunner runner (PharmacyEntityService pharmacyEntityService, CountingUnitEntityService countingUnitEntityService, WeightUnitEntityService weightUnitEntityService) {
+	public CommandLineRunner runner (PharmacyEntityService pharmacyEntityService, CountingUnitEntityService countingUnitEntityService) {
 
 		return (args) -> {
 

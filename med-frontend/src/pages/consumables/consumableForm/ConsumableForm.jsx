@@ -9,7 +9,6 @@ import FormTextfield from '../../../components/form/FormTextfield';
 import FormSelect from '../../../components/form/FormSelect';
 import Header from '../../../components/Header';
 import triggerInfoAlert from "../../../components/alerts/InfoAlert";
-import WeightUnitService from '../../../services/weightUnitService';
 import CountingUnitService from '../../../services/countingUnitService';
 
 import BatchService from "../../../services/batchService";
@@ -34,17 +33,14 @@ function ConsumableForm({ action, preloadedData }) {
     })
   }
 
-  const [weightUnits, setWeightUnits] = useState([])
+  
   const [countingUnits, setCountingUnits] = useState([])
 
   const [batches, setBatches] = useState([{ id: 1 }])
 
 
   useEffect(() => {
-    async function fetchWeightUnits() {
-      let data = await WeightUnitService.getWeightUnits();
-      setWeightUnits(data);
-    }
+   
     async function fetchCountingUnits() {
       let data = await CountingUnitService.getCountingUnits();
       setCountingUnits(data);
@@ -56,8 +52,6 @@ function ConsumableForm({ action, preloadedData }) {
       setBatches(fetchedBatches);
     }
 
-
-    fetchWeightUnits()
     fetchCountingUnits()
     fetchUser()
   }, [])
@@ -147,20 +141,20 @@ function ConsumableForm({ action, preloadedData }) {
 
 
   function addedSuccessfully() {
-    triggerInfoAlert('success', 'El nuevo consumible ha sido agregado', resetForm)
+    triggerInfoAlert('success', 'El nuevo insumo ha sido agregado', resetForm)
   }
   function errorAdding() {
-    triggerInfoAlert('error', 'Ha habido un error agregando el nuevo consumible')
+    triggerInfoAlert('error', 'Ha habido un error agregando el nuevo insumo')
   }
   function errorAddingFields() {
-    triggerInfoAlert('error', 'Ha habido un error agregando el nuevo consumible, revisa los campos del formulario')
+    triggerInfoAlert('error', 'Ha habido un error agregando el nuevo insumo, revisa los campos del formulario')
   }
 
   function editedSuccessfully() {
-    triggerInfoAlert('success', 'El consumible ha sido editado', () => redirect(-1))
+    triggerInfoAlert('success', 'El insumo ha sido editado', () => redirect(-1))
   }
   function errorEditing() {
-    triggerInfoAlert('error', 'Ha habido un error editando el consumible')
+    triggerInfoAlert('error', 'Ha habido un error editando el insumo')
   }
 
   async function onSubmit(data) {
@@ -177,7 +171,6 @@ function ConsumableForm({ action, preloadedData }) {
 
     if (action === 'add') {
       data.countingUnit = { id: data.countingUnit };
-      data.weightUnit = { id: data.weightUnit };
     }
 
     data.type = 'consumable'
@@ -279,31 +272,6 @@ function ConsumableForm({ action, preloadedData }) {
 
               {countingUnits.map(countingUnit => <MenuItem key={countingUnit.id} value={countingUnit.id}>
                 {countingUnit.name}
-              </MenuItem>)}
-            </FormSelect>
-          }
-
-          <FormTextfield
-            type="number"
-            isRequired
-            label='Peso'
-            name='weight'
-            register={register}
-            errors={errors} />
-
-
-          {weightUnits.length > 0 &&
-            <FormSelect
-              required
-              name="weightUnit"
-              label="Unidad de Peso"
-              defaultValue={action === 'edit' ? preloadedData?.weightUnit.id : weightUnits[0].id}
-              register={register}
-              errors={errors}
-            >
-
-              {weightUnits.map(weightUnit => <MenuItem key={weightUnit.id} value={weightUnit.id}>
-                {weightUnit.name}
               </MenuItem>)}
             </FormSelect>
           }

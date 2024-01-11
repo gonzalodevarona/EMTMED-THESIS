@@ -3,7 +3,6 @@ import { Stack } from "@mui/material";
 import { DevTool } from "@hookform/devtools";
 import FormTextfield from '../../../components/form/FormTextfield';
 import CountingUnitService from "../../../services/countingUnitService";
-import WeightUnitService from "../../../services/weightUnitService";
 import triggerInfoAlert from "../../../components/alerts/InfoAlert";
 import { useNavigate } from "react-router-dom";
 import FabSubmitButton from "../../../components/buttons/FabSubmitButton";
@@ -21,19 +20,14 @@ function UnitForm({ type, action, preloadedData, id }) {
         await CountingUnitService.addCountingUnit(countingUnit);
     }
 
-    async function addWeightUnit(weightUnit) {
-        await WeightUnitService.addWeightUnit(weightUnit);
-    }
+    
 
     async function editCountingUnit(countingUnit) {
         countingUnit.id = id;
         await CountingUnitService.editCountingUnit(countingUnit);
     }
 
-    async function editWeightUnit(weightUnit) {
-        weightUnit.id = id;
-        await WeightUnitService.editWeightUnit(weightUnit);
-    }
+   
 
     const {
         handleSubmit,
@@ -72,16 +66,7 @@ function UnitForm({ type, action, preloadedData, id }) {
 
         }
 
-        if (type === 'peso' && action === 'add') {
-            addWeightUnit(data)
-                .then((result) => {
-                    addedSuccessfully()
-                })
-                .catch((error) => {
-                    errorAdding()
-                    console.error('Error en la operación:', error);
-                });
-        }
+       
         if (type === 'conteo' && action === 'edit') {
             editCountingUnit(data)
                 .then((result) => {
@@ -94,16 +79,7 @@ function UnitForm({ type, action, preloadedData, id }) {
 
         }
 
-        if (type === 'peso' && action === 'edit') {
-            editWeightUnit(data)
-                .then((result) => {
-                    editedSuccessfully()
-                })
-                .catch((error) => {
-                    errorEditing()
-                    console.error('Error en la operación:', error);
-                });
-        }
+        
     };
 
     return (

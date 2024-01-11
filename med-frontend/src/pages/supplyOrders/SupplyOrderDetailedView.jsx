@@ -131,8 +131,6 @@ function SupplyOrderDetailedView({ data }) {
                     { title: 'Ubicación', field: 'medicationBatch.location.name' },
                     { title: 'Cantidad Solicitada', field: 'quantity', type: 'numeric' },
                     { title: 'Unidad de Conteo', field: 'medicationBatch.supply.countingUnit.name' },
-                    { title: 'Peso', field: 'quantity', type: 'numeric' },
-                    { title: 'Unidad de Peso', field: 'medicationBatch.supply.weightUnit.name' },
                     { title: 'Fecha de Vencimiento', field: 'medicationBatch.expirationDate' },
                     { title: 'Estado', field: 'medicationBatch.status' },
                     { title: 'Fabricante', field: 'medicationBatch.manufacturer' },
@@ -147,7 +145,7 @@ function SupplyOrderDetailedView({ data }) {
             }
             {data.batchRequests && data.batchRequests.length > 0 &&
                 <CustomTable
-                    title='Consumibles Solicitados'
+                    title='Insumos Solicitados'
                     columns={[
 
                         { title: 'ID', field: 'batch.supply.id' },
@@ -157,8 +155,6 @@ function SupplyOrderDetailedView({ data }) {
                         { title: 'Ubicación', field: 'batch.location.name' },
                         { title: 'Cantidad Solicitada', field: 'quantity', type: 'numeric' },
                         { title: 'Unidad de Conteo', field: 'batch.supply.countingUnit.name' },
-                        { title: 'Peso', field: 'quantity', type: 'numeric' },
-                        { title: 'Unidad de Peso', field: 'batch.supply.weightUnit.name' },
                         { title: 'Fecha de Vencimiento', field: 'batch.expirationDate' },
                         { title: 'Estado', field: 'batch.status' },
                         { title: 'Fabricante', field: 'batch.manufacturer' },

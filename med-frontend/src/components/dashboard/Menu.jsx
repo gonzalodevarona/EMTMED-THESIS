@@ -9,6 +9,7 @@ import InventoryIcon from '@mui/icons-material/Inventory';
 import VaccinesIcon from '@mui/icons-material/Vaccines';
 import MedicationIcon from '@mui/icons-material/Medication';
 import ReceiptIcon from '@mui/icons-material/Receipt';
+import PostAddIcon from '@mui/icons-material/PostAdd';
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
 import LooksOneIcon from '@mui/icons-material/LooksOne';
 import TextFieldsIcon from '@mui/icons-material/TextFields';
@@ -46,10 +47,10 @@ export default function Menu({ mobile, toggleDrawer }) {
           <ListItemText primary="Ordenes de pacientes" />
         </ListItemButton>}
 
-      {keycloak.hasRealmRole("ROLE_PRACTITIONER") &&
+      {(keycloak.hasRealmRole("ROLE_ADMIN") || keycloak.hasRealmRole("ROLE_PRACTITIONER") || keycloak.hasRealmRole("ROLE_NURSE") )  &&
         <ListItemButton component={Link} to="/ordenes/agregar" onClick={closeMenu}>
           <ListItemIcon>
-            <ReceiptIcon />
+            <PostAddIcon />
           </ListItemIcon>
           <ListItemText primary="Agregar Orden de Paciente" />
         </ListItemButton>}
@@ -71,11 +72,11 @@ export default function Menu({ mobile, toggleDrawer }) {
         </ListItemButton>}
 
       {(keycloak.hasRealmRole("ROLE_ADMIN") || keycloak.hasRealmRole("ROLE_REGENT")) &&
-        <ListItemButton component={Link} to="/consumibles" onClick={closeMenu}>
+        <ListItemButton component={Link} to="/insumos" onClick={closeMenu}>
           <ListItemIcon>
             <VaccinesIcon />
           </ListItemIcon>
-          <ListItemText primary="Consumibles" />
+          <ListItemText primary="Insumos" />
         </ListItemButton>}
 
       {(keycloak.hasRealmRole("ROLE_ADMIN") || keycloak.hasRealmRole("ROLE_REGENT")) &&
@@ -95,11 +96,11 @@ export default function Menu({ mobile, toggleDrawer }) {
         </ListItemButton>}
 
       {(keycloak.hasRealmRole("ROLE_ADMIN") || keycloak.hasRealmRole("ROLE_REGENT")) &&
-        <ListItemButton component={Link} to="/unidades" onClick={closeMenu}>
+        <ListItemButton component={Link} to="/unidades-conteo" onClick={closeMenu}>
           <ListItemIcon>
             <LooksOneIcon />
           </ListItemIcon>
-          <ListItemText primary="Unidades" />
+          <ListItemText primary="Unidades de Conteo" />
         </ListItemButton>}
 
       {/* {(keycloak.hasRealmRole("ROLE_ADMIN") || keycloak.hasRealmRole("ROLE_REGENT")) &&

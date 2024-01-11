@@ -61,7 +61,7 @@ i18n
                     },
                     supply: {
                         type: {
-                            "consumable": "consumible",
+                            "consumable": "insumo",
                             "medicine": "medicamento",
                         }
                     },
@@ -72,10 +72,7 @@ i18n
                             "id": "Identificación",
                             "idNumberCreatedBy": "Número de ID del creador",
                             "name": "Nombre",
-                            "weight": "Peso",
                             "quantity": "Cantidad",
-                            "quantity": "Cantidad",
-                            "weightUnit": "Unidad de peso",
                             "countingUnit": "Unidad de conteo",
                             "concentration": "Concentración"
                         },
@@ -88,15 +85,13 @@ i18n
                             "status": "Estado",
                             "isAvailable": "Disponible",
                             "location": "Ubicación",
-                            "consumable-countBatches": "Cantidad de lotes del consumible",
-                            "consumable-type": "Tipo de consumible",
-                            "consumable-id": "ID de consumible",
+                            "consumable-countBatches": "Cantidad de lotes del insumo",
+                            "consumable-type": "Tipo de recurso",
+                            "consumable-id": "ID de insumo",
                             "consumable-idNumberCreatedBy": "Número de ID del creador",
-                            "consumable-name": "Nombre del consumible",
-                            "consumable-weight": "Peso del consumible",
-                            "consumable-quantity": "Cantidad de consumible",
-                            "consumable-weightUnit": "Unidad de peso del consumible",
-                            "consumable-countingUnit": "Unidad de conteo del consumible"
+                            "consumable-name": "Nombre del insumo",
+                            "consumable-quantity": "Cantidad de insumo",
+                            "consumable-countingUnit": "Unidad de conteo del insumo"
                         }
                     },
                     medicine:
@@ -107,10 +102,7 @@ i18n
                             "id": "Identificación",
                             "idNumberCreatedBy": "Número de ID del creador",
                             "name": "Nombre",
-                            "weight": "Peso",
                             "quantity": "Cantidad",
-                            "quantity": "Cantidad",
-                            "weightUnit": "Unidad de peso",
                             "countingUnit": "Unidad de conteo",
                             "activePharmaceuticalIngredient": "Compuesto activo",
                             "concentration": "Concentración"
@@ -127,13 +119,11 @@ i18n
                             "parentBatchId": "ID del lote padre",
                             "cum": "CUM",
                             "medicine-countBatches": "Cantidad de lotes del medicamento",
-                            "medicine-type": "Tipo de medicamento",
+                            "medicine-type": "Tipo de recurso",
                             "medicine-id": "ID de medicamento",
                             "medicine-idNumberCreatedBy": "Número de ID creado por",
                             "medicine-name": "Nombre del medicamento",
-                            "medicine-weight": "Peso del medicamento",
                             "medicine-quantity": "Cantidad del medicamento",
-                            "medicine-weightUnit": "Unidad de peso del medicamento",
                             "medicine-countingUnit": "Unidad de conteo del medicamento",
                             "medicine-activePharmaceuticalIngredient": "Compuesto activo del medicamento",
                             "medicine-concentration": "Concentración del medicamento"

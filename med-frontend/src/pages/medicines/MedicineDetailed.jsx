@@ -45,7 +45,6 @@ function MedicineDetailed() {
             } else {
                 
                 entityData.countingUnit = `${entityData.countingUnit.id} - ${entityData.countingUnit.name}`
-                entityData.weightUnit = `${entityData.weightUnit.id} - ${entityData.weightUnit.name}`
                 await processMedicationBatches(entityData.batches)
                 console.log(entityData)
                 setMedicine(removeNullProperties(entityData))

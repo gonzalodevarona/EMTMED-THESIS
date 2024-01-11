@@ -27,7 +27,7 @@ import { dateArrayToString } from '../../utils/EntityProcessingMethods'
 
 
 
-function SupplyTable({ addOrUpdateBatch, removeBatch  }) {
+function SupplyTable({ addOrUpdateBatch, removeBatch, userRole  }) {
 
     const tableIcons = {
         Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -58,10 +58,23 @@ function SupplyTable({ addOrUpdateBatch, removeBatch  }) {
 
     useEffect(() => {
         async function fetchSupplies() {
-            let allMedicines = await MedicineService.getMedicinesInStock();
-            let allConsumables = await ConsumableService.getConsumablesInStock();
+            let allMedicines ;
+            let allConsumables ;
 
-            let allSupplies = [...allMedicines, ...allConsumables];
+            let allSupplies ;
+
+            console.log(userRole)
+            if(userRole === 'ROLE_NURSE'){
+                allConsumables = await ConsumableService.getConsumablesInStock();
+    
+                allSupplies = [...allConsumables];
+            } else{
+                allMedicines = await MedicineService.getMedicinesInStock();
+                allConsumables = await ConsumableService.getConsumablesInStock();
+    
+                allSupplies = [...allMedicines, ...allConsumables];
+            }
+            
 
             let allBatches = []
             for (let supply of allSupplies) {
@@ -98,11 +111,9 @@ function SupplyTable({ addOrUpdateBatch, removeBatch  }) {
         { title: 'ID Recurso', field: 'supply.id', editable: 'never' },
         { title: 'Nombre Recurso', field: 'supply.name', editable: 'never' },
         { title: 'Concentración (sí aplica)', field: 'supply.concentration', editable: 'never' },
-        { title: 'ID Lote', field: 'id', editable: 'never' },
         { title: 'Vía de Administración', field: 'administrationRoute', editable: 'never' },
         { title: 'Cantidad Disponible', field: 'quantity', type: 'numeric', editable: 'never' },
         { title: 'Unidad de Conteo', field: 'supply.countingUnit.name', editable: 'never' },
-        { title: 'Fecha de Vencimiento', field: 'expirationDate', editable: 'never' },
         { title: 'Ubicación', field: 'location.name', editable: 'never' },
         { title: 'Cantidad a Asignar', field: 'assignedQuantity', type: 'numeric' },
 
@@ -150,7 +161,7 @@ function SupplyTable({ addOrUpdateBatch, removeBatch  }) {
 
 
             }}
-            title="Medicamentos y Consumibles disponibles"
+            title={userRole === 'ROLE_NURSE' ? 'Insumos Disponibles' : 'Medicamentos e Insumos Disponibles'}
             icons={tableIcons}
             columns={columns}
             data={supplies}

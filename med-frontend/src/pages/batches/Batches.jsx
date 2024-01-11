@@ -63,7 +63,7 @@ function Batches() {
     <>
       <Header title={"Lote de Medicamento"} />
 
-      <Typography>Nota: Para agregar, editar o eliminar cualquier tipo de lote, se debe hacer desde el módulo del recurso respectivo (Medicamentos o Consumibles).</Typography>
+      <Typography>Nota: Para agregar, editar o eliminar cualquier tipo de lote, se debe hacer desde el módulo del recurso respectivo (Medicamentos o Insumos).</Typography>
 
       <CustomTable
         columns={[
@@ -88,12 +88,12 @@ function Batches() {
 
       <Header title={"Lote"} />
 
-      <Typography>Nota: Para agregar, editar o eliminar cualquier tipo de lote, se debe hacer desde el módulo del recurso respectivo (Medicamentos o Consumibles).</Typography>
+      <Typography>Nota: Para agregar, editar o eliminar cualquier tipo de lote, se debe hacer desde el módulo del recurso respectivo (Medicamentos o Insumos).</Typography>
 
       <CustomTable
         columns={[
           { title: 'ID', field: 'id', type: 'numeric' },
-          { title: 'Consumible', field: 'consumable.name' },
+          { title: 'Insumo', field: 'consumable.name' },
           { title: 'Fabricante', field: 'manufacturer' },
           { title: 'Vía de Administración', field: 'administrationRoute' },
           { title: 'Cantidad', field: 'quantity', type: 'numeric' },

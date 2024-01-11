@@ -39,7 +39,6 @@ function Medicines() {
 
             
             medicines[i].countingUnit = medicines[i].countingUnit.name;
-            medicines[i].weightUnit = medicines[i].weightUnit.name;
             delete medicines[i].batches
             delete medicines[i].orders
 
@@ -66,8 +65,6 @@ function Medicines() {
                     { title: 'Concentración', field: 'concentration' },
                     { title: 'Cantidad', field: 'quantity', type: 'numeric' },
                     { title: 'Unidad de Conteo', field: 'countingUnit' },
-                    { title: 'Peso', field: 'weight' },
-                    { title: 'Unidad de Peso', field: 'weightUnit' },
 
                 ]}
                 clickable

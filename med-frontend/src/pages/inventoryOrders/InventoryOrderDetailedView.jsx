@@ -165,8 +165,6 @@ function InventoryOrderDetailedView({ data, entity }) {
                         { title: 'ID', field: 'medicine.id', type: 'numeric' },
                         { title: 'Nombre', field: 'medicine.name' },
                         { title: 'Unidad de Conteo', field: 'medicine.countingUnit.name' },
-                        { title: 'Peso', field: 'medicine.weight' },
-                        { title: 'Unidad de Peso', field: 'medicine.weightUnit.name' },
                         { title: 'ID Lote', field: 'id', type: 'numeric' },
                         { title: 'Fabricante', field: 'manufacturer' },
                         { title: 'Vía de Administración', field: 'administrationRoute' },
@@ -195,13 +193,11 @@ function InventoryOrderDetailedView({ data, entity }) {
                     columns={[
                         { title: 'ID', field: 'consumable.id', type: 'numeric' },
                         { title: 'Nombre', field: 'consumable.name' },
-                        { title: 'Unidad de Conteo', field: 'consumable.countingUnit.name' },
-                        { title: 'Peso', field: 'consumable.weight' },
-                        { title: 'Unidad de Peso', field: 'consumable.weightUnit.name' },
                         { title: 'ID Lote', field: 'id', type: 'numeric' },
                         { title: 'Fabricante', field: 'manufacturer' },
                         { title: 'Vía de Administración', field: 'administrationRoute' },
                         { title: 'Cantidad del Lote', field: 'quantity', type: 'numeric' },
+                        { title: 'Unidad de Conteo', field: 'consumable.countingUnit.name' },
                         { title: 'Fecha de Vencimiento', field: 'expirationDate' },
                         { title: 'Semaforización', field: 'status', render: rowData => t(`batch.status.${rowData.status}`) },
                         { title: 'Ubicación Actual', field: 'location' }

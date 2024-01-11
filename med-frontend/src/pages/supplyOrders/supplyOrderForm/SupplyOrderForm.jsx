@@ -35,6 +35,7 @@ function SupplyOrderForm({ action, preloadedData, id }) {
 
 
     const [pacient, setPacient] = useState({})
+    const [userRole, setUserRole] = useState('')
     const [statuses, setStatuses] = useState([])
     const [chosenBatches, setChosenBatches] = useState([])
 
@@ -83,6 +84,12 @@ function SupplyOrderForm({ action, preloadedData, id }) {
         keycloak.loadUserProfile().then((profile) => {
             setValue('practitionerId', profile.attributes.idNumber[0])
         })
+
+        if(keycloak.hasRealmRole("ROLE_PRACTITIONER") || keycloak.hasRealmRole("ROLE_ADMIN")){
+            setUserRole('ROLE_PRACTITIONER')
+        } else if(keycloak.hasRealmRole("ROLE_NURSE")){
+            setUserRole('ROLE_NURSE')
+        }
     }
 
     useEffect(() => {
@@ -226,7 +233,7 @@ function SupplyOrderForm({ action, preloadedData, id }) {
     async function onSubmit(data) {
 
         if (chosenBatches.length == 0) {
-            triggerInfoAlert('error', 'La orden debe de tener al menos 1 medicamento o consumible asociado')
+            triggerInfoAlert('error', 'La orden debe de tener al menos 1 medicamento o insumo asociado')
             return;
         }
         if (!(pacient.firstname)) {
@@ -300,7 +307,7 @@ function SupplyOrderForm({ action, preloadedData, id }) {
         <>
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
 
-                <Grid container>
+                <Grid container mt={5}>
 
                     <Grid item xs={12} lg={6} mb={5}>
                         <Stack spacing={2}>
@@ -382,7 +389,8 @@ function SupplyOrderForm({ action, preloadedData, id }) {
 
             </form>
             <Box my={8} />
-            <SupplyTable addOrUpdateBatch={addOrUpdateBatch} removeBatch={removeBatch}></SupplyTable>
+            {userRole !== '' && <SupplyTable userRole={userRole} addOrUpdateBatch={addOrUpdateBatch} removeBatch={removeBatch}></SupplyTable>}
+            
             <DevTool control={control} />
 
         </>

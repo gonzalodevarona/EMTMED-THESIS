@@ -42,7 +42,7 @@ function BatchDetailed() {
         }
 
         entityData['consumable-countingUnit'] = `${entityData['consumable-countingUnit'].id} - ${entityData['consumable-countingUnit'].name}`
-        entityData['consumable-weightUnit'] = `${entityData['consumable-weightUnit'].id} - ${entityData['consumable-weightUnit'].name}`
+        
 
 
         delete entityData.consumable;

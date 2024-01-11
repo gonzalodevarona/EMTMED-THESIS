@@ -10,7 +10,6 @@ import AddIcon from '@mui/icons-material/Add';
 import FabSubmitButton from '../../../components/buttons/FabSubmitButton';
 import FabActionButton from '../../../components/buttons/FabActionButton';
 import triggerInfoAlert from "../../../components/alerts/InfoAlert";
-import WeightUnitService from '../../../services/weightUnitService';
 import CountingUnitService from '../../../services/countingUnitService';
 import MedicationBatchService from '../../../services/medicationBatchService';
 import MedicineService from "../../../services/medicineService";
@@ -33,18 +32,13 @@ function MedicineForm({ action, preloadedData }) {
     })
   }
 
-
-  const [weightUnits, setWeightUnits] = useState([])
   const [countingUnits, setCountingUnits] = useState([])
 
   const [medicationBatches, setMedicationBatches] = useState([{ id: 1 }])
 
 
   useEffect(() => {
-    async function fetchWeightUnits() {
-      let data = await WeightUnitService.getWeightUnits();
-      setWeightUnits(data);
-    }
+  
     async function fetchCountingUnits() {
       let data = await CountingUnitService.getCountingUnits();
       setCountingUnits(data);
@@ -57,7 +51,6 @@ function MedicineForm({ action, preloadedData }) {
     }
 
 
-    fetchWeightUnits()
     fetchCountingUnits()
     fetchUser()
   }, [])
@@ -195,7 +188,6 @@ function MedicineForm({ action, preloadedData }) {
 
     if (action === 'add') {
       data.countingUnit = { id: data.countingUnit };
-      data.weightUnit = { id: data.weightUnit };
     }
 
     data.type = 'medicine'
@@ -312,31 +304,6 @@ function MedicineForm({ action, preloadedData }) {
 
               {countingUnits.map(countingUnit => <MenuItem key={countingUnit.id} value={countingUnit.id}>
                 {countingUnit.name}
-              </MenuItem>)}
-            </FormSelect>
-          }
-
-          <FormTextfield
-            type="number"
-            isRequired
-            label='Peso'
-            name='weight'
-            register={register}
-            errors={errors} />
-
-
-          {weightUnits.length > 0 &&
-            <FormSelect
-              required
-              name="weightUnit"
-              label="Unidad de Peso"
-              defaultValue={action === 'edit' ? preloadedData?.weightUnit.id : weightUnits[0].id}
-              register={register}
-              errors={errors}
-            >
-
-              {weightUnits.map(weightUnit => <MenuItem key={weightUnit.id} value={weightUnit.id}>
-                {weightUnit.name}
               </MenuItem>)}
             </FormSelect>
           }

@@ -9,7 +9,7 @@ import ConsumableService from '../../services/consumableService';
 
 function Consumables() {
 
-    const entity = 'consumible'
+    const entity = 'insumo'
 
     const [consumables, setConsumables] = useState([])
 
@@ -36,7 +36,6 @@ function Consumables() {
 
         for (let i = 0; i < consumables.length; i++) {
             consumables[i].countingUnit = consumables[i].countingUnit.name;
-            consumables[i].weightUnit = consumables[i].weightUnit.name;
 
         }
         return consumables;
@@ -46,9 +45,9 @@ function Consumables() {
 
     return (
         <>
-            <Header title={"Consumibles"} />
+            <Header title={"Insumos"} />
            
-            <FabLink to="/consumibles/agregar" icon={<AddIcon/>} color='secondary'/ >
+            <FabLink to="/insumos/agregar" icon={<AddIcon/>} color='secondary'/ >
 
             <Typography >Nota: Para editar o eliminar algún {entity} se debe hacer por la vista detallada.</Typography>
             <Typography >Cuidado: Si elimina algún {entity}, eliminará todos los lotes asociados a él.</Typography>
@@ -58,13 +57,11 @@ function Consumables() {
                     { title: 'Nombre', field: 'name' },
                     { title: 'Cantidad', field: 'quantity', type: 'numeric' },
                     { title: 'Unidad de Conteo', field: 'countingUnit' },
-                    { title: 'Peso', field: 'weight' },
-                    { title: 'Unidad de Peso', field: 'weightUnit' },
 
                 ]}
                 clickable
                 singleEntity={entity}
-                entity='consumibles'
+                entity='insumos'
                 editable={false}
                 deleteable={false}
                 handleDelete={handleDeleteConsumable}
