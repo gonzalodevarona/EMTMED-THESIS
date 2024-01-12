@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
 import { Button, Stack } from "@mui/material";
-import { DevTool } from "@hookform/devtools";
 
 import { useNavigate } from "react-router-dom";
 import FabSubmitButton from '../../../components/buttons/FabSubmitButton';
@@ -92,8 +91,6 @@ function DisposalStationForm({ action, preloadedData, id }) {
                     <FabSubmitButton color='info'/>
                 </Stack>
             </form>
-            <DevTool control={control} />
-
         </>
     )
 }

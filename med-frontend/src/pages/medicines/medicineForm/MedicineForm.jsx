@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Grid, Stack, MenuItem } from "@mui/material";
 import { useKeycloak } from '@react-keycloak/web'
-import { DevTool } from "@hookform/devtools";
 import FormTextfield from '../../../components/form/FormTextfield';
 import FormSelect from '../../../components/form/FormSelect';
 import Header from '../../../components/Header';

@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Stack, MenuItem, Grid, Box, Typography } from "@mui/material";
-import { DevTool } from "@hookform/devtools";
 import FabSubmitButton from '../../../components/buttons/FabSubmitButton';
 import FormTextfield from '../../../components/form/FormTextfield';
 import FormSelect from '../../../components/form/FormSelect';
@@ -384,9 +383,6 @@ function SupplyOrderForm({ action, preloadedData, id }) {
             </form>
             <Box my={2} />
             {userRole !== '' && <SupplyTable userRole={userRole} addOrUpdateBatch={addOrUpdateBatch} removeBatch={removeBatch}></SupplyTable>}
-
-            <DevTool control={control} />
-
         </>
     )
 }

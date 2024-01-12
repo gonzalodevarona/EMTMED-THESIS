@@ -1,7 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { TextField, Button, Stack } from "@mui/material";
-import { DevTool } from "@hookform/devtools";
 import FormTextfield from "./FormTextfield";
 import CountingUnitService from "../../services/countingUnitService";
 
@@ -62,7 +61,6 @@ export default function LoginForm (){
           </Button>
         </Stack>
       </form>
-      <DevTool control={control} />
     </>
   );
 };

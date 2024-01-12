@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Grid, Stack, MenuItem } from "@mui/material";
 import { useKeycloak } from '@react-keycloak/web'
-import { DevTool } from "@hookform/devtools";
 import AddIcon from '@mui/icons-material/Add';
 import FormTextfield from '../../../components/form/FormTextfield';
 import FormSelect from '../../../components/form/FormSelect';

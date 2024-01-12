@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Stack, MenuItem, Typography, Box } from "@mui/material";
 import CheckIcon from '@mui/icons-material/Check';
-import { DevTool } from "@hookform/devtools";
+
 import FormTextfield from '../../../components/form/FormTextfield';
 import FormSelect from '../../../components/form/FormSelect';
 import Header from '../../../components/Header';
@@ -181,8 +181,6 @@ function BatchEmbeddedForm({ action, addBatch, deleteBatch, preloadedData, id })
 
                 </Stack>
             </form >
-            <DevTool control={control} />
-
         </>
     )
 }

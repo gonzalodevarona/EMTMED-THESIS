@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { useKeycloak } from '@react-keycloak/web'
 import { useNavigate } from "react-router-dom";
 import { Box, Stack, MenuItem } from "@mui/material";
-import { DevTool } from "@hookform/devtools";
 import FabSubmitButton from '../../../components/buttons/FabSubmitButton';
 import FormTextfield from '../../../components/form/FormTextfield';
 import FormSelect from '../../../components/form/FormSelect';
@@ -367,8 +366,6 @@ function InventoryOrderForm({ action, preloadedData, id }) {
                 </Stack>
             </form>
             <SupplyTable addOrUpdateBatch={addOrUpdateBatch} removeBatch={removeBatch}></SupplyTable>
-            <DevTool control={control} />
-
         </>
     )
 }

@@ -114,7 +114,8 @@ export default function Dashboard() {
                             aria-label="open drawer"
                             onClick={toggleDrawer}
                             sx={{
-                                ...(open && { display: 'none' })
+                                ...(open && { display: 'none' }),
+                                color:'white'
                             }}
                         >
                             <MenuIcon />
@@ -129,7 +130,7 @@ export default function Dashboard() {
                         >
                             {mobile && open ? '' : 'Emergency Medical Team'}
                         </Typography>
-                        <IconButton color="inherit" onClick={handleLogout}>
+                        <IconButton sx={{color:'white'}} onClick={handleLogout}>
                             <Logout />
                         </IconButton>
                     </Toolbar>

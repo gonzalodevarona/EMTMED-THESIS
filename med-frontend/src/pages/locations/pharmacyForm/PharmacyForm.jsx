@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Stack, MenuItem } from "@mui/material";
-import { DevTool } from "@hookform/devtools";
 import FabSubmitButton from '../../../components/buttons/FabSubmitButton';
 import FormTextfield from '../../../components/form/FormTextfield';
 import FormSelect from '../../../components/form/FormSelect';
@@ -120,8 +119,6 @@ function PharmacyForm({ action, preloadedData, id }) {
                     <FabSubmitButton color='info' />
                 </Stack>
             </form>
-            <DevTool control={control} />
-
         </>
     )
 }

@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Stack, MenuItem, Typography } from "@mui/material";
-import { DevTool } from "@hookform/devtools";
 import CheckIcon from '@mui/icons-material/Check';
 import { Delete } from '@mui/icons-material';
 import FormTextfield from '../../../components/form/FormTextfield';
@@ -189,8 +188,6 @@ function MedicationBatchEmbeddedForm({ action, addMedicationBatch, deleteMedicat
                     </Stack>
                 </Stack>
             </form >
-            <DevTool control={control} />
-
         </>
     )
 }

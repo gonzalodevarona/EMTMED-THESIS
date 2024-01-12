@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
 import { Stack } from "@mui/material";
-import { DevTool } from "@hookform/devtools";
 import FormTextfield from '../../../components/form/FormTextfield';
 import CountingUnitService from "../../../services/countingUnitService";
 import triggerInfoAlert from "../../../components/alerts/InfoAlert";
@@ -92,8 +91,6 @@ function UnitForm({ type, action, preloadedData, id }) {
                     <FabSubmitButton color='info'/>
                 </Stack>
             </form>
-            <DevTool control={control} />
-
         </>
     )
 }

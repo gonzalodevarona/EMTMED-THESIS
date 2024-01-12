@@ -48,20 +48,30 @@ i18n
                     },
                     pacient: {
                         info: {
-                            "id": "Identificación",
-                            "firstname": "Primer nombre",
+                            "id": "ID",
+                            "firstName": "Primer nombre",
+                            "middleName": "Segundo nombre",
                             "lastName": "Primer apellido",
                             "secondLastName": "Segundo apellido",
-                            "middleName": "Segundo nombre",
                             "idType": "Tipo de identificación",
                             "idNumber": "Número de identificación",
                             "age": "Edad",
                             "birthDate": "Fecha de nacimiento",
                             "gender": "Género",
+                            "address": "Dirección",
+                            "city": "Ciudad",
+                            "neighborhood": "Barrio",
+                            "locality": "Localidad",
                             "phoneNumber": "Número de contacto",
+                            "guardianPhoneNumber": "Número de teléfono del acudiente",
+                            "guardianName": "Nombre del acudiente",
+                            "guardianRelationship": "Parentesco con el acudiente",
+                            "occupation": "Ocupación",
                             "civilStatus": "Estado civil",
+                            "ethnicGroup": "Grupo Étnico",
+                            "ethnic": "Étnia",
                             "healthcareProvider": "EPS",
-                            "healthcareType": "Régimen"
+                            "healthcareType": "Régimen de la EPS"
                         }
                     },
                     inventoryOrder: {
