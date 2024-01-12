@@ -85,9 +85,9 @@ function SupplyOrderForm({ action, preloadedData, id }) {
             setValue('practitionerId', profile.attributes.idNumber[0])
         })
 
-        if(keycloak.hasRealmRole("ROLE_PRACTITIONER") || keycloak.hasRealmRole("ROLE_ADMIN")){
+        if (keycloak.hasRealmRole("ROLE_PRACTITIONER") || keycloak.hasRealmRole("ROLE_ADMIN")) {
             setUserRole('ROLE_PRACTITIONER')
-        } else if(keycloak.hasRealmRole("ROLE_NURSE")){
+        } else if (keycloak.hasRealmRole("ROLE_NURSE")) {
             setUserRole('ROLE_NURSE')
         }
     }
@@ -114,14 +114,10 @@ function SupplyOrderForm({ action, preloadedData, id }) {
 
         supplyOrder.id = savedOrder.id
 
-        // await ClinicalHistoryService.addNoteToEMR(pacient.id, formatNoteForEmr(supplyOrder));
+        await ClinicalHistoryService.addNoteToEMR(pacient.id, formatNoteForEmr(supplyOrder));
         return savedOrder;
     }
 
-    async function editSupplyOrder(supplyOrder) {
-        supplyOrder.id = id;
-        return await SupplyOrderService.editSupplyOrder(supplyOrder);
-    }
 
     async function findClient() {
         let foundPacient = await PacientService.getPacientById({
@@ -191,7 +187,13 @@ function SupplyOrderForm({ action, preloadedData, id }) {
         let leftColumnEntries;
         let rightColumnEntries;
         if (pacient != {}) {
-            entries = Object.entries(pacient);
+            let translatedObject = {};
+            for (let key in pacient) {
+                let translatedKey = t(`pacient.info.${key}`);
+                translatedObject[translatedKey] = pacient[key];
+            }
+            
+            entries = Object.entries(translatedObject);
             leftColumnEntries = entries.slice(0, 7);
             rightColumnEntries = entries.slice(7);
         }
@@ -222,13 +224,6 @@ function SupplyOrderForm({ action, preloadedData, id }) {
         triggerInfoAlert('error', 'Ha habido un error agregando la nueva orden')
     }
 
-    function editedSuccessfully() {
-        triggerInfoAlert('success', 'La orden ha sido editada', () => redirect(-1))
-    }
-    function errorEditing() {
-        triggerInfoAlert('error', 'Ha habido un error editando la orden')
-    }
-
 
     async function onSubmit(data) {
 
@@ -243,7 +238,6 @@ function SupplyOrderForm({ action, preloadedData, id }) {
 
         data = processOrder(data, chosenBatches)
 
-        console.log(data)
 
         switch (action) {
             case 'add':
@@ -388,9 +382,9 @@ function SupplyOrderForm({ action, preloadedData, id }) {
                 </Grid>
 
             </form>
-            <Box my={8} />
+            <Box my={2} />
             {userRole !== '' && <SupplyTable userRole={userRole} addOrUpdateBatch={addOrUpdateBatch} removeBatch={removeBatch}></SupplyTable>}
-            
+
             <DevTool control={control} />
 
         </>

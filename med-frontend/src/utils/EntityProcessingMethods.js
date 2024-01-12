@@ -113,7 +113,7 @@ export function checkNull(object) {
     return false;
 }
 
-export function formatNoteForEmr(note) {
+export async function formatNoteForEmr(note) {
     let formattedNote = { nameFormat: "orden medicamentos", fields: [] }
     let attachments = { name: "Adjuntos", value: [] };
 
@@ -125,7 +125,7 @@ export function formatNoteForEmr(note) {
 
     for (let item of note.medicationBatchRequests) {
         let tempAttachment = [];
-        console.log(item)
+        console.log(item.medicationBatch)
         if (item.quantity) tempAttachment.push({ name: 'quantity', value: item.quantity});
         if (item.medicationBatch.administrationRoute) tempAttachment.push({ name: 'administrationRoute', value: item.medicationBatch.administrationRoute});
         if (item.medicationBatch.manufacturer) tempAttachment.push({ name: 'manufacturer', value: item.medicationBatch.manufacturer});

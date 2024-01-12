@@ -1,5 +1,6 @@
 import { Button, Grid, Stack, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { capitalizeFirstLetter, refreshPage } from '../../utils/CommonMethods';
 import { dateArrayToString, formatNoteForEmr } from '../../utils/EntityProcessingMethods';
 import CustomTable from '../../components/tables/CustomTable';
@@ -7,11 +8,15 @@ import FabActionButton from '../../components/buttons/FabActionButton';
 import SupplyOrderService from '../../services/supplyOrderService';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
+import MedicationBatchService from '../../services/medicationBatchService';
+import BatchService from '../../services/batchService';
 import ClinicalHistoryService from '../../services/clinicalHistoryService';
 import triggerConfirmationAlert from "../../components/alerts/ConfirmationAlert";
 
 
 function SupplyOrderDetailedView({ data }) {
+    const { t } = useTranslation();
+
     const [firstHalf, setFirstHalf] = useState([]);
     const [secondHalf, setSecondHalf] = useState([]);
 
@@ -41,6 +46,25 @@ function SupplyOrderDetailedView({ data }) {
                 setSecondHalf(tempSecondHalf);
             }
         }
+        
+        if (data.id !== undefined) {
+            let translatedObject = {};
+            for (let key in data) {
+                if (key !== 'medicationBatchRequests' && key !== 'batchRequests' ) {
+                    let translatedKey = t(`supplyOrder.info.${key}`);
+                    if (key === 'status') {
+                        translatedObject[translatedKey] = t(`order.status.${data[key]}`);
+                    } else if (key === 'type') {
+                        translatedObject[translatedKey] = t(`order.type.${data[key]}`);
+                    }
+                    else {
+                        translatedObject[translatedKey] = data[key];
+                    }
+                }
+            }
+            data = translatedObject;
+        }
+
 
 
         splitArray()
@@ -52,13 +76,27 @@ function SupplyOrderDetailedView({ data }) {
 
         const foundSupplyOrder = await SupplyOrderService.getSupplyOrderById(id)
         foundSupplyOrder.authoredOn = dateArrayToString(foundSupplyOrder.authoredOn)
+
+
+        foundSupplyOrder.batchRequests.forEach(async (request) => {
+            if (request.batchRequests) {
+                request.batchRequests['supply'] = await BatchService.getConsumableByBatchId(request.batchRequests.id);
+            }
+        });
+
+        foundSupplyOrder.medicationBatchRequests.forEach(async (request) => {
+            if (request.medicationBatch) {
+                request.medicationBatch['supply'] = await MedicationBatchService.getMedicineByMedicationBatchId(request.medicationBatch.id);
+            }
+        });
+
         await SupplyOrderService.changeSupplyOrderStatus(id, status)
-        //await ClinicalHistoryService.addNoteToEMR(formatNoteForEmr(foundSupplyOrder))
+        await ClinicalHistoryService.addNoteToEMR(formatNoteForEmr(foundSupplyOrder))
     }
 
 
     async function changeSupplyOrderStatus(id, status) {
-
+        
         triggerConfirmationAlert({
             title: `${status === 'COMPLETED' ? 'Completar' : 'Cancelar'} la ${entity} con ID ${id}`,
             text: `¿Estas seguro que quieres ${status === 'COMPLETED' ? 'completarla' : 'cancelarla'}?`,
@@ -87,8 +125,9 @@ function SupplyOrderDetailedView({ data }) {
                         {firstHalf.map((item, index) => (
                             Object.entries(item).map(([key, value]) => (
                                 <Stack m={3} key={key}>
-                                    <Typography fontWeight='bold' variant='subtitle1'>{capitalizeFirstLetter(key)}</Typography>
-                                    <Typography>{value}</Typography>
+                                    <Typography m={3} key={key}>
+                                        <span style={{ fontWeight: 'bold' }}>{capitalizeFirstLetter(key)}:</span> {value}
+                                    </Typography>
                                 </Stack>
                             ))
                         ))}
@@ -97,8 +136,9 @@ function SupplyOrderDetailedView({ data }) {
                         {secondHalf.map((item, index) => (
                             Object.entries(item).map(([key, value]) => (
                                 <Stack m={3} key={key}>
-                                    <Typography fontWeight='bold' variant='subtitle1'>{capitalizeFirstLetter(key)}</Typography>
-                                    <Typography>{value}</Typography>
+                                    <Typography m={3} key={key}>
+                                        <span style={{ fontWeight: 'bold' }}>{capitalizeFirstLetter(key)}:</span> {value}
+                                    </Typography>
                                 </Stack>
                             ))
                         ))}

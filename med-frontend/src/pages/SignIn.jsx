@@ -64,8 +64,9 @@ const SignIn = () => {
                                 fullWidth
                                 variant="contained"
                                 sx={{ mt: 2, mb: 3 }}
+                                
                             >
-                                Iniciar sesión
+                                <Typography color='white'>Iniciar sesión</Typography>
                             </Button>
                             <Copyright />
                         </Box>

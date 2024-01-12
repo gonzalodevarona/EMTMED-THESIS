@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-
+import { useTranslation } from 'react-i18next';
 import { useKeycloak } from '@react-keycloak/web'
 import { useNavigate } from "react-router-dom";
 import { Box, Stack, MenuItem } from "@mui/material";
@@ -20,6 +20,9 @@ import { convertToLocalTimeZone, convertDateObjectToDayjs, convertDateToISO } fr
 import dayjs from 'dayjs';
 
 function InventoryOrderForm({ action, preloadedData, id }) {
+
+    const { t } = useTranslation();
+
 
     const navigate = useNavigate();
 
@@ -142,10 +145,10 @@ function InventoryOrderForm({ action, preloadedData, id }) {
 
     function resetForm() {
         reset()
-        
+
         fetchUser()
-    
-      }
+
+    }
 
 
     function addedSuccessfully() {
@@ -278,8 +281,6 @@ function InventoryOrderForm({ action, preloadedData, id }) {
     }
 
 
-
-
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -317,7 +318,7 @@ function InventoryOrderForm({ action, preloadedData, id }) {
                         >
 
                             {statuses.map(status => <MenuItem key={status} value={status}>
-                                {status}
+                                {t(`order.status.${status}`)}
                             </MenuItem>)}
                         </FormSelect>
                     }
@@ -333,7 +334,7 @@ function InventoryOrderForm({ action, preloadedData, id }) {
                         >
 
                             {operations.map(operation => <MenuItem key={operation} value={operation}>
-                                {operation}
+                                {t(`inventoryOrder.operation.${operation}`)}
                             </MenuItem>)}
                         </FormSelect>
                     }

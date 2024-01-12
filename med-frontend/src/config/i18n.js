@@ -40,14 +40,37 @@ i18n
                             "PROCESSING": "PROCESANDO",
                             "COMPLETED": "COMPLETADA",
                             "CANCELLED": "CANCELADA",
+                        },
+                        type: {
+                            "supplyOrder": "Orden de paciente",
+                            "inventoryOrder": "Orden de inventario",
+                        }
+                    },
+                    pacient: {
+                        info: {
+                            "id": "Identificación",
+                            "firstname": "Primer nombre",
+                            "lastName": "Primer apellido",
+                            "secondLastName": "Segundo apellido",
+                            "middleName": "Segundo nombre",
+                            "idType": "Tipo de identificación",
+                            "idNumber": "Número de identificación",
+                            "age": "Edad",
+                            "birthDate": "Fecha de nacimiento",
+                            "gender": "Género",
+                            "phoneNumber": "Número de contacto",
+                            "civilStatus": "Estado civil",
+                            "healthcareProvider": "EPS",
+                            "healthcareType": "Régimen"
                         }
                     },
                     inventoryOrder: {
-                        info:{
+                        info: {
                             "type": "Tipo",
                             "id": "Identificación",
                             "idNumberCreatedBy": "Número de ID del creador",
                             "destination": "Destino",
+                            "note": "Nota",
                             "authoredOn": "Fecha de Autorización",
                             "practitionerId": "Autorizado por",
                             "status": "Estado",
@@ -58,6 +81,19 @@ i18n
                             "TRANSFER": "TRASLADO",
                             "EXIT": "SALIDA"
                         }
+                    },
+                    supplyOrder: {
+                        info: {
+                            "type": "Tipo",
+                            "id": "Identificación",
+                            "idNumberCreatedBy": "Número de ID del creador",
+                            "pacientId": "Número de ID del paciente",
+                            "authoredOn": "Fecha de Autorización",
+                            "practitionerId": "Autorizado por",
+                            "status": "Estado",
+                            "note": "Nota",
+                            "diagnostic": "Diagnóstico",
+                        },
                     },
                     supply: {
                         type: {

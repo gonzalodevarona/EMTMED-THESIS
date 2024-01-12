@@ -123,7 +123,7 @@ export default function Dashboard() {
                             component="h1"
                             variant="h6"
                             align="center"
-                            color="inherit"
+                            color="white"
                             noWrap
                             sx={{ flexGrow: 1 }}
                         >

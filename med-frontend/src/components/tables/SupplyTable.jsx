@@ -27,7 +27,7 @@ import { dateArrayToString } from '../../utils/EntityProcessingMethods'
 
 
 
-function SupplyTable({ addOrUpdateBatch, removeBatch, userRole  }) {
+function SupplyTable({ addOrUpdateBatch, removeBatch, userRole }) {
 
     const tableIcons = {
         Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -58,44 +58,46 @@ function SupplyTable({ addOrUpdateBatch, removeBatch, userRole  }) {
 
     useEffect(() => {
         async function fetchSupplies() {
-            let allMedicines ;
-            let allConsumables ;
+            let allMedicines;
+            let allConsumables;
 
-            let allSupplies ;
+            let allSupplies;
 
             console.log(userRole)
-            if(userRole === 'ROLE_NURSE'){
+            if (userRole === 'ROLE_NURSE') {
                 allConsumables = await ConsumableService.getConsumablesInStock();
-    
+
                 allSupplies = [...allConsumables];
-            } else{
+            } else {
                 allMedicines = await MedicineService.getMedicinesInStock();
                 allConsumables = await ConsumableService.getConsumablesInStock();
-    
+
                 allSupplies = [...allMedicines, ...allConsumables];
             }
-            
+
 
             let allBatches = []
             for (let supply of allSupplies) {
                 if (supply.batches) {
                     for (let batchKey in supply.batches) {
                         let batch = supply.batches[batchKey];
-                        console.log(batch)
-                        if(batch.cum != undefined){
-                            batch.location = await MedicationBatchService.getLocationByMedicationBatchId(batch.id);
-                        }else{
-                            batch.location = await BatchService.getLocationByBatchId(batch.id);
+
+                        if (batch.quantity > 0) {
+                            if (batch.cum != undefined) {
+                                batch.location = await MedicationBatchService.getLocationByMedicationBatchId(batch.id);
+                            } else {
+                                batch.location = await BatchService.getLocationByBatchId(batch.id);
+                            }
+                            batch.expirationDate = dateArrayToString(batch.expirationDate)
+                            batch.assignedQuantity = 0
+                            batch.supply = { ...supply }; // Hacemos una copia del objeto
+                            delete batch.supply.batches; // Eliminamos la propiedad batches de la copia
+                            allBatches.push(batch);
                         }
-                        batch.expirationDate = dateArrayToString(batch.expirationDate)
-                        batch.assignedQuantity = 0
-                        batch.supply = { ...supply }; // Hacemos una copia del objeto
-                        delete batch.supply.batches; // Eliminamos la propiedad batches de la copia
-                        allBatches.push(batch);
                     }
                 }
             }
-            
+
 
             setSupplies(Object.values(removeNullProperties(allBatches)));
         }
@@ -104,9 +106,9 @@ function SupplyTable({ addOrUpdateBatch, removeBatch, userRole  }) {
     }, [])
 
     useEffect(() => {
-      console.log(supplies)
+        console.log(supplies)
     }, [supplies])
-    
+
     const columns = [
         { title: 'ID Recurso', field: 'supply.id', editable: 'never' },
         { title: 'Nombre Recurso', field: 'supply.name', editable: 'never' },
@@ -174,7 +176,7 @@ function SupplyTable({ addOrUpdateBatch, removeBatch, userRole  }) {
             ]}
             cellEditable={{
                 onCellEditApproved: (newValue, oldValue, rowData, columnDef) => {
-                    
+
                     if (newValue > 0 && newValue <= rowData.quantity) {
                         rowData.assignedQuantity = newValue;
                         addOrUpdateBatch(rowData)
@@ -184,7 +186,7 @@ function SupplyTable({ addOrUpdateBatch, removeBatch, userRole  }) {
                     }
 
                     return new Promise((resolve, reject) => {
-                        
+
                         setTimeout(resolve, 500);
                     });
                 }
