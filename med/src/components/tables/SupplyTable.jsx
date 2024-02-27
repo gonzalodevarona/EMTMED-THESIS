@@ -134,8 +134,10 @@ function SupplyTable({ addOrUpdateBatch, removeBatch, userRole }) {
                 maxBodyHeight: '450px',
                 rowStyle: {
                     fontSize: 16,
+                    padding: 4
                 },
-                actionsColumnIndex: -1
+                actionsColumnIndex: -1,
+                tableLayout: "fixed"
             }}
             localization={{
                 toolbar: {

@@ -47,7 +47,7 @@ export default function Menu({ mobile, toggleDrawer }) {
           <ListItemText primary="Ordenes de pacientes" />
         </ListItemButton>}
 
-      {(keycloak.hasRealmRole("ROLE_ADMIN") || keycloak.hasRealmRole("ROLE_PRACTITIONER") || keycloak.hasRealmRole("ROLE_NURSE") )  &&
+      {(keycloak.hasRealmRole("ROLE_ADMIN") || keycloak.hasRealmRole("ROLE_PRACTITIONER") || keycloak.hasRealmRole("ROLE_NURSE")) &&
         <ListItemButton component={Link} to="/ordenes/agregar" onClick={closeMenu}>
           <ListItemIcon>
             <PostAddIcon />
@@ -117,25 +117,25 @@ export default function Menu({ mobile, toggleDrawer }) {
         Módulos
       </ListSubheader>
 
-      <ListItemButton>
+      <ListItemButton component={Link} to="http://localhost:3000/emr" onClick={closeMenu}>
         <ListItemIcon>
           <AssignmentIcon />
         </ListItemIcon>
-        <ListItemText primary="Historia clínica" />
+        <ListItemText primary="Historia Clínica" />
       </ListItemButton>
 
-      <ListItemButton component={Link} to="http://localhost:5173/emt/practitioners" onClick={closeMenu}>
+      <ListItemButton component={Link} to="http://localhost:8080" onClick={closeMenu}>
         <ListItemIcon>
           <AssignmentIcon />
         </ListItemIcon>
-        <ListItemText primary="Observaciones" />
+        <ListItemText primary="Exámenes de Laboratorio" />
       </ListItemButton>
 
-      <ListItemButton>
+      <ListItemButton component={Link} to="http://localhost:5173/oap" onClick={closeMenu}>
         <ListItemIcon>
           <AssignmentIcon />
         </ListItemIcon>
-        <ListItemText primary="Laboratorio" />
+        <ListItemText primary="Observaciones y procedimientos" />
       </ListItemButton>
     </>
   )

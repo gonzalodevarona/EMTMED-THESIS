@@ -20,6 +20,10 @@ import { useNavigate } from "react-router-dom";
 import SearchIcon from '@mui/icons-material/Search';
 import { useTranslation } from 'react-i18next';
 
+const date = new Intl.DateTimeFormat('es-CO', {
+    dateStyle: 'full'
+})
+
 function SupplyOrderForm({ action, preloadedData, id }) {
 
     const { t } = useTranslation();
@@ -72,12 +76,7 @@ function SupplyOrderForm({ action, preloadedData, id }) {
 
     const removeBatch = (id) => {
         setChosenBatches(prevBatches => prevBatches.filter(batch => batch.id !== id));
-    };
-
-
-    useEffect(() => {
-        console.log(pacient)
-    }, [pacient])
+    }
 
     function fetchPractitioner() {
         keycloak.loadUserProfile().then((profile) => {
@@ -132,12 +131,12 @@ function SupplyOrderForm({ action, preloadedData, id }) {
         const firstItem = foundPacient[0];
         const fieldsList = firstItem.fieldsList;
 
-        let firstname, lastName, secondLastName, middleName, idType, idNumber, age, birthDate, gender, phoneNumber, civilStatus, healthcareProvider, healthcareType;
+        let firstName, lastName, secondLastName, middleName, idType, idNumber, age, birthDate, gender, phoneNumber, civilStatus, healthcareProvider, healthcareType;
         console.log(fieldsList)
         for (let i = 0; i < fieldsList.length; i++) {
             switch (fieldsList[i].name) {
                 case 'firstName':
-                    firstname = fieldsList[i].value;
+                    firstName = fieldsList[i].value;
                     break;
                 case 'lastName':
                     lastName = fieldsList[i].value;
@@ -178,7 +177,7 @@ function SupplyOrderForm({ action, preloadedData, id }) {
             }
         }
 
-        setPacient({ id: firstItem.id, firstname, lastName, secondLastName, middleName, idType, idNumber, age, birthDate, gender, phoneNumber, civilStatus, healthcareProvider, healthcareType });
+        setPacient({ id: firstItem.id, firstName, lastName, secondLastName, middleName, idType, idNumber, age, birthDate, gender, phoneNumber, civilStatus, healthcareProvider, healthcareType });
     }
 
     function renderPacient() {
@@ -188,10 +187,13 @@ function SupplyOrderForm({ action, preloadedData, id }) {
         if (pacient != {}) {
             let translatedObject = {};
             for (let key in pacient) {
+                if (key === 'birthDate') {
+                    //pacient[key] = date.format(new Date(pacient[key].replace('Z', '') + '-05:00'));
+                }
                 let translatedKey = t(`pacient.info.${key}`);
                 translatedObject[translatedKey] = pacient[key];
             }
-            
+
             entries = Object.entries(translatedObject);
             leftColumnEntries = entries.slice(0, 7);
             rightColumnEntries = entries.slice(7);
@@ -230,7 +232,7 @@ function SupplyOrderForm({ action, preloadedData, id }) {
             triggerInfoAlert('error', 'La orden debe de tener al menos 1 medicamento o insumo asociado')
             return;
         }
-        if (!(pacient.firstname)) {
+        if (!(pacient.id)) {
             triggerInfoAlert('error', 'El paciente no existe o no fue encontrado')
             return;
         }
@@ -317,7 +319,7 @@ function SupplyOrderForm({ action, preloadedData, id }) {
 
                                 {action === 'add' && <FabActionButton handleClick={findClient} icon={<SearchIcon />} color='info' />}
                             </Stack>
-                            {pacient.firstname ? renderPacient() : <Typography>No fue encontrado el paciente</Typography>}
+                            {pacient.id ? renderPacient() : <Typography>No fue encontrado el paciente</Typography>}
 
                         </Stack>
                     </Grid>

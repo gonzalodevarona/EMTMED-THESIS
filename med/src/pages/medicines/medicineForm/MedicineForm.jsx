@@ -327,7 +327,7 @@ function MedicineForm({ action, preloadedData }) {
               <MedicationBatchFormEmbedded
                 action={action === 'edit' && batch.quantity ? 'edit' : 'add'}
                 addMedicationBatch={updateMedicationBatch}
-                id={action === 'add' ? index + 1 : batch.id}
+                id={batch.id}
                 preloadedData={action === 'edit' ? batch : undefined}
                 deleteMedicationBatch={index === 0 ? null : deleteMedicationBatch} />
             </Grid>

@@ -86,11 +86,13 @@ function BatchEmbeddedForm({ action, addBatch, deleteBatch, preloadedData, id })
         data.status = currentStatus;
         if (action === 'add') {
             data.expirationDate = formatDateToYYYYMMDD(convertToLocalTimeZone(data.expirationDate.toISOString()))
+            console.log(data.quantity)
+            data.quantity = Number(data.quantity)
         } else {
             data.quantity = Number(data.quantity)
             data.expirationDate = `${data.expirationDate[0]}-${data.expirationDate[1]}-${data.expirationDate[2]}`
         }
-
+        console.log(id)
         addBatch(id, data)
         setSubmitted(true)
 

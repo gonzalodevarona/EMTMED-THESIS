@@ -100,6 +100,8 @@ function ConsumableForm({ action, preloadedData }) {
 
 
   const updateBatch = (id, newValues) => {
+    console.log("idddddddddd", id)
+    console.log("newValues", newValues)
     setBatches(prevState => {
       return prevState.map(batch => {
         if (batch.id === id) {
@@ -293,7 +295,7 @@ function ConsumableForm({ action, preloadedData }) {
               <BatchFormEmbedded
                 action={action === 'edit' && batch.quantity ? 'edit' : 'add'}
                 addBatch={updateBatch}
-                id={action === 'add' ? index + 1 : batch.id}
+                id={batch.id}
                 preloadedData={action === 'edit' ? batch : undefined}
                 deleteBatch={index === 0 ? null : deleteBatch} />
             </Grid>

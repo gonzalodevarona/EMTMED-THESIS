@@ -21,7 +21,7 @@ import logoEMT from '../../assets/logo.png'
 import keycloak from '../../config/keycloak'
 import { useKeycloak } from '@react-keycloak/web'
 
-const drawerWidth = 280
+const drawerWidth = 320
 
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
